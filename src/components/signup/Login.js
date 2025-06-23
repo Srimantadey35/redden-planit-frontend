@@ -1,0 +1,188 @@
+'use client'
+import React, { useState } from "react";
+import Image from "next/image";
+
+const Login = ({ isSignUpScreen }) => {
+  const [isPassVisible, setisPassVisible] = useState(false);
+  const joinPlanIt = [
+    "Smart planning tool",
+    "All in one place",
+    "Trusted vendor network",
+    "Beautiful invites & guest lists",
+  ];
+ 
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    Phone: "",
+    password: "",
+    confirmpassword: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleBlur = (e) => {
+    const input = e.target;
+    if (input.value) {
+      input.classList.add("filled");
+    } else {
+      input.classList.remove("filled");
+    }
+  };
+
+  return (
+    <div className="size-full overflow-y-auto example">
+      <div className="px-[140px] py-10">
+        <div className="flex justify-center">
+          <div
+            className="bg-[#faf2f2] px-[55px] py-[120px] w-[708px] rounded-tl-[15px] rounded-bl-[15px]"
+            style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
+          >
+            <Image
+              width={158}
+              height={52}
+              src={"/images/PlanItLogo.png"}
+              alt="logo"
+            />
+            <h3 className="text-[64px] text-black leading-[74px] font-medium mt-5">
+              Plan your big <br /> moments with ease
+            </h3>
+
+            <div className="my-[35px]">
+              <p className="font-medium text-[24px] text-black">
+                Join PlanIt — your personal event planning assistant.
+              </p>
+              <p className="mt-3 text-[#505050] text-[19px] ">
+                From weddings and birthdays to corporate events, we help you{" "}
+                <br /> manage every detail effortlessly.
+              </p>
+            </div>
+
+            <ul className="space-y-2.5">
+              {joinPlanIt.map((item, index) => (
+                <li
+                  key={index}
+                  className="border border-[#FFD8E6] text-[#EA0056] text-[20px] font-normal bg-[#FFE4EE] flex items-center py-2.5 px-3.5 rounded-lg w-[300px]"
+                >
+                  <Image
+                    width={15}
+                    height={15}
+                    src={"/images/sign-up/tick.svg"}
+                    alt=""
+                  />
+                  <span className="ml-2.5">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="px-[160px] bg-white py-[120px] rounded-tr-[15px] rounded-br-[15px]">
+            <div className="mb-5">
+              <h3 className="font-medium text-[40px] text-black text-center">
+                Sign In
+              </h3>
+              <p className="font-normal text-[21px] text-black text-center mt-2">
+                Enter your details to sign in your account
+              </p>
+              <button className="text-[#505050] w-[416px] text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200">
+                <Image
+                  width={24}
+                  height={24}
+                  src={"/images/sign-up/googleicon.svg"}
+                  alt="googleicon"
+                />
+                <span className="ml-3.5">Continue with google</span>
+              </button>
+              <div className="flex items-center gradientline relative mt-4">
+                <p className="text-black mx-auto bg-white p-3 font-normal text-[21px] z-[1]">
+                  or
+                </p>
+              </div>
+            </div>
+            <div>
+              <form className="floating-form relative mt-14">
+                {/* Email & Phone Row */}
+                <div className="input-wrap flex-1  mb-10">
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    autoComplete="email"
+                    placeholder=" "
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <label htmlFor="email">Email</label>
+                </div>
+
+                {/* Password */}
+                <div className="input-wrap relative">
+                  <input
+                    type={`${isPassVisible ? 'text':'password'}`}
+                    name="password"
+                    id="password"
+                    autoComplete="current-password"
+                    placeholder=" "
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <label htmlFor="password">Password</label>
+                  <button onClick={(e)=> setisPassVisible(!isPassVisible)} className="absolute top-1/2 -translate-y-1/2 cursor-pointer h-full right-0 w-[53px] flex items-center justify-center z-[2]">
+                    <Image
+                      width={18}
+                      height={18}
+                      src={"/images/sign-up/passvisible.svg"}
+                      alt="passvisible"
+                    />
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-between mt-3">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      name="checkbox"
+                      id="checkbox"
+                      className="!size-[20px] mr-2"
+                    />
+                    <p className="text-black font-normal text-[16px]">
+                      Remember me
+                    </p>
+                  </div>
+
+                  <p className="text-[#EA0056] font-normal text-[16px]">
+                    Forgot Password?
+                  </p>
+                </div>
+
+                <button className="font-semibold text-[16px] text-white bg-[#313131] hover:bg-[#1b1b1b] transition rounded-lg py-3 mt-10 cursor-pointer w-full mb-4">
+                  Sign in
+                </button>
+                <p className="text-[#505050] font-normal text-[14px] text-center">
+                  Don&apos;t have an account?{" "}
+                  <button
+                    onClick={isSignUpScreen}
+                    className="text-[#EA0056] font-semibold cursor-pointer"
+                  >
+                    Register
+                  </button>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

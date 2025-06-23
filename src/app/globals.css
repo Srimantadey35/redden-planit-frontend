@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -22,5 +22,109 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'jostregualar', sans-serif;
 }
+
+@font-face {
+  font-family: 'jostregualar';
+  src: url('/fonts/Jost-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.example::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.gradientline::before {
+  content: '';
+  position: absolute;
+  background: #ffffff;
+  background: linear-gradient(
+    269deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(194, 194, 194, 1) 50%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  width: 140%;
+  height: 1px;
+  z-index: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+
+
+
+
+/* Label style after Input feild is in focus. Can also use input:focus ~ label to select sibling. */
+/* Floating Label Animation (exact match from CodePen) */
+/* Floating Label Form Styles */
+.floating-form .input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.floating-form input {
+  border: 2px solid #afbdcf;
+  border-radius: 5px;
+  height: 53px;
+  width: 100%;
+  color: #000;
+  font-size: 14px;
+  padding-left: 20px;
+  box-shadow: none;
+  background: transparent;
+  z-index: 2;
+  position: relative;
+}
+
+.floating-form label {
+  font-size: 16px;
+  color: #151515;
+  padding: 14px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floating-form input:focus,
+.floating-form input.filled {
+  outline: none;
+}
+
+.floating-form input:focus + label,
+.floating-form input.filled + label {
+  font-size: 18px;
+  color: #151515;
+  top: -14px;
+  left: 25px;
+  background: #fff;
+  padding: 0 5px;
+  z-index: 3;
+}
+
+.floating-form input[type="password"]{
+  font-size: 35px !important;
+  padding-top: 10px;
+  color: #505050 !important;
+}
+/* Email-specific fix */
+/* .floating-form input[type="email"]:not(:placeholder-shown) + label {
+  font-size: 12px;
+  top: -5px;
+  left: 10px;
+  background: #fff;
+  padding: 0 5px;
+} */
