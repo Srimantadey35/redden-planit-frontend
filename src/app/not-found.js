@@ -1,38 +1,35 @@
-import React from "react";
+// app/not-found.js or wherever your 404 component goes
+
 import Image from "next/image";
+import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <section className="bg-white grid place-items-center h-screen">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center text-center">
-          {/* Image */}
-          <div className="relative w-full max-w-md aspect-[4/3]">
-            <Image
-              className="rounded-[20px] object-cover"
-              src="/images/404.gif"
-              alt="404 not found"
-              fill
-              sizes="100vw"
-            />
-          </div>
-
-          {/* Content below */}
-          <div>
-            <h1 className="text-[50px] font-bold text-black">404</h1>
-            <h3 className="text-[32px] font-semibold text-black">
-              Looks like you're lost
-            </h3>
-            <p className="text-[18px] text-black mt-2">
-              The page you are looking for is not available!
-            </p>
-            <a
-              href="/"
-              className="text-white px-5 py-3 bg-green-600 hover:bg-green-700 transition rounded text-[15px] mt-6 inline-block"
-            >
-              Go to Home
-            </a>
-          </div>
+    <section className="h-screen w-full flex flex-col items-center justify-center bg-white text-center px-4">
+      <div className="container">
+       
+          <Image
+            src="/images/404.gif"
+            alt="404 Not Found"
+            width={800}
+            height={600}
+            className="mx-auto"
+            priority
+          />
+        <div className="mt-[-100px]">
+          <h1 className="text-[4rem] font-bold mt-6 text-black">404</h1>
+          <h1 className="text-[2rem] font-bold mt-6 text-black">
+            Page Not Found
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Oops! The page you're looking for doesn't exist.
+          </p>
+          <Link
+            href="/"
+            className="mt-6 inline-block bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
+          >
+            Go to Homepage
+          </Link>
         </div>
       </div>
     </section>
