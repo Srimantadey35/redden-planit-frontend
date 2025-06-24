@@ -1,16 +1,20 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
-const Login = ({ isSignUpScreen }) => {
+const Login = ({planName}) => {
+
   const [isPassVisible, setisPassVisible] = useState(false);
+
   const joinPlanIt = [
     "Smart planning tool",
     "All in one place",
     "Trusted vendor network",
     "Beautiful invites & guest lists",
   ];
- 
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -34,6 +38,11 @@ const Login = ({ isSignUpScreen }) => {
     } else {
       input.classList.remove("filled");
     }
+  };
+
+  const router = useRouter();
+  const handlePushToRegisterPage = () => {
+    router.push(`/sign-up/${planName}`);
   };
 
   return (
@@ -89,7 +98,7 @@ const Login = ({ isSignUpScreen }) => {
               <p className="font-normal text-[21px] text-black text-center mt-2">
                 Enter your details to sign in your account
               </p>
-              <button className="text-[#505050] w-[416px] text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200">
+              <button onClick={() => signIn('google', { callbackUrl: '/' })} className="text-[#505050] w-[416px] text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200">
                 <Image
                   width={24}
                   height={24}
@@ -125,7 +134,7 @@ const Login = ({ isSignUpScreen }) => {
                 {/* Password */}
                 <div className="input-wrap relative">
                   <input
-                    type={`${isPassVisible ? 'text':'password'}`}
+                    type={`${isPassVisible ? "text" : "password"}`}
                     name="password"
                     id="password"
                     autoComplete="current-password"
@@ -136,7 +145,10 @@ const Login = ({ isSignUpScreen }) => {
                     onBlur={handleBlur}
                   />
                   <label htmlFor="password">Password</label>
-                  <button onClick={(e)=> setisPassVisible(!isPassVisible)} className="absolute top-1/2 -translate-y-1/2 cursor-pointer h-full right-0 w-[53px] flex items-center justify-center z-[2]">
+                  <button
+                    onClick={(e) => setisPassVisible(!isPassVisible)}
+                    className="absolute top-1/2 -translate-y-1/2 cursor-pointer h-full right-0 w-[53px] flex items-center justify-center z-[2]"
+                  >
                     <Image
                       width={18}
                       height={18}
@@ -170,7 +182,7 @@ const Login = ({ isSignUpScreen }) => {
                 <p className="text-[#505050] font-normal text-[14px] text-center">
                   Don&apos;t have an account?{" "}
                   <button
-                    onClick={isSignUpScreen}
+                    onClick={handlePushToRegisterPage}
                     className="text-[#EA0056] font-semibold cursor-pointer"
                   >
                     Register

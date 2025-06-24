@@ -60,11 +60,6 @@ body {
   transform: translateX(-50%);
 }
 
-
-
-
-
-
 /* Label style after Input feild is in focus. Can also use input:focus ~ label to select sibling. */
 /* Floating Label Animation (exact match from CodePen) */
 /* Floating Label Form Styles */
@@ -115,16 +110,21 @@ body {
   z-index: 3;
 }
 
-.floating-form input[type="password"]{
-  font-size: 35px !important;
+.floating-form input[type='password'] {
+  font-size: 20px !important;
   padding-top: 10px;
   color: #505050 !important;
 }
-/* Email-specific fix */
-/* .floating-form input[type="email"]:not(:placeholder-shown) + label {
-  font-size: 12px;
-  top: -5px;
-  left: 10px;
-  background: #fff;
-  padding: 0 5px;
-} */
+
+.modalAnim {
+  animation: modalAnim 0.50s ease-out;
+}
+@keyframes modalAnim {
+  0% {
+    transform: translateY(-15%);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+

@@ -5,9 +5,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const CreateAccPlans = () => {
+  
   const router = useRouter();
   const handlePlanSelect = (plan) => {
-    router.push(`/signup/${plan.toLowerCase()}`);
+    router.push(`/sign-up/${plan.toLowerCase()}`);
   };
 
   const signupOptions = [
@@ -27,7 +28,7 @@ const CreateAccPlans = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
-    <div className="bg-[#ffffffe3] w-fit rounded-2xl">
+    <div className="bg-[#ffffffe3] w-fit rounded-2xl modalAnim">
       <div className="">
         <div className="py-6 border-b border-b-black">
           <Image

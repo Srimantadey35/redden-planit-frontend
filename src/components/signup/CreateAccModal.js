@@ -1,21 +1,38 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const CreateAccModal = ({ planName }) => {
+  const [isPassVisible, setisPassVisible] = useState({
+    pass: false,
+    CPass: false,
+  });
+  const togglePasswordVisibility = (field) => {
+    setisPassVisible((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
 
   const router = useRouter();
-  const handlePushToSignIn = ()=>{
-    router.push(`/login/${planName.toLowerCase()}`)
-  }
+  const handlePushToSignIn = () => {
+    router.push(`/sign-in/${planName.toLowerCase()}`);
+  };
 
-  const joinPlanIt = [
+  const joinPlanItPlanner = [
     "Smart planning tool",
     "All in one place",
     "Trusted vendor network",
     "Beautiful invites & guest lists",
+  ];
+  const joinPlanItVendor = [
+    "Expand your reach",
+    "Showcase your work",
+    "Get real leads & bookings",
+    "Easy profile management",
   ];
   const faces = [
     "/images/sign-up/face-1.jpg",
@@ -55,8 +72,9 @@ const CreateAccModal = ({ planName }) => {
   console.log(
     planName === "Vendor" ? "Register as a Vendor" : "Register as a Planner"
   );
+  const planList = planName === "Vendor" ? joinPlanItVendor : joinPlanItPlanner;
   return (
-    <div className="size-full overflow-y-auto example">
+    <div className="size-full overflow-y-auto example modalAnim">
       <div className="px-[140px] py-10">
         <div className="flex justify-center">
           <div
@@ -69,22 +87,44 @@ const CreateAccModal = ({ planName }) => {
               src={"/images/PlanItLogo.png"}
               alt="logo"
             />
-            <h3 className="text-[64px] text-black leading-[74px] font-medium mt-5">
-              Plan your big <br /> moments with ease
+            <h3 className="text-[64px] text-black leading-[74px] font-semibold mt-5">
+              {planName === "Vendor" ? (
+                <>
+                  Grow your business <br /> with PlanIt
+                </>
+              ) : (
+                <>
+                  Plan your big <br /> moments with ease
+                </>
+              )}
             </h3>
 
             <div className="my-[35px]">
               <p className="font-medium text-[24px] text-black">
-                Join PlanIt — your personal event planning assistant.
+                {planName === "Vendor" ? (
+                  <>Join our trusted network of event professionals.</>
+                ) : (
+                  <>Join PlanIt — your personal event planning assistant.</>
+                )}
               </p>
               <p className="mt-3 text-[#505050] text-[19px] ">
-                From weddings and birthdays to corporate events, we help you{" "}
-                <br /> manage every detail effortlessly.
+                {planName === "Vendor" ? (
+                  <>
+                    Whether you're a photographer, florist, caterer, or <br />{" "}
+                    entertainer — we connect you with clients planning <br />{" "}
+                    unforgettable moments.
+                  </>
+                ) : (
+                  <>
+                    From weddings and birthdays to corporate events, we help you{" "}
+                    <br /> manage every detail effortlessly.
+                  </>
+                )}
               </p>
             </div>
 
             <ul className="space-y-2.5">
-              {joinPlanIt.map((item, index) => (
+              {planList.map((item, index) => (
                 <li
                   key={index}
                   className="border border-[#FFD8E6] text-[#EA0056] text-[20px] font-normal bg-[#FFE4EE] flex items-center py-2.5 px-3.5 rounded-lg w-[300px]"
@@ -100,38 +140,43 @@ const CreateAccModal = ({ planName }) => {
               ))}
             </ul>
 
-            <div className="border border-[#FFD8E6] rounded-xl bg-white mt-[35px] py-6 px-20">
-              <div className="flex items-center justify-center  ">
-                {faces.map((item, index) => (
-                  <div
-                    key={index}
-                    className={`size-[50px] ml-[-10px] relative`}
-                    style={{ zIndex: `${faces.length - index}` }}
-                  >
-                    <Image
-                      className={`rounded-full object-cover size-full [box-shadow:0_0_0px_4px_#ffffff]`}
-                      width={50}
-                      height={50}
-                      src={item}
-                      alt={`face-${index + 1}`}
-                    />
-                  </div>
-                ))}
+            {planName === "Planner" && (
+              <div className="border border-[#FFD8E6] rounded-xl bg-white mt-[35px] py-6 px-20">
+                <div className="flex items-center justify-center  ">
+                  {faces.map((item, index) => (
+                    <div
+                      key={index}
+                      className={`size-[50px] ml-[-10px] relative`}
+                      style={{ zIndex: `${faces.length - index}` }}
+                    >
+                      <Image
+                        className={`rounded-full object-cover size-full [box-shadow:0_0_0px_4px_#ffffff]`}
+                        width={50}
+                        height={50}
+                        src={item}
+                        alt={`face-${index + 1}`}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[#505050] font-normal text-[20px] mt-[15px] text-center">
+                  Over 2.5 Million people trust our platform
+                </p>
               </div>
-              <p className="text-[#505050] font-normal text-[20px] mt-[15px] text-center">
-                Over 2.5 Million people trust our platform
-              </p>
-            </div>
+            )}
           </div>
           <div className="px-[160px] bg-white py-[120px] rounded-tr-[15px] rounded-br-[15px]">
             <div className="mb-5">
               <h3 className="font-medium text-[40px] text-black text-center">
-                Welcome!
+                {planName === 'Vendor' ? 'Vendor registration':'Welcome!'}
               </h3>
               <p className="font-normal text-[21px] text-black text-center mt-2">
                 Please fill the details to get started
               </p>
-              <button className="text-[#505050] w-[631px] text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200">
+              <button
+                onClick={() => signIn("google", { callbackUrl: "/" })}
+                className="text-[#505050] w-[631px] text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200"
+              >
                 <Image
                   width={24}
                   height={24}
@@ -202,9 +247,9 @@ const CreateAccModal = ({ planName }) => {
                 </p>
 
                 {/* Password */}
-                <div className="input-wrap mb-10">
+                <div className="input-wrap mb-10 relative">
                   <input
-                    type="password"
+                    type={`${isPassVisible.pass ? "text" : "password"}`}
                     name="password"
                     id="password"
                     autoComplete="current-password"
@@ -215,23 +260,46 @@ const CreateAccModal = ({ planName }) => {
                     onBlur={handleBlur}
                   />
                   <label htmlFor="password">Password</label>
+                  <button
+                    onClick={() => togglePasswordVisibility("pass")}
+                    className="absolute top-1/2 -translate-y-1/2 cursor-pointer h-full right-0 w-[53px] flex items-center justify-center z-[2]"
+                  >
+                    <Image
+                      width={18}
+                      height={18}
+                      src={"/images/sign-up/passvisible.svg"}
+                      alt="passvisible"
+                    />
+                  </button>
                 </div>
 
                 {/*confirm Password */}
                 <div className="input-wrap">
-                  <input
-                    type="password"
-                    name="confirmpassword"
-                    id="confirmpassword"
-                    autoComplete="confirmpassword"
-                    placeholder=" "
-                    required
-                    value={formData.confirmpassword}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  <label htmlFor="confirmpassword">Confirm Password</label>
-
+                  <div className="relative">
+                    <input
+                      type={`${isPassVisible.CPass ? "text" : "password"}`}
+                      name="confirmpassword"
+                      id="confirmpassword"
+                      autoComplete="confirmpassword"
+                      placeholder=" "
+                      required
+                      value={formData.confirmpassword}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <label htmlFor="confirmpassword">Confirm Password</label>
+                    <button
+                      onClick={() => togglePasswordVisibility("CPass")}
+                      className="absolute top-1/2 -translate-y-1/2 cursor-pointer h-full right-0 w-[53px] flex items-center justify-center z-[2]"
+                    >
+                      <Image
+                        width={18}
+                        height={18}
+                        src={"/images/sign-up/passvisible.svg"}
+                        alt="passvisible"
+                      />
+                    </button>
+                  </div>
                   <div className="flex items-center mt-3">
                     <input
                       type="checkbox"
