@@ -1,8 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
 @import 'tailwindcss';
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+@theme{
+--breakpoint-sm: 640px;
+--breakpoint-md: 768px;
+--breakpoint-lg: 1024px;
+--breakpoint-xl: 1200px;
+--breakpoint-2xl: 1574px;
+}
+/* Your custom container class */
+.container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 1.5rem; 
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: 2rem; 
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 2.5rem; 
+    padding-right: 2.5rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    padding-left: 3rem; 
+    padding-right: 3rem;
+  }
+}
+
+@media (min-width: 1446px) {
+  .container {
+    padding-left: 4rem; 
+    padding-right: 4rem;
+  }
 }
 
 @theme inline {
@@ -128,3 +178,12 @@ body {
   }
 }
 
+.banner_gradient{
+  background: #100509;
+background: linear-gradient(85deg, rgba(16, 5, 9, 1) 30%, rgba(89, 23, 47, 1) 70%);
+}
+.allura-regular {
+  font-family: "Allura", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
