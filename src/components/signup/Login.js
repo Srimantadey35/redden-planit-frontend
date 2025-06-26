@@ -45,11 +45,10 @@ const Login = ({ planName }) => {
   };
 
   return (
-    <div className="size-full overflow-y-auto example modalAnim container">
-      <div className="2xl-[100px] 3xl:px-[135px] py-10">
-        <div className="flex justify-center">
-          <div
-            className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[570px] 3xl:w-[708px] rounded-tl-[15px] rounded-bl-[15px]"
+    <div className="size-full overflow-y-auto example modalAnim">
+      <div className="py-10">
+        <div className="flex justify-center w-full 3xl:px-0 px-[8%] 2xl:px-[10%] 3xl:max-w-[1423px] mx-auto">
+          <div className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-1/2 rounded-tl-[15px] rounded-bl-[15px]"
             style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
           >
             <Image
@@ -90,7 +89,7 @@ const Login = ({ planName }) => {
               ))}
             </ul>
           </div>
-          <div className="px-[45px] 2xl:px-[55px] 3xl:px-[125px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] rounded-tr-[15px] rounded-br-[15px]">
+          <div className="w-1/2 px-[60px] xl:px-[80px] 2xl:px-[100px] 3xl:px-[130px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] rounded-tr-[15px] rounded-br-[15px] flex flex-col justify-center">
             <div className="mb-5">
               <h3 className="font-medium text-[35px] 3xl:text-[40px] text-black text-center">
                 Sign In
@@ -100,7 +99,7 @@ const Login = ({ planName }) => {
               </p>
               <button
                 onClick={() => signIn("google", { callbackUrl: "/" })}
-                className="text-[#505050] w-[430px] 2xl:w-[631px] text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-3 3xl:py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200"
+                className="text-[#505050] w-full text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-3 3xl:py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200"
               >
                 <Image
                   width={24}

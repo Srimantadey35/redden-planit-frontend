@@ -75,10 +75,9 @@ const CreateAccModal = ({ planName }) => {
   const planList = planName === "Vendor" ? joinPlanItVendor : joinPlanItPlanner;
   return (
     <div className="size-full overflow-y-auto example modalAnim">
-      <div className="2xl-[100px] 3xl:px-[135px] py-10">
-        <div className="flex justify-center">
-          <div
-            className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[570px] 3xl:w-[708px] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-center"
+      <div className="py-10">
+        <div className="flex justify-center px-8 mx-auto w-full max-w-[1650px]">
+          <div  className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[40%] 3xl:w-[708px] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-center"
             style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
           >
             <Image
@@ -112,8 +111,8 @@ const CreateAccModal = ({ planName }) => {
                 {planName === "Vendor" ? (
                   <>
                     Whether you&apos;re a photographer, florist, caterer, or{" "}
-                    <br /> entertainer — we connect you with clients planning{" "}
-                    <br /> unforgettable moments.
+                    <br className="3xl:block hidden"/> entertainer — we connect you with clients planning{" "}
+                    <br className="3xl:block hidden"/> unforgettable moments.
                   </>
                 ) : (
                   <>
@@ -166,7 +165,7 @@ const CreateAccModal = ({ planName }) => {
               </div>
             )}
           </div>
-          <div className="px-[75px] 2xl:px-[100px] 3xl:px-[160px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] rounded-tr-[15px] rounded-br-[15px]">
+          <div className="px-[60px] 2xl:px-[100px] 3xl:px-[160px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[50%] 3xl:w-[941px] rounded-tr-[15px] rounded-br-[15px]">
             <div className="3xl:mb-5">
               <h3 className="font-medium text-[35px] 3xl:text-[40px] text-black text-center">
                 {planName === "Vendor" ? "Vendor registration" : "Welcome!"}
@@ -176,7 +175,7 @@ const CreateAccModal = ({ planName }) => {
               </p>
               <button
                 onClick={() => signIn("google", { callbackUrl: "/" })}
-                className="text-[#505050] w-[430px] 2xl:w-[631px] text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-3 3xl:py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200"
+                className="text-[#505050] w-full text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-3 3xl:py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200"
               >
                 <Image
                   width={24}
