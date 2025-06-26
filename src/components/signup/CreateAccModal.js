@@ -75,7 +75,7 @@ const CreateAccModal = ({ planName }) => {
   const planList = planName === "Vendor" ? joinPlanItVendor : joinPlanItPlanner;
   return (
     <div className="size-full overflow-y-auto example modalAnim">
-      <div className="py-10">
+      <div className="my-10">
         <div className="flex justify-center px-8 mx-auto w-full max-w-[1650px]">
           <div  className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[40%] 3xl:w-[708px] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-center"
             style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
