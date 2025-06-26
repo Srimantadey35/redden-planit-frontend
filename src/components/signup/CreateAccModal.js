@@ -110,7 +110,7 @@ const CreateAccModal = ({ planName }) => {
               <p className="mt-3 text-[#505050] text-[19px] ">
                 {planName === "Vendor" ? (
                   <>
-                    Whether you're a photographer, florist, caterer, or <br />{" "}
+                    Whether you&apos;re a photographer, florist, caterer, or <br />{" "}
                     entertainer — we connect you with clients planning <br />{" "}
                     unforgettable moments.
                   </>

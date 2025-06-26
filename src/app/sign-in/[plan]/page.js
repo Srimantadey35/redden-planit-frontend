@@ -3,7 +3,7 @@ import React from "react";
 import { use } from "react";
 import { notFound } from "next/navigation";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const { plan } = use(params);
 
   const validPlans = ["vendor", "planner", "anotherValidPlan"];
@@ -24,4 +24,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;
