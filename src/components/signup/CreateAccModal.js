@@ -165,7 +165,7 @@ const CreateAccModal = ({ planName }) => {
               </div>
             )}
           </div>
-          <div className="px-[60px] 2xl:px-[100px] 3xl:px-[160px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[50%] 3xl:w-[941px] rounded-tr-[15px] rounded-br-[15px]">
+          <div className="px-[60px] 2xl:px-[100px] 3xl:px-[140px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[50%] 3xl:w-[941px] rounded-tr-[15px] rounded-br-[15px]">
             <div className="3xl:mb-5">
               <h3 className="font-medium text-[35px] 3xl:text-[40px] text-black text-center">
                 {planName === "Vendor" ? "Vendor registration" : "Welcome!"}
