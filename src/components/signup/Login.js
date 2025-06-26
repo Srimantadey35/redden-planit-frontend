@@ -45,7 +45,7 @@ const Login = ({ planName }) => {
   };
 
   return (
-    <div className="size-full overflow-y-auto example modalAnim">
+    <div className="size-full overflow-y-auto example modalAnim container">
       <div className="2xl-[100px] 3xl:px-[135px] py-10">
         <div className="flex justify-center">
           <div
