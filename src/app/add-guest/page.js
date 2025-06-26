@@ -37,7 +37,7 @@ const page = () => {
       <Header />
       <div className="container">
         <div className="py-[40px] 2xl:py-[120px] flex items-stretch">
-          <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl w-[65%] 3xl:w-[914px]">
+          <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl w-[60%] 3xl:w-[914px]">
             <h3 className="text-[30px] font-semibold text-[#151515] mb-[43px]">
               Add guest
             </h3>
@@ -52,7 +52,7 @@ const page = () => {
                     First name<span className="text-[#FF2C2C]">*</span>
                   </label>
                   <input
-                    className="h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                    className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                     placeholder="Enter your first name"
                     type="text"
                     name="firstname"
@@ -67,7 +67,7 @@ const page = () => {
                     Last name<span className="text-[#FF2C2C]">*</span>
                   </label>
                   <input
-                    className="h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                    className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                     placeholder="Enter your last name"
                     type="text"
                     name="lastname"
@@ -84,7 +84,7 @@ const page = () => {
                     Email
                   </label>
                   <input
-                    className="h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                    className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                     placeholder="Enter your email"
                     type="email"
                     name="email"
@@ -99,7 +99,7 @@ const page = () => {
                     Phone number<span className="text-[#FF2C2C]">*</span>
                   </label>
                   <input
-                    className="h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                    className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                     placeholder="Enter your number"
                     type="text"
                     name="number"
@@ -116,7 +116,7 @@ const page = () => {
                     Address
                   </label>
                   <input
-                    className="h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                    className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                     placeholder="Enter address"
                     type="text"
                     name="address"
@@ -136,7 +136,7 @@ const page = () => {
                     name="guest"
                     id="guest"
                     defaultValue=""
-                    className="text-[#919191] text-[14px] font-normal h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
+                    className="text-[#919191] text-[14px] font-normal h-[44px] 3xl:h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
                   >
                     <option value="" disabled hidden>
                       Select type
@@ -158,7 +158,7 @@ const page = () => {
                     name="dietary"
                     id="dietary"
                     defaultValue=""
-                    className="text-[#919191] text-[14px] font-normal h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
+                    className="text-[#919191] text-[14px] font-normal h-[44px] 3xl:h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
                   >
                     <option value="" disabled hidden>
                       Select dietary
@@ -179,7 +179,7 @@ const page = () => {
                     Notes
                   </label>
                   <textarea
-                    className="h-[100px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none pt-3"
+                    className="h-[80px] 3xl:h-[100px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none pt-3"
                     placeholder="Enter notes about your guests."
                     name="notes"
                     id="notes"
@@ -191,7 +191,7 @@ const page = () => {
               </button>
             </form>
           </div>
-          <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl w-[35%] 3xl:w-[calc(100%-914px)] ml-[30px] 3xl:ml-[40px] flex flex-col">
+          <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl w-[40%] 3xl:w-[calc(100%-914px)] ml-[30px] 3xl:ml-[40px] flex flex-col">
             <h3 className="text-[30px] font-semibold text-[#151515] mb-[43px]">
               Guest list
             </h3>
@@ -207,13 +207,13 @@ const page = () => {
                       name="checkbox"
                       id={`checkbox-${index}`}
                       type="checkbox"
-                      className="size-[20px] mr-3.5"
+                      className="size-[16px] 3xl:size-[20px] mr-3.5"
                       checked={!!checkedGuests[item]}
                       onChange={() => handleCheck(item)}
                     />
                     <label
                       htmlFor={`checkbox-${index}`}
-                      className="font-normal text-[20px] text-[#151515]"
+                      className="font-normal text-[15px] 3xl:text-[20px] text-[#151515]"
                     >
                       {item.length > 15 ? `${item.slice(0, 15)}...` : item}
                     </label>
