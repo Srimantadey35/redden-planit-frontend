@@ -32,7 +32,7 @@ const page = () => {
         <div className="py-[40px] 2xl:py-[120px]">
           <h3 className="text-center font-medium text-[26px] sm:text-[30px] text-[#151515]">
             Hi{" "}
-            <span className="allura-regular text-black text-[50px]">
+            <span className="text-black text-[50px]" style={{fontFamily:'allura-font'}}>
               Rabina
             </span>
           </h3>
