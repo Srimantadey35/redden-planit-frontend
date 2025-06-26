@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import React, { useState } from "react";
 import Image from "next/image";
 
-const Page = () => {
+const page = () => {
   const guestNames = [
     "Jaydon Curtis",
     "Madelyn Levin",
@@ -37,7 +37,7 @@ const Page = () => {
       <Header />
       <div className="container">
         <div className="py-[40px] 2xl:py-[120px] flex items-stretch">
-          <div className="bg-[#F7F7F7] p-[60px] rounded-2xl w-[914px]">
+          <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl w-[65%] 3xl:w-[914px]">
             <h3 className="text-[30px] font-semibold text-[#151515] mb-[43px]">
               Add guest
             </h3>
@@ -191,7 +191,7 @@ const Page = () => {
               </button>
             </form>
           </div>
-          <div className="bg-[#F7F7F7] p-[60px] rounded-2xl w-[calc(100%-914px)] ml-[40px] flex flex-col">
+          <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl w-[35%] 3xl:w-[calc(100%-914px)] ml-[30px] 3xl:ml-[40px] flex flex-col">
             <h3 className="text-[30px] font-semibold text-[#151515] mb-[43px]">
               Guest list
             </h3>
@@ -215,7 +215,7 @@ const Page = () => {
                       htmlFor={`checkbox-${index}`}
                       className="font-normal text-[20px] text-[#151515]"
                     >
-                      {item}
+                      {item.length > 15 ? `${item.slice(0, 15)}...` : item}
                     </label>
                   </div>
                   <div className="flex items-center space-x-3.5">
@@ -253,4 +253,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default page;

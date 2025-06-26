@@ -12,7 +12,7 @@
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1200px;
   --breakpoint-2xl: 1573px;
-  --breakpoint-3xl: 1699px;
+  --breakpoint-3xl: 1700px;
 }
 /* custom container class start */
 .container {
@@ -170,7 +170,7 @@ body {
   /* padding-top: 10px; */
   color: #505050 !important;
 }
-
+  
 .modalAnim {
   animation: modalAnim 0.5s ease-out;
 }
