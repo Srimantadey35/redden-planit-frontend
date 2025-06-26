@@ -20,8 +20,8 @@ const Otp = () => {
         Enter verification code
       </h2>
       <p className="font-normal text-[16px] 3xl:text-[18px] text-[#151515] mt-2 mb-8 flex flex-col 3xl:flex-row items-center justify-center">
-        Enter the verification code that we&apos;ve send your email{" "}
-        <span className="font-semibold text-black">he******@**mail.com</span>
+        Enter the verification code that we&apos;ve send your email {" "}
+        <span className="font-semibold text-black"> he******@**mail.com</span>
       </p>
 
       <form>
@@ -33,7 +33,7 @@ const Otp = () => {
                   key={index}
                   type="text"
                   maxLength="1"
-                  className="w-[45px] h-[38px] 3xl:w-[62px] 3xl:h-[54px] text-center text-[25px] font-medium border border-[#B0B0B0] rounded-lg outline-none text-black"
+                  className="w-[45px] h-[38px] 3xl:w-[62px] 3xl:h-[54px] text-center text-[16px] 3xl:text-[25px] font-medium border border-[#B0B0B0] rounded-lg outline-none text-black"
                   inputMode="numeric"
                   pattern="[0-9]*"
                   name={`otp-${index}`}
