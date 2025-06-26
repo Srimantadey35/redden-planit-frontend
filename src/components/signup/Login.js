@@ -161,7 +161,7 @@ const Login = ({ planName }) => {
                   </button>
                 </div>
 
-                <div className="flex items-center mt-2 3xl:mt-3">
+                <div className="flex items-center mt-2 3xl:mt-3 justify-between">
                   <div className="flex items-center">
                     <input
                       type="checkbox"
@@ -174,7 +174,7 @@ const Login = ({ planName }) => {
                     </p>
                   </div>
 
-                  <p className="text-[#EA0056] font-normal text-[14px] 3xl:text-[16px]">
+                  <p className="text-[#EA0056] font-normal text-[14px] 3xl:text-[16px] ml-2">
                     Forgot Password?
                   </p>
                 </div>
