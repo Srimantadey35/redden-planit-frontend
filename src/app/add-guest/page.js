@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import React, { useState } from "react";
 import Image from "next/image";
 
-const page = () => {
+const Page = () => {
   const guestNames = [
     "Jaydon Curtis",
     "Madelyn Levin",
@@ -253,4 +253,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
