@@ -75,19 +75,20 @@ const CreateAccModal = ({ planName }) => {
   const planList = planName === "Vendor" ? joinPlanItVendor : joinPlanItPlanner;
   return (
     <div className="size-full overflow-y-auto example modalAnim">
-      <div className="px-[140px] py-10">
+      <div className="2xl-[100px] 3xl:px-[135px] py-10">
         <div className="flex justify-center">
           <div
-            className="bg-[#faf2f2] px-[55px] py-[120px] w-[708px] rounded-tl-[15px] rounded-bl-[15px]"
+            className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[570px] 3xl:w-[708px] rounded-tl-[15px] rounded-bl-[15px]"
             style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
           >
             <Image
+              className="w-[110px] 2xl:w-[130px] 3xl:w-[158px]"
               width={158}
               height={52}
               src={"/images/PlanItLogo.png"}
               alt="logo"
             />
-            <h3 className="text-[64px] text-black leading-[74px] font-semibold mt-5">
+            <h3 className="text-[38px] 2xl:text-[45px] 3xl:text-[64px] text-black 3xl:leading-[74px] font-semibold mt-5 leading-[1.2]">
               {planName === "Vendor" ? (
                 <>
                   Grow your business <br /> with PlanIt
@@ -99,25 +100,25 @@ const CreateAccModal = ({ planName }) => {
               )}
             </h3>
 
-            <div className="my-[35px]">
-              <p className="font-medium text-[24px] text-black">
+            <div className="my-[25px] 3xl:my-[35px]">
+              <p className="font-medium text-[18px] 3xl:text-[24px] text-black">
                 {planName === "Vendor" ? (
                   <>Join our trusted network of event professionals.</>
                 ) : (
                   <>Join PlanIt — your personal event planning assistant.</>
                 )}
               </p>
-              <p className="mt-3 text-[#505050] text-[19px] ">
+              <p className="mt-3 text-[#505050] text-[16px] 3xl:text-[19px] ">
                 {planName === "Vendor" ? (
                   <>
-                    Whether you&apos;re a photographer, florist, caterer, or <br />{" "}
-                    entertainer — we connect you with clients planning <br />{" "}
-                    unforgettable moments.
+                    Whether you&apos;re a photographer, florist, caterer, or{" "}
+                    <br /> entertainer — we connect you with clients planning{" "}
+                    <br /> unforgettable moments.
                   </>
                 ) : (
                   <>
                     From weddings and birthdays to corporate events, we help you{" "}
-                    <br /> manage every detail effortlessly.
+                    <br className="3xl:block hidden" /> manage every detail effortlessly.
                   </>
                 )}
               </p>
@@ -127,7 +128,7 @@ const CreateAccModal = ({ planName }) => {
               {planList.map((item, index) => (
                 <li
                   key={index}
-                  className="border border-[#FFD8E6] text-[#EA0056] text-[20px] font-normal bg-[#FFE4EE] flex items-center py-2.5 px-3.5 rounded-lg w-[300px]"
+                  className="border border-[#FFD8E6] text-[#EA0056] text-[15px] 3xl:text-[20px] font-normal bg-[#FFE4EE] flex items-center py-2 3xl:py-2.5 px-3.5 rounded-lg w-[300px]"
                 >
                   <Image
                     width={15}
@@ -141,12 +142,12 @@ const CreateAccModal = ({ planName }) => {
             </ul>
 
             {planName === "Planner" && (
-              <div className="border border-[#FFD8E6] rounded-xl bg-white mt-[35px] py-6 px-20">
+              <div className="border border-[#FFD8E6] rounded-xl bg-white mt-[30px] 3xl:mt-[35px] py-5 3xl:py-6 px-5 2xl:px-12 3xl:px-20">
                 <div className="flex items-center justify-center  ">
                   {faces.map((item, index) => (
                     <div
                       key={index}
-                      className={`size-[50px] ml-[-10px] relative`}
+                      className={`size-[30px] 2xl:size-[40px] 3xl:size-[50px] ml-[-10px] relative`}
                       style={{ zIndex: `${faces.length - index}` }}
                     >
                       <Image
@@ -159,23 +160,23 @@ const CreateAccModal = ({ planName }) => {
                     </div>
                   ))}
                 </div>
-                <p className="text-[#505050] font-normal text-[20px] mt-[15px] text-center">
+                <p className="text-[#505050] font-normal text-[15px] 3xl:text-[20px] mt-[15px] text-center">
                   Over 2.5 Million people trust our platform
                 </p>
               </div>
             )}
           </div>
-          <div className="px-[160px] bg-white py-[120px] rounded-tr-[15px] rounded-br-[15px]">
-            <div className="mb-5">
-              <h3 className="font-medium text-[40px] text-black text-center">
-                {planName === 'Vendor' ? 'Vendor registration':'Welcome!'}
+          <div className="px-[45px] 2xl:px-[55px] 3xl:px-[160px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] rounded-tr-[15px] rounded-br-[15px]">
+            <div className="3xl:mb-5">
+              <h3 className="font-medium text-[35px] 3xl:text-[40px] text-black text-center">
+                {planName === "Vendor" ? "Vendor registration" : "Welcome!"}
               </h3>
-              <p className="font-normal text-[21px] text-black text-center mt-2">
+              <p className="font-normal text-[18px] 3xl:text-[21px] text-black text-center mt-2">
                 Please fill the details to get started
               </p>
               <button
                 onClick={() => signIn("google", { callbackUrl: "/" })}
-                className="text-[#505050] w-[631px] text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200"
+                className="text-[#505050] w-[430px] 2xl:w-[631px] text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-3 3xl:py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200"
               >
                 <Image
                   width={24}
@@ -185,7 +186,7 @@ const CreateAccModal = ({ planName }) => {
                 />
                 <span className="ml-3.5">Continue with google</span>
               </button>
-              <div className="flex items-center gradientline relative mt-4">
+              <div className="flex items-center gradientline relative mt-3 3xl:mt-4">
                 <p className="text-black mx-auto bg-white p-3 font-normal text-[21px] z-[1]">
                   or
                 </p>
@@ -194,7 +195,7 @@ const CreateAccModal = ({ planName }) => {
             <div>
               <form className="floating-form relative mt-4">
                 {/* Name */}
-                <div className="input-wrap mb-10">
+                <div className="input-wrap mb-5 3xl:mb-10">
                   <input
                     type="text"
                     name="fullName"
@@ -210,7 +211,7 @@ const CreateAccModal = ({ planName }) => {
                 </div>
 
                 {/* Email & Phone Row */}
-                <div className="flex mb-3 gap-10">
+                <div className="flex mb-1 3xl:mb-3 gap-5 2xl:gap-10">
                   <div className="input-wrap flex-1">
                     <input
                       type="email"
@@ -242,12 +243,12 @@ const CreateAccModal = ({ planName }) => {
                   </div>
                 </div>
 
-                <p className="text-[#505050] font-normal text-[14px] mb-8">
+                <p className="text-[#505050] font-normal text-[14px] mb-4 3xl:mb-8">
                   An OTP will be sent to this email
                 </p>
 
                 {/* Password */}
-                <div className="input-wrap mb-10 relative">
+                <div className="input-wrap mb-5 3xl:mb-10 relative">
                   <input
                     type={`${isPassVisible.pass ? "text" : "password"}`}
                     name="password"
@@ -300,7 +301,7 @@ const CreateAccModal = ({ planName }) => {
                       />
                     </button>
                   </div>
-                  <div className="flex items-center mt-3">
+                  <div className="flex items-center mt-2 3xl:mt-3">
                     <input
                       type="checkbox"
                       name="checkbox"
@@ -320,7 +321,7 @@ const CreateAccModal = ({ planName }) => {
                   </div>
                 </div>
 
-                <button className="font-semibold text-[16px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-10 cursor-pointer w-full mb-4">
+                <button className="font-semibold text-[16px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-7 3xl:mt-10 cursor-pointer w-full mb-3 3xl:mb-4">
                   Register
                 </button>
                 <p className="text-[#505050] font-normal text-[14px] text-center">

@@ -17,9 +17,7 @@ const Page = ({ params }) => {
       style={{ backgroundImage: "url('/images/sign-up/signupbg.png')" }}
     >
       <div className="absolute inset-0 bg-black opacity-45 z-[-1]"></div>
-      <div className="modalAnim">
         <Login planName={plan} />
-      </div>
     </div>
   );
 };

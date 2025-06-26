@@ -4,8 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
-const Login = ({planName}) => {
-
+const Login = ({ planName }) => {
   const [isPassVisible, setisPassVisible] = useState(false);
 
   const joinPlanIt = [
@@ -46,28 +45,29 @@ const Login = ({planName}) => {
   };
 
   return (
-    <div className="size-full overflow-y-auto example">
-      <div className="px-[140px] py-10">
+    <div className="size-full overflow-y-auto example modalAnim">
+      <div className="2xl-[100px] 3xl:px-[135px] py-10">
         <div className="flex justify-center">
           <div
-            className="bg-[#faf2f2] px-[55px] py-[120px] w-[708px] rounded-tl-[15px] rounded-bl-[15px]"
+            className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[570px] 3xl:w-[708px] rounded-tl-[15px] rounded-bl-[15px]"
             style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
           >
             <Image
+              className="w-[110px] 2xl:w-[130px] 3xl:w-[158px]"
               width={158}
               height={52}
               src={"/images/PlanItLogo.png"}
               alt="logo"
             />
-            <h3 className="text-[64px] text-black leading-[74px] font-medium mt-5">
+            <h3 className="text-[38px] 2xl:text-[45px] 3xl:text-[64px] text-black 3xl:leading-[74px] font-semibold mt-5 leading-[1.2]">
               Plan your big <br /> moments with ease
             </h3>
 
-            <div className="my-[35px]">
-              <p className="font-medium text-[24px] text-black">
+            <div className="my-[25px] 3xl:my-[35px]">
+              <p className="font-medium text-[18px] 3xl:text-[24px] text-black">
                 Join PlanIt — your personal event planning assistant.
               </p>
-              <p className="mt-3 text-[#505050] text-[19px] ">
+              <p className="mt-3 text-[#505050] text-[16px] 3xl:text-[19px] ">
                 From weddings and birthdays to corporate events, we help you{" "}
                 <br /> manage every detail effortlessly.
               </p>
@@ -77,7 +77,7 @@ const Login = ({planName}) => {
               {joinPlanIt.map((item, index) => (
                 <li
                   key={index}
-                  className="border border-[#FFD8E6] text-[#EA0056] text-[20px] font-normal bg-[#FFE4EE] flex items-center py-2.5 px-3.5 rounded-lg w-[300px]"
+                  className="border border-[#FFD8E6] text-[#EA0056] text-[15px] 3xl:text-[20px] font-normal bg-[#FFE4EE] flex items-center py-2 3xl:py-2.5 px-3.5 rounded-lg w-[300px]"
                 >
                   <Image
                     width={15}
@@ -90,15 +90,18 @@ const Login = ({planName}) => {
               ))}
             </ul>
           </div>
-          <div className="px-[160px] bg-white py-[120px] rounded-tr-[15px] rounded-br-[15px]">
+          <div className="px-[45px] 2xl:px-[55px] 3xl:px-[125px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] rounded-tr-[15px] rounded-br-[15px]">
             <div className="mb-5">
-              <h3 className="font-medium text-[40px] text-black text-center">
+              <h3 className="font-medium text-[35px] 3xl:text-[40px] text-black text-center">
                 Sign In
               </h3>
-              <p className="font-normal text-[21px] text-black text-center mt-2">
+              <p className="font-normal text-[18px] 3xl:text-[21px] text-black text-center mt-2">
                 Enter your details to sign in your account
               </p>
-              <button onClick={() => signIn('google', { callbackUrl: '/' })} className="text-[#505050] w-[416px] text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200">
+              <button
+                onClick={() => signIn("google", { callbackUrl: "/" })}
+                className="text-[#505050] w-[430px] 2xl:w-[631px] text-[16px] font-semibold flex items-center justify-center bg-[#f5f5f5] py-3 3xl:py-5 mt-7 rounded-lg cursor-pointer hover:bg-[#e6e6e6] transition ease duration-200"
+              >
                 <Image
                   width={24}
                   height={24}
@@ -107,16 +110,16 @@ const Login = ({planName}) => {
                 />
                 <span className="ml-3.5">Continue with google</span>
               </button>
-              <div className="flex items-center gradientline relative mt-4">
+              <div className="flex items-center gradientline relative mt-3 3xl:mt-4">
                 <p className="text-black mx-auto bg-white p-3 font-normal text-[21px] z-[1]">
                   or
                 </p>
               </div>
             </div>
             <div>
-              <form className="floating-form relative mt-14">
+              <form className="floating-form relative mt-4 3xl:mt-14">
                 {/* Email & Phone Row */}
-                <div className="input-wrap flex-1  mb-10">
+                <div className="input-wrap mb-5 3xl:mb-10">
                   <input
                     type="email"
                     name="email"
@@ -158,7 +161,7 @@ const Login = ({planName}) => {
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between mt-3">
+                <div className="flex items-center mt-2 3xl:mt-3">
                   <div className="flex items-center">
                     <input
                       type="checkbox"
@@ -166,17 +169,17 @@ const Login = ({planName}) => {
                       id="checkbox"
                       className="!size-[20px] mr-2"
                     />
-                    <p className="text-black font-normal text-[16px]">
+                    <p className="text-black font-normal text-[14px] 3xl:text-[16px]">
                       Remember me
                     </p>
                   </div>
 
-                  <p className="text-[#EA0056] font-normal text-[16px]">
+                  <p className="text-[#EA0056] font-normal text-[14px] 3xl:text-[16px]">
                     Forgot Password?
                   </p>
                 </div>
 
-                <button className="font-semibold text-[16px] text-white bg-[#313131] hover:bg-[#1b1b1b] transition rounded-lg py-3 mt-10 cursor-pointer w-full mb-4">
+                <button className="font-semibold text-[16px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-7 3xl:mt-10 cursor-pointer w-full mb-3 3xl:mb-4">
                   Sign in
                 </button>
                 <p className="text-[#505050] font-normal text-[14px] text-center">

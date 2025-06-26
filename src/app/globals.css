@@ -5,14 +5,16 @@
   --background: #ffffff;
   --foreground: #171717;
 }
-@theme{
---breakpoint-sm: 640px;
---breakpoint-md: 768px;
---breakpoint-lg: 1024px;
---breakpoint-xl: 1200px;
---breakpoint-2xl: 1574px;
+@theme {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-smd: 991px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1573px;
+  --breakpoint-3xl: 1699px;
 }
-/* Your custom container class */
+/* custom container class start */
 .container {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -22,38 +24,40 @@
 
 @media (min-width: 640px) {
   .container {
-    padding-left: 1.5rem; 
+    padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
 }
 
 @media (min-width: 768px) {
   .container {
-    padding-left: 2rem; 
+    padding-left: 2rem;
     padding-right: 2rem;
   }
 }
 
 @media (min-width: 1024px) {
   .container {
-    padding-left: 2.5rem; 
+    padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
 }
 
 @media (min-width: 1200px) {
   .container {
-    padding-left: 3rem; 
+    padding-left: 3rem;
     padding-right: 3rem;
   }
 }
 
 @media (min-width: 1446px) {
   .container {
-    padding-left: 4rem; 
+    padding-left: 4rem;
     padding-right: 4rem;
   }
 }
+
+/* custom container class end */
 
 @theme inline {
   --color-background: var(--background);
@@ -135,9 +139,10 @@ body {
 .floating-form label {
   font-size: 16px;
   color: #151515;
-  padding: 14px;
+  padding: 0 14px;
   position: absolute;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
   left: 0;
   transition: all 0.2s ease;
   pointer-events: none;
@@ -153,7 +158,7 @@ body {
 .floating-form input.filled + label {
   font-size: 18px;
   color: #151515;
-  top: -14px;
+  top: 0px;
   left: 25px;
   background: #fff;
   padding: 0 5px;
@@ -161,13 +166,13 @@ body {
 }
 
 .floating-form input[type='password'] {
-  font-size: 20px !important;
-  padding-top: 10px;
+  /* font-size: 20px !important; */
+  /* padding-top: 10px; */
   color: #505050 !important;
 }
 
 .modalAnim {
-  animation: modalAnim 0.50s ease-out;
+  animation: modalAnim 0.5s ease-out;
 }
 @keyframes modalAnim {
   0% {
@@ -178,12 +183,35 @@ body {
   }
 }
 
-.banner_gradient{
+.banner_gradient {
   background: #100509;
-background: linear-gradient(85deg, rgba(16, 5, 9, 1) 30%, rgba(89, 23, 47, 1) 70%);
+  background: linear-gradient(
+    85deg,
+    rgba(16, 5, 9, 1) 30%,
+    rgba(89, 23, 47, 1) 70%
+  );
 }
 .allura-regular {
-  font-family: "Allura", cursive;
+  font-family: 'Allura', cursive;
   font-weight: 400;
   font-style: normal;
+}
+
+@media (max-width: 1700px) {
+  .gradientline:before {
+    width: 110%;
+  }
+   .floating-form label {
+    font-size: 14px;
+  }
+  .floating-form input:focus + label,
+  .floating-form input.filled + label {
+    font-size: 15px;
+    top: 0;
+  }
+}
+@media (max-width: 1574px) {
+  .floating-form input {
+    height: 40px;
+  }
 }
