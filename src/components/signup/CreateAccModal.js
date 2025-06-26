@@ -76,8 +76,8 @@ const CreateAccModal = ({ planName }) => {
   return (
     <div className="size-full overflow-y-auto example modalAnim">
       <div className="my-10">
-        <div className="flex justify-center px-8 mx-auto w-full max-w-[1650px]">
-          <div  className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[40%] 3xl:w-[708px] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-center"
+        <div className="flex px-[30px] mx-auto w-full max-w-[1200px] 3xl:max-w-[1680px]">
+          <div  className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[44%] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-center"
             style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
           >
             <Image
@@ -165,7 +165,7 @@ const CreateAccModal = ({ planName }) => {
               </div>
             )}
           </div>
-          <div className="px-[60px] 2xl:px-[100px] 3xl:px-[140px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[50%] 3xl:w-[941px] rounded-tr-[15px] rounded-br-[15px]">
+          <div className="px-[60px] 2xl:px-[100px] 3xl:px-[140px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[56%] rounded-tr-[15px] rounded-br-[15px]">
             <div className="3xl:mb-5">
               <h3 className="font-medium text-[35px] 3xl:text-[40px] text-black text-center">
                 {planName === "Vendor" ? "Vendor registration" : "Welcome!"}

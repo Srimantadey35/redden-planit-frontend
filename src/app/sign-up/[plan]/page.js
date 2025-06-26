@@ -16,7 +16,7 @@ export default function SignupPlanPage({ params }) {
   }
   return (
     <div
-      className="grid place-items-center h-screen bg-cover bg-center bg-no-repeat relative z-[1]"
+      className="h-screen bg-cover bg-center bg-no-repeat relative z-[1]"
       style={{ backgroundImage: "url('/images/sign-up/signupbg.png')" }}
     >
       <div className="absolute inset-0 bg-black opacity-45 z-[-1]"></div>
