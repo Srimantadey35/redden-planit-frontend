@@ -36,10 +36,10 @@ const Header = () => {
   return (
     <div className="banner_gradient sticky top-0 z-[99999]">
       <div className="container">
-        <div className="py-3 sm:py-6 flex items-center justify-between">
+        <div className="py-5 3xl:py-6 flex items-center justify-between">
           <div>
             <Image
-              className="w-[70px] sm:w-[100px] 2xl:w-[158px]"
+              className="w-[70px] sm:w-[90px] 3xl:w-[158px]"
               width={158}
               height={52}
               src={"/images/PlanItLogoWhite.svg"}
@@ -79,7 +79,7 @@ const Header = () => {
             {navLinks.map((item, index) => (
               <li
                 key={index}
-                className="font-normal text-[15px] sm:text-[16px] 2xl:text-[19px] text-white xl:border-none border-b border-b-[#eede] xl:pb-0 pb-2 sm:pb-3 xl:pl-0 pl-8"
+                className="font-normal text-[15px] 3xl:text-[19px] text-white xl:border-none border-b border-b-[#eede] xl:pb-0 pb-2 sm:pb-3 xl:pl-0 pl-8"
               >
                 <Link
                   className={`${
@@ -102,14 +102,14 @@ const Header = () => {
             <div ref={profileRef}>
               <button
                 onClick={(e) => setisProfileOpen(!isProfileOpen)}
-                className="flex items-center cursor-pointer ml-2 sm:ml-6 "
+                className="flex items-center cursor-pointer ml-2 md:ml-4 3xl:ml-6 "
               >
-                <p className="font-normal text-[12px] sm:text-[17px] text-white">
+                <p className="font-normal text-[12px] md:text-[15px] 3xl:text-[17px] text-white">
                   Rabina Paul
                 </p>
 
                 <Image
-                  className="rounded-full ml-3 mr-3 w-[25px] sm:w-[37px]"
+                  className="rounded-full ml-3 mr-3 w-[30px] 3xl:w-[37px]"
                   width={37}
                   height={37}
                   src={"/images/userimg.png"}

@@ -37,9 +37,9 @@ const Page = () => {
       <Header />
       <div className="min-h-screen flex items-center">
         <div className="container">
-          <div className="py-[40px] 2xl:py-[120px] flex items-stretch">
+          <div className="py-[40px] 3xl:py-[120px] flex items-stretch">
             <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl w-[60%] 3xl:w-[914px]">
-              <h3 className="3xl:text-[30px] font-semibold text-[#151515] mb-[43px]">
+              <h3 className="text-[22px] 3xl:text-[30px] font-semibold text-[#151515] mb-[43px]">
                 Add guest
               </h3>
 
@@ -48,7 +48,7 @@ const Page = () => {
                   <div className="flex flex-col w-full mr-7">
                     <label
                       htmlFor="firstname"
-                      className="font-normal text-[#151515] text-[18px]"
+                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       First name<span className="text-[#FF2C2C]">*</span>
                     </label>
@@ -63,7 +63,7 @@ const Page = () => {
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="lastname"
-                      className="font-normal text-[#151515] text-[18px]"
+                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       Last name<span className="text-[#FF2C2C]">*</span>
                     </label>
@@ -80,7 +80,7 @@ const Page = () => {
                   <div className="flex flex-col w-full mr-7">
                     <label
                       htmlFor="email"
-                      className="font-normal text-[#151515] text-[18px]"
+                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       Email
                     </label>
@@ -95,7 +95,7 @@ const Page = () => {
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="number"
-                      className="font-normal text-[#151515] text-[18px]"
+                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       Phone number<span className="text-[#FF2C2C]">*</span>
                     </label>
@@ -112,7 +112,7 @@ const Page = () => {
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="address"
-                      className="font-normal text-[#151515] text-[18px]"
+                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       Address
                     </label>
@@ -129,7 +129,7 @@ const Page = () => {
                   <div className="flex flex-col w-full mr-7">
                     <label
                       htmlFor="guest"
-                      className="font-normal text-[#151515] text-[18px]"
+                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       Guest Type
                     </label>
@@ -151,7 +151,7 @@ const Page = () => {
                   <div className="flex flex-col w-full ">
                     <label
                       htmlFor="dietary"
-                      className="font-normal text-[#151515] text-[18px]"
+                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       Dietary Preference
                     </label>
@@ -175,12 +175,12 @@ const Page = () => {
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="notes"
-                      className="font-normal text-[#151515] text-[18px]"
+                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       Notes
                     </label>
                     <textarea
-                      className="h-[80px] 3xl:h-[100px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none pt-3"
+                      className="h-[80px] 3xl:h-[100px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none pt-3 resize-none"
                       placeholder="Enter notes about your guests."
                       name="notes"
                       id="notes"
@@ -193,7 +193,7 @@ const Page = () => {
               </form>
             </div>
             <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl w-[40%] 3xl:w-[calc(100%-914px)] ml-[30px] 3xl:ml-[40px] flex flex-col">
-              <h3 className="text-[24px] 3xl:text-[30px] font-semibold text-[#151515] mb-[43px]">
+              <h3 className="text-[22px] 3xl:text-[30px] font-semibold text-[#151515] mb-[43px]">
                 Guest list
               </h3>
 

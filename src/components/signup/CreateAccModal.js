@@ -76,18 +76,18 @@ const CreateAccModal = ({ planName }) => {
   return (
     <div className="size-full overflow-y-auto example modalAnim">
       <div className="my-10 flex items-center min-h-full">
-        <div className="flex px-[30px] mx-auto w-full max-w-[1200px] 3xl:max-w-[1680px]">
-          <div  className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[44%] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-center"
+        <div className="flex px-[30px] mx-auto w-full max-w-[1250px] 3xl:max-w-[1680px]">
+          <div  className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 3xl:py-[120px] w-[44%] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-center"
             style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
           >
             <Image
-              className="w-[110px] 2xl:w-[130px] 3xl:w-[158px]"
+              className="w-[110px] 2xl:w-[120px] 3xl:w-[158px]"
               width={158}
               height={52}
               src={"/images/PlanItLogo.png"}
               alt="logo"
             />
-            <h3 className="text-[38px] 2xl:text-[45px] 3xl:text-[64px] text-black 3xl:leading-[74px] font-semibold mt-5 leading-[1.2]">
+            <h3 className="text-[38px] 2xl:text-[42px] 3xl:text-[64px] text-black 3xl:leading-[74px] font-semibold mt-5 leading-[1.2]">
               {planName === "Vendor" ? (
                 <>
                   Grow your business <br /> with PlanIt
@@ -167,7 +167,7 @@ const CreateAccModal = ({ planName }) => {
           </div>
           <div className="px-[60px] 2xl:px-[100px] 3xl:px-[140px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-[56%] rounded-tr-[15px] rounded-br-[15px]">
             <div className="3xl:mb-5">
-              <h3 className="font-medium text-[35px] 3xl:text-[40px] text-black text-center">
+              <h3 className="font-medium text-[34px] 3xl:text-[40px] text-black text-center">
                 {planName === "Vendor" ? "Vendor registration" : "Welcome!"}
               </h3>
               <p className="font-normal text-[18px] 3xl:text-[21px] text-black text-center mt-2">

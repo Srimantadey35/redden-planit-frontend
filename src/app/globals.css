@@ -11,53 +11,46 @@
   --breakpoint-smd: 991px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1200px;
-  --breakpoint-2xl: 1573px;
-  --breakpoint-3xl: 1700px;
+  --breakpoint-2xl: 1366px;
+  --breakpoint-3xl: 1418px;
 }
-/* custom container class start */
+/*tailwind custom container class start */
 .container {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
 }
 
-@media (min-width: 640px) {
+/* @media (min-width: 640px) {
   .container {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding: 0 1.5rem;
   }
 }
 
 @media (min-width: 768px) {
   .container {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding: 0 2rem;
   }
-}
+} */
 
 @media (min-width: 1024px) {
   .container {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    padding: 0 3rem;
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1366px) {
   .container {
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding: 0 5rem;
   }
 }
 
-@media (min-width: 1446px) {
+@media (min-width: 1500px) {
   .container {
-    padding-left: 4rem;
-    padding-right: 4rem;
+    padding: 0;
+    max-width: 1418px; 
   }
 }
 
-/* custom container class end */
+/* custom container end */
 
 @theme inline {
   --color-background: var(--background);
@@ -177,7 +170,7 @@ body {
   /* padding-top: 10px; */
   color: #505050 !important;
 }
-  
+
 .modalAnim {
   animation: modalAnim 0.5s ease-out;
 }
@@ -204,11 +197,25 @@ body {
   font-style: normal;
 }
 
+.datatable tr th:first-child,.datatable td:first-child{
+  padding-left: 60px;
+}
+.datatable tr th:last-child,.datatable td:last-child{
+  padding-right: 60px;
+}
+
+.scrollable-element::-webkit-scrollbar{height: 2px; width: 6px;background-color: #E4E4E4;}
+.scrollable-element::-webkit-scrollbar-track {background: none; border-radius: 10px; }
+.scrollable-element::-webkit-scrollbar-thumb {background: #A9A9A9; border-radius: 10px; }
+.scrollable-element::-webkit-scrollbar-thumb:hover {background: #A9A9A9; border-radius: 10px; }
+.scrollable-element::-webkit-scrollbar-thumb:horizontal{background: #E4E4E4;border-radius: 10px;}
+
+
 @media (max-width: 1700px) {
   .gradientline:before {
     width: 110%;
   }
-   .floating-form label {
+  .floating-form label {
     font-size: 14px;
   }
   .floating-form input:focus + label,
@@ -220,5 +227,6 @@ body {
 @media (max-width: 1574px) {
   .floating-form input {
     height: 40px;
+    font-size: 12px;
   }
 }
