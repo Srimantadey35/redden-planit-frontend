@@ -212,6 +212,16 @@ body {
 .scrollable-element::-webkit-scrollbar-thumb:hover {background: #A9A9A9; border-radius: 10px; }
 .scrollable-element::-webkit-scrollbar-thumb:horizontal{background: #E4E4E4;border-radius: 10px;}
 
+/* Remove native calendar icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+input[type="date"] {
+  /* hide native icon in Firefox */
+  -moz-appearance: textfield;
+}
+
 
 @media (max-width: 1700px) {
   .gradientline:before {
