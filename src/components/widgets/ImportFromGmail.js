@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const AddMultipleGuests = ({setisModalOpen}) => {
+const ImportFromGmail = ({setisModalOpen}) => {
   const liElements = [
     "Enter column headers (eg. Name, Plus One, Street Address) in the first row.",
     "Enter guests and their plus ones or family members on the same line.",
@@ -11,11 +11,12 @@ const AddMultipleGuests = ({setisModalOpen}) => {
   return (
     <div className="fixed top-0 left-0 bg-[#000000a5] z-[99999] size-full">
       <div className="flex items-center justify-center size-full">
-        <div className="bg-white rounded-[15px] relative max-w-[600px] 3xl:max-w-[729px] w-full modalAnim">
+        <div className="bg-white rounded-[15px] relative max-w-[600px] 3xl:max-w-[914px] w-full modalAnim">
           <div className="px-[30px] 3xl:px-[50px] mt-[30px] 3xl:mt-[55px] pb-[20px]">
             <div className="flex items-center mb-[20px] 3xl:mb-[40px]">
-              <h3 className="font-semibold text-[24px] 3xl:text-[30px] text-[#151515]">
-                Add multiple guests
+              <h3 className="font-semibold text-[24px] 3xl:text-[30px] text-[#151515] flex items-center ">
+                <span>Import guest from gmail</span>
+                <Image className="ml-3 w-[41px]" width={41} height={41} src={'/images/gmaillogo.svg'} alt="gmaillogo"/>
               </h3>
               <button onClick={()=>setisModalOpen(null)} className="absolute top-5 right-5 cursor-pointer">
                 <Image
@@ -29,33 +30,21 @@ const AddMultipleGuests = ({setisModalOpen}) => {
             </div>
             <div>
               <h4 className="text-[#151515] font-medium text-[17px] 3xl:text-[22px]">
-                Upload a Spreadsheet
+               <span className="text-[#EA0056] font-medium">PlanIt</span> needs your permission in order to start installing.
               </h4>
+
+              <p className="my-5 font-normal text-[16px] text-[#505050]">By clicking <span className="text-black">Continue</span>, you acknowledge that your information will be used in accordance with the terms of service and privacy policy of this application.</p>
+
+              <div className="flex items-center">
+                <input className="size-[18px]" type="checkbox" name="checkbox" id="checkbox"/>
+                <label htmlFor="checkbox" className="text-[#505050] rounded-[4px] text-[14px] font-normal ml-2">I agree to the PlanIt Terms of Service, including the Privacy Policy .</label>
+              </div>
             </div>
           </div>
-          <div className="border-t border-t-[#DFDFDF] pt-[35px] px-[30px] 3xl:px-[50px] mb-9 3xl:mb-14">
-            <p className="text-[#151515] font-medium text-[17px] 3xl:text-[18px]">
-              Follow the guidelines below to adapt an existing spreadsheet.
-            </p>
-            <ul className="mt-[20px] space-y-2.5 mb-9 3xl:mb-11">
-              {liElements.map((item, index) => (
-                <li
-                  key={index}
-                  className="font-normal text-[#505050] text-[16px] flex items-center"
-                >
-                  <Image
-                    className="mr-2 w-[17px]"
-                    width={17}
-                    height={17}
-                    src={"/images/pinktick.svg"}
-                    alt="pinktick mark"
-                  />
-                  {item}
-                </li>
-              ))}
-            </ul>
+          <div className="mt-[50px] 3xl:mt-[90px] px-[30px] 3xl:px-[50px] mb-9 3xl:mb-14">
+            
             <button className="font-semibold text-[16px] 3xl:text-[20px] text-white bg-[#EA0056] hover:bg-[#c30048] rounded-lg px-[90px] 3xl:px-[115px] py-3 3xl:py-3.5 mx-auto table cursor-pointer">
-              Upload
+              Continue
             </button>
           </div>
         </div>
@@ -64,4 +53,4 @@ const AddMultipleGuests = ({setisModalOpen}) => {
   );
 };
 
-export default AddMultipleGuests;
+export default ImportFromGmail;

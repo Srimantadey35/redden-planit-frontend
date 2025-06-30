@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import AddMultipleGuests from "@/components/widgets/AddMultipleGuests";
+import ImportFromGmail from "@/components/widgets/ImportFromGmail";
 
 const page = () => {
   const [isMultipleGuestsOpen, setisMultipleGuestsOpen] = useState(false);
   const [isModalOpen, setisModalOpen] = useState(null);
   console.log(isModalOpen);
+
   const cardData = [
     {
       img: "/images/home/add.svg",
@@ -76,7 +78,10 @@ const page = () => {
                     {item.btnText}
                   </Link>
                 ) : (
-                  <button onClick={()=>setisModalOpen(item.btnText)} className="text-center font-semibold cursor-pointer text-[15px] 3xl:text-[20px] text-white bg-[#EA0056] hover:bg-[#c9004a] rounded-lg py-2 xl:py-2.5 2xl:py-3 3xl:py-3.5 px-3 w-full mt-auto">
+                  <button
+                    onClick={() => setisModalOpen(item.btnText)}
+                    className="text-center font-semibold cursor-pointer text-[15px] 3xl:text-[20px] text-white bg-[#EA0056] hover:bg-[#c9004a] rounded-lg py-2 xl:py-2.5 2xl:py-3 3xl:py-3.5 px-3 w-full mt-auto"
+                  >
                     {item.btnText}
                   </button>
                 )}
@@ -85,8 +90,12 @@ const page = () => {
           </div>
         </div>
       </div>
-
-      {/* <AddMultipleGuests/> */}
+      {isModalOpen === "Add multiple guests" && (
+        <AddMultipleGuests setisModalOpen={setisModalOpen} />
+      )}
+      {isModalOpen === "Import" && (
+        <ImportFromGmail setisModalOpen={setisModalOpen}/>
+      )}
     </div>
   );
 };

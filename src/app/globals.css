@@ -177,9 +177,11 @@ body {
 @keyframes modalAnim {
   0% {
     transform: translateY(-15%);
+    opacity: 0;
   }
   100% {
     transform: translateY(0px);
+    opacity: 1;
   }
 }
 
