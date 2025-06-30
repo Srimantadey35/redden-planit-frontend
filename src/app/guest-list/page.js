@@ -192,7 +192,7 @@ const page = () => {
               </div>
             </div>
 
-            <div className="h-[80vh] overflow-y-auto scrollable-element">
+            <div className="h-[calc(100vh-360px)] overflow-y-auto scrollable-element">
               <table className="datatable min-w-[1199px] overflow-x-auto w-full table-auto">
                 <tbody>
                   <tr className="bg-[#F1F1F1]">

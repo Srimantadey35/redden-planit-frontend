@@ -187,7 +187,7 @@ const Page = () => {
                     ></textarea>
                   </div>
                 </div>
-                <button className="cursor-pointer transition font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3.5 bg-[#EA0056] hover:bg-[#c9004a] rounded-lg w-[317px] mx-auto table">
+                <button className="cursor-pointer transition font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 bg-[#EA0056] hover:bg-[#c9004a] rounded-lg w-[317px] mx-auto table">
                   Add to list
                 </button>
               </form>
@@ -223,7 +223,7 @@ const Page = () => {
                       </label>
                     </div>
                     <div className="flex items-center space-x-3.5">
-                      <button type="button" className="cursor-pointer">
+                      <button type="button" className="cursor-pointer w-[17px] 3xl:w-[20px]">
                         <Image
                           width={20}
                           height={20}
@@ -231,7 +231,7 @@ const Page = () => {
                           alt="edit"
                         />
                       </button>
-                      <button type="button" className="cursor-pointer">
+                      <button type="button" className="cursor-pointer w-[17px] 3xl:w-[20px]">
                         <Image
                           width={20}
                           height={20}
@@ -245,7 +245,7 @@ const Page = () => {
 
                 <button
                   type="submit"
-                  className="cursor-pointer mt-auto font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3.5 bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg w-[317px] mx-auto table"
+                  className="cursor-pointer mt-auto font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg w-[317px] mx-auto table"
                 >
                   Submit all
                 </button>

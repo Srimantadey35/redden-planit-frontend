@@ -44,7 +44,7 @@ const page = () => {
               Rabina
             </span>
           </h3>
-          <h2 className="text-[#151515] font-semibold text-[16px] sm:text-[24px] md:text-[28px] xl:text-[30px] 2xl:text-[45px] text-center">
+          <h2 className="text-[#151515] font-semibold text-[16px] sm:text-[24px] md:text-[28px] xl:text-[30px] 2xl:text-[36px] 3xl:text-[45px] text-center">
             Add guests in one of three ways to easily <br /> keep all your guest
             info organized:
           </h2>
@@ -61,7 +61,7 @@ const page = () => {
                 <p className="sm:text-left text-center leading-[1.2] text-[18px] 3xl:text-[20px] font-normal text-[#212121] mt-5 mb-6">
                   {item.cardDesc}
                 </p>
-                <Link href={`${item.href}`} className="text-center font-semibold cursor-pointer text-[15px] 3xl:text-[20px] text-white bg-[#EA0056] hover:bg-[#c9004a] rounded-lg py-2 xl:py-2.5 2xl:py-3.5 px-3 w-full mt-auto">
+                <Link href={`${item.href}`} className="text-center font-semibold cursor-pointer text-[15px] 3xl:text-[20px] text-white bg-[#EA0056] hover:bg-[#c9004a] rounded-lg py-2 xl:py-2.5 2xl:py-3 3xl:py-3.5 px-3 w-full mt-auto">
                   {item.btnText}
                 </Link>
               </div>
