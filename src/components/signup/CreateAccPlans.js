@@ -32,21 +32,21 @@ const CreateAccPlans = () => {
       <div className="">
         <div className="py-6 border-b border-b-black">
           <Image
-            className="mx-auto w-[100px] 3xl:w-[158px]"
+            className="mx-auto w-[100px] 4xl:w-[158px]"
             width={158}
             height={52}
             src={"/images/PlanItLogo.png"}
             alt="logo"
           />
         </div>
-        <div className="px-[40px] md:px-[60px] 3xl:px-[108px]">
+        <div className="px-[40px] md:px-[60px] 4xl:px-[108px]">
           <h3 className="font-semibold text-[22px] sm:text-[24px] 2xl:text-[26px] text-black py-4 3xl:py-6 text-center">
             Create Account
           </h3>
 
-          <div className="mb-[50px] sm:mb-[80px] md:mb-[100px] 3xl:mb-[178px]">
+          <div className="mb-[50px] sm:mb-[80px] md:mb-[100px] 4xl:mb-[178px]">
             {signupOptions.map((item, index) => (
-              <div className="mt-3 sm:mt-5 3xl:mt-11" key={index}>
+              <div className="mt-3 sm:mt-5 4xl:mt-11" key={index}>
                 <p className="font-semibold text-[18px] sm:text-[20px] text-black mb-3 text-center">
                   {item.optionName}
                 </p>

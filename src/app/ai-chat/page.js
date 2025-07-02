@@ -2,6 +2,7 @@
 import Header from "@/components/Header";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const page = () => {
   const [images, setImages] = useState([]);
@@ -159,9 +160,9 @@ const page = () => {
           >
             or
           </h3>
-          <button className="font-medium text-[18px] 3xl:text-[25px] text-white bg-[#EA0056] hover:bg-[#d2034f] transition cursor-pointer rounded-lg w-fit 3xl:w-full  py-3 3xl:py-5 px-14 mx-auto table">
+          <Link href={'/plan-your-event'} className="font-medium text-[18px] 3xl:text-[25px] text-white bg-[#EA0056] hover:bg-[#d2034f] transition cursor-pointer rounded-lg w-fit text-center 4xl:w-full  py-3 3xl:py-5 px-14 mx-auto table">
             Create event manually
-          </button>
+          </Link>
         </div>
       </div>
 

@@ -48,7 +48,7 @@ const Login = ({ planName }) => {
     <div className="size-full overflow-y-auto example modalAnim">
       <div className="my-10 flex items-center min-h-full">
         <div className="flex justify-center w-full px-[30px] max-w-[991px] xl:max-w-[1100px] 2xl:max-w-[1200px] 3xl:max-w-[1423px] mx-auto">
-          <div className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 2xl:py-[90px] 3xl:py-[120px] w-1/2 rounded-tl-[15px] rounded-bl-[15px]"
+          <div className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 3xl:py-[80px] 4xl:py-[120px] w-1/2 rounded-tl-[15px] rounded-bl-[15px]"
             style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
           >
             <Image
@@ -89,7 +89,7 @@ const Login = ({ planName }) => {
               ))}
             </ul>
           </div>
-          <div className="w-1/2 px-[60px] xl:px-[80px] 2xl:px-[100px] 3xl:px-[130px] bg-white py-[60px] 2xl:py-[90px] 3xl:py-[120px] rounded-tr-[15px] rounded-br-[15px] flex flex-col justify-center">
+          <div className="w-1/2 px-[60px] xl:px-[80px] 2xl:px-[100px] 3xl:px-[130px] bg-white py-[60px] 3xl:py-[80px] 4xl:py-[120px] rounded-tr-[15px] rounded-br-[15px] flex flex-col justify-center">
             <div className="mb-5">
               <h3 className="font-medium text-[35px] 3xl:text-[40px] text-black text-center">
                 Sign In

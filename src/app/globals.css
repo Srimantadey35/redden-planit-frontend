@@ -13,39 +13,31 @@
   --breakpoint-xl: 1200px;
   --breakpoint-2xl: 1366px;
   --breakpoint-3xl: 1536px;
+  --breakpoint-4xl: 1760px;
 }
 /*tailwind custom container class start */
 .container {
   margin: auto;
 }
 
-/* @media (min-width: 640px) {
-  .container {
-    padding: 0 1.5rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    padding: 0 2rem;
-  }
-} */
-
 @media (min-width: 1024px) {
   .container {
-    padding: 0 3rem;
+    padding: 0 4rem;
   }
 }
-
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 6rem;
+  }
+}
 @media (min-width: 1366px) {
   .container {
-    padding: 0 5rem;
+    padding: 0;
+    max-width: 1200px; 
   }
 }
-
-@media (min-width: 1500px) {
+@media (min-width: 1536px) {
   .container {
-    padding: 0;
     max-width: 1418px; 
   }
 }
@@ -213,7 +205,7 @@ body {
 .scrollable-element::-webkit-scrollbar-thumb:horizontal{background: #E4E4E4;border-radius: 10px;}
 
 /* Remove native calendar icon */
-input[type="date"]::-webkit-calendar-picker-indicator {
+input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator{
   display: none;
   -webkit-appearance: none;
 }
