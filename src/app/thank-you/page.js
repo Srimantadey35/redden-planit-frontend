@@ -16,7 +16,7 @@ const page = () => {
                 <h3 className="font-normal text-[24px] 3xl:text-[28px] 4xl:text-[35px] text-[#151515] mt-6 text-center">Event created successfully.</h3>
                 <p className="font-normal text-[16px] 3xl:text-[22px] text-[#151515] text-center">Your event has been set up and is ready for you to manage.</p>
 
-                <Link href={'/ai-chat'} className="text-white font-extrabold text-[16px] 3xl:text-[18px] py-3 4xl:py-4 px-20 bg-[#ea0056] hover:bg-[#c70049] cursor-pointer rounded-lg mx-auto table mt-7">Go to dashboard</Link>
+                <Link href={'/create-your-invitation-card'} className="text-white font-extrabold text-[16px] 3xl:text-[18px] py-3 4xl:py-4 px-20 bg-[#ea0056] hover:bg-[#c70049] cursor-pointer rounded-lg mx-auto table mt-7">Go to dashboard</Link>
             </div>
           </div>
         </div>

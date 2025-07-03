@@ -124,7 +124,7 @@ const page = () => {
               />
               <button className="absolute top-1/2 -translate-y-1/2 right-5 cursor-pointer">
                 <Image
-                  className="w-[28px] 3xl:w-[47]"
+                  className="w-[28px] 3xl:w-[47px]"
                   width={47}
                   height={47}
                   src={"/images/sendbtn.svg"}

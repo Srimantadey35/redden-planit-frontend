@@ -8,7 +8,7 @@ const Page = () => {
   const [step, setStep] = useState(1);
   const dateRef = useRef(null);
   const timeRef = useRef(null);
-  const router = useRouter()
+  const router = useRouter();
 
   const [formData, setformData] = useState({
     eventType: "",
@@ -32,8 +32,8 @@ const Page = () => {
   };
 
   const handleOpenCalendar = (ref) => {
-    ref.current?.showPicker?.(); 
-    ref.current?.focus(); 
+    ref.current?.showPicker?.();
+    ref.current?.focus();
   };
 
   const handleSubmit = async (e) => {
@@ -42,7 +42,7 @@ const Page = () => {
     const trimmedData = Object.fromEntries(
       Object.entries(formData).map(([key, value]) => {
         if (typeof value === "string") return [key, value.trim()];
-        return [key, value]; 
+        return [key, value];
       })
     );
 
@@ -53,7 +53,7 @@ const Page = () => {
         console.log("📦 Final submitted data:", trimmedData);
         localStorage.setItem("eventFormData", JSON.stringify(trimmedData));
         // alert("Form submitted successfully!");
-        router.push('/thank-you')
+        router.push("/thank-you");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -80,9 +80,9 @@ const Page = () => {
                   key={s}
                   className={`${
                     step === s
-                      ? "bg-[#EA0056] text-white" 
+                      ? "bg-[#EA0056] text-white"
                       : step > s
-                      ? "bg-[#EA0056] text-white" 
+                      ? "bg-[#EA0056] text-white"
                       : "bg-white text-black"
                   } 
     font-semibold text-[20px] size-[35px] 3xl:size-[40px] flex items-center justify-center rounded-full`}
@@ -250,7 +250,7 @@ const Page = () => {
                     <div className="flex items-center">
                       <div className="flex flex-col w-full mr-7">
                         <label
-                          htmlFor="eventDate"
+                          htmlFor="eventTime"
                           className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                         >
                           Event time<span className="text-[#FF2C2C]">*</span>
@@ -268,7 +268,7 @@ const Page = () => {
                           />
 
                           {!formData.eventTime && (
-                            <span className="absolute left-5 top-[11px] 3xl:top-[15px] text-[#919191] text-[14px] pointer-events-none">
+                            <span className="absolute bg-white left-5 top-[11px] 3xl:top-[15px] text-[#919191] text-[14px] pointer-events-none">
                               Select event time
                             </span>
                           )}
@@ -309,9 +309,14 @@ const Page = () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-center mt-20 ">
-                    <button className="bg-gray-300 font-semibold text-[18px] 3xl:text-[20px] text-white rounded-lg py-2.5 3xl:py-4 px-[100px] 4xl:px-[126px] mr-7">
+                    <button
+                      type="button"
+                      onClick={() => setStep(3)}
+                      className="font-semibold text-[18px] 3xl:text-[20px] text-white rounded-lg py-2.5 3xl:py-4 px-[100px] 4xl:px-[126px] mr-7 bg-[#EA0056] hover:bg-[#d2004d] cursor-pointer"
+                    >
                       Skip
                     </button>
+
                     <button
                       type="submit"
                       disabled={
@@ -405,7 +410,7 @@ const Page = () => {
                       >
                         Notes
                       </label>
-                      
+
                       <textarea
                         required
                         className="mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none h-[100px] py-3.5 resize-none"
