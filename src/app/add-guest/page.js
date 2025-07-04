@@ -2,6 +2,7 @@
 import Header from "@/components/Header";
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Page = () => {
   const guestNames = [
@@ -243,12 +244,12 @@ const Page = () => {
                   </div>
                 ))}
 
-                <button
+                <Link href={'/guest-list'}
                   type="submit"
-                  className="cursor-pointer mt-auto font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg w-[317px] mx-auto table"
+                  className="cursor-pointer mt-auto font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg w-[317px] mx-auto table text-center"
                 >
                   Submit all
-                </button>
+                </Link>
               </form>
             </div>
           </div>

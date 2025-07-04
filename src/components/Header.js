@@ -10,12 +10,12 @@ const Header = () => {
   const pathName = usePathname();
   
   const navLinks = [
-    { label: "Home", href: "/" },
-    { label: "E - Card", href: "/ecard" },
-    { label: "Manage guest", href: "/home" },
+    { label: "Home", href: "/home" },
+    { label: "E - Card", href: "/create-your-invitation-card" },
+    { label: "Manage guest", href: "/manage-guest" },
     { label: "Create your website", href: "/create-website" },
     { label: "Book vendors", href: "/vendors" },
-    { label: "PlanIt AI", href: "/planit-ai" },
+    { label: "PlanIt AI", href: "/chat" },
   ];
 
   const profileRef = useRef(null);

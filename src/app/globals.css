@@ -32,8 +32,7 @@
 }
 @media (min-width: 1366px) {
   .container {
-    padding: 0;
-    max-width: 1200px; 
+    padding: 0 6rem;
   }
 }
 @media (min-width: 1536px) {

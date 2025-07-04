@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const page = () => {
   const tableData = [
@@ -186,9 +187,9 @@ const page = () => {
                   alt="filter"
                 />
 
-                <button className="text-[15px] 3xl:text-[18px] font-semibold text-white bg-[#EA0056] rounded-md px-[50px] py-1.5">
+                <Link href={'/add-guest'} className="text-center text-[15px] 3xl:text-[18px] font-semibold text-white bg-[#EA0056] rounded-md px-[50px] py-1.5">
                   Add more guest
-                </button>
+                </Link>
               </div>
             </div>
 

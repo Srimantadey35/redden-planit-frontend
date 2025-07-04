@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 const Login = ({ planName }) => {
   const [isPassVisible, setisPassVisible] = useState(false);
@@ -48,7 +49,8 @@ const Login = ({ planName }) => {
     <div className="size-full overflow-y-auto example modalAnim">
       <div className="my-10 flex items-center min-h-full">
         <div className="flex justify-center w-full px-[30px] max-w-[991px] xl:max-w-[1100px] 2xl:max-w-[1200px] 3xl:max-w-[1423px] mx-auto">
-          <div className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 3xl:py-[80px] 4xl:py-[120px] w-1/2 rounded-tl-[15px] rounded-bl-[15px]"
+          <div
+            className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 3xl:py-[80px] 4xl:py-[120px] w-1/2 rounded-tl-[15px] rounded-bl-[15px]"
             style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
           >
             <Image
@@ -178,9 +180,11 @@ const Login = ({ planName }) => {
                   </p>
                 </div>
 
-                <button className="font-semibold text-[16px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-7 3xl:mt-10 cursor-pointer w-full mb-3 3xl:mb-4">
-                  Sign in
-                </button>
+                <Link href={'/home'}>
+                  <button className="font-semibold text-[16px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-7 3xl:mt-10 cursor-pointer w-full mb-3 3xl:mb-4">
+                    Sign in
+                  </button>
+                </Link>
                 <p className="text-[#505050] font-normal text-[14px] text-center">
                   Don&apos;t have an account?{" "}
                   <button

@@ -356,12 +356,6 @@ const Page = () => {
                       <div className="mt-10">
                         <div className="h-[9px] rounded-[10px] bg-[#E8E8E8] w-full relative">
                           {/* Left & Right static labels */}
-                          {/* <span className="absolute text-[14px] text-[#505050] top-[-28px] left-[-10px]">
-                              10K
-                            </span>
-                            <span className="absolute text-[14px] text-[#505050] top-[-28px] right-[-10px]">
-                              10Lakh
-                            </span> */}
 
                           {/* Filled progress */}
                           <div
@@ -387,6 +381,15 @@ const Page = () => {
                             </span>
                           </div>
 
+                          <div className="absolute flex items-center justify-between w-full bottom-[-26px]">
+                            <span className="text-[14px] text-[#505050]">
+                              10K
+                            </span>
+                            <span className="text-[14px] text-[#505050] ">
+                              10Lakh
+                            </span>
+                          </div>
+
                           <input
                             type="range"
                             min={min}
@@ -403,7 +406,7 @@ const Page = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col w-full ">
+                    <div className="flex flex-col w-full mt-10">
                       <label
                         htmlFor="groomName"
                         className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
@@ -412,7 +415,6 @@ const Page = () => {
                       </label>
 
                       <textarea
-                        required
                         className="mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none h-[100px] py-3.5 resize-none"
                         placeholder="Enter notes about event."
                         name="notes"
