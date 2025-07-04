@@ -122,7 +122,7 @@ const Page = () => {
                 id="text"
                 placeholder="Describe your plan and build the event with PlanIt Ai"
               />
-              <button className="absolute top-1/2 -translate-y-1/2 right-5 cursor-pointer">
+              <Link href={'/chat'} className="absolute top-1/2 -translate-y-1/2 right-5 cursor-pointer">
                 <Image
                   className="w-[28px] 3xl:w-[47px]"
                   width={47}
@@ -130,7 +130,7 @@ const Page = () => {
                   src={"/images/sendbtn.svg"}
                   alt="sendbtn.svg"
                 />
-              </button>
+              </Link>
               <label
                 htmlFor="file"
                 className="absolute top-1/2 -translate-y-1/2 left-[-34px] 3xl:left-[-50px] cursor-pointer"

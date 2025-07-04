@@ -150,7 +150,7 @@ const InvitationCardModal = ({ modalVal, setModalVal }) => {
                                     mainData?.path === item.path
                                       ? "border-black border-[2px]"
                                       : ""
-                                  } size-full rounded-2xl`}
+                                  } size-full rounded-2xl hover:shadow-2xl hover:scale-[1.02] transition duration-500`}
                                   width={320}
                                   height={450}
                                   src={item.path}

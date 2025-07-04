@@ -173,7 +173,7 @@ const Page = () => {
                     key={index}
                   >
                     <Image
-                      className="size-full"
+                      className="size-full hover:shadow-2xl hover:scale-[1.02] transition duration-500"
                       width={320}
                       height={450}
                       src={item.path}

@@ -7,7 +7,7 @@ const Index = ({children}) =>  {
     <div className='flex size-full'>
         {/* <Sidebar/> */}
         <main className='grow bg-[#EBEDF0] flex flex-col'>
-            <Header/>
+            {/* <Header/> */}
             {children}
         </main>
     </div>

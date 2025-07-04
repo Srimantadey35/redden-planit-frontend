@@ -9,6 +9,7 @@ import Link from 'next/link';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PlanItCardSlider from '@/components/widgets/PlanItCardSlider';
+import Header from '@/components/Header';
 
 export default function Page() {
 
@@ -51,12 +52,13 @@ export default function Page() {
   console.log('chat:', chat)
   return (
     <Layout>
-      <div className="grow flex flex-col overflow-y-auto">
-        <TopNavBar />
-        <div className="container px-2 max-w-6xl mx-auto grow flex flex-col h-screen">
-          <div className="grow flex flex-col">
+      <div className="">
+        {/* <TopNavBar /> */}
+        <Header/>
+        <div className="container">
+          <div className="flex flex-col pt-16 pb-5">
             <div className='grid grid-cols-10 items-start'>
-              <div className="col-span-8 mr-[20px]">
+              <div className="col-span-7 mr-[20px]">
                 <div className='flex items-center justify-end py-2 mr-3'>
                   <button className='text-[#EA0056] font-[400] text-[14px] cursor-pointer'>New chat</button>
                   <button className='text-black font-[400] text-[14px] ml-[26px] cursor-pointer'>Clear Chat</button>
@@ -318,7 +320,7 @@ export default function Page() {
                   </div>
                 </div>
               </div>
-              <div className='col-span-2 mt-[37px]'>
+              <div className='col-span-3 mt-[37px]'>
                 <div className='bg-white py-2 px-1 border border-neutral-200 text-center text-lg font-medium rounded-lg text-black'>Recent chats</div>
                 <ul className='bg-[#F5F5F5] px-[22px] py-[15px] border border-neutral-200 rounded-lg text-[#686868] mt-2'>
                   <li>
@@ -331,7 +333,6 @@ export default function Page() {
                 </ul>
               </div>
             </div>
-
           </div>
         </div>
       </div>
