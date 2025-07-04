@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const page = () => {
+const Page = () => {
   const [images, setImages] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const maxImages = 2;
@@ -183,4 +183,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

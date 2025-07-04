@@ -6,7 +6,7 @@ import Link from "next/link";
 import AddMultipleGuests from "@/components/widgets/AddMultipleGuests";
 import ImportFromGmail from "@/components/widgets/ImportFromGmail";
 
-const page = () => {
+const Page = () => {
   const [isMultipleGuestsOpen, setisMultipleGuestsOpen] = useState(false);
   const [isModalOpen, setisModalOpen] = useState(null);
   console.log(isModalOpen);
@@ -100,4 +100,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

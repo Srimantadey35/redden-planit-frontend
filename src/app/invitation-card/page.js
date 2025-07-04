@@ -461,7 +461,7 @@ export default function EditableInvitationCard() {
                     onInput={(e) => handleInput("time", e)}
                     className="text-[13px] mb-4 text-[#4B2E2E]"
                   >
-                    At nine o'clock in the afternoon
+                    At nine o&apos;clock in the afternoon
                   </p>
                   <h2
                     contentEditable

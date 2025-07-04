@@ -67,7 +67,7 @@ export default function Page() {
                     {/* send  */}
                     <div className='flex space-x-2 items-end max-w-8/12 justify-end ml-auto'>
                       <div className='bg-neutral-200 rounded-lg text-base px-4 py-2 w-fit text-black'>
-                        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose
+                        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &apos;Content here, content here&apos;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &apos;lorem ipsum&apos; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose
                       </div>
                       <div className='size-7 rounded-full overflow-hidden shrink-0 relative -top-1'>
                         <Image className="size-full object-cover" src={userOne} alt="user" priority width="28" height="28" />
@@ -134,7 +134,7 @@ export default function Page() {
                     {/* send  */}
                     <div className='flex space-x-2 items-end max-w-8/12 justify-end ml-auto'>
                       <div className='bg-neutral-200 rounded-lg text-base px-4 py-2 w-fit text-black'>
-                        It's on 20 June 2027
+                        It&apos;s on 20 June 2027
                       </div>
                       <div className='size-7 rounded-full overflow-hidden shrink-0 relative -top-1'>
                         <Image className="size-full object-cover" src={userOne} alt="user" priority width="28" height="28" />

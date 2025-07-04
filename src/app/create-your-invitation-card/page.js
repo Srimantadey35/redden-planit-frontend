@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import InvitationCardModal from "@/components/widgets/InvitationCardModal";
 
-const page = () => {
+const Page = () => {
   
   const [modalVal, setModalVal] = useState(null);
   const modalShowingVal = (e) => {
@@ -193,4 +193,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
