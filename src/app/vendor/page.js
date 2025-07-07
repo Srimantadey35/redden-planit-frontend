@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import Layouts from "@/components/Layouts";
 import Image from "next/image";
 import Link from "next/link";
@@ -185,7 +186,59 @@ const page = () => {
       },
     ],
   };
-const profileComPercentage = '40%'
+
+  const profileComPercentage = 30;
+  const [isVisible, setIsVisible] = useState(false);
+  const [count, setCount] = useState(0);
+  const sectionRef = useRef(null);
+
+  // Trigger visibility when in viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); // only animate once
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  // Animate number count
+  useEffect(() => {
+    if (!isVisible) return;
+
+    let start = 0;
+    const duration = 1000; // 1 second
+    const startTime = performance.now();
+
+    const animateCount = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const value = Math.floor(progress * profileComPercentage);
+      setCount(value);
+
+      if (progress < 1) {
+        requestAnimationFrame(animateCount);
+      } else {
+        setCount(profileComPercentage); // Ensure exact final value
+      }
+    };
+
+    requestAnimationFrame(animateCount);
+  }, [isVisible]);
+
   return (
     <Layouts>
       <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto">
@@ -238,10 +291,18 @@ const profileComPercentage = '40%'
             <h3 className="font-semibold text-[18px] 3xl:text-[20px] text-[#151515]">
               Profile completion
             </h3>
-            <div className="mt-2">
-              <h5 className="font-semibold text-[23px] text-[#EA0056]">{profileComPercentage}</h5>
-              <div className="h-[7px] bg-[#E2E0E0] rounded-3xl w-full">
-                <div className="size-full bg-[#363636] rounded-3xl" style={{width:`${profileComPercentage}`}}></div>
+            <div className="mt-2" ref={sectionRef}>
+              <h5 className="font-semibold text-[23px] text-[#EA0056] mb-2">
+                {count}%
+              </h5>
+
+              <div className="h-[7px] bg-[#E2E0E0] rounded-3xl w-full overflow-hidden">
+                <div
+                  className="h-full bg-[#363636] rounded-3xl transition-all duration-1000 ease-in-out"
+                  style={{
+                    width: isVisible ? `${profileComPercentage}%` : "0%",
+                  }}
+                ></div>
               </div>
               <p className="text-[14px] text-[#151515] font-normal mt-1">
                 Complete your profile
