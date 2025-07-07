@@ -53,10 +53,10 @@ const Sidebar = () => {
             <Link
               href={`${item.link}`}
               key={index}
-              className="text-[16px] 3xl:text-[19px] text-white font-normal flex items-center py-2 3xl:py-2.5 4xl:py-3 px-3 rounded-[4px] hover:bg-[#ffffff36]"
+              className="text-[15px] 3xl:text-[19px] text-white font-normal flex items-center py-2 3xl:py-2.5 4xl:py-3 px-3 rounded-[4px] hover:bg-[#ffffff36]"
             >
               <Image
-                className="w-[16px] 3xl:w-[22px] mr-2"
+                className="w-[15px] 3xl:w-[22px] mr-2"
                 width={22}
                 height={22}
                 src={`${item.icon}`}
