@@ -189,7 +189,7 @@ const profileComPercentage = '40%'
   return (
     <Layouts>
       <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto">
-        <div className="rounded-[10px] border-[10px] border-[#FAFAFA] mt-3">
+        <div className="rounded-[10px] border-[5px] 3xl:border-[10px] border-[#FAFAFA] mt-3">
           <div
             className="rounded-[8px] py-[60px] 2xl:py-[75px]"
             style={{
