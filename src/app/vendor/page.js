@@ -446,7 +446,7 @@ const profileComPercentage = '40%'
 
         <div className="rounded-[10px] bg-[#F9F9F9] mb-5">
           <div className="px-[55px] py-4 flex items-center justify-between">
-            <h4 className="font-semibold text-[20px] 2xl:text-[28px] text-[#303030]">
+            <h4 className="font-semibold text-[20px] 2xl:text-[25px] text-[#303030]">
               Bookings
             </h4>
 
