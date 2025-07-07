@@ -219,12 +219,27 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
-/* input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
-} */
+
+.before_img::after{
+  background-image: url('../../public/images/sidebaricons/toggleimage.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.vendortable tr th{
+  text-align: left;
+}
+.vendortable tr th:last-child {
+  text-align: right !important;
+}
+.vendortable tr td{
+  text-align: left;
+}
+.vendortable tr td:last-child {
+  text-align: center !important;
+}
+
 
 @media (max-width: 1700px) {
   .gradientline:before {
