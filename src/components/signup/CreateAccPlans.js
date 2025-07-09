@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useState } from "react";
+import Link from 'next/link';
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -28,16 +29,18 @@ const CreateAccPlans = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
-    <div className="bg-[#ffffffe3] w-fit rounded-2xl modalAnim">
+    <div className="bg-[#ffffffe3] sm:w-fit w-[95%] text-center rounded-2xl modalAnim">
       <div className="">
         <div className="py-6 border-b border-b-black">
-          <Image
-            className="mx-auto w-[100px] 4xl:w-[158px]"
-            width={158}
-            height={52}
-            src={"/images/PlanItLogo.png"}
-            alt="logo"
-          />
+         <Link href="/">
+            <Image
+              className="mx-auto w-[100px] 4xl:w-[158px]"
+              width={158}
+              height={52}
+              src={"/images/PlanItLogo.png"}
+              alt="logo"
+            />
+          </Link>
         </div>
         <div className="px-[40px] md:px-[60px] 4xl:px-[108px]">
           <h3 className="font-semibold text-[22px] sm:text-[24px] 2xl:text-[26px] text-black py-4 3xl:py-6 text-center">

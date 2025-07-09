@@ -49,7 +49,7 @@ const Header = () => {
           {/* hamburger  */}
           <button
             onClick={(e) => setisMenuOpen(!isMenuOpen)}
-            className={`flex xl:hidden flex-col ${
+            className={`flex xl:hidden cursor-pointer flex-col ${
               isMenuOpen ? "space-y-0 " : "space-y-[6px] "
             } flex-[1] items-end mr-3 sm:mr-5`}
           >

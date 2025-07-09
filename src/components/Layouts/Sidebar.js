@@ -1,23 +1,36 @@
+'use client'
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
+  const pathName = usePathname();
   const sidebarData = [
     {
       name: "Dashboard",
       icon: "/images/sidebaricons/dashboard.svg",
-      link: "#",
+      link: "/dashboard",
     },
     {
-      name: "Generate invitation card",
+      name: "Account Details",
       icon: "/images/sidebaricons/generateInvitationcard.svg",
+      link: "/account-details",
+    },
+    {
+      name: "Add Business",
+      icon: "/images/sidebaricons/guestmanagement.svg",
+      link: "/add-business",
+    },
+    {
+      name: "Services",
+      icon: "/images/sidebaricons/services.svg",
       link: "#",
     },
     {
-      name: "Guest management",
-      icon: "/images/sidebaricons/guestmanagement.svg",
-      link: "#",
+      name: "My Leads",
+      icon: "/images/sidebaricons/myleads.svg",
+      link: "/my-leads",
     },
     {
       name: "PlanIt AI",
@@ -50,20 +63,21 @@ const Sidebar = () => {
 
         <ul className="mt-14 3xl:mt-16 space-y-2 3xl:space-y-3 4xl:space-y-4">
           {sidebarData.map((item, index) => (
-            <Link
-              href={`${item.link}`}
-              key={index}
-              className="text-[15px] 3xl:text-[19px] text-white font-normal flex items-center py-2 3xl:py-2.5 4xl:py-3 px-3 rounded-[4px] hover:bg-[#ffffff36]"
-            >
-              <Image
-                className="w-[15px] 3xl:w-[22px] mr-2"
-                width={22}
-                height={22}
-                src={`${item.icon}`}
-                alt="dashboard"
-              />
-              <span>{item.name}</span>
-            </Link>
+            <li key={index} className={`${pathName == item.link ? 'bg-[#ffffff36]':''} hover:bg-[#ffffff36] rounded-[4px]`}>
+              <Link
+                href={`${item.link}`}
+                className="text-[15px] 3xl:text-[19px] text-white font-normal flex items-center py-2 3xl:py-2.5 4xl:py-3 px-3 "
+              >
+                <Image
+                  className="w-[15px] 3xl:w-[22px] mr-2"
+                  width={22}
+                  height={22}
+                  src={`${item.icon}`}
+                  alt="dashboard"
+                />
+                <span>{item.name}</span>
+              </Link>
+            </li>
           ))}
         </ul>
       </div>

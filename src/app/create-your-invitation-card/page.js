@@ -3,6 +3,10 @@ import Header from "@/components/Header";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import InvitationCardModal from "@/components/widgets/InvitationCardModal";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination"; // optional
+import { Pagination } from "swiper/modules";
 
 const Page = () => {
   
@@ -118,16 +122,16 @@ const Page = () => {
                 </button>
               </label>
             </form>
-            <div className="flex items-center space-x-2.5 mt-5 justify-end relative">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2.5 space-y-2.5 sm:space-y-0 mt-5 justify-end relative">
               {items.map((item, index) => (
                 <div
                   key={index}
-                  className="relative"
+                  className="relative w-full sm:w-auto"
                   ref={(el) => (refs.current[index] = el)}
                 >
                   <button
                     onClick={() => toggleAccordion(index)}
-                    className="font-normal text-[14px] cursor-pointer 4xl:text-[16px] text-[#363636] flex items-center bg-[#F6F6F6] rounded-lg py-2 px-6"
+                    className="w-full sm:w-auto font-normal text-[14px] cursor-pointer 4xl:text-[16px] text-[#363636] flex items-center justify-between bg-[#F6F6F6] rounded-lg py-2 px-6"
                   >
                     <span className="mr-2">{item}</span>
                     <Image
@@ -143,16 +147,16 @@ const Page = () => {
 
                   {/* Accordion Content */}
                   {openIndex === index && (
-                    <div className="absolute left-0 top-full mt-2 w-max min-w-[200px] bg-white border rounded-lg shadow z-10">
+                    <div className="absolute sm:left-0 left-0 top-full mt-2 w-full sm:w-max min-w-[200px] bg-white border rounded-lg shadow z-10">
                       <p className="text-sm text-gray-600 p-4">
                         Content for: {item}
                       </p>
-                      {/* Replace with actual dropdown/filter content */}
                     </div>
                   )}
                 </div>
               ))}
             </div>
+
           </div>
 
           <h4 className="text-black text-[23px] 4xl:text-[25px] font-medium">
@@ -161,7 +165,7 @@ const Page = () => {
           </h4>
         </div>
 
-        <div className="grid grid-cols-3 gap-[40px] 4xl:gap-[50px]">
+        {/* <div className="grid grid-cols-3 gap-[40px] 4xl:gap-[50px]">
           {[1, 2, 3].map((listNumber) => (
             <div key={listNumber} className="space-y-8 4xl:space-y-12">
               {cardImages
@@ -183,7 +187,62 @@ const Page = () => {
                 ))}
             </div>
           ))}
-        </div>
+        </div> */}
+        <div>
+          {/* Mobile Swiper Slider */}
+          <div className="block lg:hidden">
+            <Swiper
+              spaceBetween={20}
+              slidesPerView={1.2}
+              pagination={{ clickable: true }}
+              modules={[Pagination]}
+            >
+              {cardImages.map((item, index) => (
+                <SwiperSlide key={index}>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => modalShowingVal(item)}
+                  >
+                    <div className="relative w-full pb-[100%] rounded-lg overflow-hidden">
+                      <Image
+                        src={item.path}
+                        alt={`Card ${index + 1}`}
+                        fill
+                        className="object-cover hover:shadow-2xl hover:scale-[1.02] transition duration-500"
+                      />
+                  </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+
+          {/* Desktop Grid */}
+          <div className="hidden lg:grid grid-cols-3 gap-[40px] 4xl:gap-[50px]">
+            {[1, 2, 3].map((listNumber) => (
+              <div key={listNumber} className="space-y-8 4xl:space-y-12">
+                {cardImages
+                  .filter((item) => item.list === listNumber)
+                  .map((item, index) => (
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => modalShowingVal(item)}
+                      key={index}
+                    >
+                      <Image
+                        className="w-full h-auto hover:shadow-2xl hover:scale-[1.02] transition duration-500"
+                        width={320}
+                        height={450}
+                        src={item.path}
+                        alt={`Card ${index + 1}`}
+                      />
+                    </div>
+                  ))}
+              </div>
+            ))}
+          </div>
+       </div>
+
       </div>
 
       {modalVal && (

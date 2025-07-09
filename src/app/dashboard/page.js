@@ -4,7 +4,7 @@ import Layouts from "@/components/Layouts";
 import Image from "next/image";
 import Link from "next/link";
 
-const page = () => {
+const Page = () => {
   const bookingChart = [
     {
       title: "Leads This Week",
@@ -244,7 +244,7 @@ const page = () => {
       <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto">
         <div className="rounded-[10px] border-[5px] 3xl:border-[10px] border-[#FAFAFA] mt-3">
           <div
-            className="rounded-[8px] py-[60px] 2xl:py-[75px]"
+            className="rounded-[8px] py-[50px] 2xl:py-[75px]"
             style={{
               backgroundColor: "#FAF1F2",
               backgroundImage: "url('/images/vendorbannerbg.png')",
@@ -253,7 +253,7 @@ const page = () => {
               backgroundPosition: "center",
             }}
           >
-            <h2 className="text-black font-semibold text-[27px] 2xl:text-[34px] 3xl:text-[40px] 4xl:text-[48px] text-center">
+            <h2 className="text-black font-semibold text-[24px] xl:text-[27px] 2xl:text-[34px] 3xl:text-[40px] 4xl:text-[48px] text-center">
               Welcome to Your PlanIt Vendor Hub
             </h2>
             <p className="font-normal text-[15px] 2xl:text-[18px] 3xl:text-[20px] text-[#505050] text-center">
@@ -263,11 +263,11 @@ const page = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-[12px] 4xl:gap-[16px] mt-6 4xl:mt-8 mb-3 4xl:mb-5">
+        <div className="grid grid-cols-3 xl:grid-cols-4 gap-[10px] 2xl:gap-[12px] 4xl:gap-[16px] mt-4 2xl:mt-6 4xl:mt-8 mb-3 4xl:mb-5">
           {bookingChart.map((item, index) => (
             <div
               key={index}
-              className="p-[20px] 2xl:p-[27px] rounded-[10px] bg-[#F7F7F7] flex flex-col justify-center"
+              className="p-[18px] 2xl:p-[27px] rounded-[10px] bg-[#F7F7F7] flex flex-col justify-center"
             >
               <h3 className="font-semibold text-[18px] 3xl:text-[20px] text-[#151515]">
                 {item.title}
@@ -280,7 +280,7 @@ const page = () => {
                   src={`${item.icon}`}
                   alt="leads"
                 />
-                <h4 className="ml-2 font-semibold text-[#EA0056] text-[24px] 2xl:text-[28px] 3xl:text-[34px] 4xl:text-[40px]">
+                <h4 className="ml-2 font-semibold text-[#EA0056] text-[20px] xl:text-[24px] 2xl:text-[28px] 3xl:text-[34px] 4xl:text-[40px]">
                   {item.value}
                 </h4>
               </div>
@@ -292,7 +292,7 @@ const page = () => {
               Profile completion
             </h3>
             <div className="mt-2" ref={sectionRef}>
-              <h5 className="font-semibold text-[23px] text-[#EA0056] mb-2">
+              <h5 className="font-semibold text-[20px] xl:text-[23px] text-[#EA0056] mb-2">
                 {count}%
               </h5>
 
@@ -311,7 +311,7 @@ const page = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-[15px] 4xl:gap-[20px] mb-5">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-2.5 xl:gap-[15px] 4xl:gap-[20px] mb-3.5 xl:mb-5">
           <div className="bg-[#F7F7F7] rounded-[10px]">
             <div className=" px-[20px] py-[16px] flex items-center justify-between border-b border-b-[#ededed]">
               <h4 className="font-semibold text-[18px] 3xl:text-[20px] text-[#151515]">
@@ -352,7 +352,7 @@ const page = () => {
                       </span>
                     </div>
 
-                    <div className="w-full flex items-center justify-center">
+                    <div className="w-full flex items-center lg:justify-center">
                       <div className="flex items-center w-[120px] 2xl:w-[140px]">
                         <Image
                           width={14}
@@ -423,7 +423,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className="bg-[#F7F7F7] rounded-[10px] col-[1_/_3]">
+          <div className="bg-[#F7F7F7] rounded-[10px] xl:col-[1_/_3]">
             <div className="px-[20px] py-[16px] flex items-center justify-between border-b border-b-[#ededed]">
               <h4 className="font-semibold text-[18px] 3xl:text-[20px] text-[#151515]">
                 Reviews
@@ -451,7 +451,7 @@ const page = () => {
                         {item.name}
                       </span>
                     </div>
-                    <div className="flex flex-col w-[65%]">
+                    <div className="flex flex-col w-[65%] mr-3">
                       <div className="flex items-center">
                         <span className="font-normal text-[15px] 2xl:text-[16px] text-black pt-[3px]">
                           {item.rating}
@@ -486,7 +486,7 @@ const page = () => {
                     <div className="w-[15%] 2xl:w-[10%]">
                       <Link
                         href={`${item.detailsLink}`}
-                        className="w-full font-normal text-[15px] 3xl:text-[18px] text-[#EA0056] flex items-center"
+                        className="w-full font-normal text-[14px] lg:text-[15px] 3xl:text-[18px] text-[#EA0056] flex items-center"
                       >
                         <span>View details</span>
                         <Image
@@ -506,7 +506,7 @@ const page = () => {
         </div>
 
         <div className="rounded-[10px] bg-[#F9F9F9] mb-5">
-          <div className="px-[55px] py-4 flex items-center justify-between">
+          <div className="px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[55px] py-4 flex items-center justify-between">
             <h4 className="font-semibold text-[20px] 2xl:text-[25px] text-[#303030]">
               Bookings
             </h4>
@@ -546,98 +546,100 @@ const page = () => {
             </div>
           </div>
 
-          <table className="vendortable w-full text-black text-[15px] 3xl:text-[18px] font-medium">
-            <thead>
-              <tr className="bg-[#DBDBDB]">
-                {tableData.thead.heads.map((title, index) => (
-                  <th
-                    key={index}
-                    className="py-4 px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px] text-left"
-                    style={{ width: tableData.thead.widths[index] }}
-                  >
-                    {title}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {tableData.tbody.map((row, index) => (
-                <tr
-                  key={index}
-                  className="text-[#505050]"
-                  style={{
-                    background: `${index % 2 == 0 ? "#F2F2F2" : "#E9E9E9"}`,
-                  }}
-                >
-                  <td className="py-4 px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
-                    <div className="flex items-center">
-                      <input
-                        className="size-[15px] 3xl:size-[18px] border border-[#ededed] rounded-[4px] mr-3"
-                        type="checkbox"
-                        name="checkbox"
-                        id={`${row.bookingId}`}
-                      />
-                      <label htmlFor={`${row.bookingId}`}>
-                        {row.bookingId}
-                      </label>
-                    </div>
-                  </td>
-                  <td className="py-4 px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
-                    <div className="flex items-center">
-                      <Image
-                        className="size-[28px] object-cover rounded-full"
-                        width={28}
-                        height={28}
-                        src={row.client.image}
-                        alt={row.client.name}
-                      />
-                      <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
-                        {row.client.name}
-                      </p>
-                    </div>
-                  </td>
-                  <td className="py-4 px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
-                    <div className="flex items-center">
-                      <Image
-                        width={12}
-                        height={15}
-                        src={"/images/vendor/location.svg"}
-                        alt="location"
-                      />
-                      <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
-                        {row.location.name}
-                      </p>
-                    </div>
-                  </td>
-                  <td className="py-4 px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
-                    <div className="flex items-center">
-                      <Image
-                        width={12}
-                        height={15}
-                        src={"/images/vendor/calender.svg"}
-                        alt="calendar"
-                      />
-                      <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
-                        {row.bookingDate.value}
-                      </p>
-                    </div>
-                  </td>
-                  <td className="py-4 px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
-                    <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px]">
-                      {row.notes}
-                    </p>
-                  </td>
-                  <td className="py-4 px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
-                    {row.actions}
-                  </td>
+          <div className="w-full scroll-visible min-[900px]:overflow-x-auto">
+            <table className="vendortable w-full min-w-[900px] text-black text-[15px] 3xl:text-[18px] font-medium">
+              <thead>
+                <tr className="bg-[#DBDBDB]">
+                  {tableData.thead.heads.map((title, index) => (
+                    <th
+                      key={index}
+                      className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px] text-left"
+                      style={{ width: tableData.thead.widths[index] }}
+                    >
+                      {title}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {tableData.tbody.map((row, index) => (
+                  <tr
+                    key={index}
+                    className="text-[#505050]"
+                    style={{
+                      background: `${index % 2 == 0 ? "#F2F2F2" : "#E9E9E9"}`,
+                    }}
+                  >
+                    <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
+                      <div className="flex items-center">
+                        <input
+                          className="size-[15px] 3xl:size-[18px] border border-[#ededed] rounded-[4px] mr-3"
+                          type="checkbox"
+                          name="checkbox"
+                          id={`${row.bookingId}`}
+                        />
+                        <label htmlFor={`${row.bookingId}`}>
+                          {row.bookingId}
+                        </label>
+                      </div>
+                    </td>
+                    <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
+                      <div className="flex items-center">
+                        <Image
+                          className="size-[28px] object-cover rounded-full"
+                          width={28}
+                          height={28}
+                          src={row.client.image}
+                          alt={row.client.name}
+                        />
+                        <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
+                          {row.client.name}
+                        </p>
+                      </div>
+                    </td>
+                    <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
+                      <div className="flex items-center">
+                        <Image
+                          width={12}
+                          height={15}
+                          src={"/images/vendor/location.svg"}
+                          alt="location"
+                        />
+                        <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
+                          {row.location.name}
+                        </p>
+                      </div>
+                    </td>
+                    <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
+                      <div className="flex items-center">
+                        <Image
+                          width={12}
+                          height={15}
+                          src={"/images/vendor/calender.svg"}
+                          alt="calendar"
+                        />
+                        <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
+                          {row.bookingDate.value}
+                        </p>
+                      </div>
+                    </td>
+                    <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
+                      <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px]">
+                        {row.notes}
+                      </p>
+                    </td>
+                    <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
+                      {row.actions}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </Layouts>
   );
 };
 
-export default page;
+export default Page;

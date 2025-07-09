@@ -1,8 +1,13 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 
-const index = ({ children }) => {
+const Index = ({ children }) => {
+  const [isSideBarOpen, setisSideBarOpen] = useState(false);
+  const sideBarOpen = ()=>{
+    setisSideBarOpen(!isSideBarOpen)
+  }
   return (
     <div className="flex">
       <Sidebar />
@@ -14,4 +19,4 @@ const index = ({ children }) => {
   );
 };
 
-export default index;
+export default Index;

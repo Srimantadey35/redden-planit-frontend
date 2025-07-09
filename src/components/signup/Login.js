@@ -47,10 +47,12 @@ const Login = ({ planName }) => {
 
   return (
     <div className="size-full overflow-y-auto example modalAnim">
-      <div className="my-10 flex items-center min-h-full">
-        <div className="flex justify-center w-full px-[30px] max-w-[991px] xl:max-w-[1100px] 2xl:max-w-[1200px] 3xl:max-w-[1423px] mx-auto">
+      <div className="my-10 flex flex-col lg:flex-row items-center min-h-full">
+        <div className="flex flex-col lg:flex-row justify-center w-full px-[30px] max-w-[991px] xl:max-w-[1100px] 2xl:max-w-[1200px] 3xl:max-w-[1423px] mx-auto">
+          
+          {/* Left Panel */}
           <div
-            className="bg-[#faf2f2] px-[45px] 2xl:px-[55px] py-[60px] 3xl:py-[80px] 4xl:py-[120px] w-1/2 rounded-tl-[15px] rounded-bl-[15px]"
+            className="bg-[#faf2f2] w-full lg:w-1/2 sm:px-[45px] px-[30px] 2xl:px-[55px] py-[60px] 3xl:py-[80px] 4xl:py-[120px] rounded-t-[15px] lg:rounded-tl-[15px] lg:rounded-bl-[15px] lg:rounded-tr-none"
             style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
           >
             <Image
@@ -60,7 +62,7 @@ const Login = ({ planName }) => {
               src={"/images/PlanItLogo.png"}
               alt="logo"
             />
-            <h3 className="text-[38px] 2xl:text-[45px] 3xl:text-[64px] text-black 3xl:leading-[74px] font-semibold mt-5 leading-[1.2]">
+            <h3 className="text-[30px] 2xl:text-[45px] 3xl:text-[64px] text-black 3xl:leading-[74px] font-semibold mt-5 leading-[1.2]">
               Plan your big <br /> moments with ease
             </h3>
 
@@ -78,7 +80,7 @@ const Login = ({ planName }) => {
               {joinPlanIt.map((item, index) => (
                 <li
                   key={index}
-                  className="border border-[#FFD8E6] text-[#EA0056] text-[15px] 3xl:text-[20px] font-normal bg-[#FFE4EE] flex items-center py-2 3xl:py-2.5 px-3.5 rounded-lg w-[300px]"
+                  className="border border-[#FFD8E6] text-[#EA0056] text-[15px] 3xl:text-[20px] font-normal bg-[#FFE4EE] flex items-center py-2 3xl:py-2.5 px-3.5 rounded-lg sm:w-[300px] w-full"
                 >
                   <Image
                     width={15}
@@ -91,7 +93,9 @@ const Login = ({ planName }) => {
               ))}
             </ul>
           </div>
-          <div className="w-1/2 px-[60px] xl:px-[80px] 2xl:px-[100px] 3xl:px-[130px] bg-white py-[60px] 3xl:py-[80px] 4xl:py-[120px] rounded-tr-[15px] rounded-br-[15px] flex flex-col justify-center">
+
+          {/* Right Panel */}
+          <div className="w-full lg:w-1/2 sm:px-[60px] px-[30px] xl:px-[80px] 2xl:px-[100px] 3xl:px-[130px] bg-white sm:py-[60px] py-[30px] 3xl:py-[80px] 4xl:py-[120px] rounded-b-[15px] lg:rounded-tr-[15px] lg:rounded-br-[15px] lg:rounded-bl-none flex flex-col justify-center">
             <div className="mb-5">
               <h3 className="font-medium text-[35px] 3xl:text-[40px] text-black text-center">
                 Sign In
@@ -117,9 +121,10 @@ const Login = ({ planName }) => {
                 </p>
               </div>
             </div>
+
             <div>
               <form className="floating-form relative 3xl:mt-14">
-                {/* Email & Phone Row */}
+                {/* Email */}
                 <div className="input-wrap mb-5 3xl:mb-10">
                   <input
                     type="email"
@@ -162,6 +167,7 @@ const Login = ({ planName }) => {
                   </button>
                 </div>
 
+                {/* Remember & Forgot */}
                 <div className="flex items-center mt-2 3xl:mt-3 justify-between">
                   <div className="flex items-center">
                     <input
@@ -174,13 +180,12 @@ const Login = ({ planName }) => {
                       Remember me
                     </p>
                   </div>
-
                   <p className="text-[#EA0056] font-normal text-[14px] 3xl:text-[16px] ml-2">
                     Forgot Password?
                   </p>
                 </div>
 
-                <Link href={'/home'}>
+                <Link href={"/home"}>
                   <button className="font-semibold text-[16px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-7 3xl:mt-10 cursor-pointer w-full mb-3 3xl:mb-4">
                     Sign in
                   </button>
@@ -198,7 +203,8 @@ const Login = ({ planName }) => {
             </div>
           </div>
         </div>
-      </div>
+</div>
+
     </div>
   );
 };

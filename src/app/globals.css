@@ -18,8 +18,14 @@
 /*tailwind custom container class start */
 .container {
   margin: auto;
+  padding: 0 1rem;
 }
 
+@media (min-width: 991px) {
+  .container {
+    padding: 0 3rem;
+  }
+}
 @media (min-width: 1024px) {
   .container {
     padding: 0 4rem;
@@ -240,6 +246,25 @@ input:-webkit-autofill:active{
   text-align: center !important;
 }
 
+/* visible scrollbar  */
+.scroll-visible {
+  overflow-x: scroll;
+  scrollbar-width: auto; /* For Firefox */
+}
+
+.scroll-visible::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scroll-visible::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 4px;
+}
+
+.scroll-visible::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+/* visible scrollbar end  */
 
 @media (max-width: 1700px) {
   .gradientline:before {
