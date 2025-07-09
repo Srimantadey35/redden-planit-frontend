@@ -6,15 +6,14 @@ const page = () => {
   const tableData = {
     thead: {
       heads: [
+        "Booking id",
         "Client Name",
-        "Event Type",
-        "Date",
         "Location",
-        "Message",
-        "Status",
+        "Booking date",
+        "Notes",
         "Actions",
       ],
-      widths: ["25%", "18%", "18%", "18%", "25%", "5%"],
+      widths: ["15%", "20%", "20%", "20%", "25%", "5%"],
     },
     tbody: [
       {
@@ -23,7 +22,6 @@ const page = () => {
           name: "Drishti Ram",
           image: "/images/sign-up/face-1.jpg",
         },
-        eventType: "Wedding Party",
         location: {
           icon: "/images/vendor/location.svg",
           name: "Kolkata, India",
@@ -33,11 +31,6 @@ const page = () => {
           value: "Feb 06, 2025",
         },
         notes: "Looking for a traditional wedding setup with floral décor.",
-        status: {
-          statusName: "New",
-          color: "#EA0056",
-          bg: "#FFC0D7",
-        },
         actions: "...",
       },
       {
@@ -46,7 +39,6 @@ const page = () => {
           name: "Durjaya Ghosal",
           image: "/images/sign-up/face-1.jpg",
         },
-        eventType: "Wedding Party",
         location: {
           name: "Kolkata, India",
         },
@@ -54,11 +46,6 @@ const page = () => {
           value: "Feb 08, 2025",
         },
         notes: "Need full-day photography coverage for Bengali wedding.",
-        status: {
-          statusName: "Contacted",
-          color: "#C74905",
-          bg: "#F8DEC4",
-        },
         actions: "...",
       },
       {
@@ -67,7 +54,6 @@ const page = () => {
           name: "Mohul Nara",
           image: "/images/sign-up/face-1.jpg",
         },
-        eventType: "Wedding Party",
         location: {
           name: "Kolkata, India",
         },
@@ -75,11 +61,6 @@ const page = () => {
           value: "Feb 11, 2025",
         },
         notes: "Can you share sample menus and pricing?",
-        status: {
-          statusName: "Booked",
-          color: "#339914",
-          bg: "#CCE4C1",
-        },
         actions: "...",
       },
       {
@@ -88,7 +69,6 @@ const page = () => {
           name: "Piyush Kaushik",
           image: "/images/sign-up/face-1.jpg",
         },
-        eventType: "Wedding Party",
         location: {
           name: "Kolkata, India",
         },
@@ -96,11 +76,6 @@ const page = () => {
           value: "Feb 12, 2025",
         },
         notes: "utdoor setup required, Haldi & Mehendi theme included.",
-        status: {
-          statusName: "New",
-          color: "#EA0056",
-          bg: "#FFC0D7",
-        },
         actions: "...",
       },
     ],
@@ -108,11 +83,11 @@ const page = () => {
   return (
     <div>
       <Layouts>
-        <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen mt-5">
+        <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen">
           <div className="rounded-[10px] bg-[#F9F9F9] mb-5">
             <div className="px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[55px] py-4 flex items-center justify-between">
-              <h4 className="font-semibold text-[20px] 4xl:text-[28px] text-[#303030]">
-                My leads
+              <h4 className="font-semibold text-[20px] 2xl:text-[25px] text-[#303030]">
+                Bookings
               </h4>
 
               <div className="flex items-center justify-between">
@@ -157,7 +132,7 @@ const page = () => {
                     {tableData.thead.heads.map((title, index) => (
                       <th
                         key={index}
-                        className="py-4 px-[18px] 4xl:px-[30px] text-left"
+                        className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px] text-left"
                         style={{ width: tableData.thead.widths[index] }}
                       >
                         {title}
@@ -174,7 +149,7 @@ const page = () => {
                         background: `${index % 2 == 0 ? "#F2F2F2" : "#E9E9E9"}`,
                       }}
                     >
-                      <td className="py-4 px-[18px] 4xl:px-[30px]">
+                      <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
                         <div className="flex items-center">
                           <input
                             className="size-[15px] 3xl:size-[18px] border border-[#ededed] rounded-[4px] mr-3"
@@ -183,34 +158,30 @@ const page = () => {
                             id={`${row.bookingId}`}
                           />
                           <label htmlFor={`${row.bookingId}`}>
-                            <div className="flex items-center">
-                              <Image
-                                className="size-[28px] object-cover rounded-full"
-                                width={28}
-                                height={28}
-                                src={row.client.image}
-                                alt={row.client.name}
-                              />
-                              <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
-                                {row.client.name}
-                              </p>
-                            </div>
+                            {row.bookingId}
                           </label>
                         </div>
                       </td>
-                      <td className="py-4 px-[18px] 4xl:px-[30px]">
+                      <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
                         <div className="flex items-center">
+                          <Image
+                            className="size-[28px] object-cover rounded-full"
+                            width={28}
+                            height={28}
+                            src={row.client.image}
+                            alt={row.client.name}
+                          />
                           <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
-                            {row.eventType}
+                            {row.client.name}
                           </p>
                         </div>
                       </td>
-                      <td className="py-4 px-[18px] 4xl:px-[30px]">
+                      <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
                         <div className="flex items-center">
                           <Image
                             width={12}
                             height={15}
-                            src={"/images/vendor/calender.svg"}
+                            src={"/images/vendor/location.svg"}
                             alt="location"
                           />
                           <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
@@ -218,12 +189,12 @@ const page = () => {
                           </p>
                         </div>
                       </td>
-                      <td className="py-4 px-[18px] 4xl:px-[30px]">
+                      <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
                         <div className="flex items-center">
                           <Image
                             width={12}
                             height={15}
-                            src={"/images/vendor/location.svg"}
+                            src={"/images/vendor/calender.svg"}
                             alt="calendar"
                           />
                           <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
@@ -231,24 +202,30 @@ const page = () => {
                           </p>
                         </div>
                       </td>
-                      <td className="py-4 px-[18px] 4xl:px-[30px]">
+                      <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
                         <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px]">
                           {row.notes}
                         </p>
                       </td>
-                      <td
-                        style={{ color: row.status.color }}
-                        className="py-4 px-[18px] 4xl:px-[30px]"
-                      >
-                        <p className="py-1.5 px-2 4xl:py-2 4xl:px-4 text-center rounded-[3px] text-[12px] 4xl:text-[14px]" style={{backgroundColor:`${row.status.bg}`}}>{row.status.statusName}</p>
-                      </td>
-                      <td className="py-4 px-[18px] 4xl:px-[30px]">
+                      <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
                         {row.actions}
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+          <div className="mt-8">
+            <div className="flex space-x-2 justify-end">
+              {[1, 2, 3, 4, "Next"].map((item, index) => (
+                <button
+                  key={index}
+                  className={`${item === 'Next' ? 'px-4 py-1':'size-[32px] '} text-[#505050] font-medium text-[14px] rounded-[4px] border-[1px] border-[#bbbbbb] hover:bg-[#EA0056] hover:text-white cursor-pointer`}
+                >
+                  {item}
+                </button>
+              ))}
             </div>
           </div>
         </div>

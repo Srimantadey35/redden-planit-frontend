@@ -33,14 +33,14 @@ const Sidebar = () => {
       link: "/my-leads",
     },
     {
-      name: "PlanIt AI",
-      icon: "/images/sidebaricons/planitai.svg",
-      link: "#",
+      name: "Bookings",
+      icon: "/images/sidebaricons/bookings.svg",
+      link: "/bookings",
     },
     {
-      name: "Website creation",
+      name: "Reviews",
       icon: "/images/sidebaricons/websitecreation.svg",
-      link: "#",
+      link: "/reviews",
     },
     {
       name: "Book vendors",
