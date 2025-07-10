@@ -25,7 +25,7 @@ const Sidebar = () => {
     {
       name: "Services",
       icon: "/images/sidebaricons/services.svg",
-      link: "#",
+      link: "/services",
     },
     {
       name: "My Leads",

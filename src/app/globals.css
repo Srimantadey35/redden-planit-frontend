@@ -264,6 +264,67 @@ input:-webkit-autofill:active{
 .scroll-visible::-webkit-scrollbar-track {
   background: #f0f0f0;
 }
+
+
+
+@layer utilities {
+  .animate-slide-in {
+    animation: slideInRight 0.4s ease forwards;
+  }
+
+  .animate-slide-out {
+    animation: slideOutRight 0.4s ease forwards;
+  }
+
+  @keyframes slideInRight {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+
+  @keyframes slideOutRight {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-modal-in {
+    animation: modalSlideIn 0.4s ease forwards;
+  }
+
+  .animate-modal-out {
+    animation: modalSlideOut 0.3s ease forwards;
+  }
+
+  @keyframes modalSlideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes modalSlideOut {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+  }
+}
+
 /* visible scrollbar end  */
 
 @media (max-width: 1700px) {

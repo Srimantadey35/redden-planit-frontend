@@ -81,7 +81,7 @@ const Page = () => {
                     ></textarea>
 
                     <Image
-                      className="absolute top-[15px] left-[18px] pointer-events-none"
+                      className="absolute top-[14.5px] left-[18px] pointer-events-none"
                       width={14}
                       height={17}
                       src="/images/add-business/locationicon.svg"

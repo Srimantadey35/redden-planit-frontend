@@ -3,6 +3,20 @@ import Layouts from "@/components/Layouts";
 import Image from "next/image";
 
 const page = () => {
+  const socialMedia = [
+    {
+      icon: "/images/acc-details/facebook.svg",
+      socialMediaName: "Facebook",
+    },
+    {
+      icon: "/images/acc-details/instagram.svg",
+      socialMediaName: "Instagram",
+    },
+    {
+      icon: "/images/acc-details/twitter.svg",
+      socialMediaName: "Twitter",
+    },
+  ];
   return (
     <div>
       <Layouts>
@@ -114,23 +128,31 @@ const page = () => {
                     id="Phone"
                   />
                 </div>
-                <div className="flex flex-col">
-                  <label
-                    htmlFor="Phone"
-                    className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
-                  >
-                    Business Role
-                  </label>
-                  <select
-                    name="cars"
-                    id="cars"
-                    className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
-                  >
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
-                  </select>
+              </div>
+              <div>
+                <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2 mt-[25px]">
+                  Add Social Links
+                </p>
+                <div className="grid grid-cols-3 gap-6">
+                  {socialMedia.map((item, index) => (
+                    <div key={index} className="flex items-center space-x-2.5">
+                      <label htmlFor={`${item.socialMediaName}`} className="shrink-0 size-[28px] rounded-[4px] border border-[#dadada] bg-white flex items-center justify-center">
+                        <Image
+                          width={20}
+                          height={20}
+                          src={`${item.icon}`}
+                          alt="facebook"
+                        />
+                      </label>
+                      <input
+                        className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-full"
+                        placeholder={`${item.socialMediaName}`}
+                        type="text"
+                        name="firstname"
+                        id={`${item.socialMediaName}`}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </form>
@@ -186,18 +208,28 @@ const page = () => {
                   </p>
                 </div>
                 <div>
-
-                  <button className="text-[#EA0056] font-semibold text-[14px] 3xl:text-[16px] cursor-pointer">Change password</button>
+                  <button className="text-[#EA0056] font-semibold text-[14px] 3xl:text-[16px] cursor-pointer">
+                    Change password
+                  </button>
                 </div>
               </div>
             </form>
           </div>
 
           <div className="flex items-center mt-10 justify-end">
-            <button className="cursor-pointer flex items-center font-semibold text-[#505050] text-[16px] 4xl:text-[20px] border border-[#ededed] rounded-[8px] py-2 4xl:py-3.5 px-[40px] 4xl:px-[62px] mr-4">Edit 
-                <Image className="ml-3" width={16} height={16} src={'/images/acc-details/editicon.svg'} alt="editicon"/>
+            <button className="cursor-pointer flex items-center font-semibold text-[#505050] text-[16px] 4xl:text-[20px] border border-[#ededed] rounded-[8px] py-2 4xl:py-3.5 px-[40px] 4xl:px-[62px] mr-4">
+              Edit
+              <Image
+                className="ml-3"
+                width={16}
+                height={16}
+                src={"/images/acc-details/editicon.svg"}
+                alt="editicon"
+              />
             </button>
-            <button className="cursor-pointer font-semibold text-[16px] 4xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 4xl:py-3.5 px-[40px] 4xl:px-[62px]">Save Changes</button>
+            <button className="cursor-pointer font-semibold text-[16px] 4xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 4xl:py-3.5 px-[40px] 4xl:px-[62px]">
+              Save Changes
+            </button>
           </div>
         </div>
       </Layouts>

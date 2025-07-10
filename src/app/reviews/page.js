@@ -130,14 +130,14 @@ const page = () => {
                             src={row.client.image}
                             alt={row.client.name}
                           />
-                          <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
+                          <p className="text-black font-medium text-[15px] 3xl:text-[16px] ml-2">
                             {row.client.name}
                           </p>
                         </div>
                       </td>
                       <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
                         <div className="flex items-center">
-                          <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
+                          <p className="text-black font-normal text-[15px] 3xl:text-[16px] ml-2">
                             {row.rating}
                           </p>
                           <div className="grid grid-cols-5 justify-items-center ml-2 gap-[3px]">
@@ -163,13 +163,13 @@ const page = () => {
                       </td>
                       <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
                         <div className="flex items-center">
-                          <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px] ml-2">
+                          <p className="text-black font-normal text-[15px] 3xl:text-[16px] ml-2">
                             “{row.comments}”
                           </p>
                         </div>
                       </td>
                       <td className="py-4 px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[50px]">
-                        <p className="text-[#505050] font-normal text-[15px] 3xl:text-[16px]">
+                        <p className="text-black font-normal text-[15px] 3xl:text-[16px]">
                           {row.date}
                         </p>
                       </td>
