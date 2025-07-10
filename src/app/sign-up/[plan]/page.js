@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { Pagination, Autoplay, EffectFade } from "swiper/modules";
+import Link from "next/link";
 
 const slides = [
   {
@@ -68,12 +69,12 @@ export default function SignupPlanPage({ params }) {
                     {slide.caption}
                   </h2>
                   <div className="flex flex-row gap-3 animate-fade-in delay-200">
-                    <button className="bg-[#f70399] text-white font-medium cursor-pointer px-4 py-1.5 rounded hover:bg-neutral-200 hover:text-black transition text-sm">
+                    <Link href={`/sign-in/${plan}`} className="bg-[#f70399] text-white font-medium cursor-pointer px-4 py-1.5 rounded hover:bg-neutral-200 hover:text-black transition text-sm">
                       Sign In
-                    </button>
-                    <button className="bg-white text-black font-medium cursor-pointer px-4 py-1.5 rounded hover:bg-neutral-200 transition text-sm">
+                    </Link>
+                    <Link href={`/sign-up/${plan}`} className="bg-white text-black font-medium cursor-pointer px-4 py-1.5 rounded hover:bg-neutral-200 transition text-sm">
                       Sign Up
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

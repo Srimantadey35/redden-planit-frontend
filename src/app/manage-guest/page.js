@@ -40,7 +40,7 @@ const Page = () => {
     <div className="bg-white min-h-screen">
       <Header />
       <div className="container">
-        <div className="py-[40px] 2xl:py-[60px] 3xl:py-[120px]">
+        <div className="sm:py-[40px] py-[100px] 2xl:py-[60px] 3xl:py-[120px]">
           <h3 className="text-center font-medium text-[27px] 2xl:text-[30px] text-[#151515]">
             Hi{" "}
             <span

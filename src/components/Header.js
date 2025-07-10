@@ -6,12 +6,14 @@ import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [animateOut, setAnimateOut] = useState(false);
   const [animateSearchOut, setAnimateSearchOut] = useState(false);
   const pathName = usePathname();
   const profileRef = useRef(null);
+  const profilePanelRef = useRef(null);
 
   const navLinks = [
     {
@@ -64,15 +66,24 @@ const Header = () => {
     },
   ];
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
-        setIsProfileOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+ useEffect(() => {
+   const handleClickOutside = (event) => {
+    if (animateOut) return;
+
+    const clickedOutside =
+      profileRef.current &&
+      profilePanelRef.current &&
+      !profileRef.current.contains(event.target) &&
+      !profilePanelRef.current.contains(event.target);
+
+    if (clickedOutside) {
+      setIsProfileOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => document.removeEventListener("mousedown", handleClickOutside);
+}, [animateOut]);
 
   const handleCloseSlide = () => {
     setAnimateOut(true);
@@ -94,9 +105,9 @@ const Header = () => {
   return (
     <>
       {/* Header */}
-      <div className="banner_gradient sticky top-0 z-[99999]">
+      <div className="banner_gradient sm:sticky fixed left-0 right-0 w-full top-0 z-[99999]">
         <div className="container">
-          <div className="py-3 2xl:py-5 4xl:py-6 flex items-center justify-between">
+          <div className="py-5 3xl:py-6 flex items-center justify-between">
             {/* Logo */}
             <Image
               className="w-[70px] sm:w-[90px] 3xl:w-[158px]"
@@ -201,16 +212,17 @@ const Header = () => {
 
       {/* Mobile Slide-In Profile Panel */}
       {isProfileOpen && (
-        <div
-          className={`xl:hidden fixed inset-0 bg-white z-[999999] transition-transform duration-500 ${
-            animateOut ? "animate-slide-out" : "animate-slide-in"
-          }`}
-        >
+          <div
+            ref={profilePanelRef}
+            className={`xl:hidden fixed inset-0 bg-white z-[999999] transition-transform duration-500 ${
+              animateOut ? "animate-slide-out" : "animate-slide-in"
+            }`}
+          >
           <div className="flex items-center justify-between px-4 py-4 border-b">
             <button onClick={handleCloseSlide}>
               <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24"><path fill="#000" d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42a.996.996 0 0 0-1.41 0l-6.59 6.59a.996.996 0 0 0 0 1.41l6.59 6.59a.996.996 0 1 0 1.41-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1"/></svg>
             </button>
-            <span className="text-lg font-semibold text-black">My Account</span>
+            <span className="text-lg font-semibold">My Account</span>
             <span className="w-6" />
           </div>
           <div className="flex items-center space-x-4 px-4 mt-6">
@@ -221,9 +233,26 @@ const Header = () => {
               className="rounded-full"
               alt="user"
             />
-            <span className="text-base font-medium text-gray-900">
-              Rabina Paul
-            </span>
+             <div>
+            <div>
+              <span className="text-sm block font-medium text-gray-900">
+                        Rabina Paul
+              </span>
+                <span
+                className="text-base font-medium text-[#f70399] cursor-pointer"
+                onClick={() => {
+                  setAnimateOut(true);
+                  setTimeout(() => {
+                    setIsProfileOpen(false);
+                    setAnimateOut(false);
+                    setIsProfileEditOpen(true);
+                  }, 300);
+                }}
+              >
+                View Profile
+              </span>
+              </div>
+            </div>
           </div>
           <ul className="mt-6 text-base text-gray-700">
             <li className="px-4 py-3 border-b hover:bg-gray-50">Profile</li>
@@ -279,6 +308,87 @@ const Header = () => {
           </div>
         </div>
       )}
+    
+      {/* Slide Panel: Edit Profile (Mobile) */}
+      {isProfileEditOpen && (
+        <div className="xl:hidden fixed inset-0 bg-white z-[999999] transition-transform animate-slide-in">
+          <div className="flex items-center justify-between px-4 py-4 border-b">
+            <button
+                onClick={() => {
+                  setIsProfileEditOpen(false);
+                  setIsProfileOpen(true);
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="black" viewBox="0 0 24 24">
+                  <path d="M19 11H7.83l4.88-4.88a1 1 0 0 0-1.41-1.41L4.71 12l6.59 6.59a1 1 0 1 0 1.41-1.41L7.83 13H19a1 1 0 0 0 0-2z" />
+                </svg>
+             </button>
+            <span className="text-lg font-semibold">Edit Profile</span>
+            <span className="w-6" />
+          </div>
+
+          <div className="p-4 space-y-5 overflow-y-auto h-[calc(100vh-64px)]">
+            {/* Image */}
+            <div className="relative w-[80px] h-[80px] mx-auto">
+              <Image
+                src="/images/userimg.png"
+                alt="user"
+                layout="fill"
+                className="rounded-full object-cover"
+              />
+              <div className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow-md cursor-pointer">
+                ✏️
+              </div>
+            </div>
+
+            {/* Gender */}
+            <div>
+              <label className="text-sm font-medium block">Gender</label>
+              <div className="flex gap-4 mt-1">
+                <label className="flex items-center gap-1">
+                  <input type="radio" name="gender" value="male" />
+                  Male
+                </label>
+                <label className="flex items-center gap-1">
+                  <input type="radio" name="gender" value="female" />
+                  Female
+                </label>
+              </div>
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="text-sm font-medium">Email</label>
+              <input
+                type="email"
+                placeholder="example@mail.com"
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded"
+              />
+            </div>
+
+            {/* Mobile */}
+            <div>
+              <label className="text-sm font-medium">Mobile</label>
+              <input
+                type="tel"
+                placeholder="1234567890"
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded"
+              />
+            </div>
+
+            {/* Buttons */}
+            <div className="mt-6 space-y-3">
+              <button className="w-full bg-red-500 text-white py-2 rounded-md">
+                Logout
+              </button>
+              <button className="w-full border border-red-500 text-red-600 py-2 rounded-md">
+                Delete My Account
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
 
        <div className="xl:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-2 z-[50] shadow-md backdrop-blur-sm">
         {navLinks.map((item, index) => (
