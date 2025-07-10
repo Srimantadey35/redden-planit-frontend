@@ -22,11 +22,11 @@ const Sidebar = () => {
       icon: "/images/sidebaricons/add-business.svg",
       link: "/add-business",
     },
-    {
-      name: "Services",
-      icon: "/images/sidebaricons/services.svg",
-      link: "/services",
-    },
+    // {
+    //   name: "Services",
+    //   icon: "/images/sidebaricons/services.svg",
+    //   link: "/services",
+    // },
     {
       name: "My Leads",
       icon: "/images/sidebaricons/myleads.svg",

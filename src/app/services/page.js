@@ -4,6 +4,9 @@ import Layouts from "@/components/Layouts";
 import Image from "next/image";
 
 const Page = () => {
+  const [tags, setTags] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
 
@@ -61,6 +64,21 @@ const Page = () => {
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && inputValue.trim()) {
+      e.preventDefault();
+      if (!tags.includes(inputValue.trim())) {
+        setTags((prev) => [...prev, inputValue.trim()]);
+      }
+      setInputValue("");
+    }
+  };
+
+  const removeTag = (index) => {
+    setTags(tags.filter((_, i) => i !== index));
+  };
+
   return (
     <div>
       <Layouts>
@@ -70,7 +88,7 @@ const Page = () => {
           </h4>
           <div>
             <form>
-              <div className="space-y-[25px] bg-[#F2F2F2] px-[60px] py-9 rounded-[10px] mb-[24px]">
+              <div className="space-y-[25px] bg-[#F2F2F2] px-[30px] 3xl:px-[60px] py-9 rounded-[10px] mb-[24px]">
                 <div className="flex items-center w-full">
                   <div className="flex flex-col w-full mr-[25px]">
                     <label
@@ -146,7 +164,7 @@ const Page = () => {
                   </div>
                 </div>
               </div>
-              <div className="space-y-[25px] bg-[#F2F2F2] px-[60px] py-9 rounded-[10px] mb-[20px]">
+              <div className="space-y-[25px] bg-[#F2F2F2] px-[30px] 3xl:px-[60px] py-9 rounded-[10px] mb-[20px]">
                 <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515]">
                   What&apos;s Included
                 </p>
@@ -311,23 +329,42 @@ const Page = () => {
               </div>
             </div>
             <div>
-                <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">Optional tags</p>
-                <div className="rounded-[18px] bg-white py-4 px-4">
-                    <ul className="flex items-center space-x-3">
-                        <li className="font-normal text-[15px] 3xl:text-[16px] text-[#505050] bg-[#F6F6F6] rounded-[36px] py-2 px-4 w-fit flex items-center space-x-[17px]">
-                            <span>Pre-wedding </span>
-                            <button className="cursor-pointer grid place-items-center size-[21px] bg-[#E5E5E5] rounded-full ">
-                                <Image width={7} height={7} src={'/images/services/crossIcon.svg'} alt="crossIcon"/>
-                            </button>
-                        </li>
-                        <li className="font-normal text-[15px] 3xl:text-[16px] text-[#505050] bg-[#F6F6F6] rounded-[36px] py-2 px-4 w-fit flex items-center space-x-[17px]">
-                            <span>Pre-wedding </span>
-                            <button className="cursor-pointer grid place-items-center size-[21px] bg-[#E5E5E5] rounded-full ">
-                                <Image width={7} height={7} src={'/images/services/crossIcon.svg'} alt="crossIcon"/>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
+              <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">
+                Optional tags
+              </p>
+              <div className="rounded-[18px] bg-white py-4 px-4">
+                <ul className="flex items-center flex-wrap gap-3">
+                  {tags.map((tag, index) => (
+                    <li
+                      key={index}
+                      className="font-normal text-[15px] 3xl:text-[16px] text-[#505050] bg-[#F6F6F6] rounded-[36px] py-2 px-4 w-fit flex items-center space-x-[17px]"
+                    >
+                      <span>{tag}</span>
+                      <button
+                        className="cursor-pointer grid place-items-center size-[21px] bg-[#E5E5E5] rounded-full"
+                        onClick={() => removeTag(index)}
+                      >
+                        <Image
+                          width={7}
+                          height={7}
+                          src={"/images/services/crossIcon.svg"}
+                          alt="crossIcon"
+                        />
+                      </button>
+                    </li>
+                  ))}
+                  <li className="flex items-center">
+                    <input
+                      type="text"
+                      className="outline-none bg-transparent text-[15px] 3xl:text-[16px] placeholder:text-[#b0b0b0] text-[#505050] py-2 px-4"
+                      placeholder="Type & press Enter"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                    />
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
