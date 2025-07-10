@@ -1,6 +1,7 @@
 import React from "react";
 import Layouts from "@/components/Layouts";
 import Image from "next/image";
+import Link from "next/link";
 
 const page = () => {
   const socialMedia = [
@@ -54,7 +55,7 @@ const page = () => {
                 </p>
               </div>
             </div>
-            <button className="cursor-pointer border border-[#ededed] font-semibold text-[15px] 3xl:text-[17px] 4xl:text-[20px] text-[#505050] flex items-center bg-white rounded-[8px] py-3 px-4">
+            <Link href={'/add-business'} className="cursor-pointer border border-[#ededed] font-semibold text-[15px] 3xl:text-[17px] 4xl:text-[20px] text-[#505050] flex items-center bg-white rounded-[8px] py-3 px-4">
               <Image
                 className="mr-3"
                 width={16}
@@ -63,7 +64,7 @@ const page = () => {
                 alt="plusicon"
               />
               <span>Add Business</span>
-            </button>
+            </Link>
           </div>
           <div className="px-[35px] py-5 bg-[#F2F2F2] rounded-[10px] my-[28px]">
             <form>

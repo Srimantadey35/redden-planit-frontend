@@ -14,12 +14,12 @@ const Sidebar = () => {
     },
     {
       name: "Account Details",
-      icon: "/images/sidebaricons/generateInvitationcard.svg",
+      icon: "/images/sidebaricons/acc-details.svg",
       link: "/account-details",
     },
     {
       name: "Add Business",
-      icon: "/images/sidebaricons/guestmanagement.svg",
+      icon: "/images/sidebaricons/add-business.svg",
       link: "/add-business",
     },
     {
@@ -39,12 +39,12 @@ const Sidebar = () => {
     },
     {
       name: "Reviews",
-      icon: "/images/sidebaricons/websitecreation.svg",
+      icon: "/images/sidebaricons/reviews.svg",
       link: "/reviews",
     },
     {
-      name: "Book vendors",
-      icon: "/images/sidebaricons/bookvendor.svg",
+      name: "Support",
+      icon: "/images/sidebaricons/support.svg",
       link: "#",
     },
   ];

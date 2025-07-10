@@ -54,7 +54,7 @@ const Page = () => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white min-h-screen">
       <Header />
       <div className="max-w-[952px] mx-auto">
         <div className="py-[40px] 2xl:py-[60px] 3xl:py-[120px]">
