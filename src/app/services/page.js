@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Layouts from "@/components/Layouts";
 import Image from "next/image";
 
-const page = () => {
+const Page = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
 
@@ -336,4 +336,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
