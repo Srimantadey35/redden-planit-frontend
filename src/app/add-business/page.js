@@ -10,6 +10,7 @@ const Page = () => {
   const [openAccordion, setopenAccordion] = useState("add-business");
   const [images, setImages] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedType, setSelectedType] = useState("");
 
   console.log(selectedCategory);
 
@@ -99,6 +100,107 @@ const Page = () => {
     setTags(tags.filter((_, i) => i !== index));
   };
 
+  const categories = [
+    {
+      id: 1,
+      categoryName: "Jain Catering Only",
+    },
+    {
+      id: 2,
+      categoryName: " Vegetarian Only",
+    },
+    {
+      id: 3,
+      categoryName: " Chat & Street Food Only",
+    },
+    {
+      id: 4,
+      categoryName: "Small size gathering only",
+    },
+    {
+      id: 5,
+      categoryName: "Drinks only",
+    },
+  ];
+  const cuisines = [
+    {
+      id: 1,
+      cuisineName: "North Indian",
+    },
+    {
+      id: 2,
+      cuisineName: "South Indian",
+    },
+    {
+      id: 3,
+      cuisineName: "Chinese",
+    },
+    {
+      id: 4,
+      cuisineName: "Japanese",
+    },
+    {
+      id: 5,
+      cuisineName: "Italian",
+    },
+    {
+      id: 6,
+      cuisineName: "Greek",
+    },
+    {
+      id: 7,
+      cuisineName: "Lebanese",
+    },
+    {
+      id: 8,
+      cuisineName: "Thai",
+    },
+    {
+      id: 9,
+      cuisineName: "Desserts",
+    },
+    {
+      id: 10,
+      cuisineName: "Bengali",
+    },
+    {
+      id: 11,
+      cuisineName: "Gujarati",
+    },
+    {
+      id: 12,
+      cuisineName: "Rajasthani",
+    },
+    {
+      id: 13,
+      cuisineName: "Goan",
+    },
+    {
+      id: 14,
+      cuisineName: "Maharashtrian",
+    },
+  ];
+  const catererTypes = [
+    {
+      id: "chat-provider",
+      label: "Chat Provider Only",
+    },
+    {
+      id: "live-counters",
+      label:
+        "Specialised Live Counter Items Only – Eg: Ice Creams, Drinks, Desserts, Etc",
+    },
+    {
+      id: "single-cuisine",
+      label:
+        "You specialise in only one type of cuisine: Eg: Italian only, Thai only",
+    },
+    {
+      id: "general-caterer",
+      label: "General Caterer Providing all Services",
+    },
+  ];
+
   return (
     <div>
       <Layouts>
@@ -106,7 +208,7 @@ const Page = () => {
           {/* add-business  */}
           <button
             onClick={() => handleAccordionToggle("add-business")}
-            className={`cursor-pointer flex items-center justify-between  mb-3 bg-[#ededed] p-2 4xl:p-4 rounded-md`}
+            className={`cursor-pointer flex items-center justify-between  mb-3 bg-[#ededed] px-6 py-2 4xl:py-4 rounded-md`}
           >
             <h3 className="font-semibold text-[#303030] text-[20px] 3xl:text-[25px] 4xl:text-[28px]">
               Add Business
@@ -304,7 +406,7 @@ const Page = () => {
           {/* opening hours  */}
           <button
             onClick={() => handleAccordionToggle("opening-hours")}
-            className={`cursor-pointer flex items-center justify-between mb-3 bg-[#ededed] p-2 4xl:p-4 rounded-md`}
+            className={`cursor-pointer flex items-center justify-between mb-3 bg-[#ededed] px-6 py-2 4xl:py-4  rounded-md`}
           >
             <h3 className="font-semibold text-[#303030] text-[20px] 3xl:text-[25px] 4xl:text-[28px]">
               Opening Hours
@@ -402,7 +504,7 @@ const Page = () => {
           {/* services  */}
           <button
             onClick={() => handleAccordionToggle("services")}
-            className={`cursor-pointer flex items-center justify-between mb-3 bg-[#ededed] p-2 4xl:p-4 rounded-md`}
+            className={`cursor-pointer flex items-center justify-between mb-3 bg-[#ededed] px-6 py-2 4xl:py-4  rounded-md`}
           >
             <h3 className="font-semibold text-[#303030] text-[20px] 3xl:text-[25px] 4xl:text-[28px]">
               Services
@@ -592,10 +694,260 @@ const Page = () => {
                   </div>
 
                   {/* show category based on selected category from add business  */}
-                  <div>
-                    <label className="font-normal text-[16px] 3xl:text-[18px] text-[#151515] mb-2">What is the starting per plate price for a Vegetarian menu (Assume 250 pax)?</label>
-                    <input>
-                    </input>
+                  <div className="space-y-[25px]">
+                    <div className="flex flex-col ">
+                      <label
+                        htmlFor="plateprice"
+                        className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
+                      >
+                        What is the starting per plate price for a Vegetarian
+                        menu (Assume 250 pax)?
+                      </label>
+                      <input
+                        className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-1/2"
+                        name="plateprice"
+                      />
+                    </div>
+                    <div className="flex flex-col ">
+                      <label
+                        htmlFor="plateprice"
+                        className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
+                      >
+                        What is the starting per plate price for a non
+                        vegetarian menu (Assume 250 pax)?
+                      </label>
+                      <div className="flex flex-col space-y-2.5">
+                        {categories.map((item, index) => (
+                          <div key={index} className="flex items-center">
+                            <input
+                              className="accent-[#EA0056] size-3.5 4xl:size-5"
+                              type="checkbox"
+                              id={`checkbox-${item.id}`}
+                            />
+                            <label
+                              htmlFor={`checkbox-${item.id}`}
+                              className="text-black font-normal text-[14px] ml-2"
+                            >
+                              {item.categoryName}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col ">
+                      <label
+                        htmlFor="plateprice"
+                        className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
+                      >
+                        What is the Maximum number of people you can cater to?
+                      </label>
+                      <input
+                        className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-1/2"
+                        name="plateprice"
+                      />
+                    </div>
+                    <div className="flex flex-col ">
+                      <label
+                        htmlFor="plateprice"
+                        className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
+                      >
+                        What does your standard non-veg menu include? (Mention
+                        number of starters, number of main course, veg and non
+                        veg)
+                      </label>
+                      <textarea
+                        className="h-[90px] 3xl:h-[120px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-1/2 py-2"
+                        placeholder="Enter your message"
+                      ></textarea>
+                    </div>
+                    <div className="flex flex-col ">
+                      <label
+                        htmlFor="plateprice"
+                        className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
+                      >
+                        Which of the following cuisines do you offer
+                      </label>
+                      <div className="flex flex-col space-y-2.5">
+                        {cuisines.map((item, index) => (
+                          <div key={index} className="flex items-center">
+                            <input
+                              className="accent-[#EA0056] size-3.5 4xl:size-5"
+                              type="checkbox"
+                              id={`checkbox-${item.id}`}
+                            />
+                            <label
+                              htmlFor={`checkbox-${item.id}`}
+                              className="text-black font-normal text-[14px] ml-2"
+                            >
+                              {item.cuisineName}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col ">
+                      <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">
+                        What Type Of Caterer Are You ?
+                      </p>
+
+                      <div className="space-y-2.5">
+                        {catererTypes.map((item) => (
+                          <div key={item.id} className="flex items-center">
+                            <input
+                              className="accent-[#EA0056] size-5"
+                              type="radio"
+                              name="CatererType"
+                              id={item.id}
+                              value={item.id}
+                              checked={selectedType === item.id}
+                              onChange={(e) => setSelectedType(e.target.value)}
+                            />
+                            <label
+                              htmlFor={item.id}
+                              className="text-black font-normal text-[14px] ml-2 cursor-pointer"
+                            >
+                              {item.label}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col ">
+                      <label
+                        htmlFor="plateprice"
+                        className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
+                      >
+                        In which year did you start your catering business?
+                      </label>
+                      <input
+                        className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-1/2"
+                        name="plateprice"
+                      />
+                    </div>
+                    <div className="flex flex-col ">
+                      <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">
+                        Are you a veg caterer only?
+                      </p>
+
+                      <div className="space-y-2.5">
+                        {["Veg", "veg & non veg"].map((item) => (
+                          <div key={item} className="flex items-center">
+                            <input
+                              className="accent-[#EA0056] size-5"
+                              type="radio"
+                              name="vegCategory"
+                              id={item}
+                              value={item}
+                              checked={selectedType === item}
+                              onChange={(e) => setSelectedType(e.target.value)}
+                            />
+                            <label
+                              htmlFor={item}
+                              className="text-black font-normal text-[14px] ml-2 cursor-pointer"
+                            >
+                              {item}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col ">
+                      <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">
+                        Please describe your cancellation policy (if a user
+                        initiates cancellation) including whether you provide
+                        refunds of booking amounts, and terms for doing so.
+                      </p>
+
+                      <div className="space-y-2.5">
+                        {[
+                          "Partial Refund Offered",
+                          "No Refund Offered",
+                          "No Refund Offered However Date Adjustment Can Be Done",
+                          "Full Refund Offered",
+                        ].map((item) => (
+                          <div key={item} className="flex items-center">
+                            <input
+                              className="accent-[#EA0056] size-5"
+                              type="radio"
+                              name="cancellationpolicy"
+                              id={item}
+                              value={item}
+                              checked={selectedType === item}
+                              onChange={(e) => setSelectedType(e.target.value)}
+                            />
+                            <label
+                              htmlFor={item}
+                              className="text-black font-normal text-[14px] ml-2 cursor-pointer"
+                            >
+                              {item}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col ">
+                      <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">
+                        Please describe your cancellation policy (if you initiate a cancellation) including whether you provide refunds of booking amounts and terms for doing so.
+                      </p>
+
+                      <div className="space-y-2.5">
+                        {["Partial Refund Offered", "No Refund Offered", " Full Refund Offered"].map((item) => (
+                          <div key={item} className="flex items-center">
+                            <input
+                              className="accent-[#EA0056] size-5"
+                              type="radio"
+                              name="vegCategory"
+                              id={item}
+                              value={item}
+                              checked={selectedType === item}
+                              onChange={(e) => setSelectedType(e.target.value)}
+                            />
+                            <label
+                              htmlFor={item}
+                              className="text-black font-normal text-[14px] ml-2 cursor-pointer"
+                            >
+                              {item}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col ">
+                      <label
+                        htmlFor="plateprice"
+                        className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
+                      >
+                        What are the terms & conditions of your cancellation policy? (please describe in detail – eg: No refunds within a month of the wedding day or 50% amount refundable)
+                      </label>
+                      <textarea
+                        className="h-[90px] 3xl:h-[120px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-1/2 py-2"
+                        placeholder="Enter your message"
+                      ></textarea>
+                    </div>
+                    <div className="flex flex-col ">
+                      <label
+                        htmlFor="plateprice"
+                        className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
+                      >
+                       What is the minimum number of people you cater to?
+                      </label>
+                      <input
+                        className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-1/2"
+                        name="plateprice"
+                      />
+                    </div>
+                    <div className="flex flex-col ">
+                      <label
+                        htmlFor="plateprice"
+                        className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
+                      >
+                       How many weeks in advance should a booking be made to get a slot?
+                      </label>
+                      <input
+                        className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-1/2"
+                        name="plateprice"
+                      />
+                    </div>
                   </div>
                 </div>
               </form>
@@ -603,9 +955,9 @@ const Page = () => {
           )}
 
           {/* upload portfolio  */}
-          <button
+          <button 
             onClick={() => handleAccordionToggle("upload-portfolio")}
-            className={`cursor-pointer flex items-center justify-between mb-3 bg-[#ededed] p-2 4xl:p-4 rounded-md`}
+            className={`cursor-pointer flex items-center justify-between mb-3 bg-[#ededed] px-6 py-2 4xl:py-4  rounded-md`}
           >
             <h3 className="font-semibold text-[#303030] text-[20px] 3xl:text-[25px] 4xl:text-[28px]">
               Upload Portfolio
