@@ -94,7 +94,7 @@ const Page = () => {
     <div className="bg-white">
       <Header />
       <div className="container">
-        <div className="py-[55px]">
+        <div className="lg:py-[55px] py-[100px] lg:pb-0 pb-[55px]">
           <h3 className="font-semibold text-[28px] 3xl:text-[36px] 4xl:text-[45px] text-[#151515] text-center">
             Create Your Invitation Card
           </h3>
@@ -190,7 +190,7 @@ const Page = () => {
         </div> */}
         <div>
           {/* Mobile Swiper Slider */}
-          <div className="block lg:hidden">
+          <div className="block lg:hidden pb-[90px]">
             <Swiper
               spaceBetween={20}
               slidesPerView={1.2}
