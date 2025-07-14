@@ -88,7 +88,7 @@ const Page = () => {
                 {images.map((img) => (
                   <div
                     key={img.id}
-                    className="relative w-[60px] h-[60px] rounded-lg overflow-hidden border border-gray-300"
+                    className="relative size-[45px] md:size-[60px] rounded-lg overflow-hidden border border-gray-300"
                   >
                     <Image
                       src={img.url}
