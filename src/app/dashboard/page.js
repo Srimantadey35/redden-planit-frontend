@@ -488,7 +488,7 @@ const Page = () => {
                     <div className="w-[20%] md:w-[15%] 2xl:w-[10%]">
                       <Link
                         href={`${item.detailsLink}`}
-                        className="w-full font-normal text-[14px] lg:text-[15px] 3xl:text-[18px] text-[#EA0056] flex items-center"
+                        className="w-full font-normal text-[14px] lg:text-[15px] 3xl:text-[18px] text-[#EA0056] flex items-center justify-end"
                       >
                         <span>View details</span>
                         <Image
