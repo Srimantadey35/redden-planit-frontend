@@ -112,8 +112,8 @@ const Page = () => {
               className={`${
                 images.length > 0
                   ? "rounded-t-[0] rounded-b-[15px] pt-0"
-                  : "rounded-[15px] pt-6 3xl:pt-10"
-              } bg-[#F2F2F2] pb-6 3xl:pb-10 pl-[45px] pr-[20px] md:px-[45px] 3xl:px-[75px] relative`}
+                  : "rounded-[15px] pt-4 3xl:pt-10"
+              } bg-[#F2F2F2] pb-4 3xl:pb-10 pl-[45px] pr-[20px] md:px-[45px] 3xl:px-[75px] relative`}
             >
               <label className="relative">
                 <input
