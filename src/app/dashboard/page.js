@@ -443,7 +443,7 @@ const Page = () => {
                   >
                     <div className="flex items-center mr-8 w-[25%]">
                       <Image
-                        className="size-[30px] 2xl:size-[35px] 3xl:size-[50px] rounded-full object-cover"
+                        className="size-[35px] 3xl:size-[50px] rounded-full object-cover"
                         width={36}
                         height={36}
                         src={`${item.image}`}
