@@ -401,7 +401,7 @@ const Page = () => {
                     className="flex items-center justify-between bg-white px-3 py-2 rounded-[5px]"
                   >
                     <div className="w-full flex items-center">
-                      <span className="font-normal text-black text-[14px] sm:text-[15px] 3xl:text-[18px] ml-3">
+                      <span className="font-normal text-black text-[14px] sm:text-[15px] 3xl:text-[18px]">
                         {item.name}
                       </span>
                     </div>
@@ -441,7 +441,7 @@ const Page = () => {
                     key={index}
                     className="flex items-center justify-between bg-white px-3 py-2 rounded-[5px]"
                   >
-                    <div className="flex items-center mr-8 w-[25%]">
+                    <div className="flex items-center mr-8 w-[20%] md:w-[25%]">
                       <Image
                         className="size-[35px] 3xl:size-[50px] rounded-full object-cover"
                         width={36}
@@ -453,7 +453,7 @@ const Page = () => {
                         {item.name}
                       </span>
                     </div>
-                    <div className="flex flex-col w-[65%] mr-3">
+                    <div className="flex flex-col w-[40%] md:w-[65%] mr-3">
                       <div className="flex items-center">
                         <span className="font-normal text-[15px] 2xl:text-[16px] text-black pt-[3px]">
                           {item.rating}
@@ -478,14 +478,14 @@ const Page = () => {
                           ))}
                         </div>
                       </div>
-                      <p className="text-black text-[15px] 2xl:text-[16px] 3xl:text-[18px] font-normal my-1 2xl:my-1.5">
+                      <p className="text-black text-[15px] 2xl:text-[16px] 3xl:text-[18px] font-normal my-1 2xl:my-1.5 md:w-full w-[80%]">
                         {item.desc}
                       </p>
                       <p className="text-[#505050] text-[14px] 3xl:text-[16px] font-normal">
                         {item.date}
                       </p>
                     </div>
-                    <div className="w-[15%] 2xl:w-[10%]">
+                    <div className="w-[20%] md:w-[15%] 2xl:w-[10%]">
                       <Link
                         href={`${item.detailsLink}`}
                         className="w-full font-normal text-[14px] lg:text-[15px] 3xl:text-[18px] text-[#EA0056] flex items-center"
