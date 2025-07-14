@@ -11,9 +11,9 @@ const ImportFromGmail = ({setisModalOpen}) => {
   return (
     <div className="fixed top-0 left-0 bg-[#000000a5] z-[99999] size-full">
       <div className="flex items-center justify-center size-full">
-        <div className="bg-white rounded-[15px] relative max-w-[600px] 3xl:max-w-[914px] w-full modalAnim">
-          <div className="px-[30px] 3xl:px-[50px] mt-[30px] 3xl:mt-[55px] pb-[20px]">
-            <div className="flex items-center mb-[20px] 3xl:mb-[40px]">
+        <div className="bg-white rounded-[15px] relative max-w-full mx-4 sm:mx-0 my-4 sm:max-w-[600px] 3xl:max-w-[914px] w-full modalAnim">
+          <div className="px-[20px] md:px-[30px] 3xl:px-[50px] mt-[50px] sm:mt-[30px] 3xl:mt-[55px] pb-[20px]">
+            <div className="flex items-center justify-center mb-[20px] 3xl:mb-[40px]">
               <h3 className="font-semibold text-[24px] 3xl:text-[30px] text-[#151515] flex items-center ">
                 <span>Import guest from gmail</span>
                 <Image className="ml-3 w-[41px]" width={41} height={41} src={'/images/gmaillogo.svg'} alt="gmaillogo"/>

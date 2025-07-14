@@ -161,7 +161,7 @@ const Login = ({ planName }) => {
                     <Image
                       width={18}
                       height={18}
-                      src={"/images/sign-up/passvisible.svg"}
+                      src={`${isPassVisible ? '/images/eye-open.svg':'/images/sign-up/passvisible.svg'}`}
                       alt="passvisible"
                     />
                   </button>
