@@ -253,7 +253,7 @@ input:-webkit-autofill:active{
 }
 
 .scroll-visible::-webkit-scrollbar {
-  height: 8px;
+  height: 4px;
 }
 
 .scroll-visible::-webkit-scrollbar-thumb {

@@ -185,7 +185,7 @@ const Page = () => {
               {cardData2.map((item, index) => (
                 <div
                   key={index}
-                  className="hover:shadow-2xl hover:p-1 hover:border rounded-xl transition-all ease-in-out duration-100 relative cursor-pointer"
+                  className="hover:shadow-2xl hover:p-1 hover:border rounded-xl transition-all ease-in-out duration-100 relative cursor-pointer group"
                 >
                   <Image
                     className="w-[444px] rounded-xl"
@@ -195,10 +195,18 @@ const Page = () => {
                     alt={`cardItem-${index}`}
                   />
                   {(item.isNew || item.isTrending) && (
-                    <span className="text-white font-semibold text-sm bg-[#DC0E0E] rounded-sm px-2 py-0.5 absolute top-[-10px] right-[-10px]">
+                    <span className="text-white font-semibold text-[12px] 3xl:text-sm bg-[#DC0E0E] rounded-sm px-2 py-0.5 absolute top-[-10px] right-[-10px]">
                       {item.isNew ? "New" : "Trending"}
                     </span>
                   )}
+                  <div className="bg-[#ffffffab] absolute top-0 right-0 bottom-0 left-0 rounded-xl flex-col items-center justify-center hidden group-hover:flex transition-all ease">
+                      <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
+                        Preview design
+                      </button>
+                      <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
+                        Customise design
+                      </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -208,7 +216,7 @@ const Page = () => {
               {cardData.map((item, index) => (
                 <div
                   key={index}
-                  className="hover:shadow-2xl hover:p-1 hover:border rounded-xl transition-all ease-in-out duration-100 relative cursor-pointer"
+                  className="hover:shadow-2xl hover:p-1 hover:border rounded-xl transition-all ease-in-out duration-100 relative cursor-pointer group"
                 >
                   <Image
                     className="w-[444px] rounded-xl"
@@ -218,10 +226,18 @@ const Page = () => {
                     alt={`cardItem-${index}`}
                   />
                   {(item.isNew || item.isTrending) && (
-                    <span className="text-white font-semibold text-sm bg-[#DC0E0E] rounded-sm px-2 py-0.5 absolute top-[-10px] right-[-10px]">
+                    <span className="text-white font-semibold text-[12px] 3xl:text-sm bg-[#DC0E0E] rounded-sm px-2 py-0.5 absolute top-[-10px] right-[-10px]">
                       {item.isNew ? "New" : "Trending"}
                     </span>
                   )}
+                  <div className="bg-[#ffffffab] absolute top-0 right-0 bottom-0 left-0 rounded-xl flex-col items-center justify-center hidden group-hover:flex transition-all ease">
+                      <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
+                        Preview design
+                      </button>
+                      <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
+                        Customise design
+                      </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -231,7 +247,7 @@ const Page = () => {
               {cardData2.map((item, index) => (
                 <div
                   key={index}
-                  className="hover:shadow-2xl hover:p-1 hover:border rounded-xl transition-all ease-in-out duration-100 relative cursor-pointer"
+                  className="hover:shadow-2xl hover:p-1 hover:border rounded-xl transition-all ease-in-out duration-100 relative cursor-pointer group"
                 >
                   <Image
                     className="w-[444px] rounded-xl"
@@ -241,10 +257,18 @@ const Page = () => {
                     alt={`cardItem-${index}`}
                   />
                   {(item.isNew || item.isTrending) && (
-                    <span className="text-white font-semibold text-sm bg-[#DC0E0E] rounded-sm px-2 py-0.5 absolute top-[-10px] right-[-10px]">
+                    <span className="text-white font-semibold text-[12px] 3xl:text-sm bg-[#DC0E0E] rounded-sm px-2 py-0.5 absolute top-[-10px] right-[-10px]">
                       {item.isNew ? "New" : "Trending"}
                     </span>
                   )}
+                  <div className="bg-[#ffffffab] absolute top-0 right-0 bottom-0 left-0 rounded-xl flex-col items-center justify-center hidden group-hover:flex transition-all ease">
+                      <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
+                        Preview design
+                      </button>
+                      <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
+                        Customise design
+                      </button>
+                  </div>
                 </div>
               ))}
             </div>

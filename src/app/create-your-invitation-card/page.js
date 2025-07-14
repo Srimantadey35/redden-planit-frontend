@@ -159,7 +159,7 @@ const Page = () => {
 
           </div>
 
-          <h4 className="text-black text-[23px] 4xl:text-[25px] font-medium">
+          <h4 className="text-black text-[23px] 4xl:text-[25px] font-medium lg:mb-5">
             Choose from beautifully designed templates and customize them for
             your event
           </h4>

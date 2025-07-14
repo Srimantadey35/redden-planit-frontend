@@ -1,18 +1,17 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 
 const Index = ({ children }) => {
-  const [isSideBarOpen, setisSideBarOpen] = useState(false);
-  const sideBarOpen = ()=>{
-    setisSideBarOpen(!isSideBarOpen)
-  }
+  const [isMenuOpen, setisMenuOpen] = useState(true);
+  console.log(isMenuOpen);
+  
   return (
-    <div className="flex">
-      <Sidebar />
-      <main className="w-[calc(100%-245px)] 3xl:w-[calc(100%-280px)] bg-white ml-[245px] 3xl:ml-[280px]">
-        <Header />
+    <div className="md:flex">
+      <Sidebar isMenuOpen={isMenuOpen} setisMenuOpen={setisMenuOpen} />
+      <main className={`${isMenuOpen ? 'w-full smd:w-[calc(100%-245px)] 3xl:w-[calc(100%-280px)] smd:ml-[245px] 3xl:ml-[280px]':'md:w-[calc(100%-200px)] md:ml-[200px] smd:w-[calc(100%-245px)] 3xl:w-[calc(100%-280px)] smd:ml-[245px] 3xl:ml-[280px]'} bg-white transition-all ease-in-out duration-300`}>
+        <Header setisMenuOpen={setisMenuOpen} isMenuOpen={isMenuOpen}/>
         {children}
       </main>
     </div>

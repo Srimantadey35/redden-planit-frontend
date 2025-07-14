@@ -2,7 +2,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 
-const Header = () => {
+const Header = ({ isMenuOpen, setisMenuOpen }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
 
@@ -19,10 +19,37 @@ const Header = () => {
   return (
     <>
       {/* Header */}
-      <div className=" bg-white sticky top-0 z-[99999]">
+      <div className=" bg-white sticky top-0 z-[999]">
         <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto">
           <div className="py-3 2xl:py-5 4xl:py-6 flex items-center justify-between">
-            <h4 className="font-semibold text-[18px] 3xl:text-[24px] text-[#313131]">
+            {/* hamburger  */}
+            <button
+              onClick={() => setisMenuOpen(!isMenuOpen)}
+              className="relative w-6 h-6 flex flex-col justify-center items-center smd:hidden mr-2.5"
+            >
+              {/* Top Bar */}
+              <span
+                className={`absolute h-0.5 w-5 bg-black rounded transition-all duration-300 ease-in-out ${
+                  !isMenuOpen ? "rotate-45 translate-y-0" : "-translate-y-[6px]"
+                }`}
+              ></span>
+
+              {/* Middle Bar */}
+              <span
+                className={`absolute h-0.5 w-5 bg-black rounded transition-all duration-300 ease-in-out ${
+                  !isMenuOpen ? "opacity-0" : "opacity-100"
+                }`}
+              ></span>
+
+              {/* Bottom Bar */}
+              <span
+                className={`absolute h-0.5 w-5 bg-black rounded transition-all duration-300 ease-in-out ${
+                  !isMenuOpen ? "-rotate-45 translate-y-0" : "translate-y-[6px]"
+                }`}
+              ></span>
+            </button>
+
+            <h4 className="font-semibold text-[18px] 3xl:text-[24px] text-[#313131] flex-[1] smd:flex-1/2">
               Hello, Rabina Paul
             </h4>
             {/* Right Icons */}
@@ -42,7 +69,7 @@ const Header = () => {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="cursor-pointer mt-[5px]"
                 >
-                  <svg 
+                  <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24px"
                     height="24px"
@@ -63,7 +90,7 @@ const Header = () => {
 
                 {/* Desktop Dropdown */}
                 {isProfileOpen && (
-                  <div className="hidden xl:block absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
                     <div className="flex items-center space-x-3 p-4 border-b">
                       <Image
                         src="/images/userimg.png"
@@ -94,7 +121,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-
     </>
   );
 };

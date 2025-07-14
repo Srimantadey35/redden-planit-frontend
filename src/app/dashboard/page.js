@@ -243,54 +243,53 @@ const Page = () => {
 
   return (
     <Layouts>
-      <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto">
+      <div className="w-full max-w-full px-[10px] md:px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto">
         <div className="rounded-[10px] border-[5px] 3xl:border-[10px] border-[#FAFAFA] mt-3">
           <div
-            className="rounded-[8px] py-[50px] 2xl:py-[75px]"
+            className="bg-contain md:bg-cover rounded-[8px] py-[35px] md:py-[50px] 2xl:py-[75px] sm:px-0 px-2"
             style={{
               backgroundColor: "#FAF1F2",
               backgroundImage: "url('/images/vendorbannerbg.png')",
-              backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
             }}
           >
-            <h2 className="text-black font-semibold text-[24px] xl:text-[27px] 2xl:text-[34px] 3xl:text-[40px] 4xl:text-[48px] text-center">
+            <h2 className="text-black font-semibold leading-[1.2] text-[22px] md:text-[24px] xl:text-[27px] 2xl:text-[34px] 3xl:text-[40px] 4xl:text-[48px] text-center">
               Welcome to Your PlanIt Vendor Hub
             </h2>
-            <p className="font-normal text-[15px] 2xl:text-[18px] 3xl:text-[20px] text-[#505050] text-center">
+            <p className="mt-2 font-normal text-[14px] sm:text-[15px] 2xl:text-[18px] 3xl:text-[20px] text-[#505050] text-center">
               Manage leads, update your profile, and grow your business with
               ease
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-3 xl:grid-cols-4 gap-[10px] 2xl:gap-[12px] 4xl:gap-[16px] mt-4 2xl:mt-6 4xl:mt-8 mb-3 4xl:mb-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-[10px] 2xl:gap-[12px] 4xl:gap-[16px] mt-4 2xl:mt-6 4xl:mt-8 mb-3 4xl:mb-5">
           {bookingChart.map((item, index) => (
             <div
               key={index}
-              className="p-[18px] 2xl:p-[27px] rounded-[10px] bg-[#F7F7F7] flex flex-col justify-center"
+              className={`${item.title == 'Bookings This Month' ? 'row-[1_/_3] col-[1_/_3] sm:row-auto sm:col-auto':''} p-[18px] 2xl:p-[27px] rounded-[10px] bg-[#F7F7F7] flex flex-col justify-center`}
             >
-              <h3 className="font-semibold text-[18px] 3xl:text-[20px] text-[#151515]">
+              <h3 className="font-semibold text-[13px] sm:text-[15px] md:text-[18px] 3xl:text-[20px] text-[#151515]">
                 {item.title}
               </h3>
               <div className="flex items-center mt-2">
                 <Image
-                  className="w-[20px] 2xl:w-[23px] 3xl:w-[26px] 4xl:w-[30px]"
+                  className="w-[16px] md:w-[20px] 2xl:w-[23px] 3xl:w-[26px] 4xl:w-[30px]"
                   width={30}
                   height={30}
                   src={`${item.icon}`}
                   alt="leads"
                 />
-                <h4 className="ml-2 font-semibold text-[#EA0056] text-[20px] xl:text-[24px] 2xl:text-[28px] 3xl:text-[34px] 4xl:text-[40px]">
+                <h4 className="ml-2 font-semibold text-[#EA0056] text-[16px] md:text-[20px] xl:text-[24px] 2xl:text-[28px] 3xl:text-[34px] 4xl:text-[40px]">
                   {item.value}
                 </h4>
               </div>
             </div>
           ))}
 
-          <div className="p-[27px] rounded-[10px] bg-[#F7F7F7]">
-            <h3 className="font-semibold text-[18px] 3xl:text-[20px] text-[#151515]">
+          <div className={`col-[1_/_3] sm:col-auto p-[18px] 2xl:p-[27px] rounded-[10px] bg-[#F7F7F7]`}>
+            <h3 className="font-semibold text-[15px] md:text-[18px] 3xl:text-[20px] text-[#151515]">
               Profile completion
             </h3>
             <div className="mt-2" ref={sectionRef}>
@@ -319,8 +318,8 @@ const Page = () => {
               <h4 className="font-semibold text-[18px] 3xl:text-[20px] text-[#151515]">
                 Leads
               </h4>{" "}
-              <div className="flex items-center space-x-3">
-                <button className="font-normal text-[14px] text-[#505050] rounded-[5px] bg-white border-[1px] border-[#F0EDED] py-[6px] px-[13px] flex items-center">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <button className="font-normal text-[14px] text-[#505050] rounded-[5px] bg-white border-[1px] border-[#F0EDED] py-[6px] px-[10px] sm:px-[13px] flex items-center">
                   <span className="mr-2">This week</span>
                   <Image
                     width={15}
@@ -329,13 +328,14 @@ const Page = () => {
                     alt="filter icon"
                   />
                 </button>
-                <button className="font-normal text-[14px] text-[#151515] rounded-[5px] bg-[#D7D7D7] border-[1px] border-[#F0EDED] py-[6px] px-[13px] flex items-center">
+                <button className="font-normal text-[14px] text-[#151515] rounded-[5px] bg-[#D7D7D7] border-[1px] border-[#F0EDED] py-[6px] px-[10px] sm:px-[13px] flex items-center">
                   Explore more
                 </button>
               </div>
             </div>
-            <div className="px-[15px] py-2.5">
-              <ul className="space-y-[10px]">
+
+            <div className="px-[15px] py-2.5 overflow-x-auto scroll-visible">
+              <ul className="space-y-[10px] min-w-[455px] sm:min-w-auto">
                 {leadsFData.map((item, index) => (
                   <li
                     key={index}
@@ -343,7 +343,7 @@ const Page = () => {
                   >
                     <div className="w-full flex items-center">
                       <Image
-                        className="rounded-full size-[30px] object-cover"
+                        className="rounded-full size-[25px] sm:size-[30px] object-cover"
                         width={30}
                         height={30}
                         src={`${item.image}`}
@@ -401,7 +401,7 @@ const Page = () => {
                     className="flex items-center justify-between bg-white px-3 py-2 rounded-[5px]"
                   >
                     <div className="w-full flex items-center">
-                      <span className="font-normal text-black text-[15px] 3xl:text-[18px] ml-3">
+                      <span className="font-normal text-black text-[14px] sm:text-[15px] 3xl:text-[18px] ml-3">
                         {item.name}
                       </span>
                     </div>
@@ -434,8 +434,8 @@ const Page = () => {
                 Explore more
               </button>
             </div>
-            <div className="px-[14px] my-2.5">
-              <ul className="space-y-[14px]">
+            <div className="px-[14px] my-2.5 overflow-x-auto scroll-visible">
+              <ul className="space-y-[14px] min-w-[675px]">
                 {reviewsData.map((item, index) => (
                   <li
                     key={index}
@@ -508,16 +508,16 @@ const Page = () => {
         </div>
 
         <div className="rounded-[10px] bg-[#F9F9F9] mb-5">
-          <div className="px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[55px] py-4 flex items-center justify-between">
+          <div className="px-[18px] lg:px-[12px] xl:px-[18px] 2xl:px-[24px] 3xl:px-[30px] 4xl:px-[55px] py-4 flex items-center justify-between sm:flex-row flex-col">
             <h4 className="font-semibold text-[20px] 2xl:text-[25px] text-[#303030]">
               Bookings
             </h4>
 
-            <div className="flex items-center justify-between">
-              <form>
+            <div className="flex items-center justify-between sm:flex-row flex-col w-full sm:w-fit sm:mt-0 mt-3">
+              <form className="w-full">
                 <label className="relative">
                   <input
-                    className="rounded-[5px] bg-white border-[1px] border-[#F0EDED] h-[37px] w-[320px] placeholder:text-[#6B6B6B] placeholder:font-normal placeholder:text-[12px] text-black text-[12px] font-normal px-[13px] outline-none"
+                    className="rounded-[5px] bg-white border-[1px] border-[#F0EDED] h-[37px] w-full sm:w-[320px] placeholder:text-[#6B6B6B] placeholder:font-normal placeholder:text-[12px] text-black text-[12px] font-normal px-[13px] outline-none"
                     type="text"
                     name="search"
                     id="search"
@@ -534,8 +534,8 @@ const Page = () => {
                   </button>
                 </label>
               </form>
-              <div className="flex items-center ml-[13px]">
-                <button className="font-normal text-[14px] text-[#505050] rounded-[5px] bg-white border-[1px] border-[#F0EDED] py-[6px] px-[13px] flex items-center">
+              <div className="flex items-center w-full sm:ml-[13px] sm:mt-0 mt-1.5">
+                <button className="font-normal text-[14px] text-[#505050] rounded-[5px] bg-white border-[1px] border-[#F0EDED] py-[6px] px-[13px] flex items-center w-fit mx-auto">
                   <span className="mr-2">This week</span>
                   <Image
                     width={15}
