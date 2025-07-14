@@ -64,7 +64,7 @@
 }
 
 body {
-  background: var(--background);
+  background: #fff;
   color: var(--foreground);
   font-family: 'jostregualar', sans-serif;
 }

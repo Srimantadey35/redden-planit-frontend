@@ -56,7 +56,7 @@ const Header = () => {
     },
     {
       label: "Vendors",
-      href: "/vendors",
+      href: "/dashboard",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M20 13V6a2 2 0 0 0-2-2h-2.5l-1-2h-5l-1 2H6a2 2 0 0 0-2 2v7" />

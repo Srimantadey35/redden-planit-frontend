@@ -13,15 +13,15 @@ export default function NotFound() {
             alt="404 Not Found"
             width={800}
             height={600}
-            className="mx-auto"
+            className="mx-auto w-[10rem] md:w-[15rem]"
             priority
           />
-        <div className="mt-[-100px]">
-          <h1 className="text-[4rem] font-bold mt-6 text-black">404</h1>
-          <h1 className="text-[2rem] font-bold mt-6 text-black">
+        <div className="">
+          <h1 className="text-[2rem] md:text-[4rem] font-bold mt-6 text-black">404</h1>
+          <h1 className="text-[1.4rem] md:text-[2rem] font-bold text-black">
             Page Not Found
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-gray-600">
             Oops! The page you&apos;re looking for doesn&apos;t exist.
           </p>
           <Link

@@ -107,13 +107,10 @@ const Page = () => {
                 Make your celebration unforgettable with a personalized website
                 for your special day
               </p>
-              <button className="text-white font-semibold text-[18px] 4xl:text-[20px] bg-[#EA0056] py-2 4xl:py-3 px-8 4xl:px-14 rounded-[8px]">
+              <button className="text-white font-semibold text-[18px] 4xl:text-[20px] bg-[#EA0056] hover:bg-[#cc004b] py-2 4xl:py-3 px-8 4xl:px-14 rounded-[8px] cursor-pointer">
                 Explore templates
               </button>
             </div>
-            {/* <div>
-                        <Image width={693} height={310} src={'/images/create-website/bannerright.png'} alt='bannerright'/>
-                    </div> */}
           </div>
         </div>
       </div>
@@ -130,7 +127,7 @@ const Page = () => {
               className="relative flex items-center mx-auto w-fit bg-[#F4F4F4] rounded-full px-1 py-1"
             >
               <div
-                className="absolute h-full bg-[#EA0056] rounded-full transition-all duration-300 ease-in-out"
+                className="absolute h-full bg-[#EA0056] rounded-full transition-all duration-500 ease-in-out"
                 style={{
                   left: indicatorStyle.left,
                   width: indicatorStyle.width,
@@ -172,10 +169,10 @@ const Page = () => {
                     </span>
                   )}
                   <div className="bg-[#ffffffab] absolute top-0 right-0 bottom-0 left-0 rounded-xl flex-col items-center justify-center hidden group-hover:flex transition-all ease">
-                      <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white bg-[#212121] py-2 px-7 rounded-sm">
+                      <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
                         Preview design
                       </button>
-                      <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white bg-[#EA0056] py-2 px-7 rounded-sm">
+                      <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
                         Customise design
                       </button>
                   </div>
