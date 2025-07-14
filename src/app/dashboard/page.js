@@ -187,7 +187,7 @@ const Page = () => {
     ],
   };
 
-  const profileComPercentage = 30;
+  const profileComPercentage = 10;
   const [isVisible, setIsVisible] = useState(false);
   const [count, setCount] = useState(0);
   const sectionRef = useRef(null);
@@ -254,7 +254,7 @@ const Page = () => {
               backgroundPosition: "center",
             }}
           >
-            <h2 className="text-black font-semibold leading-[1.2] text-[22px] md:text-[24px] xl:text-[27px] 2xl:text-[34px] 3xl:text-[40px] 4xl:text-[48px] text-center">
+            <h2 className="text-black font-semibold leading-[1.2] text-[24px] xl:text-[27px] 2xl:text-[34px] 3xl:text-[40px] 4xl:text-[48px] text-center">
               Welcome to Your PlanIt Vendor Hub
             </h2>
             <p className="mt-2 font-normal text-[14px] sm:text-[15px] 2xl:text-[18px] 3xl:text-[20px] text-[#505050] text-center">
@@ -305,7 +305,7 @@ const Page = () => {
                   }}
                 ></div>
               </div>
-              <p className="text-[14px] text-[#151515] font-normal mt-1">
+              <p className="text-[14px] text-[#151515] font-normal mt-2">
                 Complete your profile
               </p>
             </div>
