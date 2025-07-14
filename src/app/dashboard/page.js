@@ -194,6 +194,8 @@ const Page = () => {
 
   // Trigger visibility when in viewport
   useEffect(() => {
+    const currentSection = sectionRef.current; // ✅ capture current value of ref
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -204,13 +206,13 @@ const Page = () => {
       { threshold: 0.3 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (currentSection) {
+      observer.observe(currentSection);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentSection) {
+        observer.unobserve(currentSection); // ✅ use the captured value
       }
     };
   }, []);

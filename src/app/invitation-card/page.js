@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Layout from "@/components/Layout";
+import Layouts from "@/components/Layouts";
 import Draggable from "react-draggable";
 import Sidebar from "@/components/Layout/Sidebar";
 
@@ -116,10 +116,7 @@ export default function EditableInvitationCard() {
 
   return (
     <>
-      <Layout>
-        <div className="flex ">
-          <Sidebar />
-
+      <Layouts>
           <div className="py-10 bg-[#ebedf0] grow flex flex-col overflow-y-auto items-center">
             <div className="flex items-start">
               <div className="space-y-8 bg-white p-3 mt-[72px] rounded-sm mr-5 flex flex-col">
@@ -508,8 +505,7 @@ export default function EditableInvitationCard() {
               </div>
             </div>
           </div>
-        </div>
-      </Layout>
+      </Layouts>
     </>
   );
 }

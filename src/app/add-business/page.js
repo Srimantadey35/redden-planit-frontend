@@ -180,11 +180,11 @@ const Page = () => {
                           Wedding Planners
                         </option>
                         <option value="mehandi-artist">Mehandi Artist</option>
-                        <option value="dj">Dj's</option>
+                        <option value="dj">Dj&apos;s</option>
                         <option value="pre-wedding-photographers">
                           Pre Wedding Photographers
                         </option>
-                        <option value="wedding-pandit">Wedding Pandit's</option>
+                        <option value="wedding-pandit">Wedding Pandit&apos;s</option>
                         <option value="cake">Cake</option>
                         <option value="bartenders">Bartenders</option>
                       </select>
