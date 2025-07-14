@@ -113,11 +113,11 @@ const Page = () => {
                 images.length > 0
                   ? "rounded-t-[0] rounded-b-[15px] pt-0"
                   : "rounded-[15px] pt-6 3xl:pt-10"
-              } bg-[#F2F2F2] pb-6 3xl:pb-10 px-[45px] 3xl:px-[75px] relative`}
+              } bg-[#F2F2F2] pb-6 3xl:pb-10 pl-[45px] pr-[20px] md:px-[45px] 3xl:px-[75px] relative`}
             >
               <label className="relative">
                 <input
-                  className="bg-white rounded-[10px] 3xl:rounded-[15px] w-full text-black h-[46px] 3xl:h-[82px] font-normal text-[15px] 3xl:text-[20px] placeholder:text-[#9E9E9E] placeholder:font-normal placeholder:text-[15px] 3xl:placeholder:text-[20px] pl-5 pr-20 outline-none"
+                  className="bg-white rounded-[10px] 3xl:rounded-[15px] w-full text-black h-[46px] 3xl:h-[82px] font-normal text-[15px] 3xl:text-[20px] placeholder:text-[#9E9E9E] placeholder:font-normal placeholder:text-[15px] 3xl:placeholder:text-[20px] pl-5 pr-[56px] md:pr-20 outline-none"
                   type="text"
                   name="text"
                   id="text"

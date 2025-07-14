@@ -7,7 +7,6 @@ export default function NotFound() {
   return (
     <section className="h-screen w-full flex flex-col items-center justify-center bg-white text-center px-4">
       <div className="container">
-       
           <Image
             src="/images/404.gif"
             alt="404 Not Found"
