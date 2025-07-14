@@ -49,12 +49,12 @@ const Sidebar = ({setisMenuOpen, isMenuOpen}) => {
     },
   ];
   return (
-    <div className={`${isMenuOpen ? 'left-[-100%] smd:left-0':'left-0'} transition-all ease-in-out duration-300 fixed top-0 left-0 overflow-y-auto w-full sm:w-[200px] smd:w-[245px] 3xl:w-[280px] bg-[linear-gradient(180deg,_#100509_0%,_#59172F_123.14%)] px-2 3xl:px-4 md:flex flex-col justify-between py-5 md:py-8 min-h-screen z-[99999] max-h-screen`}>
+    <div className={`${isMenuOpen ? 'left-[-100%] smd:left-0':'left-0'} transition-all ease-in-out duration-300 fixed top-0 left-0 overflow-y-auto w-[60%] sm:w-[200px] smd:w-[245px] 3xl:w-[280px] bg-[linear-gradient(180deg,_#100509_0%,_#59172F_123.14%)] px-2 3xl:px-4 md:flex flex-col justify-between py-5 md:py-8 min-h-screen z-[99999] max-h-screen`}>
       <button className="md:hidden block" onClick={()=>setisMenuOpen(!isMenuOpen)}>
         <Image className="invert-[1] absolute top-3 right-3" width={16} height={16} src={'/images/cross.svg'} alt="cross"/>
       </button>
       <div>
-        <div className="size-[80px] md:size-[96px] 3xl:size-[115px] 4xl:size-[130px] rounded-full bg-[#d9d9d936] flex items-center justify-center mx-auto">
+        <div className="size-[80px] md:size-[96px] 3xl:size-[115px] 4xl:size-[130px] rounded-full bg-[#d9d9d936] flex items-center justify-center mr-auto ml-0 md:mx-auto">
           <Image
             className="w-[60px] md:w-[70px] 3xl:w-[80px] 4xl:w-[100px]"
             width={100}
