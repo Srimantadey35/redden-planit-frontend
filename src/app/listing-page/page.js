@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import CitySelectModal from "@/components/widgets/ListingCountry";
 
-const page = () => {
+const Page = () => {
   const [options, setOptions] = useState("Grid");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const viewOptions = [
@@ -360,4 +360,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
