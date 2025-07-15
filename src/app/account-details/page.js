@@ -26,7 +26,7 @@ const page = () => {
             Account details
           </h3>
 
-          <div className="mt-3 px-6 py-5 flex items-center bg-[#F2F2F2] rounded-[10px] justify-between">
+          <div className="mt-3 px-3 xl:px-6 py-3 xl:py-5 flex items-center bg-[#F2F2F2] rounded-[10px] justify-between">
             <div className="flex items-center">
               <div className="relative">
                 <Image
@@ -66,9 +66,9 @@ const page = () => {
               <span>Add Business</span>
             </Link>
           </div>
-          <div className="px-[35px] py-5 bg-[#F2F2F2] rounded-[10px] my-[28px]">
+          <div className="px-3 xl:px-[35px] py-5 bg-[#F2F2F2] rounded-[10px] my-[28px]">
             <form>
-              <div className="grid grid-cols-3 gap-[25px]">
+              <div className="grid grid-cols-3 gap-[20px] xl:gap-[25px]">
                 <div className="flex flex-col">
                   <label
                     htmlFor="firstname"
@@ -158,9 +158,9 @@ const page = () => {
               </div>
             </form>
           </div>
-          <div className="px-[35px] py-5 bg-[#F2F2F2] rounded-[10px]">
+          <div className="px-3 xl:px-[35px] py-5 bg-[#F2F2F2] rounded-[10px]">
             <form>
-              <div className="grid grid-cols-2 gap-[25px]">
+              <div className="grid grid-cols-2 gap-[20px] xl:gap-[25px]">
                 <div className="flex flex-col">
                   <label
                     htmlFor="password"
@@ -194,7 +194,7 @@ const page = () => {
               </div>
 
               <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center">
+                <div className="flex items-center w-[80%]">
                   <div className="size-[24px] rounded-full bg-[#E4E4E4] grid place-items-center mr-2">
                     <Image
                       width={3}
@@ -208,7 +208,7 @@ const page = () => {
                     practices e.g. One Special character , 1 numbers etc.
                   </p>
                 </div>
-                <div>
+                <div className="w-[20%] flex justify-end">
                   <button className="text-[#EA0056] font-semibold text-[14px] 3xl:text-[16px] cursor-pointer">
                     Change password
                   </button>
