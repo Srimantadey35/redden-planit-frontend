@@ -451,10 +451,10 @@ const page = () => {
         <div className="w-full max-w-[1204px] mx-auto">
           <div className="flex justify-between">
             <div className="py-20">
-              <h3 className="font-bold text-[54px] 4xl:text-[68px] text-white leading-[1.1]">
+              <h3 className="font-bold text-[55px] 4xl:text-[68px] text-white leading-[1.1]">
                 Think It. <br /> Plan It. Done.
               </h3>
-              <p className="font-medium text-[18px] 3xl:text-[24px] 4xl:text-[27px] text-white leading-[1.2] my-4">
+              <p className="font-medium text-[24px] 4xl:text-[27px] text-white leading-[1.2] my-4">
                 Your all-in-one AI assistant for creating <br /> unforgettable
                 events effortlessly.
               </p>
