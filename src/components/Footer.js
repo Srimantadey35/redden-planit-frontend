@@ -51,7 +51,7 @@ const Footer = () => {
               <li className="font-medium text-[16px] 3xl:text-[20px] text-white">
                 Contact Info
               </li>
-              <li className="font-medium text-[16px] 3xl:text-[20px] text-white">
+              <li className="font-medium text-[15px] 3xl:text-[18px] text-white">
                 For Vendors
               </li>
               <li className="font-normal text-[15px] 3xl:text-[18px] text-white flex items-center">
