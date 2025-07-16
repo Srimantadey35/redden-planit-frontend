@@ -43,7 +43,7 @@
 }
 @media (min-width: 1536px) {
   .container {
-    max-width: 1418px; 
+    max-width: 1418px;
   }
 }
 
@@ -196,50 +196,69 @@ body {
   font-style: normal;
 }
 
-.datatable tr th:first-child,.datatable td:first-child{
+.datatable tr th:first-child,
+.datatable td:first-child {
   padding-left: 60px;
 }
-.datatable tr th:last-child,.datatable td:last-child{
+.datatable tr th:last-child,
+.datatable td:last-child {
   padding-right: 60px;
 }
 
-.scrollable-element::-webkit-scrollbar{height: 2px; width: 6px;background-color: #E4E4E4;}
-.scrollable-element::-webkit-scrollbar-track {background: none; border-radius: 10px; }
-.scrollable-element::-webkit-scrollbar-thumb {background: #A9A9A9; border-radius: 10px; }
-.scrollable-element::-webkit-scrollbar-thumb:hover {background: #A9A9A9; border-radius: 10px; }
-.scrollable-element::-webkit-scrollbar-thumb:horizontal{background: #E4E4E4;border-radius: 10px;}
+.scrollable-element::-webkit-scrollbar {
+  height: 2px;
+  width: 6px;
+  background-color: #e4e4e4;
+}
+.scrollable-element::-webkit-scrollbar-track {
+  background: none;
+  border-radius: 10px;
+}
+.scrollable-element::-webkit-scrollbar-thumb {
+  background: #a9a9a9;
+  border-radius: 10px;
+}
+.scrollable-element::-webkit-scrollbar-thumb:hover {
+  background: #a9a9a9;
+  border-radius: 10px;
+}
+.scrollable-element::-webkit-scrollbar-thumb:horizontal {
+  background: #e4e4e4;
+  border-radius: 10px;
+}
 
 /* Remove native calendar icon */
-input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator{
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
 }
-input[type="date"] {
+input[type='date'] {
   /* hide native icon in Firefox */
   -moz-appearance: textfield;
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-.before_img::after{
+.before_img::after {
   background-image: url('../../public/images/sidebaricons/toggleimage.svg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.vendortable tr th{
+.vendortable tr th {
   text-align: left;
 }
 .vendortable tr th:last-child {
   text-align: right !important;
 }
-.vendortable tr td{
+.vendortable tr td {
   text-align: left;
 }
 .vendortable tr td:last-child {
@@ -264,8 +283,6 @@ input:-webkit-autofill:active{
 .scroll-visible::-webkit-scrollbar-track {
   background: #f0f0f0;
 }
-
-
 
 @layer utilities {
   .animate-slide-in {
@@ -325,11 +342,15 @@ input:-webkit-autofill:active{
   }
 }
 
-
-
-
-
 /* visible scrollbar end  */
+.homepagebanner_bg {
+  background: #121212;
+  background: linear-gradient(
+    360deg,
+    rgba(18, 18, 18, 1) 5%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
 
 @media (max-width: 1700px) {
   .gradientline:before {

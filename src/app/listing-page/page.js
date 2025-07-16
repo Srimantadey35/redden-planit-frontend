@@ -89,7 +89,7 @@ const Page = () => {
   return (
     <div>
       <Header />
-      <div className="w-full max-w-[1200px] mx-auto">
+      <div className="w-full 2xl:px-0 px-[6rem] 2xl:max-w-[1200px] mx-auto">
         <div className="mt-2.5">
           <ul className="flex items-center space-x-1 text-[#7C7C7C] font-[400] text-[12px]">
             <li>Home &gt;</li>
