@@ -238,7 +238,7 @@ const page = () => {
         }}
       >
         <div className="absolute bottom-0 top-[35%] z-[0] left-0 right-0 homepagebanner_bg"></div>
-        <div className="w-full max-w-[1204px] mx-auto pt-[250px] 4xl:pt-[390px] pb-[58px] relative z-[2]">
+        <div className="w-full max-w-[1204px] mx-auto pt-[280px] 4xl:pt-[390px] pb-[58px] relative z-[2]">
           <div>
             <p className="text-[21px] text-white font-[500] text-center">
               Let&apos;s make everlasting experiences with us.

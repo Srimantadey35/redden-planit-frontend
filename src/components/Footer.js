@@ -104,7 +104,7 @@ const Footer = () => {
               </h5>
               <div className="flex items-center">
                 <Image
-                  className="rounded-sm"
+                  className="rounded-sm w-[28px] 3xl:w-[30px]"
                   width={60}
                   height={60}
                   src={"/images/footerimg1.png"}
@@ -121,7 +121,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center">
                 <Image
-                  className="rounded-sm"
+                  className="rounded-sm w-[28px] 3xl:w-[30px]"
                   width={60}
                   height={60}
                   src={"/images/footerimg2.png"}
