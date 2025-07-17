@@ -53,7 +53,7 @@ const page = () => {
       rating: "5.0",
       places: ["Mumbai", "Bangalore", "Pune"],
     },
-      {
+    {
       image: "/images/homepage-slider-images/vanue-searches/card1.png",
       viewers: "23k",
       title: "4 Star & Above Wedding Hotels",
@@ -238,7 +238,7 @@ const page = () => {
         }}
       >
         <div className="absolute bottom-0 top-[35%] z-[0] left-0 right-0 homepagebanner_bg"></div>
-        <div className="w-full max-w-[1204px] mx-auto pt-[280px] 4xl:pt-[390px] pb-[58px] relative z-[2]">
+        <div className="w-full max-w-[1204px] mx-auto pt-[50vh] pb-[58px] relative z-[2]">
           <div>
             <p className="text-[21px] text-white font-[500] text-center">
               Let&apos;s make everlasting experiences with us.
@@ -280,8 +280,11 @@ const page = () => {
             <div>
               <VenueSearches
                 venuesearchData={dataPopularSearches}
-                imgSize={[216, 291]}
+                imgSizeDesktop={[
+                  "w-[216px] h-[250px] 3xl:w-[216px] 3xl:h-[291px]",
+                ]}
                 slidesPerView={5}
+                imgOriginalSize={[216, 291]}
                 top={"40%"}
                 slideKey={"event"}
               />
@@ -300,7 +303,8 @@ const page = () => {
             <div>
               <VenueSearches
                 venuesearchData={data}
-                imgSize={[380, 224]}
+                imgSizeDesktop={[380, 224]}
+                imgOriginalSize={[380, 224]}
                 slidesPerView={3}
                 top={"30%"}
               />
@@ -322,7 +326,8 @@ const page = () => {
             <div>
               <VenueSearches
                 venuesearchData={dataFreeCard}
-                imgSize={[277, 400]}
+                imgSizeDesktop={[277, 400]}
+                imgOriginalSize={[277, 400]}
                 slidesPerView={4}
                 top={"40%"}
                 seemoreBtn={true}
@@ -451,7 +456,7 @@ const page = () => {
         <div className="w-full max-w-[1204px] mx-auto">
           <div className="flex justify-between">
             <div className="py-20">
-              <h3 className="font-bold text-[55px] 4xl:text-[68px] text-white leading-[1.1]">
+              <h3 className="font-bold text-[68px] text-white leading-[1.1]">
                 Think It. <br /> Plan It. Done.
               </h3>
               <p className="font-medium text-[24px] 4xl:text-[27px] text-white leading-[1.2] my-4">
@@ -464,7 +469,7 @@ const page = () => {
             </div>
             <div className="flex items-end">
               <Image
-                className="rounded-t-lg w-[500px] 4xl:w-[634px]"
+                className="rounded-t-lg w-[550px] 3xl:w-[634px]"
                 width={634}
                 height={468}
                 src={"/images/rightsideimg.png"}
@@ -493,7 +498,8 @@ const page = () => {
             <div>
               <VenueSearches
                 venuesearchData={dataFreeWebsite}
-                imgSize={[380, 270]}
+                imgSizeDesktop={[380, 270]}
+                imgOriginalSize={[380, 270]}
                 slidesPerView={3}
                 top={"35%"}
                 seemoreBtn={true}
@@ -513,7 +519,8 @@ const page = () => {
             <div>
               <VenueSearches
                 venuesearchData={makeupartist}
-                imgSize={[257, 240]}
+                imgSizeDesktop={[257, 240]}
+                imgOriginalSize={[257, 240]}
                 slidesPerView={4}
                 top={"30%"}
               />
@@ -529,7 +536,8 @@ const page = () => {
             <div>
               <VenueSearches
                 venuesearchData={latestBlogs}
-                imgSize={[380, 270]}
+                imgSizeDesktop={[380, 270]}
+                imgOriginalSize={[380, 270]}
                 slidesPerView={3}
                 top={"26%"}
               />

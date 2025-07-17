@@ -18,9 +18,9 @@ const Sidebar = ({setisMenuOpen, isMenuOpen}) => {
       link: "/account-details",
     },
     {
-      name: "Add Business",
+      name: "My Business",
       icon: "/images/sidebaricons/add-business.svg",
-      link: "/add-business",
+      link: "/my-business",
     },
     // {
     //   name: "Services",

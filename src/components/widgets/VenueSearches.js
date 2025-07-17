@@ -5,11 +5,12 @@ import "swiper/css";
 import "swiper/css/pagination";
 import Image from "next/image";
 
-import { Pagination, Navigation } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 
 const VenueSearches = ({
+  imgOriginalSize,
   venuesearchData,
-  imgSize,
+  imgSizeDesktop,
   slidesPerView,
   top,
   slideKey,
@@ -74,12 +75,11 @@ const VenueSearches = ({
           <SwiperSlide key={index}>
             <div className="relative">
               <Image
-                className={`rounded-xl w-full object-cover w-${imgSize[0]}`}
-                width={imgSize[0]}
-                height={imgSize[1]}
+                className={`rounded-xl w-full object-cover ${imgSizeDesktop}`}
+                width={imgOriginalSize[0]}
+                height={imgOriginalSize[1]}
                 src={`${item.image}`}
                 alt={`place-${index}`}
-                style={{ height: `${imgSize[1]}px` }}
               />
               {item.viewers && (
                 <div className="flex items-center bg-[#FFFFFF] rounded-[3px] absolute top-2 right-2 py-1 px-2">
