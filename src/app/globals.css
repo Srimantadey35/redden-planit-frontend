@@ -352,33 +352,61 @@ input:-webkit-autofill:active {
   );
 }
 
-.glow-border {
-  background: linear-gradient(
-    90deg,
-    #ff8038 0%,
-    #ff0099 30.43%,
-    #00ebeb 68.23%,
-    #db00ff 100%
-  );
-  background-size: 600% 600%;
-  animation: glowAnimation 4s ease infinite;
-  border-radius: 20px;
-  transform: translate(0px, 0px);
+
+/* gradient border start  */
+.box {
+  border-radius: 100px;
+  border: 10px solid transparent;
+  background:
+    linear-gradient(to right, #12002000, #12002000) content-box,
+    conic-gradient(
+      from var(--angle),
+      #ff005d 0deg,
+      #ff005d 20deg,
+      #ff005d 60deg,
+      #ff005d 90deg,
+      #ff005d 120deg,
+      #ff005d 180deg,
+      #ff005d00 200deg,
+      #ff005d00 240deg,
+      #ea005600 270deg,
+      #ea005600 300deg,
+      #ff005d 360deg
+    ) border-box;
+  animation: gradientBorder 3s linear infinite;
 }
 
-@keyframes glowAnimation {
-  0% {
-    background-position: 0% 50%;
+@keyframes gradientBorder {
+  from {
+    --angle: 0deg;
   }
-  50% {
-    background-position: 100% 50%;
+  to {
+    --angle: 360deg;
+  }
+}
+
+@property --angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+
+/* gradient border end  */
+
+.chatpopsup {
+  animation: chatpopsup 0.4s ease-in-out both;
+}
+@keyframes chatpopsup {
+  0% {
+    transform: translateY(150px);
+    opacity: 0;
   }
   100% {
-    background-position: 0% 50%;
+    transform: translateY(0);
+    opacity: 1;
   }
 }
-
-
 
 @media (max-width: 1700px) {
   .gradientline:before {
