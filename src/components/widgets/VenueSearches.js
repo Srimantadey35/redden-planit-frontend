@@ -70,6 +70,11 @@ const VenueSearches = ({
         }}
         modules={[Navigation]}
         className="mySwiper"
+        breakpoints={{
+          1366: {
+            spaceBetween:20,
+          }
+        }}
       >
         {data.map((item, index) => (
           <SwiperSlide key={index}>

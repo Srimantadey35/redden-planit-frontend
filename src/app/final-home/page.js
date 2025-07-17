@@ -443,7 +443,7 @@ const page = () => {
           <div
             className={`${
               isChatShow ? "sticky bottom-3 z-[9] chatpopsup" : "hidden"
-            }`}
+            } w-[60%] mx-auto`}
           >
             <div className="relative group w-full mx-auto p-[2px]">
 
@@ -458,7 +458,7 @@ const page = () => {
                       type="text"
                       name="chat"
                       id="chat"
-                      placeholder="Write here..."
+                      placeholder="Chat with planit AI..."
                     />
                     <button className="cursor-pointer">
                       <Image

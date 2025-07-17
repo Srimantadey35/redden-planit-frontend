@@ -361,9 +361,9 @@ input:-webkit-autofill:active {
     linear-gradient(to right, #12002000, #12002000) content-box,
     conic-gradient(
       from var(--angle),
-      #ff005d 0deg,
-      #ff005d 20deg,
-      #ff005d 60deg,
+      #0000ff 0deg,
+      #0040ff 20deg,
+      #ff009d 60deg,
       #ff005d 90deg,
       #ff005d 120deg,
       #ff005d 180deg,
@@ -371,7 +371,7 @@ input:-webkit-autofill:active {
       #ff005d00 240deg,
       #ea005600 270deg,
       #ea005600 300deg,
-      #ff005d 360deg
+      #3700ff 360deg
     ) border-box;
   animation: gradientBorder 3s linear infinite;
 }
