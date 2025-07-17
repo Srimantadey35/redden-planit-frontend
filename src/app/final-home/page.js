@@ -238,7 +238,7 @@ const page = () => {
         }}
       >
         <div className="absolute bottom-0 top-[35%] z-[0] left-0 right-0 homepagebanner_bg"></div>
-        <div className="w-full max-w-[1204px] mx-auto pt-[50vh] pb-[58px] relative z-[2]">
+        <div className="w-full max-w-[1204px] mx-auto pt-[260px] 4  xl:pt-[375px] pb-[58px] relative z-[2]">
           <div>
             <p className="text-[21px] text-white font-[500] text-center">
               Let&apos;s make everlasting experiences with us.
@@ -411,40 +411,46 @@ const page = () => {
           </div> */}
 
           {/* chat  */}
-          <div className="rounded-[18px] bg-[#fbfbfb] [box-shadow:0_0_30px_0px_#b5b5b5] overflow-hidden">
-            <div>
-              <div className="relative">
-                <input
-                  className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[80px] 3xl:h-[103px] px-11 outline-none text-black border-b border-b-[#e9e9e9]"
-                  type="text"
-                  name="chat"
-                  id="chat"
-                  placeholder="Bridal Makeup, Family Makeup"
-                />
-                <button className="cursor-pointer">
-                  <Image
-                    className="absolute right-4 top-1/2 -translate-y-1/2"
-                    width={32}
-                    height={32}
-                    src={"/images/sendbtn2.svg"}
-                    alt="sendbtn2.svg"
-                  />
-                </button>
-              </div>
+          <div className="relative group w-full mx-auto p-[2px]">
+            {/* Gradient animated border background */}
+            <div className="absolute top-0 left-0 right-0 bottom-0 w-full h-full -z-10 rounded-[20px] glow-border group-hover:blur-[10px] transition-all duration-300"></div>
 
-              <div className="space-x-[12px] flex items-center justify-center py-4">
-                {[
-                  "Beautiful wedding cards",
-                  "Explore wedding venues",
-                  "Continental food service",
-                ].map((item, index) => (
-                  <button
-                    key={index}
-                    className="text-[#575757] font-normal text-[13px] bg-[#eeeeee] rounded-full px-[28px] 3xl:px-[35px] py-1.5"
-                  >
-                    {item}
+            {/* Main card content */}
+            <div className="rounded-[18px] bg-[#fbfbfb] overflow-hidden relative z-10 shadow-[0_0_30px_0px_#b5b5b5]">
+              <div>
+                <div className="relative">
+                  <input
+                    className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[80px] 3xl:h-[103px] px-11 outline-none text-black border-b border-b-[#e9e9e9]"
+                    type="text"
+                    name="chat"
+                    id="chat"
+                    placeholder="Write here..."
+                  />
+                  <button className="cursor-pointer">
+                    <Image
+                      className="absolute right-4 top-1/2 -translate-y-1/2"
+                      width={32}
+                      height={32}
+                      src={"/images/sendbtn2.svg"}
+                      alt="sendbtn2.svg"
+                    />
                   </button>
-                ))}
+                </div>
+
+                <div className="space-x-[12px] flex items-center justify-center py-4">
+                  {[
+                    "Beautiful wedding cards",
+                    "Explore wedding venues",
+                    "Continental food service",
+                  ].map((item, index) => (
+                    <button
+                      key={index}
+                      className="text-[#575757] font-normal text-[13px] bg-[#eeeeee] rounded-full px-[28px] 3xl:px-[35px] py-1.5"
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
