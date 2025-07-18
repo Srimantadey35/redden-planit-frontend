@@ -397,6 +397,8 @@ input:-webkit-autofill:active {
 .chatpopsup {
   animation: chatpopsup 0.4s ease-in-out both;
 }
+
+
 @keyframes chatpopsup {
   0% {
     transform: translateY(150px);

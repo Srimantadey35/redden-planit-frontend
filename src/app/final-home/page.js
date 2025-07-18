@@ -24,7 +24,7 @@ const page = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // trigger on mount
+    handleScroll(); 
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
