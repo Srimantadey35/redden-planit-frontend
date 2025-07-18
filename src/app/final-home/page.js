@@ -454,7 +454,7 @@ const Page = () => {
                 <div>
                   <div className="relative">
                     <input
-                      className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[50px] 3xl:h-[103px] px-11 outline-none text-black border-b border-b-[#e9e9e9]"
+                      className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[50px]  px-11 outline-none text-black border-b border-b-[#e9e9e9]"
                       type="text"
                       name="chat"
                       id="chat"
