@@ -234,8 +234,6 @@ const Page = () => {
     },
   ];
 
-
-
   return (
     <div className="bg-[#F7F7F7]">
       <Header />
@@ -390,100 +388,110 @@ const Page = () => {
                   src={`${item.img}`}
                   alt={`{hotel-${index}}`}
                 />
-                <Image
-                  className="absolute bottom-3 right-3"
-                  width={16}
-                  height={16}
-                  src={"/images/i.svg"}
-                  alt="i"
-                />
-              </div>
-              <div className="flex items-center justify-between mt-4">
-                <p className="text-black font-normal text-[18px] 3xl:text-[20px]">
-                  {item.hotelName ? item.hotelName.slice(0, 20) : ""}...
-                </p>
 
-                <div className="flex items-center">
-                  <div className="bg-[#EA0056] rounded-[3px] flex items-center w-fit py-0.5 px-2">
-                    <Image
-                      width={11}
-                      height={10}
-                      src={"/images/star.svg"}
-                      alt="star"
-                    />
-                    <span className="text-[13px] font-medium text-white ml-2">
-                      {item.rating}
-                    </span>
+                <div className="group">
+                  <Image
+                    className="absolute bottom-3 right-3 cursor-pointer"
+                    width={16}
+                    height={16}
+                    src={"/images/i.svg"}
+                    alt="i"
+                  />
+                  <p className="bg-[#00000081] group-hover:block hidden absolute bottom-2 right-8 text-white text-[12px] w-fit py-0.5 px-3 rounded-md">
+                    this is the i message
+                  </p>
+                </div>
+              </div>
+              <div className="px-3">
+                <div className="flex items-center justify-between mt-4">
+                  <p className="text-black font-normal text-[18px] 3xl:text-[20px]">
+                    {item.hotelName ? item.hotelName.slice(0, 20) : ""}...
+                  </p>
+
+                  <div className="flex items-center">
+                    <div className="bg-[#EA0056] rounded-[3px] flex items-center w-fit py-0.5 px-2">
+                      <Image
+                        width={11}
+                        height={10}
+                        src={"/images/star.svg"}
+                        alt="star"
+                      />
+                      <span className="text-[13px] font-medium text-white ml-2">
+                        {item.rating}
+                      </span>
+                    </div>
+                    <p className="font-normal text-[#777777] text-[12px] ml-2">
+                      ({item.totalReviews} reviews)
+                    </p>
                   </div>
-                  <p className="font-normal text-[#777777] text-[12px] ml-2">
-                    ({item.totalReviews} reviews)
-                  </p>
                 </div>
-              </div>
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center justify-between">
-                  <Image
-                    width={15}
-                    height={15}
-                    src={"/images/location.svg"}
-                    alt="location"
-                  />
-                  <p className="font-normal text-[15px] text-[#777777] ml-2">
-                    {`${item.desc ? item.desc.slice(0, 20) : ""}`}...
-                  </p>
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center justify-between">
+                    <Image
+                      width={15}
+                      height={15}
+                      src={"/images/location.svg"}
+                      alt="location"
+                    />
+                    <p className="font-normal text-[15px] text-[#777777] ml-2">
+                      {`${item.desc ? item.desc.slice(0, 20) : ""}`}...
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    <Image
+                      width={15}
+                      height={15}
+                      src={"/images/thumb.svg"}
+                      alt="location"
+                    />
+                    <p className="font-normal text-[15px] text-[#777777] ml-2">
+                      {`${item.location ? item.location.slice(0, 20) : ""}`}...
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  <Image
-                    width={15}
-                    height={15}
-                    src={"/images/thumb.svg"}
-                    alt="location"
-                  />
-                  <p className="font-normal text-[15px] text-[#777777] ml-2">
-                    {`${item.location ? item.location.slice(0, 20) : ""}`}...
-                  </p>
+                <div className="mt-4 flex items-center justify-between">
+                  <div>
+                    <p className="font-normal text-[15px] text-[#777777]">
+                      Veg:
+                    </p>
+                    <p className="text-black font-semibold text-[16px]">
+                      {item.vegPricePerPlate}{" "}
+                      <span className="font-normal text-[15px] text-[#777777]">
+                        Per Plate
+                      </span>
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-normal text-[15px] text-[#777777]">
+                      Non veg:
+                    </p>
+                    <p className="text-black font-semibold text-[16px]">
+                      {item.nonVegPricePerPlate}{" "}
+                      <span className="font-normal text-[15px] text-[#777777]">
+                        Per Plate
+                      </span>
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="mt-4 flex items-center justify-between">
-                <div>
-                  <p className="font-normal text-[15px] text-[#777777]">Veg:</p>
-                  <p className="text-black font-semibold text-[16px]">
-                    {item.vegPricePerPlate}{" "}
-                    <span className="font-normal text-[15px] text-[#777777]">
-                      Per Plate
-                    </span>
-                  </p>
-                </div>
-                <div>
-                  <p className="font-normal text-[15px] text-[#777777]">
-                    Non veg:
-                  </p>
-                  <p className="text-black font-semibold text-[16px]">
-                    {item.nonVegPricePerPlate}{" "}
-                    <span className="font-normal text-[15px] text-[#777777]">
-                      Per Plate
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <div className="mt-4">
-                <ul className="flex items-center space-x-1.5">
-                  {Object.entries(item.options)
-                    .slice(0, 2)
-                    .map(([key, value], index) => (
-                      <li
-                        key={index}
-                        className="font-normal text-[13px] text-[#777777] border border-[#e7e7e7dd] w-fit rounded-sm px-2 py-0.5"
-                      >
-                        {key} {value}
+                <div className="mt-4">
+                  <ul className="flex items-center space-x-1.5">
+                    {Object.entries(item.options)
+                      .slice(0, 2)
+                      .map(([key, value], index) => (
+                        <li
+                          key={index}
+                          className="font-normal text-[13px] text-[#777777] border border-[#e7e7e7dd] w-fit rounded-sm px-2 py-0.5"
+                        >
+                          {key} {value}
+                        </li>
+                      ))}
+                    {Object.entries(item.options).length > 2 && (
+                      <li className="font-normal text-[13px] text-[#777777]  w-fit">
+                        +{Object.entries(item.options).length - 2} more
                       </li>
-                    ))}
-                  {Object.entries(item.options).length > 2 && (
-                    <li className="font-normal text-[13px] text-[#777777]  w-fit">
-                      +{Object.entries(item.options).length - 2} more
-                    </li>
-                  )}
-                </ul>
+                    )}
+                  </ul>
+                </div>
               </div>
             </div>
           ))}
@@ -708,7 +716,7 @@ const Page = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-      <Footer/>
+      <Footer />
     </div>
   );
 };

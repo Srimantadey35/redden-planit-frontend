@@ -222,7 +222,7 @@ const Footer = () => {
         </div>
       </div>
       <p className="text-white text-[14px] 3xl:text-[14px] font-normal py-3 3xl:py-3 text-center border-t border-t-[#4a4a4add]">
-        © 2025 Plan<span className="text-[#EA0056]">It</span>. All rights
+        © {new Date().getUTCFullYear()} Plan<span className="text-[#EA0056]">It</span>. All rights
         reserved.
       </p>
     </div>

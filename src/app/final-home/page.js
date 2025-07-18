@@ -5,7 +5,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 
-const page = () => {
+const Page = () => {
   const targetRef = useRef(null);
   const [isChatShow, setisChatShow] = useState(false);
 
@@ -592,4 +592,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
