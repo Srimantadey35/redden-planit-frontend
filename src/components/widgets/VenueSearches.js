@@ -12,6 +12,8 @@ const VenueSearches = ({
   venuesearchData,
   imgSizeDesktop,
   slidesPerView,
+  slidesPerViewTab,
+  slidesPerViewMobo,
   top,
   slideKey,
   seemoreBtn,
@@ -24,7 +26,7 @@ const VenueSearches = ({
   return (
     <div className="venuwsearchslider relative">
       <div
-        className="flex justify-between items-center absolute w-full z-[2]"
+        className="flex justify-between items-center absolute w-full z-[2] sliderbtns"
         style={{ top: `${top}` }}
       >
         <button
@@ -71,9 +73,28 @@ const VenueSearches = ({
         modules={[Navigation]}
         className="mySwiper"
         breakpoints={{
+          1536: {
+            spaceBetween: 30,
+            navigation: { enabled: true },
+          },
           1366: {
-            spaceBetween:20,
-          }
+            spaceBetween: 20,
+            navigation: { enabled: true },
+          },
+          768: {
+            navigation: { enabled: true },
+            slidesPerView: slidesPerView,
+            spaceBetween: 20,
+          },
+          640: {
+            spaceBetween: 10,
+            slidesPerView: slidesPerViewTab,
+          },
+          0: {
+            spaceBetween: 10,
+            navigation: { enabled: false },
+            slidesPerView: slidesPerViewMobo,
+          },
         }}
       >
         {data.map((item, index) => (
@@ -100,16 +121,16 @@ const VenueSearches = ({
                   </p>
                 </div>
               )}
-              <div>
-                  {item.date && (
-                    <p className="font-normal text-[13px] text-[#EA0056] pt-5">
-                      By Apoorva | 03 Jul 2025 | 7 min read{" "}
-                    </p>
-                  )}
+              <div className="px-2">
+                {item.date && (
+                  <p className="font-normal text-[13px] text-[#EA0056] pt-5">
+                    By Apoorva | 03 Jul 2025 | 7 min read{" "}
+                  </p>
+                )}
                 <div
                   className={`${
                     slideKey === "event" ? "justify-center" : "justify-between"
-                  } flex items-center pt-5`}
+                  } flex items-start md:items-center pt-3 lg:pt-5 md:flex-row flex-col`}
                 >
                   <h3 className="text-[#333333] font-medium text-[16px] 3xl:text-[18px]">
                     {item.title}

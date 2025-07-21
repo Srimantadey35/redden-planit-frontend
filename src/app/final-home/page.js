@@ -24,12 +24,12 @@ const Page = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); 
+    handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [targetRef, isChatShow]);
 
   const dataPopularSearches = [
     {
@@ -265,23 +265,23 @@ const Page = () => {
         }}
       >
         <div className="absolute bottom-0 top-[35%] z-[0] left-0 right-0 homepagebanner_bg"></div>
-        <div className="w-full max-w-[1204px] mx-auto pt-[260px] 4xl:pt-[375px] pb-[58px] relative z-[2]">
+        <div className="w-full max-w-[1204px] mx-auto pt-[150px] sm:pt-[130px] lg:pt-[160px] xl:pt-[260px] 4xl:!pt-[375px] pb-[35px] lg:pb-[58px] relative z-[2]">
           <div>
-            <p className="text-[21px] text-white font-[500] text-center">
+            <p className="text-[15px] sm:text-[18px] lg:text-[21px] text-white font-[500] text-center">
               Let&apos;s make everlasting experiences with us.
             </p>
-            <h3 className="text-[40px] 3xl:text-[52px] text-white font-semibold text-center my-2">
+            <h3 className="text-[20px] sm:text-[26px] md:text-[30px] lg:text-[38px] xl:text-[40px] 3xl:text-[52px] text-white font-semibold text-center my-2">
               We Plan For Your Celebration.
             </h3>
-            <div className="flex justify-center">
+            <div className="flex justify-center sm:flex-row flex-col sm:w-auto w-[80%] mx-auto">
               <input
-                className="rounded-[6px] bg-white placeholder:text-[#7C7C7C] placeholder:text-[15px] placeholder:font-normal py-3 px-6 w-[617px]"
+                className="rounded-[6px] bg-white placeholder:text-[#7C7C7C] placeholder:text-[15px] placeholder:font-normal py-2 lg:py-3 px-4 lg:px-6 w-full sm:w-[50%] md:w-[400px] lg:w-[550px] xl:w-[617px]"
                 placeholder="Chat with us for best wedding plan."
                 type="text"
                 name="search"
                 id="search"
               />
-              <button className="font-semibold ml-2.5 text-[16px] cursor-pointer 3xl:text-[18px] text-white bg-[#EA0056] rounded-[6px] px-5">
+              <button className="font-semibold sm:ml-2.5 text-[15px] lg:text-[16px] cursor-pointer 3xl:text-[18px] text-white bg-[#EA0056] rounded-[6px] py-2 sm:mt-0 mt-3 px-5">
                 Chat with PlanIt AI
               </button>
             </div>
@@ -292,15 +292,15 @@ const Page = () => {
       <div ref={targetRef} className="h-[1px] w-full"></div>
 
       {/* popular vanue search  */}
-      <div className="w-full max-w-[1204px] mx-auto" id="comesViweMode">
-        <div className="space-y-20">
+      <div className="container" id="comesViweMode">
+        <div className="space-y-4 sm:space-y-10 xl:space-y-20">
           {/* title  */}
-          <div className="pt-[60px]">
+          <div className="pt-10 xl:pt-[60px]">
             <div className="pb-[40px]">
-              <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] text-center pb-2">
+              <h3 className="font-semibold text-black text-[20px] sm:text-[24px] 3xl:text-[28px] text-center pb-2">
                 Everything You Need to Plan the Perfect Event
               </h3>
-              <p className="text-[#333333] font-normal text-[16px] 3xl:text-[18px] text-center">
+              <p className="text-[#333333] font-normal text-[15px] sm:text-[16px] 3xl:text-[18px] text-center">
                 Discover tools that handle the details — guest lists,
                 invitations, vendors, and more — so you can focus on what
                 matters.
@@ -310,22 +310,24 @@ const Page = () => {
               <VenueSearches
                 venuesearchData={dataPopularSearches}
                 imgSizeDesktop={[
-                  "w-[216px] h-[250px] 3xl:w-[216px] 3xl:h-[291px]",
+                  "w-[216px] h-[150px] smd:h-[200px] lg:h-[250px] 3xl:w-[216px] 3xl:h-[291px]",
                 ]}
                 slidesPerView={5}
+                slidesPerViewTab={3}
+                slidesPerViewMobo={2}
                 imgOriginalSize={[216, 291]}
                 top={"40%"}
                 slideKey={"event"}
               />
             </div>
-            <button className="font-semibold text-white text-[16px] 3xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 px-8 mx-auto table mt-11 cursor-pointer">
+            <button className="font-semibold text-white text-[15px] sm:text-[16px] 3xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 px-8 mx-auto table mt-5 sm:mt-11 cursor-pointer">
               Create you event now
             </button>
           </div>
 
           {/* popular vanue search */}
           <div>
-            <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] pb-[25px]">
+            <h3 className="font-semibold sm:text-left text-center text-black text-[20px] sm:text-[24px] 3xl:text-[28px] pb-[25px]">
               Popular Venue Searches
             </h3>
 
@@ -335,6 +337,8 @@ const Page = () => {
                 imgSizeDesktop={[380, 224]}
                 imgOriginalSize={[380, 224]}
                 slidesPerView={3}
+                slidesPerViewTab={2}
+                slidesPerViewMobo={1}
                 top={"30%"}
               />
             </div>
@@ -343,10 +347,10 @@ const Page = () => {
           {/* Creating Your Free Card is Simple */}
           <div>
             <div className="pb-[40px]">
-              <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] text-center pb-2">
+              <h3 className="font-semibold text-black text-[20px] sm:text-[24px] 3xl:text-[28px] text-center pb-2">
                 Creating Your Free Card is Simple
               </h3>
-              <p className="text-[#333333] font-normal text-[16px] 3xl:text-[18px] text-center">
+              <p className="text-[#333333] font-normal text-[15px] sm:text-[16px] 3xl:text-[18px] text-center">
                 Discover tools that handle the details — guest lists,
                 invitations, vendors, and more — so you can focus on what
                 matters.
@@ -358,6 +362,8 @@ const Page = () => {
                 imgSizeDesktop={[277, 400]}
                 imgOriginalSize={[277, 400]}
                 slidesPerView={4}
+                slidesPerViewTab={3}
+                slidesPerViewMobo={1}
                 top={"40%"}
                 seemoreBtn={true}
               />
@@ -377,25 +383,25 @@ const Page = () => {
                 View all categories
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-8 4xl:gap-x-11 gap-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xl:gap-8 4xl:gap-x-11 xl:gap-y-6">
               {weddingCategories.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center rounded-lg w-full"
+                  className="flex rounded-lg w-full"
                   style={{ backgroundColor: `${item.bg}` }}
                 >
                   <Image
-                    className="rounded-l-lg w-[200px] 3xl:w-[237px]"
+                    className="rounded-l-lg w-[150px] lg:w-[200px] 3xl:w-[237px]"
                     width={237}
                     height={157}
                     src={`${item.img}`}
                     alt="places"
                   />
-                  <div className="px-[45px] rounded-r-lg">
-                    <h4 className="text-[#333333] font-medium text-[20px] 3xl:text-[24px]">
+                  <div className="px-[20px] lg:px-[45px] rounded-r-lg flex flex-col justify-center">
+                    <h4 className="text-[#333333] font-medium text-[15px] md:text-[17px] lg:text-[20px] 3xl:text-[24px] w-full">
                       {item.title}
                     </h4>
-                    <p className="text-[15px] font-normal text-[#454545]">
+                    <p className="text-[13px] lg:text-[15px] font-normal text-[#454545]">
                       {item.desc
                         ? item.desc.slice(0, 31)
                         : "description is not available"}
@@ -442,11 +448,12 @@ const Page = () => {
           {/* chat  */}
           <div
             className={`${
-              isChatShow ? "sticky bottom-3 z-[9] chatpopsup" : "hidden"
-            } w-[60%] mx-auto`}
+              isChatShow
+                ? "sticky bottom-16 xl:bottom-3 z-[9] chatpopsup"
+                : "hidden"
+            } w-[70%] mx-auto md:block hidden`}
           >
             <div className="relative group w-full mx-auto p-[2px]">
-
               <div className="box absolute top-0 right-0 bottom-0 left-0"></div>
 
               {/* Main card content */}
@@ -493,24 +500,24 @@ const Page = () => {
       </div>
 
       {/* think it done it  */}
-      <div className="bg-[#D4004E] bg-[linear-gradient(95deg,_rgba(212,_0,_78,_1)_5%,_rgba(125,_0,_46,_1)_100%)] mt-[100px]">
-        <div className="w-full max-w-[1204px] mx-auto">
-          <div className="flex justify-between">
-            <div className="py-20">
-              <h3 className="font-bold text-[68px] text-white leading-[1.1]">
-                Think It. <br /> Plan It. Done.
+      <div className="bg-[#D4004E] bg-[linear-gradient(95deg,_rgba(212,_0,_78,_1)_5%,_rgba(125,_0,_46,_1)_100%)] mt-[70px] xl:mt-[100px]">
+        <div className="container">
+          <div className="flex justify-between md:flex-row flex-col">
+            <div className="py-15 lg:py-20 md:text-start text-center">
+              <h3 className="font-bold text-[30px] sm:text-[38px] lg:text-[45px] xl:text-[68px] text-white leading-[1.1]">
+                Think It. <br className="md:block hidden" /> Plan It. Done.
               </h3>
-              <p className="font-medium text-[24px] 4xl:text-[27px] text-white leading-[1.2] my-4">
-                Your all-in-one AI assistant for creating <br /> unforgettable
+              <p className="font-medium text-[18px] xl:text-[24px] 4xl:text-[27px] text-white leading-[1.2] my-4">
+                Your all-in-one AI assistant for creating <br className="sm:block hidden"/> unforgettable
                 events effortlessly.
               </p>
               <button className="font-semibold text-[16px] cursor-pointer 3xl:text-[20px] text-[#EA0056] rounded-[8px] bg-white py-2 px-8">
                 Start Planning Now
               </button>
             </div>
-            <div className="flex items-end">
+            <div className="flex items-end md:w-fit w-[80%] mx-auto">
               <Image
-                className="rounded-t-lg w-[550px] 3xl:w-[634px]"
+                className="rounded-t-lg w-full md:w-[480px] xl:w-[550px] 3xl:w-[634px]"
                 width={634}
                 height={468}
                 src={"/images/rightsideimg.png"}
@@ -521,15 +528,15 @@ const Page = () => {
         </div>
       </div>
 
-      <div className="w-full max-w-[1204px] mx-auto mb-[120px]">
-        <div className="space-y-20">
+      <div className="container mb-[120px]">
+        <div className="space-y-10 xl:space-y-20">
           {/* popular vanue search */}
           <div className="pt-[70px]">
             <div className="pb-[40px]">
-              <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] text-center pb-2">
+              <h3 className="font-semibold text-black text-[20px] sm:text-[24px] 3xl:text-[28px] text-center pb-2">
                 Creating Your Free Website is Simple
               </h3>
-              <p className="text-[#333333] font-normal text-[16px] 3xl:text-[18px] text-center">
+              <p className="text-[#333333] font-normal text-[15px] sm:text-[16px] 3xl:text-[18px] text-center">
                 Discover tools that handle the details — guest lists,
                 invitations, vendors, and more — so you can focus on what
                 matters.
@@ -542,6 +549,8 @@ const Page = () => {
                 imgSizeDesktop={[380, 270]}
                 imgOriginalSize={[380, 270]}
                 slidesPerView={3}
+                slidesPerViewTab={2}
+                slidesPerViewMobo={1}
                 top={"35%"}
                 seemoreBtn={true}
               />
@@ -553,7 +562,7 @@ const Page = () => {
 
           {/* Featured Make Up Artist For june */}
           <div>
-            <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] pb-[25px]">
+            <h3 className="font-semibold text-black text-[20px] sm:text-left text-center sm:text-[24px] 3xl:text-[28px] pb-[25px]">
               Featured Make Up Artist For june
             </h3>
 
@@ -563,14 +572,16 @@ const Page = () => {
                 imgSizeDesktop={[257, 240]}
                 imgOriginalSize={[257, 240]}
                 slidesPerView={4}
+                slidesPerViewTab={3}
+                slidesPerViewMobo={1}
                 top={"30%"}
               />
             </div>
           </div>
 
           {/* Featured Make Up Artist For june */}
-          <div>
-            <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] pb-[25px]">
+          <div className="mb-12 lg:mb-28">
+            <h3 className="font-semibold text-black text-[20px] sm:text-left text-center sm:text-[24px] 3xl:text-[28px] pb-[25px]">
               Latest Blogs
             </h3>
 
@@ -580,6 +591,8 @@ const Page = () => {
                 imgSizeDesktop={[380, 270]}
                 imgOriginalSize={[380, 270]}
                 slidesPerView={3}
+                slidesPerViewTab={2}
+                slidesPerViewMobo={1}
                 top={"26%"}
               />
             </div>

@@ -5,15 +5,38 @@ import Image from "next/image";
 import InvitationCardModal from "@/components/widgets/InvitationCardModal";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "swiper/css/pagination"; // optional
+import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 
 const Page = () => {
-  
+  const targetRef = useRef(null);
+  const [isChatShow, setisChatShow] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!targetRef.current) return;
+
+      const rect = targetRef.current.getBoundingClientRect();
+      const scrollTriggerTop = 0;
+
+      if (rect.top <= scrollTriggerTop) {
+        setisChatShow(true);
+      } else {
+        setisChatShow(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [targetRef, isChatShow]);
+
   const [modalVal, setModalVal] = useState(null);
   const modalShowingVal = (e) => {
     setModalVal(e);
-    // setisModalShow(!isModalShow)
   };
   const cardImages = [
     {
@@ -93,13 +116,76 @@ const Page = () => {
   return (
     <div className="bg-white">
       <Header />
+
+{isChatShow &&
+      <div className="py-2 banner_gradient sticky top-[76px] z-[99] modalAnim">
+        <div className="container flex items-center">
+          <form
+            className={`bg-[#F2F2F2] w-[65%] py-2 px-[11px]  relative rounded-[10px]`}
+          >
+            <label className="relative">
+              <input
+                className="bg-white rounded-[10px] 3xl:rounded-[15px] w-full text-black h-[40px] 3xl:h-[46px] 4xl:h-[50px] font-normal text-[15px] 3xl:text-[20px] placeholder:text-[#9E9E9E] placeholder:font-normal placeholder:text-[15px] 3xl:placeholder:text-[20px] pl-5 pr-20 outline-none"
+                type="text"
+                name="text"
+                id="text"
+                placeholder="Search your template here."
+              />
+              <button className="absolute top-1/2 -translate-y-1/2 right-5 cursor-pointer">
+                <Image
+                  className="w-[16px]"
+                  width={16}
+                  height={16}
+                  src={"/images/searchIcon.svg"}
+                  alt="searchIcon.svg"
+                />
+              </button>
+            </label>
+          </form>
+          <div className="flex flex-col w-[35%] sm:flex-row sm:items-center sm:space-x-2.5 space-y-2.5 sm:space-y-0 justify-end relative">
+            {items.map((item, index) => (
+              <div
+                key={index}
+                className="relative w-full sm:w-auto"
+                ref={(el) => (refs.current[index] = el)}
+              >
+                <button
+                  onClick={() => toggleAccordion(index)}
+                  className="w-full sm:w-auto font-normal text-[14px] cursor-pointer 4xl:text-[16px] text-[#363636] flex items-center justify-between bg-[#F6F6F6] rounded-lg py-2 px-6"
+                >
+                  <span className="mr-2">{item}</span>
+                  <Image
+                    width={9}
+                    height={4}
+                    src={"/images/downarrw.svg"}
+                    alt="downarrow"
+                    className={`transition-transform duration-300 ${
+                      openIndex === index ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Accordion Content */}
+                {openIndex === index && (
+                  <div className="absolute sm:left-0 left-0 top-full mt-2 w-full sm:w-max min-w-[200px] bg-white border rounded-lg shadow z-10">
+                    <p className="text-sm text-gray-600 p-4">
+                      Content for: {item}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>}
+
       <div className="container">
         <div className="lg:py-[55px] py-[100px] lg:pb-0 pb-[55px]">
           <h3 className="font-semibold text-[28px] 3xl:text-[36px] 4xl:text-[45px] text-[#151515] text-center">
             Create Your Invitation Card
           </h3>
 
-          <div className="max-w-[910px] mx-auto my-8">
+          <div className="max-w-[910px] mx-auto my-8" ref={targetRef}>
             <form
               className={`bg-[#F2F2F2] py-5 4xl:py-6 px-[26px] 4xl:px-[33px] relative rounded-[10px] w-full`}
             >
@@ -156,7 +242,6 @@ const Page = () => {
                 </div>
               ))}
             </div>
-
           </div>
 
           <h4 className="text-black text-[23px] 4xl:text-[25px] font-medium lg:mb-5">
@@ -210,7 +295,7 @@ const Page = () => {
                         fill
                         className="object-cover hover:shadow-2xl hover:scale-[1.02] transition duration-500"
                       />
-                  </div>
+                    </div>
                   </div>
                 </SwiperSlide>
               ))}
@@ -241,8 +326,7 @@ const Page = () => {
               </div>
             ))}
           </div>
-       </div>
-
+        </div>
       </div>
 
       {modalVal && (

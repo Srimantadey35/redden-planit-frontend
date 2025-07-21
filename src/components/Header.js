@@ -18,7 +18,7 @@ const Header = () => {
   const navLinks = [
     {
       label: "Home",
-      href: "/home",
+      href: "/final-home",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l9-9 9 9M4.5 10.5V21h15v-10.5" />
@@ -105,7 +105,7 @@ const Header = () => {
   return (
     <>
       {/* Header */}
-      <div className="banner_gradient sm:sticky fixed left-0 right-0 w-full top-0 z-[99999]">
+      <div className="banner_gradient sticky left-0 right-0 w-full top-0 z-[99999]">
         <div className="container">
           <div className="py-5 3xl:py-6 flex items-center justify-between">
             {/* Logo */}

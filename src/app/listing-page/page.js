@@ -498,33 +498,33 @@ const Page = () => {
         </div>
 
         <div className="flex items-center justify-center space-x-1 py-4 mb-10">
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#F9F9F9] text-gray-400 hover:text-black">
+          <button className="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full bg-[#F9F9F9] text-gray-400 hover:text-black">
             <span className="text-lg">&lt;</span>
           </button>
 
-          <button className="w-8 h-8 flex items-center justify-center rounded-full text-[#333] bg-white hover:bg-[#F1F1F1] text-sm font-medium">
+          <button className="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full text-[#333] bg-white hover:bg-[#F1F1F1] text-sm font-medium">
             1
           </button>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full text-[#333] bg-white hover:bg-[#F1F1F1] text-sm font-medium">
+          <button className="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full text-[#333] bg-white hover:bg-[#F1F1F1] text-sm font-medium">
             2
           </button>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#EA0056] text-white text-sm font-semibold">
+          <button className="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full bg-[#EA0056] text-white text-sm font-semibold">
             3
           </button>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full text-[#333] bg-white hover:bg-[#F1F1F1] text-sm font-medium">
+          <button className="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full text-[#333] bg-white hover:bg-[#F1F1F1] text-sm font-medium">
             4
           </button>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full text-[#333] bg-white hover:bg-[#F1F1F1] text-sm font-medium">
+          <button className="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full text-[#333] bg-white hover:bg-[#F1F1F1] text-sm font-medium">
             5
           </button>
-          <span className="w-8 h-8 flex items-center justify-center text-[#999] text-sm font-medium">
+          <span className="cursor-pointer w-8 h-8 flex items-center justify-center text-[#999] text-sm font-medium">
             ...
           </span>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full text-[#333] bg-white hover:bg-[#F1F1F1] text-sm font-medium">
+          <button className="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full text-[#333] bg-white hover:bg-[#F1F1F1] text-sm font-medium">
             82
           </button>
 
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-[#EA0056] text-white hover:bg-[#c8004a]">
+          <button className="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full bg-[#EA0056] text-white hover:bg-[#c8004a]">
             <span className="text-lg">&gt;</span>
           </button>
         </div>

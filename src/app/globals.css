@@ -21,6 +21,18 @@
   padding: 0 1rem;
 }
 
+@media (min-width: 320px) {
+  .container {
+    max-width: 100% ;
+    padding: 0 1rem;
+  }
+}
+@media (min-width: 640px) {
+  .container {
+    max-width: 100% ;
+    padding: 0 2rem;
+  }
+}
 @media (min-width: 991px) {
   .container {
     padding: 0 3rem;
@@ -427,5 +439,10 @@ input:-webkit-autofill:active {
   .floating-form input {
     height: 40px;
     font-size: 12px;
+  }
+}
+@media (max-width:768px) {
+  .venuwsearchslider .sliderbtns{
+    display: none;
   }
 }

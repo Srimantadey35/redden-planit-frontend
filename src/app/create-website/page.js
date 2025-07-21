@@ -21,7 +21,7 @@ const Page = () => {
         width: el.offsetWidth,
       });
     }
-  }, [tabHeader, activetab]);
+  }, [activetab]);
 
   const cardData = [
     {
