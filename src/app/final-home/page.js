@@ -454,14 +454,14 @@ const Page = () => {
             } w-[70%] mx-auto md:block hidden`}
           >
             <div className="relative group w-full mx-auto p-[2px]">
-              <div className="box absolute top-0 right-0 bottom-0 left-0"></div>
+              {/* <div className="box absolute top-0 right-0 bottom-0 left-0"></div> */}
 
               {/* Main card content */}
-              <div className="rounded-full bg-[#fbfbfb] overflow-hidden relative z-10 shadow-[0_0_30px_0px_#b5b5b5]">
+              <div className="rounded-full bg-[#fbfbfb] overflow-hidden relative z-10 shadow-[0_0_30px_0px_#b5b5b5] card">
                 <div>
                   <div className="relative">
                     <input
-                      className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[50px]  px-11 outline-none text-black border-b border-b-[#e9e9e9]"
+                      className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[50px]  px-7 outline-none text-black border-b border-b-[#e9e9e9]"
                       type="text"
                       name="chat"
                       id="chat"

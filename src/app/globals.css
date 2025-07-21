@@ -366,41 +366,23 @@ input:-webkit-autofill:active {
 
 
 /* gradient border start  */
-.box {
-  border-radius: 100px;
-  border: 10px solid transparent;
-  background:
-    linear-gradient(to right, #12002000, #12002000) content-box,
-    conic-gradient(
-      from var(--angle),
-      #0000ff 0deg,
-      #0040ff 20deg,
-      #ff009d 60deg,
-      #ff005d 90deg,
-      #ff005d 120deg,
-      #ff005d 180deg,
-      #ff005d00 200deg,
-      #ff005d00 240deg,
-      #ea005600 270deg,
-      #ea005600 300deg,
-      #3700ff 360deg
-    ) border-box;
-  animation: gradientBorder 3s linear infinite;
-}
-
-@keyframes gradientBorder {
-  from {
-    --angle: 0deg;
-  }
-  to {
-    --angle: 360deg;
-  }
-}
-
 @property --angle {
-  syntax: "<angle>";
-  inherits: true;
-  initial-value: 0deg;
+	syntax: '<angle>';
+	inherits: true;
+	initial-value: 0deg;
+}
+
+.card {
+	--angle: 0deg;
+	background: linear-gradient(white, white) padding-box, conic-gradient(from var(--angle), #dfdfdf, #ea0056) border-box;
+	border: 2px solid transparent;
+	border-radius: 16px;
+	animation: rotate-gradient 3s infinite linear;
+}
+
+@keyframes rotate-gradient {
+	from { --angle: 0deg; }
+	to { --angle: 360deg; }
 }
 
 
