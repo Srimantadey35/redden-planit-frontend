@@ -89,11 +89,13 @@ const VenueSearches = ({
           640: {
             spaceBetween: 10,
             slidesPerView: slidesPerViewTab,
+            autoplay: false,
           },
           0: {
             spaceBetween: 10,
             navigation: { enabled: false },
             slidesPerView: slidesPerViewMobo,
+            autoplay: true,
           },
         }}
       >

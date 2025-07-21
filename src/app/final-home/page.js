@@ -461,7 +461,7 @@ const Page = () => {
                 <div>
                   <div className="relative">
                     <input
-                      className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[50px]  px-7 outline-none text-black border-b border-b-[#e9e9e9]"
+                      className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[50px]  px-11 outline-none text-black border-b border-b-[#e9e9e9]"
                       type="text"
                       name="chat"
                       id="chat"
@@ -515,9 +515,9 @@ const Page = () => {
                 Start Planning Now
               </button>
             </div>
-            <div className="flex items-end md:w-fit w-[80%] mx-auto">
+            <div className="flex items-end md:w-fit w-[80%] mx-auto md:ml-auto md:mr-0">
               <Image
-                className="rounded-t-lg w-full md:w-[480px] xl:w-[550px] 3xl:w-[634px]"
+                className="rounded-t-lg w-full md:w-[430px] xl:w-[550px] 3xl:w-[634px]"
                 width={634}
                 height={468}
                 src={"/images/rightsideimg.png"}
