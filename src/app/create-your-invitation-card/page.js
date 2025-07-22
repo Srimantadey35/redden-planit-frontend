@@ -116,22 +116,26 @@ const Page = () => {
   return (
     <div className="bg-white">
       <Header />
-
-{isChatShow &&
-      <div className="py-2 banner_gradient sticky top-[76px] z-[99] modalAnim">
-        <div className="container flex items-center">
-          <form
-            className={`bg-[#F2F2F2] w-[65%] py-2 px-[11px]  relative rounded-[10px]`}
-          >
-            <label className="relative">
+      <div
+        className={`transition-all duration-500 ease-in-out
+    ${
+      isChatShow
+        ? "max-h-[200px] opacity-100 translate-y-0 pointer-events-auto"
+        : "max-h-0 opacity-0 -translate-y-4 pointer-events-none"
+    }
+    py-1 banner_gradient backdrop-blur sticky top-[75px] z-[99] shadow-sm modalAnim`}
+      >
+        <div className="container flex justify-center items-center gap-3">
+          <form className="flex-1 min-w-[200px] max-w-[400px] relative rounded-[8px] border border-gray-200 bg-[#f7f7f7]">
+            <label className="size-full inline-block">
               <input
-                className="bg-white rounded-[10px] 3xl:rounded-[15px] w-full text-black h-[40px] 3xl:h-[46px] 4xl:h-[50px] font-normal text-[15px] 3xl:text-[20px] placeholder:text-[#9E9E9E] placeholder:font-normal placeholder:text-[15px] 3xl:placeholder:text-[20px] pl-5 pr-20 outline-none"
+                className="bg-white rounded-[8px] w-full text-black font-normal text-[14px] placeholder:text-[#b0b0b0] pl-4 pr-12 outline-none border-none py-2"
                 type="text"
                 name="text"
                 id="text"
                 placeholder="Search your template here."
               />
-              <button className="absolute top-1/2 -translate-y-1/2 right-5 cursor-pointer">
+              <button className="absolute top-0 bottom-0 right-0 cursor-pointer h-full px-3 flex items-center justify-center bg-[#FF4F93] rounded-[6px]">
                 <Image
                   className="w-[16px]"
                   width={16}
@@ -142,33 +146,34 @@ const Page = () => {
               </button>
             </label>
           </form>
-          <div className="flex flex-col w-[35%] sm:flex-row sm:items-center sm:space-x-2.5 space-y-2.5 sm:space-y-0 justify-end relative">
+          <div className="flex gap-2">
             {items.map((item, index) => (
               <div
                 key={index}
-                className="relative w-full sm:w-auto"
+                className="relative"
                 ref={(el) => (refs.current[index] = el)}
               >
                 <button
                   onClick={() => toggleAccordion(index)}
-                  className="w-full sm:w-auto font-normal text-[14px] cursor-pointer 4xl:text-[16px] text-[#363636] flex items-center justify-between bg-[#F6F6F6] rounded-lg py-2 px-6"
+                  className={`font-normal text-[13px] text-black cursor-pointer flex items-center justify-between bg-white border border-gray-200 rounded-[7px] py-2 px-4 transition-all duration-150 hover:border-[#FF4F93] focus:border-[#FF4F93] ${
+                    openIndex === index ? "ring-1 ring-[#FF4F93]" : ""
+                  }`}
+                  style={{ fontWeight: 500, minWidth: 0 }}
                 >
-                  <span className="mr-2">{item}</span>
+                  <span className="mr-1">{item}</span>
                   <Image
-                    width={9}
-                    height={4}
+                    width={12}
+                    height={12}
                     src={"/images/downarrw.svg"}
                     alt="downarrow"
-                    className={`transition-transform duration-300 ${
+                    className={`ml-1 transition-transform duration-200 ${
                       openIndex === index ? "rotate-180" : ""
                     }`}
                   />
                 </button>
-
-                {/* Accordion Content */}
                 {openIndex === index && (
-                  <div className="absolute sm:left-0 left-0 top-full mt-2 w-full sm:w-max min-w-[200px] bg-white border rounded-lg shadow z-10">
-                    <p className="text-sm text-gray-600 p-4">
+                  <div className="absolute left-0 top-full mt-1 w-full min-w-[160px] bg-white border border-gray-200 rounded-lg shadow z-10 animate-fade-in">
+                    <p className="text-xs text-gray-700 p-3">
                       Content for: {item}
                     </p>
                   </div>
@@ -177,7 +182,7 @@ const Page = () => {
             ))}
           </div>
         </div>
-      </div>}
+      </div>
 
       <div className="container">
         <div className="lg:py-[55px] py-[100px] lg:pb-0 pb-[55px]">

@@ -413,89 +413,6 @@ const Page = () => {
             </div>
           </div>
 
-          {/* WMG Inhouse Services */}
-          {/* <div>
-            <h3 className="font-semibold text-black text-[28px] pb-[25px]">
-              WMG Inhouse Services
-            </h3>
-            <div className="grid grid-cols-2 gap-[40px]">
-              {inhouseService.map((item, index) => (
-                <div key={index}>
-                  <Image
-                    className="w-full"
-                    width={580}
-                    height={282}
-                    src={`${item.img}`}
-                    alt=""
-                  />
-
-                  <div className="flex flex-col items-center justify-center mt-5">
-                    <h4 className="font-medium text-[24px] text-[#333333]">
-                      {item.title}
-                    </h4>
-                    <p className="font-normal text-[15px] text-[#333333] mt-0.5 mb-2">
-                      {item.desc}
-                    </p>
-                    <button className="font-normal text-[15px] text-[#EA0056]">
-                      Know more
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div> */}
-
-          {/* chat  */}
-          <div
-            className={`${
-              isChatShow
-                ? "sticky bottom-16 xl:bottom-3 z-[9] chatpopsup"
-                : "hidden"
-            } w-[70%] mx-auto md:block hidden`}
-          >
-            <div className="relative group w-full mx-auto p-[2px]">
-              {/* <div className="box absolute top-0 right-0 bottom-0 left-0"></div> */}
-
-              {/* Main card content */}
-              <div className="rounded-full bg-[#fbfbfb] overflow-hidden relative z-10 shadow-[0_0_30px_0px_#b5b5b5] card">
-                <div>
-                  <div className="relative">
-                    <input
-                      className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[50px]  px-11 outline-none text-black border-b border-b-[#e9e9e9]"
-                      type="text"
-                      name="chat"
-                      id="chat"
-                      placeholder="Chat with planit AI..."
-                    />
-                    <button className="cursor-pointer">
-                      <Image
-                        className="absolute right-4 top-1/2 -translate-y-1/2"
-                        width={32}
-                        height={32}
-                        src={"/images/sendbtn2.svg"}
-                        alt="sendbtn2.svg"
-                      />
-                    </button>
-                  </div>
-
-                  {/* <div className="space-x-[12px] flex items-center justify-center py-4">
-                    {[
-                      "Beautiful wedding cards",
-                      "Explore wedding venues",
-                      "Continental food service",
-                    ].map((item, index) => (
-                      <button
-                        key={index}
-                        className="text-[#575757] font-normal text-[13px] bg-[#eeeeee] rounded-full px-[28px] 3xl:px-[35px] py-1.5"
-                      >
-                        {item}
-                      </button>
-                    ))}
-                  </div> */}
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -508,8 +425,9 @@ const Page = () => {
                 Think It. <br className="md:block hidden" /> Plan It. Done.
               </h3>
               <p className="font-medium text-[18px] xl:text-[24px] 4xl:text-[27px] text-white leading-[1.2] my-4">
-                Your all-in-one AI assistant for creating <br className="sm:block hidden"/> unforgettable
-                events effortlessly.
+                Your all-in-one AI assistant for creating{" "}
+                <br className="sm:block hidden" /> unforgettable events
+                effortlessly.
               </p>
               <button className="font-semibold text-[16px] cursor-pointer 3xl:text-[20px] text-[#EA0056] rounded-[8px] bg-white py-2 px-8">
                 Start Planning Now
@@ -595,6 +513,41 @@ const Page = () => {
                 slidesPerViewMobo={1}
                 top={"26%"}
               />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* chat  */}
+      <div
+        className={`${
+          isChatShow
+            ? "sticky bottom-16 xl:bottom-3 z-[9] chatpopsup"
+            : "hidden"
+        } w-[70%] mx-auto md:block hidden mb-10`}
+      >
+        <div className="relative group w-full mx-auto p-[2px]">
+          {/* Main card content */}
+          <div className="rounded-full bg-[#fbfbfb] overflow-hidden relative z-10 shadow-[0_0_30px_0px_#b5b5b5] card">
+            <div>
+              <div className="relative">
+                <input
+                  className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[50px]  px-11 outline-none text-black border-b border-b-[#e9e9e9]"
+                  type="text"
+                  name="chat"
+                  id="chat"
+                  placeholder="Chat with planit AI..."
+                />
+                <button className="cursor-pointer">
+                  <Image
+                    className="absolute right-4 top-1/2 -translate-y-1/2"
+                    width={32}
+                    height={32}
+                    src={"/images/sendbtn2.svg"}
+                    alt="sendbtn2.svg"
+                  />
+                </button>
+              </div>
             </div>
           </div>
         </div>

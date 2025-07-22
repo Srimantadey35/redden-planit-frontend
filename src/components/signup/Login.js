@@ -185,7 +185,7 @@ const Login = ({ planName }) => {
                   </p>
                 </div>
 
-                <Link href={"/home"}>
+                <Link href={"/final-home"}>
                   <button className="font-semibold text-[16px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-7 3xl:mt-10 cursor-pointer w-full mb-3 3xl:mb-4">
                     Sign in
                   </button>
