@@ -390,10 +390,8 @@ input:-webkit-autofill:active {
 }
 
 @keyframes rotate-gradient {
-	0% { --angle: 0deg; }
-	30% { --angle: 90deg; }
-	from { --angle: 0deg; }
-	to { --angle: 360deg; }
+    from { --angle: 0deg; }
+    to { --angle: 360deg; }
 }
 
 
@@ -402,8 +400,6 @@ input:-webkit-autofill:active {
 .chatpopsup {
   animation: chatpopsup 0.4s ease-in-out both;
 }
-
-
 @keyframes chatpopsup {
   0% {
     transform: translateY(150px);
@@ -414,7 +410,6 @@ input:-webkit-autofill:active {
     opacity: 1;
   }
 }
-
 @media (max-width: 1700px) {
   .gradientline:before {
     width: 110%;

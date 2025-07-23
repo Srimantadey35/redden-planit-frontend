@@ -120,33 +120,33 @@ const Page = () => {
         className={`transition-all duration-500 ease-in-out
     ${
       isChatShow
-        ? "max-h-[200px] opacity-100 translate-y-0 pointer-events-auto"
+        ? "max-h-[160px] opacity-100 translate-y-0 pointer-events-auto"
         : "max-h-0 opacity-0 -translate-y-4 pointer-events-none"
     }
-    py-1 banner_gradient backdrop-blur sticky top-[75px] z-[99] shadow-sm modalAnim`}
+    py-0.5 banner_gradient backdrop-blur sticky top-[75px] z-[99] shadow-sm modalAnim`}
       >
-        <div className="container flex justify-center items-center gap-3">
-          <form className="flex-1 min-w-[200px] max-w-[400px] relative rounded-[8px] border border-gray-200 bg-[#f7f7f7]">
+        <div className="container flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-1.5 sm:gap-3">
+          <form className="w-full sm:flex-1 min-w-[120px] max-w-[320px] relative rounded-[8px] border border-gray-200 bg-[#f7f7f7] mb-1 sm:mb-0">
             <label className="size-full inline-block">
               <input
-                className="bg-white rounded-[8px] w-full text-black font-normal text-[14px] placeholder:text-[#b0b0b0] pl-4 pr-12 outline-none border-none py-2"
+                className="bg-white rounded-[8px] w-full text-black font-normal text-[13px] placeholder:text-[#b0b0b0] pl-3 pr-10 outline-none border-none py-1"
                 type="text"
                 name="text"
                 id="text"
                 placeholder="Search your template here."
               />
-              <button className="absolute top-0 bottom-0 right-0 cursor-pointer h-full px-3 flex items-center justify-center bg-[#FF4F93] rounded-[6px]">
+              <button className="absolute top-0 bottom-0 right-0 cursor-pointer h-full px-2 flex items-center justify-center bg-[#FF4F93] rounded-[6px]">
                 <Image
-                  className="w-[16px]"
-                  width={16}
-                  height={16}
+                  className="w-[14px]"
+                  width={14}
+                  height={14}
                   src={"/images/searchIcon.svg"}
                   alt="searchIcon.svg"
                 />
               </button>
             </label>
           </form>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-1.5 w-full sm:w-auto">
             {items.map((item, index) => (
               <div
                 key={index}
@@ -155,15 +155,15 @@ const Page = () => {
               >
                 <button
                   onClick={() => toggleAccordion(index)}
-                  className={`font-normal text-[13px] text-black cursor-pointer flex items-center justify-between bg-white border border-gray-200 rounded-[7px] py-2 px-4 transition-all duration-150 hover:border-[#FF4F93] focus:border-[#FF4F93] ${
+                  className={`w-full sm:w-auto font-normal text-[12px] text-black cursor-pointer flex items-center justify-between bg-white border border-gray-200 rounded-[7px] py-1 px-3 transition-all duration-150 hover:border-[#FF4F93] focus:border-[#FF4F93] ${
                     openIndex === index ? "ring-1 ring-[#FF4F93]" : ""
                   }`}
                   style={{ fontWeight: 500, minWidth: 0 }}
                 >
                   <span className="mr-1">{item}</span>
                   <Image
-                    width={12}
-                    height={12}
+                    width={10}
+                    height={10}
                     src={"/images/downarrw.svg"}
                     alt="downarrow"
                     className={`ml-1 transition-transform duration-200 ${
@@ -172,8 +172,8 @@ const Page = () => {
                   />
                 </button>
                 {openIndex === index && (
-                  <div className="absolute left-0 top-full mt-1 w-full min-w-[160px] bg-white border border-gray-200 rounded-lg shadow z-10 animate-fade-in">
-                    <p className="text-xs text-gray-700 p-3">
+                  <div className="absolute left-0 top-full mt-1 w-full min-w-[120px] bg-white border border-gray-200 rounded-lg shadow z-10 animate-fade-in">
+                    <p className="text-xs text-gray-700 p-2">
                       Content for: {item}
                     </p>
                   </div>

@@ -54,7 +54,7 @@ const Sidebar = ({setisMenuOpen, isMenuOpen}) => {
         <Image className="invert-[1] absolute top-3 right-3" width={16} height={16} src={'/images/cross.svg'} alt="cross"/>
       </button>
       <div>
-        <div className="size-[80px] md:size-[96px] 3xl:size-[115px] 4xl:size-[130px] rounded-full bg-[#d9d9d936] flex items-center justify-center mr-auto ml-0 md:mx-auto">
+        <Link href={'/final-home'} className="size-[80px] md:size-[96px] 3xl:size-[115px] 4xl:size-[130px] rounded-full bg-[#d9d9d936] flex items-center justify-center mr-auto ml-0 md:mx-auto">
           <Image
             className="w-[60px] md:w-[70px] 3xl:w-[80px] 4xl:w-[100px]"
             width={100}
@@ -62,7 +62,7 @@ const Sidebar = ({setisMenuOpen, isMenuOpen}) => {
             src={"/images/logo.svg"}
             alt="logo"
           />
-        </div>
+        </Link>
 
         <ul className="mt-10 md:mt-14 3xl:mt-16 space-y-2 3xl:space-y-3 4xl:space-y-4">
           {sidebarData.map((item, index) => (

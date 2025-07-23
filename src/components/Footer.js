@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="banner_gradient sticky left-0 right-0 w-full top-0 z-[99999]">
+    <div className="banner_gradient sticky left-0 right-0 w-full top-0 z-[99]">
       <div className="container">
         <div className="py-[50px]">
           <div className="flex items-center sm:space-x-5 sm:flex-row flex-col">
