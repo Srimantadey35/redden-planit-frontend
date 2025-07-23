@@ -1,0 +1,208 @@
+"use client";
+import React, { useRef, useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { clearAccessToken, clearUser } from "@/store/authSlice";
+
+const Header = () => {
+  const dispatch = useDispatch()
+  const router = useRouter()
+  // const fetchedUser = useSelector((state)=>state.auth.user) 
+  const accessToken = useSelector((state) => state.auth.accessToken);
+  const [fetchedUser,setFetchedUser] = useState({})
+ useEffect(() => {
+  if (accessToken) {
+    // setAccessToken(token);
+    fetchUserDetails(accessToken);
+  }
+}, [accessToken]);
+
+const fetchUserDetails = async (accessToken) => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/current-user`, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    console.log('user response', response);
+    setFetchedUser(response.data.data)
+  } catch (error) {
+    console.error('fetch error', error);
+  }
+};
+  console.log('fetched',fetchedUser);
+
+  const logoutUser = async () => {
+  const rememberMe = localStorage.getItem("rememberMe") === "true";
+  const token = rememberMe
+    ? localStorage.getItem("refreshToken")
+    : sessionStorage.getItem("refreshToken");
+
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/logout`,
+      {},
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      toast.success("User logged out successfully");
+      localStorage.clear();
+      sessionStorage.clear();
+      dispatch(clearAccessToken())
+      dispatch(clearUser())
+      setTimeout(() => {
+        router.push(`/sign-in/vendor`);
+      }, 100);
+    }
+  } catch (err) {
+    console.error("Logout error:", err);
+    toast.error("Logout failed");
+  }
+};
+  
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMenuOpen, setisMenuOpen] = useState(false);
+  const pathName = usePathname();
+  
+  const navLinks = [
+    { label: "Home", href: "/home" },
+    { label: "E - Card", href: "/create-your-invitation-card" },
+    { label: "Manage guest", href: "/manage-guest" },
+    { label: "Create your website", href: "/create-website" },
+    { label: "Book vendors", href: "/vendors" },
+    { label: "PlanIt AI", href: "/chat" },
+  ];
+
+  const profileRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <>
+      {/* Header */}
+      <div className=" bg-white sticky top-0 z-[999]">
+        <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto">
+          <div className="py-3 2xl:py-5 4xl:py-6 flex items-center justify-between">
+            {/* hamburger  */}
+            <button
+              onClick={() => setisMenuOpen(!isMenuOpen)}
+              className="relative w-6 h-6 flex flex-col justify-center items-center smd:hidden mr-2.5"
+            >
+              {/* Top Bar */}
+              <span
+                className={`absolute h-0.5 w-5 bg-black rounded transition-all duration-300 ease-in-out ${
+                  !isMenuOpen ? "rotate-45 translate-y-0" : "-translate-y-[6px]"
+                }`}
+              ></span>
+
+              {/* Middle Bar */}
+              <span
+                className={`absolute h-0.5 w-5 bg-black rounded transition-all duration-300 ease-in-out ${
+                  !isMenuOpen ? "opacity-0" : "opacity-100"
+                }`}
+              ></span>
+
+              {/* Bottom Bar */}
+              <span
+                className={`absolute h-0.5 w-5 bg-black rounded transition-all duration-300 ease-in-out ${
+                  !isMenuOpen ? "-rotate-45 translate-y-0" : "translate-y-[6px]"
+                }`}
+              ></span>
+            </button>
+
+            <h4 className="font-semibold text-[18px] 3xl:text-[24px] text-[#313131] flex-[1] smd:flex-1/2">
+              Hello, {fetchedUser.name}
+            </h4>
+            {/* Right Icons */}
+            <div className="flex items-center relative space-x-3 sm:space-x-5 3xl:space-x-6">
+              {/* Bell */}
+              <Image
+                width={18}
+                height={18}
+                src="/images/bellicon.svg"
+                className="cursor-pointer invert-[1]"
+                alt="bell"
+              />
+
+              {/* Avatar */}
+              <div ref={profileRef}>
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="cursor-pointer mt-[5px]"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24px"
+                    height="24px"
+                    viewBox="0 0 24 24"
+                  >
+                    <g
+                      fill="none"
+                      stroke="#000"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                    >
+                      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2" />
+                      <path d="M4.271 18.346S6.5 15.5 12 15.5s7.73 2.846 7.73 2.846M12 12a3 3 0 1 0 0-6a3 3 0 0 0 0 6" />
+                    </g>
+                  </svg>
+                </button>
+
+                {/* Desktop Dropdown */}
+                {isProfileOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
+                    <div className="flex items-center space-x-3 p-4 border-b">
+                      <Image
+                        src="/images/userimg.png"
+                        width={32}
+                        height={32}
+                        alt="user"
+                        className="rounded-full"
+                      />
+                      <span className="text-sm font-medium text-gray-900">
+                        {fetchedUser.name}
+                      </span>
+                    </div>
+                    <ul className="py-2 text-sm text-gray-700">
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        Profile
+                      </li>
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        Settings
+                      </li>
+                      <li onClick={logoutUser} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        Logout
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Header;
