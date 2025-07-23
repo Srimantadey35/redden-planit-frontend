@@ -3,11 +3,15 @@ import Header from "@/components/Header";
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
+import axios from "axios";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+            
 const Page = () => {
   const [step, setStep] = useState(1);
   const dateRef = useRef(null);
   const timeRef = useRef(null);
+  const token = useSelector((state) => state.auth.accessToken);
   const router = useRouter();
 
   const [formData, setformData] = useState({
@@ -15,12 +19,21 @@ const Page = () => {
     eventDate: "",
     brideName: "",
     groomName: "",
-    city: "",
+    birthdayPersonName: "",
+    eventCity: "",
     eventTime: "",
-    guestcount: "",
+    guestCount: "",
     budget: 100000,
     notes: "",
   });
+
+  const eventTypeFields = {
+  wedding: ['brideName', 'groomName'],
+  birthday: ['birthdayPersonName'],
+  engagement: ['brideName', 'groomName'],
+  anniversary: ['brideName', 'groomName'],
+  // add more types as needed
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,9 +49,32 @@ const Page = () => {
     ref.current?.focus();
   };
 
+  // Helper function to validate required fields based on event type
+  const isFormValid = () => {
+    // Base validation for all event types
+    const baseValid = formData.eventType && formData.eventDate && formData.eventCity.trim();
+    
+    if (!baseValid) return false;
+    
+    // Step 2 specific validation
+    if (step === 2 && !formData.eventTime) return false;
+    
+    // Event type specific validation
+    if (formData.eventType === "Wedding") {
+      return formData.brideName.trim() && formData.groomName.trim();
+    } else if (formData.eventType === "Birthday") {
+      return formData.birthdayPersonName.trim();
+    } else if (formData.eventType === "Corporate") {
+      return true; // No additional fields required
+    }
+    
+    return false;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+      const baseFields = ['eventType', 'eventDate', 'eventTime', 'eventCity', 'guestCount', 'budget', 'notes'];
+      const eventParticipantFields = eventTypeFields[formData.eventType?.toLowerCase()] || [];
     const trimmedData = Object.fromEntries(
       Object.entries(formData).map(([key, value]) => {
         if (typeof value === "string") return [key, value.trim()];
@@ -46,14 +82,46 @@ const Page = () => {
       })
     );
 
+    const finalPayload = {};
+
+  // Add base fields
+  baseFields.forEach((field) => {
+    if (trimmedData[field]) {
+      finalPayload[field] = trimmedData[field];
+    }
+  });
+
+  // Add event participants inside a nested object
+  const eventParticipants = {};
+  eventParticipantFields.forEach((field) => {
+    if (trimmedData[field]) {
+      eventParticipants[field] = trimmedData[field];
+    }
+  });
+
+  finalPayload.eventParticipants = eventParticipants;
+
+
     try {
       if (step < 3) {
         setStep((prev) => prev + 1);
       } else {
         console.log("📦 Final submitted data:", trimmedData);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/planners/create-event`,finalPayload,
+           {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+        )
+
+        if(response.status === 201){
+        toast.success("Event created successfully")
         localStorage.setItem("eventFormData", JSON.stringify(trimmedData));
         // alert("Form submitted successfully!");
         router.push("/thank-you");
+        }
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -122,11 +190,13 @@ const Page = () => {
                           onChange={handleChange}
                         >
                           <option value="" disabled>
-                            Wedding
+                            Select Event Type
                           </option>
-                          <option value="Wedding 2">Wedding 2</option>
-                          <option value="Wedding 3">Wedding 3</option>
-                          <option value="Wedding 4">Wedding 4</option>
+                          <option value="Wedding">Wedding</option>
+                          <option value="Birthday">Birthday</option>
+                          <option value="Corporate">Corporate</option>
+                          <option value="Engagement">Engagement</option>
+                          <option value="Anniversary">Anniversary</option>
                         </select>
                       </div>
                       <div className="flex flex-col w-full ">
@@ -163,6 +233,7 @@ const Page = () => {
                         </div>
                       </div>
                     </div>
+                    {formData.eventType == 'Wedding' &&
                     <div className="flex items-center">
                       <div className="flex flex-col w-full mr-7">
                         <label
@@ -182,7 +253,7 @@ const Page = () => {
                           onChange={handleChange}
                         />
                       </div>
-                      <div className="flex flex-col w-full ">
+                      <div className="flex flex-col w-full">
                         <label
                           htmlFor="groomName"
                           className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
@@ -190,7 +261,7 @@ const Page = () => {
                           Name of Groom<span className="text-[#FF2C2C]">*</span>
                         </label>
                         <input
-                          required
+                          required={formData.eventType === "Wedding"}
                           className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                           placeholder="Enter Groom's name"
                           type="text"
@@ -200,10 +271,32 @@ const Page = () => {
                           onChange={handleChange}
                         />
                       </div>
-                    </div>
-                    <div className="flex flex-col mb-[55px] w-[383px] mr-7">
+                    </div>}
+                     {formData.eventType === "Birthday" && (
+                          <>
+                          <div className="flex flex-col w-full">
+                            <label
+                              htmlFor="birthdayPersonName"
+                              className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                            >
+                              Birthday Person Name<span className="text-[#FF2C2C]">*</span>
+                            </label>
+                            <input
+                              required
+                              className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                              placeholder="Enter birthday person's name"
+                              type="text"
+                              name="birthdayPersonName"
+                              id="birthdayPersonName"
+                              value={formData.birthdayPersonName}
+                              onChange={handleChange}
+                            />
+                            </div>
+                          </>
+                        )}
+                    <div className="flex flex-col w-full mb-[55px]  mr-7">
                       <label
-                        htmlFor="city"
+                        htmlFor="eventCity"
                         className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                       >
                         Event city<span className="text-[#FF2C2C]">*</span>
@@ -213,29 +306,18 @@ const Page = () => {
                         className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                         placeholder="Enter your city"
                         type="text"
-                        name="city"
-                        id="city"
-                        value={formData.city}
+                        name="eventCity"
+                        id="eventCity"
+                        value={formData.eventCity}
                         onChange={handleChange}
                       />
                     </div>
                   </div>
                   <button
                     type="submit"
-                    disabled={
-                      !formData.eventType ||
-                      !formData.eventDate ||
-                      !formData.brideName.trim() ||
-                      !formData.groomName.trim() ||
-                      !formData.city.trim()
-                    }
+                    disabled={!isFormValid()}
                     className={`${
-                      !formData.eventType ||
-                      !formData.eventDate ||
-                      !formData.brideName.trim() ||
-                      !formData.groomName.trim() ||
-                      !formData.city.trim() ||
-                      (step === 2 && !formData.eventTime)
+                      !isFormValid()
                         ? "bg-gray-300 cursor-not-allowed"
                         : "bg-[#EA0056] hover:bg-[#d2004d] cursor-pointer"
                     } font-semibold text-[18px] 3xl:text-[20px] text-white rounded-lg py-2.5 3xl:py-4 px-[135px] mx-auto table`}
@@ -290,7 +372,7 @@ const Page = () => {
                       </div>
                       <div className="flex flex-col w-full">
                         <label
-                          htmlFor="guestcount"
+                          htmlFor="guestCount"
                           className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                         >
                           Guest count<span className="text-[#FF2C2C]">*</span>
@@ -299,10 +381,10 @@ const Page = () => {
                           required
                           className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                           placeholder="Enter number of guests"
-                          type="text"
-                          name="guestcount"
-                          id="guestcount"
-                          value={formData.guestcount}
+                          type="number"
+                          name="guestCount"
+                          id="guestCount"
+                          value={formData.guestCount}
                           onChange={handleChange}
                         />
                       </div>
@@ -319,21 +401,9 @@ const Page = () => {
 
                     <button
                       type="submit"
-                      disabled={
-                        !formData.eventType ||
-                        !formData.eventDate ||
-                        !formData.brideName.trim() ||
-                        !formData.groomName.trim() ||
-                        !formData.city.trim() ||
-                        (step === 2 && !formData.eventTime)
-                      }
+                      disabled={!isFormValid()}
                       className={`${
-                        !formData.eventType ||
-                        !formData.eventDate ||
-                        !formData.brideName.trim() ||
-                        !formData.groomName.trim() ||
-                        !formData.city.trim() ||
-                        (step === 2 && !formData.eventTime)
+                        !isFormValid()
                           ? "bg-gray-300 cursor-not-allowed"
                           : "bg-[#EA0056] hover:bg-[#d2004d] cursor-pointer"
                       } font-semibold text-[18px] 3xl:text-[20px] text-white rounded-lg py-2.5 3xl:py-4 px-[100px] 4xl:px-[126px]`}
@@ -427,21 +497,9 @@ const Page = () => {
 
                   <button
                     type="submit"
-                    disabled={
-                      !formData.eventType ||
-                      !formData.eventDate ||
-                      !formData.brideName.trim() ||
-                      !formData.groomName.trim() ||
-                      !formData.city.trim() ||
-                      (step === 2 && !formData.eventTime)
-                    }
+                    disabled={!isFormValid()}
                     className={`${
-                      !formData.eventType ||
-                      !formData.eventDate ||
-                      !formData.brideName.trim() ||
-                      !formData.groomName.trim() ||
-                      !formData.city.trim() ||
-                      (step === 2 && !formData.eventTime)
+                      !isFormValid()
                         ? "bg-gray-300 cursor-not-allowed"
                         : "bg-[#EA0056] hover:bg-[#d2004d] cursor-pointer"
                     } font-semibold mt-20 text-[18px] 3xl:text-[20px] text-white rounded-lg py-2.5 3xl:py-4 px-[100px] 4xl:px-[126px] mx-auto table`}

@@ -485,7 +485,7 @@ const Page = () => {
                       </label>
                       <input
                         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                        placeholder="Rubina"
+                        placeholder="Name"
                         type="text"
                         value={formik.values.businessName}
                         onChange={formik.handleChange}
@@ -567,7 +567,7 @@ const Page = () => {
                       </label>
                       <input
                         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                        placeholder="Kolkata"
+                        placeholder="Enter city"
                         value={formik.values.city}
                         onChange={formik.handleChange}
                         type="text"
@@ -605,7 +605,7 @@ const Page = () => {
                       </label>
                       <input
                         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                        placeholder="700002"
+                        placeholder="Enter Pincode"
                         value={formik.values.pin}
                         onChange={formik.handleChange}
                         type="text"
@@ -667,7 +667,7 @@ const Page = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center w-[60%] pt-[40px] ml-14">
+                    {/* <div className="flex items-center w-[60%] pt-[40px] ml-14">
                       <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mr-4">
                         Travel availability:
                       </p>
@@ -706,7 +706,7 @@ const Page = () => {
                           Outside City
                         </label>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="pt-4 flex  items-end">
                     <button type="submit" className={`bg-[#EA0056] ml-auto table text-white font-semibold rounded-[8px] px-6 py-2 text-[14px] 3xl:text-[16px]`}>
@@ -1178,7 +1178,8 @@ const Page = () => {
                         onChange={formik.handleChange}
                         id="businesscategory"
                         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
-                      >
+                      > 
+                        <option value="" disabled>Select Delivery Timeline</option>
                         <option value="2 weeks">Within 2 weeks</option>
                         <option value="3 weeks">Within 3 weeks</option>
                         <option value="4 weeks">Within 4 weeks</option>
@@ -1199,6 +1200,7 @@ const Page = () => {
                         id="priceRange"
                         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                       >
+                        <option value="" disabled>Select Price Range</option>
                         <option value="full refund">Full Refund</option>
                         <option value="within 3 weeks">Within 3 weeks</option>
                         <option value="within 4 weeks">Within 4 weeks</option>
@@ -1403,7 +1405,7 @@ const Page = () => {
                     <div className="relative">
                       <input
                         className="w-full h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[25px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                        placeholder="Kolkata"
+                        placeholder="Enter Location"
                         type="text"
                         name="portfolioLocation"
                         value={formik.values.portfolioLocation}

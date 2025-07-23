@@ -525,7 +525,7 @@ console.log('update accessToken',token)
             className={`cursor-pointer flex items-center justify-between  mb-3 bg-[#ededed] px-6 py-2 4xl:py-4 rounded-md`}
           >
             <h3 className="font-semibold text-[#303030] text-[20px] 3xl:text-[25px] 4xl:text-[28px]">
-              Add Business
+              Update Business
             </h3>
             <Image
               className={`${openAccordion === "add-business" ? "rotate-180" : ""
@@ -551,7 +551,7 @@ console.log('update accessToken',token)
                       </label>
                       <input
                         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                        placeholder="Rubina"
+                        placeholder="Enter your Name"
                         type="text"
                         value={formik.values.businessName}
                         onChange={formik.handleChange}
@@ -634,7 +634,7 @@ console.log('update accessToken',token)
                       </label>
                       <input
                         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                        placeholder="Kolkata"
+                        placeholder="Enter City"
                         value={formik.values.city}
                         onChange={formik.handleChange}
                         type="text"
@@ -672,7 +672,7 @@ console.log('update accessToken',token)
                       </label>
                       <input
                         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                        placeholder="700002"
+                        placeholder="Enter Pincode"
                         value={formik.values.pin}
                         onChange={formik.handleChange}
                         type="text"
@@ -791,7 +791,7 @@ console.log('update accessToken',token)
             className={`cursor-pointer flex items-center justify-between mb-3 bg-[#ededed] px-6 py-2 4xl:py-4  rounded-md`}
           >
             <h3 className="font-semibold text-[#303030] text-[20px] 3xl:text-[25px] 4xl:text-[28px]">
-              Opening Hours
+              Update Opening Hours
             </h3>
             <Image
               className={`${openAccordion === "opening-hours" ? "rotate-180" : ""
@@ -1007,7 +1007,7 @@ console.log('update accessToken',token)
               className={`cursor-pointer flex items-center justify-between mb-3 bg-[#ededed] px-6 py-2 4xl:py-4  rounded-md w-full`}
             >
               <h3 className="font-semibold text-[#303030] text-[20px] 3xl:text-[25px] 4xl:text-[28px]">
-                Services
+                 Update Services
               </h3>
               <Image
                 className={`${openAccordion === "services" ? "rotate-180" : ""
@@ -1116,7 +1116,7 @@ console.log('update accessToken',token)
                       onChange={formik.handleChange}
                       name="description"
                       className="h-[110px] 3xl:h-[125px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black py-3.5"
-                      placeholder="add your description"
+                      placeholder="Add your description"
                     ></textarea>
                   </div>
                   {/* availability */}
@@ -1242,9 +1242,10 @@ console.log('update accessToken',token)
                         name="deliveryTimeline"
                         value={formik.values.deliveryTimeline}
                         onChange={formik.handleChange}
-                        id="businesscategory"
+                        id="deliveryTimeline"
                         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                       >
+                        <option value="" disabled>Select Delivery Timeline</option>
                         <option value="2 weeks">Within 2 weeks</option>
                         <option value="3 weeks">Within 3 weeks</option>
                         <option value="4 weeks">Within 4 weeks</option>
@@ -1265,6 +1266,7 @@ console.log('update accessToken',token)
                         id="priceRange"
                         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                       >
+                        <option value="" disabled>Select Price Range</option>
                         <option value="full refund">Full Refund</option>
                         <option value="within 3 weeks">Within 3 weeks</option>
                         <option value="within 4 weeks">Within 4 weeks</option>
@@ -1327,7 +1329,7 @@ console.log('update accessToken',token)
               className={`cursor-pointer flex items-center justify-between mb-3 bg-[#ededed] px-6 py-2 4xl:py-4  rounded-md w-full`}
             >
               <h3 className="font-semibold text-[#303030] text-[20px] 3xl:text-[25px] 4xl:text-[28px]">
-                Upload Portfolio
+                Update Portfolio
               </h3>
               <Image
                 className={`${openAccordion === "upload-portfolio" ? "rotate-180" : ""
@@ -1466,7 +1468,7 @@ console.log('update accessToken',token)
                     <div className="relative">
                       <input
                         className="w-full h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[25px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                        placeholder="Kolkata"
+                        placeholder="Enter location"
                         type="text"
                         name="portfolioLocation"
                         value={formik.values.portfolioLocation}
