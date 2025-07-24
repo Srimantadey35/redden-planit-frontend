@@ -64,6 +64,8 @@ const Page = () => {
       title: "4 Star & Above Wedding Hotels",
       rating: "4.5",
       places: ["Mumbai", "Bangalore", "Pune"],
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/vanue-searches/card2.png",
@@ -71,6 +73,8 @@ const Page = () => {
       title: "Banquet Halls",
       rating: "4.8",
       places: ["Mumbai", "Bangalore", "Pune"],
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/vanue-searches/card3.png",
@@ -78,6 +82,8 @@ const Page = () => {
       title: "Marriage Garden / Lawns",
       rating: "5.0",
       places: ["Mumbai", "Bangalore", "Pune"],
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/vanue-searches/card1.png",
@@ -85,46 +91,66 @@ const Page = () => {
       title: "4 Star & Above Wedding Hotels",
       rating: "4.5",
       places: ["Mumbai", "Bangalore", "Pune"],
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
   ];
   const dataFreeCard = [
     {
       image: "/images/homepage-slider-images/free-card/card1.png",
       title: "Wedding Ceremony",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-card/card2.png",
       title: "Annaprashan Ceremony",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-card/card3.png",
       title: "Haldi Invitation",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-card/card4.png",
       title: "Ganesh Chaturthi",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-card/card1.png",
       title: "Wedding Ceremony",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
   ];
   const dataFreeWebsite = [
     {
       image: "/images/homepage-slider-images/free-website/card1.png",
       title: "Picture This - Green",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-website/card2.png",
       title: "Aura Love - Purple",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-website/card3.png",
       title: "Vintage Hollywood - Black",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-website/card1.png",
       title: "Picture This - Green",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
   ];
   const weddingCategories = [
@@ -203,7 +229,8 @@ const Page = () => {
       date: "By Apoorva  |  03 Jul 2025  |  7 min read",
       title: "These 7 Lehenga Labels Are Our Best-Kept Secrets!",
       desc: "Lets be real, when it comes to bridal lehengas, everyone and their BFF knows the usual suspects. Sabyasachi, Manish, Anita Dongre. Sure, theyre stunning but theyre also everywhere. And if yo...",
-      btnName: "more",
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/blogs/card2.png",
@@ -211,7 +238,8 @@ const Page = () => {
       title:
         "Seaside Terrace Wedding At Home With A Bride Who Rocked A Neon Lehenga!",
       desc: "From a casual post-gym catch-up to a wedding bursting with love, laughter, and seriously unforgettable vibes, Sanam and Mohits story is what full-circle dreams are made of. They said I do o...",
-      btnName: "more",
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/blogs/card3.png",
@@ -219,42 +247,25 @@ const Page = () => {
       title:
         "Bridal Styling Hacks: How to Flatter Your Figure Without Revealing Your Belly!",
       desc: "Lets get one thing straight - every bride is beautiful exactly the way she is. But hey, if youre a bride-to-be whos feeling a little conscious about your belly in that gorgeous lehenga, we to...",
-      btnName: "more",
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/blogs/card1.png",
       date: "By Apoorva  |  03 Jul 2025  |  7 min read",
       title: "These 7 Lehenga Labels Are Our Best-Kept Secrets!",
       desc: "Lets be real, when it comes to bridal lehengas, everyone and their BFF knows the usual suspects. Sabyasachi, Manish, Anita Dongre. Sure, theyre stunning but theyre also everywhere. And if yo...",
-      btnName: "more",
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
   ];
-  const inhouseService = [
-    {
-      img: "/images/randomplace.jpg",
-      title: "Wedsta",
-      desc: "WMG At Home, Family Makeup Services",
-    },
-    {
-      img: "/images/randomplace.jpg",
-      title: "Genie Services",
-      desc: "WMG At Home, Family Makeup Services",
-    },
-    {
-      img: "/images/randomplace.jpg",
-      title: "Genie Services",
-      desc: "WMG At Home, Family Makeup Services",
-    },
-    {
-      img: "/images/randomplace.jpg",
-      title: "Genie Services",
-      desc: "WMG At Home, Family Makeup Services",
-    },
-  ];
+
 
   return (
     <div>
       <Header />
+
+      
       {/* banner  */}
       <div
         className="relative"
@@ -412,7 +423,6 @@ const Page = () => {
               ))}
             </div>
           </div>
-
         </div>
       </div>
 

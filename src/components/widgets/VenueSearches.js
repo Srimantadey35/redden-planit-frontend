@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import Image from "next/image";
+import Link from "next/link";
 
 import { Navigation } from "swiper/modules";
 
@@ -16,12 +17,13 @@ const VenueSearches = ({
   slidesPerViewMobo,
   top,
   slideKey,
-  seemoreBtn,
 }) => {
   const data = venuesearchData;
   const swiperRef = useRef(null);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  console.log(venuesearchData);
+  
 
   return (
     <div className="venuwsearchslider relative">
@@ -163,19 +165,18 @@ const VenueSearches = ({
                     {item.desc.length > 100 ? "..." : ""}
                   </p>
                 )}
-                {seemoreBtn && (
-                  <button className="font-normal text-[15px] text-[#EA0056] underline">
+                {item.isShowMatchingInvitation && (
+                  <Link
+                    href={`${item.matchingInvitationLink}`}
+                    className="font-normal text-[15px] text-[#EA0056] underline"
+                  >
                     See matching invitations
-                  </button>
+                  </Link>
                 )}
-                {item.btnName && (
-                  <button className="font-normal text-[15px] text-[#EA0056] underline mt-3">
-                    More
-                  </button>
-                )}
+
                 {item.places && (
                   <>
-                    <ul className="flex items-center text-[#333333] text-[13px] font-normal leading-[1] pt-2">
+                    <ul className="flex items-center text-[#333333] text-[13px] font-normal leading-[1] py-2">
                       {item.places.map((place, index) => (
                         <li
                           key={index}
@@ -191,10 +192,15 @@ const VenueSearches = ({
                         </li>
                       ))}
                     </ul>
-                    <button className="font-normal text-[#EA0056] text-[15px] underline pt-4">
-                      More
-                    </button>
                   </>
+                )}
+                {item.isShowMoreButton && (
+                  <Link
+                    href={`${item.moreBtnLink}`}
+                    className="font-normal text-[15px] text-[#EA0056] underline"
+                  >
+                    More
+                  </Link>
                 )}
               </div>
             </div>

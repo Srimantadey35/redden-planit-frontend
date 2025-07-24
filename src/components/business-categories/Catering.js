@@ -1,5 +1,22 @@
 import React, { useState } from "react";
 
+// Export all field keys for dynamic counting in parent
+export const cateringFields = [
+  "veg_plate_price",
+  "non_veg_plate_price",
+  "max_people",
+  "standard_non_veg_menu",
+  "cuisines_offered",
+  "caterer_type",
+  "business_start_year",
+  "veg_caterer_only",
+  "user_cancellation_policy",
+  "provider_cancellation_policy",
+  "provider_cancellation_terms",
+  "min_people",
+  "advance_booking_weeks",
+];
+
 const Catering = () => {
   const [selectedType, setSelectedType] = useState("");
   const [checkedCategoryIds, setCheckedCategoryIds] = useState([]);

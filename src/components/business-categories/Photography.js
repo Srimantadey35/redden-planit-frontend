@@ -1,6 +1,30 @@
 import React, { useState } from "react";
 
-const PhotographerForm = () => {
+export const photographyFields = [
+  "deliveryWeeks",
+  "mostBookedValue",
+  "serviceDays",
+  "serviceType",
+  "userCancellationPolicy",
+  "vendorCancellationPolicy",
+  "cancellationTerms",
+  "photoWords",
+  "cityCount",
+  "whyLove",
+  "advanceWeeks",
+  "startedYear",
+  "specialty",
+  "engagementPrice",
+  "imageDeliveryCount",
+  "paymentTerm",
+  "travelCost",
+  "oneDayPhotoPackage",
+  "oneDayFullPackage",
+  "defaultPackage",
+  "selectedServices",
+];
+
+const PhotographerForm = ({ categoryRef }) => {
   const [form, setForm] = useState({
     deliveryWeeks: "",
     mostBookedValue: "",
@@ -39,6 +63,8 @@ const PhotographerForm = () => {
     "Live Streaming",
     "Small Function Photography",
   ];
+
+  console.log(categoryRef.current);
 
   const handleChange = (key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -129,7 +155,7 @@ const PhotographerForm = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" ref={categoryRef}>
       {renderInput("How many weeks do you take to deliver the photos?", "deliveryWeeks", "e.g. 6 weeks")}
       {renderInput("What is the value of your most booked package?", "mostBookedValue", "e.g. 300000")}
       {renderRadioGroup("The above package includes services for how many days?", ["1 day", "2 days", "3 days", "4 days", "5+ days"], "serviceDays")}
@@ -174,7 +200,7 @@ const PhotographerForm = () => {
       {renderDualInputWithRadio("Candid Photography and Traditional Photography one day package for wedding day (Assume 300 pax)", "oneDayPhotoPackage", "photoPackage")}
       {renderDualInputWithRadio("Candid Photography, Traditional Photography and Cinematic Video one day package (Assume 300 pax wedding day)", "oneDayFullPackage", "fullPackage")}
 
-       <div className="pt-4">
+      <div className="pt-4">
         <button className="bg-[#EA0056] text-white font-semibold rounded-[8px] px-6 py-2 text-[14px] 3xl:text-[16px]">
           Save
         </button>

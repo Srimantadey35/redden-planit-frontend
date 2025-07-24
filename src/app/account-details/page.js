@@ -1,9 +1,15 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 import Layouts from "@/components/Layouts";
 import Image from "next/image";
 import Link from "next/link";
 
 const page = () => {
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [profileImageUrl, setProfileImageUrl] = useState("/images/sign-up/face-1.jpg");
+
   const socialMedia = [
     {
       icon: "/images/acc-details/facebook.svg",
@@ -33,10 +39,13 @@ const page = () => {
                   width={100}
                   height={100}
                   className="size-[60px] 3xl:size-[80px] 4xl:size-[100px] rounded-full object-cover"
-                  src={"/images/sign-up/face-1.jpg"}
-                  alt={`face-1`}
+                  src={profileImageUrl}
+                  alt="profile"
                 />
-                <button className="absolute bottom-[-5px] right-0 3xl:right-2 size-[25px] 3xl:size-[28px] 4xl:size-[33px] rounded-full bg-[#F9F9F9] grid place-items-center cursor-pointer">
+                <button
+                  className="absolute bottom-[-5px] right-0 3xl:right-2 size-[25px] 3xl:size-[28px] 4xl:size-[33px] rounded-full bg-[#F9F9F9] grid place-items-center cursor-pointer"
+                  onClick={() => setShowUploadModal(true)}
+                >
                   <Image
                     className="size-[15px] 3xl:size-[18px] 4xl:size-[20px] rounded-full object-cover"
                     width={20}
@@ -112,6 +121,7 @@ const page = () => {
                     type="text"
                     name="email"
                     id="email"
+                    readOnly
                   />
                 </div>
                 <div className="flex flex-col">
@@ -127,6 +137,7 @@ const page = () => {
                     type="text"
                     name="Phone"
                     id="Phone"
+                    readOnly
                   />
                 </div>
               </div>
@@ -158,7 +169,7 @@ const page = () => {
               </div>
             </form>
           </div>
-          <div className="px-3 xl:px-[35px] py-5 bg-[#F2F2F2] rounded-[10px]">
+          {/* <div className="px-3 xl:px-[35px] py-5 bg-[#F2F2F2] rounded-[10px]">
             <form>
               <div className="grid grid-cols-2 gap-[20px] xl:gap-[25px]">
                 <div className="flex flex-col">
@@ -215,11 +226,14 @@ const page = () => {
                 </div>
               </div>
             </form>
-          </div>
+          </div> */}
 
           <div className="flex items-center mt-10 justify-end">
-            <button className="cursor-pointer flex items-center font-semibold text-[#505050] text-[16px] 4xl:text-[20px] border border-[#ededed] rounded-[8px] py-2 4xl:py-3.5 px-[40px] 4xl:px-[62px] mr-4">
-              Edit
+            <button
+              className="cursor-pointer flex items-center font-semibold text-[#505050] text-[16px] 4xl:text-[20px] border border-[#ededed] rounded-[8px] py-2 4xl:py-3.5 px-[40px] 4xl:px-[62px] mr-4"
+              onClick={() => setShowPasswordModal(true)}
+            >
+              Change Password
               <Image
                 className="ml-3"
                 width={16}
@@ -232,6 +246,133 @@ const page = () => {
               Save Changes
             </button>
           </div>
+
+          {/* Password Change Popup Modal */}
+          {showPasswordModal && (
+            <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm md:w-[calc(100%-200px)] md:ml-[200px] smd:w-[calc(100%-245px)] 3xl:w-[calc(100%-280px)] smd:ml-[245px] 3xl:ml-[280px]">
+              <div className="bg-[#F2F2F2] rounded-[10px] p-6 w-full max-w-[400px] shadow-lg relative">
+                <button
+                  className="absolute top-3 right-3 text-[#EA0056] text-xl font-bold cursor-pointer"
+                  onClick={() => setShowPasswordModal(false)}
+                  aria-label="Close"
+                >
+                  &times;
+                </button>
+                <h4 className="font-semibold text-[18px] text-[#151515] mb-4 text-center">
+                  Change Password
+                </h4>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setShowPasswordModal(false);
+                  }}
+                >
+                  <div className="flex flex-col mb-3">
+                    <label htmlFor="currentPassword" className="font-semibold text-[15px] text-[#151515] mb-2">
+                      Current Password
+                    </label>
+                    <input
+                      className="h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black"
+                      placeholder="Current password"
+                      type="password"
+                      name="currentPassword"
+                      id="currentPassword"
+                    />
+                  </div>
+                  <div className="flex flex-col mb-3">
+                    <label htmlFor="newPassword" className="font-semibold text-[15px] text-[#151515] mb-2">
+                      New Password
+                    </label>
+                    <input
+                      className="h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black"
+                      placeholder="New password"
+                      type="password"
+                      name="newPassword"
+                      id="newPassword"
+                    />
+                  </div>
+                  <div className="flex flex-col mb-3">
+                    <label htmlFor="confirmNewPassword" className="font-semibold text-[15px] text-[#151515] mb-2">
+                      Confirm New Password
+                    </label>
+                    <input
+                      className="h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black"
+                      placeholder="Confirm new password"
+                      type="password"
+                      name="confirmNewPassword"
+                      id="confirmNewPassword"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full mt-4 font-semibold text-[16px] bg-[#EA0056] rounded-[8px] py-2 text-white cursor-pointer"
+                  >
+                    Save Changes
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* Image Upload Modal */}
+          {showUploadModal && (
+            <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm md:w-[calc(100%-200px)] md:ml-[200px] smd:w-[calc(100%-245px)] 3xl:w-[calc(100%-280px)] smd:ml-[245px] 3xl:ml-[280px]">
+              <div className="bg-[#F2F2F2] rounded-[10px] p-6 w-full max-w-[400px] shadow-lg relative">
+                <button
+                  className="absolute top-3 right-3 text-[#EA0056] text-xl font-bold cursor-pointer"
+                  onClick={() => setShowUploadModal(false)}
+                  aria-label="Close"
+                >
+                  &times;
+                </button>
+                <h4 className="font-semibold text-[18px] text-[#151515] mb-4 text-center">
+                  Upload Profile Image
+                </h4>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (selectedImage) {
+                      setProfileImageUrl(URL.createObjectURL(selectedImage));
+                    }
+                    setShowUploadModal(false);
+                  }}
+                >
+                  {/* Upload area with + icon, border, and grey background */}
+                  <label
+                    htmlFor="profileImage"
+                    className="flex flex-col items-center justify-center border-2 border-dashed border-[#dadada] bg-[#f5f5f5] rounded-[8px] py-6 mb-4 cursor-pointer hover:bg-[#ececec] transition"
+                  >
+                    <span className="text-[#EA0056] text-3xl mb-2 border border-[#dadada] rounded-full bg-white w-12 h-12 flex items-center justify-center">
+                      +
+                    </span>
+                    <span className="text-[#505050] text-[15px] font-medium">Click to upload</span>
+                    <input
+                      id="profileImage"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setSelectedImage(e.target.files[0])}
+                      className="hidden"
+                    />
+                  </label>
+                  {selectedImage && (
+                    <div className="mb-4 flex justify-center">
+                      <img
+                        src={URL.createObjectURL(selectedImage)}
+                        alt="Preview"
+                        className="rounded-full w-24 h-24 object-cover"
+                      />
+                    </div>
+                  )}
+                  <button
+                    type="submit"
+                    className="w-full mt-2 font-semibold text-[16px] bg-[#EA0056] rounded-[8px] py-2 text-white cursor-pointer"
+                  >
+                    Upload
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
         </div>
       </Layouts>
     </div>
