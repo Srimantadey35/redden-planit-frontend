@@ -110,7 +110,7 @@ const Page = () => {
                                 height={100}
                                   src={URL.createObjectURL(coverImage)}
                                   alt="Cover"
-                                  className="h-full max-h-36 rounded object-cover"
+                                  className="h-full max-h-36 rounded object-cover size-full object-contain"
                                 />
                               ) : (
                                 <span className="text-pink-600 text-sm font-medium select-none">
