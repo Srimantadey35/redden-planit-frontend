@@ -159,13 +159,13 @@ const FirstWebSite = ({ view, setView }) => {
               className={galleryGridClass}
               style={{ maxWidth: VIEWPORTS[view], margin: "0 auto" }}
             >
-              {["1", "2", "3", "4"].map((i) => (
+              {["1", "2", "3", "4"].map((i, index) => (
                 <Image
                   key={i}
-                  src={`/images/final-home/bannerbg.png`}
+                  src={`/images/homepage-slider-images/event-now/card${index+1}.png`}
                   alt={`Gallery ${i}`}
                   className={`rounded shadow-md object-cover w-full ${galleryImgHeight}`}
-                  width={100}
+                  width={200}
                   height={100}
                 />
               ))}
