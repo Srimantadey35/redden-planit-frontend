@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import Layouts from "@/components/Layouts";
 import Image from "next/image";
@@ -8,7 +8,12 @@ const Page = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [profileImageUrl, setProfileImageUrl] = useState("/images/sign-up/face-1.jpg");
+  const [profileImageUrl, setProfileImageUrl] = useState(
+    "/images/sign-up/face-1.jpg"
+  );
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const socialMedia = [
     {
@@ -64,7 +69,10 @@ const Page = () => {
                 </p>
               </div>
             </div>
-            <Link href={'/add-business'} className="cursor-pointer border border-[#ededed] font-semibold text-[15px] 3xl:text-[17px] 4xl:text-[20px] text-[#505050] flex items-center bg-white rounded-[8px] py-3 px-4">
+            <Link
+              href={"/add-business"}
+              className="cursor-pointer border border-[#ededed] font-semibold text-[15px] 3xl:text-[17px] 4xl:text-[20px] text-[#505050] flex items-center bg-white rounded-[8px] py-3 px-4"
+            >
               <Image
                 className="mr-3"
                 width={16}
@@ -148,7 +156,10 @@ const Page = () => {
                 <div className="grid grid-cols-3 gap-6">
                   {socialMedia.map((item, index) => (
                     <div key={index} className="flex items-center space-x-2.5">
-                      <label htmlFor={`${item.socialMediaName}`} className="shrink-0 size-[28px] rounded-[4px] border border-[#dadada] bg-white flex items-center justify-center">
+                      <label
+                        htmlFor={`${item.socialMediaName}`}
+                        className="shrink-0 size-[28px] rounded-[4px] border border-[#dadada] bg-white flex items-center justify-center"
+                      >
                         <Image
                           width={20}
                           height={20}
@@ -249,8 +260,8 @@ const Page = () => {
 
           {/* Password Change Popup Modal */}
           {showPasswordModal && (
-            <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm md:w-[calc(100%-200px)] md:ml-[200px] smd:w-[calc(100%-245px)] 3xl:w-[calc(100%-280px)] smd:ml-[245px] 3xl:ml-[280px]">
-              <div className="bg-[#F2F2F2] rounded-[10px] p-6 w-full max-w-[400px] shadow-lg relative">
+            <div className=" fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm md:w-[calc(100%-200px)] md:ml-[200px] smd:w-[calc(100%-245px)] 3xl:w-[calc(100%-280px)] smd:ml-[245px] 3xl:ml-[280px]">
+              <div className="bg-[#F2F2F2] modalAnim rounded-[10px] p-6 w-full max-w-[400px] shadow-lg relative">
                 <button
                   className="absolute top-3 right-3 text-[#EA0056] text-xl font-bold cursor-pointer"
                   onClick={() => setShowPasswordModal(false)}
@@ -268,40 +279,106 @@ const Page = () => {
                   }}
                 >
                   <div className="flex flex-col mb-3">
-                    <label htmlFor="currentPassword" className="font-semibold text-[15px] text-[#151515] mb-2">
+                    <label
+                      htmlFor="currentPassword"
+                      className="font-semibold text-[15px] text-[#151515] mb-2"
+                    >
                       Current Password
                     </label>
-                    <input
-                      className="h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black"
-                      placeholder="Current password"
-                      type="password"
-                      name="currentPassword"
-                      id="currentPassword"
-                    />
+                    <div className="relative">
+                      <input
+                        className="h-[42px] rounded-[8px] w-full outline-none bg-white px-[16px] pr-10 placeholder:text-[#525252] text-[14px] font-medium text-black"
+                        placeholder="Current password"
+                        type={showCurrent ? "text" : "password"}
+                        name="currentPassword"
+                        id="currentPassword"
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                        tabIndex={-1}
+                        onClick={() => setShowCurrent((v) => !v)}
+                      >
+                        <Image
+                          src={
+                            showCurrent
+                              ? "/images/eye-open.svg"
+                              : "/images/sign-up/passvisible.svg"
+                          }
+                          alt={showCurrent ? "Hide password" : "Show password"}
+                          width={22}
+                          height={22}
+                        />
+                      </button>
+                    </div>
                   </div>
                   <div className="flex flex-col mb-3">
-                    <label htmlFor="newPassword" className="font-semibold text-[15px] text-[#151515] mb-2">
+                    <label
+                      htmlFor="newPassword"
+                      className="font-semibold text-[15px] text-[#151515] mb-2"
+                    >
                       New Password
                     </label>
-                    <input
-                      className="h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black"
-                      placeholder="New password"
-                      type="password"
-                      name="newPassword"
-                      id="newPassword"
-                    />
+                    <div className="relative">
+                      <input
+                        className="h-[42px] rounded-[8px] w-full outline-none bg-white px-[16px] pr-10 placeholder:text-[#525252] text-[14px] font-medium text-black"
+                        placeholder="New password"
+                        type={showNew ? "text" : "password"}
+                        name="newPassword"
+                        id="newPassword"
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                        tabIndex={-1}
+                        onClick={() => setShowNew((v) => !v)}
+                      >
+                        <Image
+                          src={
+                            showNew
+                              ? "/images/eye-open.svg"
+                              : "/images/sign-up/passvisible.svg"
+                          }
+                          alt={showNew ? "Hide password" : "Show password"}
+                          width={22}
+                          height={22}
+                        />
+                      </button>
+                    </div>
                   </div>
                   <div className="flex flex-col mb-3">
-                    <label htmlFor="confirmNewPassword" className="font-semibold text-[15px] text-[#151515] mb-2">
+                    <label
+                      htmlFor="confirmNewPassword"
+                      className="font-semibold text-[15px] text-[#151515] mb-2"
+                    >
                       Confirm New Password
                     </label>
-                    <input
-                      className="h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black"
-                      placeholder="Confirm new password"
-                      type="password"
-                      name="confirmNewPassword"
-                      id="confirmNewPassword"
-                    />
+                    <div className="relative">
+                      <input
+                        className="h-[42px] rounded-[8px] w-full outline-none bg-white px-[16px] pr-10 placeholder:text-[#525252] text-[14px] font-medium text-black"
+                        placeholder="Confirm new password"
+                        type={showConfirm ? "text" : "password"}
+                        name="confirmNewPassword"
+                        id="confirmNewPassword"
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                        tabIndex={-1}
+                        onClick={() => setShowConfirm((v) => !v)}
+                      >
+                        <Image
+                          src={
+                            showConfirm
+                              ? "/images/eye-open.svg"
+                              : "/images/sign-up/passvisible.svg"
+                          }
+                          alt={showConfirm ? "Hide password" : "Show password"}
+                          width={22}
+                          height={22}
+                        />
+                      </button>
+                    </div>
                   </div>
                   <button
                     type="submit"
@@ -317,7 +394,7 @@ const Page = () => {
           {/* Image Upload Modal */}
           {showUploadModal && (
             <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm md:w-[calc(100%-200px)] md:ml-[200px] smd:w-[calc(100%-245px)] 3xl:w-[calc(100%-280px)] smd:ml-[245px] 3xl:ml-[280px]">
-              <div className="bg-[#F2F2F2] rounded-[10px] p-6 w-full max-w-[400px] shadow-lg relative">
+              <div className="bg-[#F2F2F2] modalAnim rounded-[10px] p-6 w-full max-w-[400px] shadow-lg relative">
                 <button
                   className="absolute top-3 right-3 text-[#EA0056] text-xl font-bold cursor-pointer"
                   onClick={() => setShowUploadModal(false)}
@@ -345,7 +422,9 @@ const Page = () => {
                     <span className="text-[#EA0056] text-3xl mb-2 border border-[#dadada] rounded-full bg-white w-12 h-12 flex items-center justify-center">
                       +
                     </span>
-                    <span className="text-[#505050] text-[15px] font-medium">Click to upload</span>
+                    <span className="text-[#505050] text-[15px] font-medium">
+                      Click to upload
+                    </span>
                     <input
                       id="profileImage"
                       type="file"
@@ -360,6 +439,8 @@ const Page = () => {
                         src={URL.createObjectURL(selectedImage)}
                         alt="Preview"
                         className="rounded-full w-24 h-24 object-cover"
+                        height={100}
+                        width={100}
                       />
                     </div>
                   )}
