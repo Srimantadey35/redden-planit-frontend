@@ -8,7 +8,7 @@ const VIEWPORTS = {
   mobile: "375px",
 };
 const BANNER_HEIGHT = {
-  desktop: "40rem",
+  desktop: "36rem",
   tab: "28rem",
   mobile: "16rem",
 };
