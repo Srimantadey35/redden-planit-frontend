@@ -162,9 +162,11 @@ const FirstWebSite = ({ view, setView }) => {
               {["1", "2", "3", "4"].map((i) => (
                 <Image
                   key={i}
-                  src={`https://picsum.photos/400/300?random=${i}`}
+                  src={`/images/final-home/bannerbg.png`}
                   alt={`Gallery ${i}`}
                   className={`rounded shadow-md object-cover w-full ${galleryImgHeight}`}
+                  width={100}
+                  height={100}
                 />
               ))}
             </div>

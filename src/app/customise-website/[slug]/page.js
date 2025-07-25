@@ -103,9 +103,11 @@ const Page = () => {
               <div className="space-y-4">
                 <div className="flex items-center bg-gray-50 p-4 rounded-md shadow-sm">
                   <Image
-                    src="https://i.ibb.co/3B1T6Y3/card1.png" // Replace with your own
+                    src="/images/final-home/bannerbg.png" // Replace with your own
                     alt="card"
                     className="w-16 h-20 object-cover rounded"
+                    width={100}
+                    height={100}
                   />
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-800">
@@ -119,9 +121,11 @@ const Page = () => {
 
                 <div className="flex items-center bg-gray-50 p-4 rounded-md shadow-sm">
                   <Image
-                    src="https://i.ibb.co/BqzvcdK/card2.png" // Replace with your own
+                    src="/images/final-home/bannerbg.png" // Replace with your own
                     alt="venue"
                     className="w-16 h-20 object-cover rounded"
+                    width={100}
+                    height={100}
                   />
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-800">

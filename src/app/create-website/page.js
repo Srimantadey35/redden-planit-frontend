@@ -22,7 +22,7 @@ const Page = () => {
         width: el.offsetWidth,
       });
     }
-  }, [activetab, tabHeader]);
+  }, [activetab]);
 
   const cardData = [
     {
