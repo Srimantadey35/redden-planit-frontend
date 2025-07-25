@@ -51,7 +51,8 @@ const Page = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [galleryUploadProgress, setGalleryUploadProgress] = useState([]);
-
+  const [categoryFilledCounts, setCategoryFilledCounts] = useState({});
+  const [categoryTotalCount, setCategoryTotalCount] = useState({})
   const router = useRouter()
 
   useEffect(() => {
@@ -155,6 +156,7 @@ const Page = () => {
   // useEffect(()=>{
   //   fetchAllBusinessDetails()
   // },[])
+  console.log('categoryfilledcount', categoryFilledCounts);
 
 
   const addBusinessFields = {
@@ -179,6 +181,38 @@ const Page = () => {
     galleryFiles: galleryFiles,
   });
 
+  const getExtraServiceFieldsFilledCount = () => {
+    const extraFields = {
+      description: formik.values.description,
+      availability: formik.values.availability,
+      deliveryTimeline: formik.values.deliveryTimeline,
+      priceRange: formik.values.priceRange,
+    };
+
+
+    let count = 0;
+    Object.values(extraFields).forEach((value) => {
+      if (Array.isArray(value)) {
+        if (value.length > 0) count++;
+      } else if (typeof value === "string") {
+        if (value.trim() !== "") count++;
+      } else if (value !== null && value !== undefined) {
+        count++;
+      }
+    });
+
+    return count;
+  };
+
+
+// const handleInitialTotalCount = useCallback((totalCount) => {
+//   setCategoryTotalCount(prev => ({
+//     ...prev,
+//     [selectedCategory]: totalCount
+//   }));
+// }, [selectedCategory]);
+
+
   const [businessProcesses, setBusinessProcesses] = useState([
     {
       key: "add-business",
@@ -201,7 +235,7 @@ const Page = () => {
       title: "Services",
       icon: "/images/checklisticons/addbusiness.svg",
       count: 0,
-      total: totalInputs,
+      total: 0,
       completed: false,
     },
     {
@@ -270,15 +304,56 @@ const Page = () => {
     },
   ];
 
+  // useEffect(() => {
+  //   setBusinessProcesses(
+  //     businessSections.map((section) => {
+  //       let count, total;
+
+  //       if (section.key === "services") {
+  //         count = '';
+  //         total = totalInputs;
+  //       } else if (section.key === "opening-hours") {
+  //         const openDays = formik.values.openingHours.filter((day) => day.isOpen);
+  //         count = getFilledCount(section);
+  //         total = openDays.length * 2; // each open day has `from` and `to`
+  //       } else {
+  //         count = getFilledCount(section);
+  //         total = section.fields.length;
+  //       }
+
+  //       return {
+  //         key: section.key,
+  //         title: section.title,
+  //         icon: section.icon,
+  //         count,
+  //         total,
+  //         completed: count === total,
+  //       };
+  //     })
+  //   );
+  // }, [formik.values, selectedCategory, totalInputs, selectedFiles, galleryFiles]);
+
+  const filled = categoryFilledCounts[selectedCategory] || 0;
+  const total = categoryTotalCount[selectedCategory]
+  console.log('categoryTotalCount', total);
+
+
   useEffect(() => {
     setBusinessProcesses(
       businessSections.map((section) => {
         let count, total;
 
         if (section.key === "services") {
-          count = '';
-          total = totalInputs;
-        } else if (section.key === "opening-hours") {
+          const filledCategoryCount = categoryFilledCounts[selectedCategory] || 0;
+          const totalCategoryFields = categoryTotalCount[selectedCategory] || 0;
+
+          const extraFieldsCount = 4; // fixed
+          const extraFilled = getExtraServiceFieldsFilledCount();
+
+          count = filledCategoryCount + extraFilled;
+          total = totalCategoryFields + extraFieldsCount;
+        }
+        else if (section.key === "opening-hours") {
           const openDays = formik.values.openingHours.filter((day) => day.isOpen);
           count = getFilledCount(section);
           total = openDays.length * 2; // each open day has `from` and `to`
@@ -297,8 +372,7 @@ const Page = () => {
         };
       })
     );
-  }, [formik.values, selectedCategory, totalInputs, selectedFiles, galleryFiles]);
-
+  }, [formik.values, selectedCategory, totalInputs, selectedFiles, galleryFiles, filled,categoryTotalCount]);
 
   // Calculate Add Business progress
   const getFilledCount = (section) => {
@@ -349,6 +423,13 @@ const Page = () => {
       });
       return filled;
     }
+
+    if (section.key === "services") {
+      const filledCategoryCount = categoryFilledCounts[selectedCategory] || 0;
+      const extraFilled = getExtraServiceFieldsFilledCount();
+      return filledCategoryCount + extraFilled;
+    }
+
 
     const filled = section.fields.filter((field) => {
       const value = formik.values[field];
@@ -404,12 +485,22 @@ const Page = () => {
   // }, []);
 
 
-  const handleCategoryDataChange = useCallback((data) => {
+  const handleCategoryDataChange = useCallback((data, filledCount, totalCount) => {
     setCategoryForms((prev) => ({
       ...prev,
       ...data,
     }));
-  }, []);
+
+    setCategoryFilledCounts(prev => ({
+      ...prev,
+      [selectedCategory]: filledCount,
+    }));
+
+    setCategoryTotalCount((prev) => ({
+      ...prev,
+      [selectedCategory]: totalCount,
+    }));
+  }, [selectedCategory]);
 
 
   const allWeekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -487,24 +578,24 @@ const Page = () => {
 
   const [checkedItems, setCheckedItems] = useState([]);
 
- const handleFileChange = (e) => {
-  const files = Array.from(e.target.files);
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
 
-  const newFiles = files.map((file) => ({
-    file,
-    url: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
-    name: file.name,
-    type: file.type,
-  }));
+    const newFiles = files.map((file) => ({
+      file,
+      url: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
+      name: file.name,
+      type: file.type,
+    }));
 
-  setSelectedFiles((prev) => [...prev, ...newFiles]);
+    setSelectedFiles((prev) => [...prev, ...newFiles]);
 
-  const existingFiles = Array.isArray(formik.values.portfolioFiles)
-    ? formik.values.portfolioFiles
-    : [];
+    const existingFiles = Array.isArray(formik.values.portfolioFiles)
+      ? formik.values.portfolioFiles
+      : [];
 
-  formik.setFieldValue("portfolioFiles", [...existingFiles, ...files]);
-};
+    formik.setFieldValue("portfolioFiles", [...existingFiles, ...files]);
+  };
 
 
 
@@ -646,51 +737,51 @@ const Page = () => {
   }
 
   const handleAddPortfolio = async (e) => {
-  e.preventDefault();
-  const {
-    portfolioTags,
-    portfolioDescription,
-    portfolioLocation,
-    portfolioEventType,
-    portfolioFiles,
-  } = formik.values;
+    e.preventDefault();
+    const {
+      portfolioTags,
+      portfolioDescription,
+      portfolioLocation,
+      portfolioEventType,
+      portfolioFiles,
+    } = formik.values;
 
-  const formData = new FormData();
+    const formData = new FormData();
 
-  // Append text fields
-  formData.append("portfolioTags", portfolioTags);
-  formData.append("portfolioDescription", portfolioDescription);
-  formData.append("portfolioLocation", portfolioLocation);
-  formData.append("portfolioEventType", portfolioEventType);
-  formData.append("category", selectedCategory); // ✅ category included here
+    // Append text fields
+    formData.append("portfolioTags", portfolioTags);
+    formData.append("portfolioDescription", portfolioDescription);
+    formData.append("portfolioLocation", portfolioLocation);
+    formData.append("portfolioEventType", portfolioEventType);
+    formData.append("category", selectedCategory); // ✅ category included here
 
-  // Append each file
-  portfolioFiles.forEach((file) => {
-    formData.append("portfolioFiles", file); // ✅ use same field name as backend
-  });
+    // Append each file
+    portfolioFiles.forEach((file) => {
+      formData.append("portfolioFiles", file); // ✅ use same field name as backend
+    });
 
-  try {
-    const response = await axios.put(
-      `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-portfolio`,
-      formData, // ✅ send formData directly
-      {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "multipart/form-data",
-        },
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-portfolio`,
+        formData, // ✅ send formData directly
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Portfolio info saved successfully!");
+        setopenAccordion('upload-gallery')
       }
-    );
-
-    if (response.status === 200) {
-      toast.success("Portfolio info saved successfully!");
-      setopenAccordion('upload-gallery')
+    } catch (error) {
+      console.error("Error uploading portfolio:", error);
+      toast.error("Failed to add service info. Please try again.");
     }
-  } catch (error) {
-    console.error("Error uploading portfolio:", error);
-    toast.error("Failed to add service info. Please try again.");
-  }
-};
+  };
 
   const handleAddOpeningHours = async (e) => {
     e.preventDefault()
@@ -719,82 +810,82 @@ const Page = () => {
     }
   }
 
-  const handleAddGalleryFile = async(e) => {
+  const handleAddGalleryFile = async (e) => {
     e.preventDefault()
-    console.log('gallery images url',formik.values.allGalleryFiles)
-     try {
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-business-image`,{
-        imageUrls:formik.values.allGalleryFiles,
-        category:selectedCategory
-      },{
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
+    console.log('gallery images url', formik.values.allGalleryFiles)
+    try {
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-business-image`, {
+        imageUrls: formik.values.allGalleryFiles,
+        category: selectedCategory
+      }, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
 
-        if(response.status == 200){
-          toast.success("Gallery images added successfully!")
-          router.push('/my-business')
-        }
-     } catch (error) {
+      if (response.status == 200) {
+        toast.success("Gallery images added successfully!")
+        router.push('/my-business')
+      }
+    } catch (error) {
       console.error("Error adding gallery:", error);
       toast.error("Failed to add gallery. Please try again.");
-     }
+    }
   }
 
   const handleGalleryFileChange = async (e) => {
-  const files = Array.from(e.target.files);
-  const imageFiles = files.filter((file) => /\.(jpe?g|png)$/i.test(file.name));
+    const files = Array.from(e.target.files);
+    const imageFiles = files.filter((file) => /\.(jpe?g|png)$/i.test(file.name));
 
-  if (imageFiles.length === 0) return;
+    if (imageFiles.length === 0) return;
 
-  const newImages = imageFiles.map((file) => ({
-    file,
-    url: URL.createObjectURL(file),
-  }));
+    const newImages = imageFiles.map((file) => ({
+      file,
+      url: URL.createObjectURL(file),
+    }));
 
-  const newProgress = imageFiles.map(() => 0);
+    const newProgress = imageFiles.map(() => 0);
 
-  // Store previews and placeholder progress first
-  const currentGallery = [...galleryFiles, ...newImages];
-  const currentProgress = [...galleryUploadProgress, ...newProgress];
+    // Store previews and placeholder progress first
+    const currentGallery = [...galleryFiles, ...newImages];
+    const currentProgress = [...galleryUploadProgress, ...newProgress];
 
-  setGalleryFiles(currentGallery);
-  setGalleryUploadProgress(currentProgress);
+    setGalleryFiles(currentGallery);
+    setGalleryUploadProgress(currentProgress);
 
-  for (let i = 0; i < imageFiles.length; i++) {
-    const file = imageFiles[i];
-    const currentIndex = galleryFiles.length + i;
+    for (let i = 0; i < imageFiles.length; i++) {
+      const file = imageFiles[i];
+      const currentIndex = galleryFiles.length + i;
 
-    try {
-      const url = await uploadToCloudinary(file, (percent) => {
+      try {
+        const url = await uploadToCloudinary(file, (percent) => {
+          setGalleryUploadProgress((prev = []) => {
+            const updated = [...prev];
+            if (updated[currentIndex] !== undefined) {
+              updated[currentIndex] = percent;
+            }
+            return updated;
+          });
+        });
+
+        formik.setFieldValue("allGalleryFiles", [
+          ...formik.values.allGalleryFiles,
+          url,
+        ]);
+
         setGalleryUploadProgress((prev = []) => {
           const updated = [...prev];
           if (updated[currentIndex] !== undefined) {
-            updated[currentIndex] = percent;
+            updated[currentIndex] = 100;
           }
           return updated;
         });
-      });
-
-      formik.setFieldValue("allGalleryFiles", [
-        ...formik.values.allGalleryFiles,
-        url,
-      ]);
-
-      setGalleryUploadProgress((prev = []) => {
-        const updated = [...prev];
-        if (updated[currentIndex] !== undefined) {
-          updated[currentIndex] = 100;
-        }
-        return updated;
-      });
-    } catch (err) {
-      console.error("Upload failed:", file.name, err);
+      } catch (err) {
+        console.error("Upload failed:", file.name, err);
+      }
     }
-  }
-};
+  };
 
 
 
@@ -825,26 +916,26 @@ const Page = () => {
   };
 
   const removeGalleryImage = (index) => {
-  // Remove preview image
-  setGalleryFiles((prev) => {
-    const updated = [...prev];
-    updated.splice(index, 1);
-    return updated;
-  });
+    // Remove preview image
+    setGalleryFiles((prev) => {
+      const updated = [...prev];
+      updated.splice(index, 1);
+      return updated;
+    });
 
-  // Remove progress
-  setGalleryUploadProgress((prev) => {
-    const updated = [...prev];
-    updated.splice(index, 1);
-    return updated;
-  });
+    // Remove progress
+    setGalleryUploadProgress((prev) => {
+      const updated = [...prev];
+      updated.splice(index, 1);
+      return updated;
+    });
 
-  // Remove uploaded Cloudinary URL from Formik
-  formik.setFieldValue("allGalleryFiles", [
-    ...formik.values.allGalleryFiles.slice(0, index),
-    ...formik.values.allGalleryFiles.slice(index + 1),
-  ]);
-};
+    // Remove uploaded Cloudinary URL from Formik
+    formik.setFieldValue("allGalleryFiles", [
+      ...formik.values.allGalleryFiles.slice(0, index),
+      ...formik.values.allGalleryFiles.slice(index + 1),
+    ]);
+  };
 
 
   return (
@@ -1641,7 +1732,8 @@ const Page = () => {
                           {selectedCategory === "venues" && <Venue />}
                           {selectedCategory === "photography" && (
                             <PhotographerForm defaultValues={categoryForms["photography"] || {}}
-                              onDataChange={handleCategoryDataChange} />
+                              onDataChange={handleCategoryDataChange}
+                            />
                           )}
                           {selectedCategory === "bridalmakeup" && <BridalMakeup defaultValues={categoryForms["bridalmakeup"] || {}} onDataChange={handleCategoryDataChange} />}
                           {selectedCategory === "decorators" && <Decorators defaultValues={categoryForms["decorators"] || {}} onDataChange={handleCategoryDataChange} />}

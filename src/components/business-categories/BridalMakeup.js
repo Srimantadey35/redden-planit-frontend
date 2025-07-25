@@ -35,6 +35,25 @@ const BridalMakeup = ({prefilledValues,defaultValues,onDataChange}) => {
     }
   }, [defaultValues]);
 
+  const countFilledFields = (formObj) => {
+  let count = 0;
+  Object.entries(formObj).forEach(([key, value]) => {
+    let filled = false;
+    if (Array.isArray(value)) {
+      filled = value.length > 0;
+    } else if (typeof value === 'string') {
+      filled = value.trim() !== "";
+    } else if (value) {
+      filled = true;
+    }
+    if (filled) count++;
+    console.log(key, value, filled, count);
+  });
+  return count;
+};
+
+  const getTotalFields = (formObj) => Object.keys(formObj).length;
+
   // useEffect(() => {
   //   onDataChange(form);
   // }, [form, onDataChange]);
@@ -42,7 +61,7 @@ const BridalMakeup = ({prefilledValues,defaultValues,onDataChange}) => {
   const handleChange = (key, value) => {
     const updated = { ...form, [key]: value };
     setForm(updated);
-    onDataChange(updated);
+    onDataChange(updated,countFilledFields(updated),getTotalFields(updated));
   };
 
   const toggleCheckbox = (key, item) => {
@@ -53,6 +72,10 @@ const BridalMakeup = ({prefilledValues,defaultValues,onDataChange}) => {
         : [...prev[key], item],
     }));
   };
+
+   useEffect(() => {
+      onDataChange(form, countFilledFields(form),getTotalFields(form));
+    }, [form]);
 
   const renderInput = (label, key, placeholder = 'Enter here') => (
     <div className="flex flex-col">

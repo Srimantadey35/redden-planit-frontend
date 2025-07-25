@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const PhotographerForm = ({defaultValues,onDataChange,prefilledValues}) => {
+const PhotographerForm = ({defaultValues,onDataChange,prefilledValues,onInitialTotalCount}) => {
   const [form, setForm] = useState({
     deliveryWeeks: "",
     mostBookedValue: "",
@@ -35,6 +35,13 @@ const PhotographerForm = ({defaultValues,onDataChange,prefilledValues}) => {
 //   updateParent(updatedForm);
 // };
 
+useEffect(() => {
+  const totalCount = getTotalFields(form);
+  if (onInitialTotalCount) {
+    onInitialTotalCount(totalCount);
+  }
+}, []);
+
 console.log('prefilledValues',prefilledValues)
 useEffect(() => {
   if (prefilledValues && Object.keys(prefilledValues).length > 0) {
@@ -65,10 +72,32 @@ useEffect(() => {
 }, [defaultValues]);
 
 
+  // Helper to count filled fields (excluding arrays)
+  const countFilledFields = (formObj) => {
+  let count = 0;
+  Object.entries(formObj).forEach(([key, value]) => {
+    let filled = false;
+    if (Array.isArray(value)) {
+      filled = value.length > 0;
+    } else if (typeof value === 'string') {
+      filled = value.trim() !== "";
+    } else if (value) {
+      filled = true;
+    }
+    if (filled) count++;
+    console.log(key, value, filled, count);
+  });
+  return count;
+};
+
+  const getTotalFields = (formObj) => Object.keys(formObj).length;
+
+ 
   const handleChange = (key, value) => {
     const updated = { ...form, [key]: value };
     setForm(updated);
-    onDataChange(updated); 
+    // Send both form and filled count to parent
+    onDataChange(updated, countFilledFields(updated),getTotalFields(updated));
   };
 
   // const toggleService = (service) => {
@@ -88,9 +117,10 @@ useEffect(() => {
     handleChange("selectedServices", updatedServices);
   };
 
-  // useEffect(() => {
-  //   onDataChange(form);
-  // },[form]);
+  // On mount or when form changes (prefilled/default), send count to parent
+  useEffect(() => {
+    onDataChange(form, countFilledFields(form),getTotalFields(form));
+  }, [form]);
 
   const renderInput = (label, key, placeholder = "Enter here") => (
     <div className="flex flex-col">
