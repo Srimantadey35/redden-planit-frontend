@@ -621,7 +621,7 @@ const uploadImage = async(e)=>{
                     <input
                       className={`h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black ${(formik.errors.newPassword && formik.touched.newPassword) ? 'ring ring-red-500':'ring ring-blue-500'}`}
                       placeholder="New password"
-                      value={formik.values.newPassword}
+                      value={formik.values.newPassword}    
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       type="password"
