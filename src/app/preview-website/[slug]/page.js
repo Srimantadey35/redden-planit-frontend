@@ -31,7 +31,7 @@ const Page = () => {
             <button
               className={`px-3 py-1 cursor-pointer ${
                 view === "tab"
-                  ? "bg-blue-600 text-white"
+                  ? "bg-[#ea0056] text-white"
                   : "bg-gray-200 text-black"
               }`}
               onClick={() => setView("tab")}
@@ -41,7 +41,7 @@ const Page = () => {
             <button
               className={`px-3 py-1 rounded-r-md cursor-pointer ${
                 view === "mobile"
-                  ? "bg-blue-600 text-white"
+                  ? "bg-[#ea0056] text-white"
                   : "bg-gray-200 text-black"
               }`}
               onClick={() => setView("mobile")}
