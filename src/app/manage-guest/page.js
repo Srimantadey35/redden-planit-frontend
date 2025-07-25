@@ -42,12 +42,11 @@ const Page = () => {
       <div className="container">
         <div className="sm:py-[40px] py-[100px] 2xl:py-[60px] 3xl:py-[120px]">
           <h3 className="text-center font-medium text-[27px] 2xl:text-[30px] text-[#151515]">
-            Hi{" "}
+            {/* Hi{" "} */}
             <span
               className="text-black text-[44px] 3xl:text-[50px]"
               style={{ fontFamily: "allura-font" }}
             >
-              Rabina
             </span>
           </h3>
           <h2 className="text-[#151515] font-semibold text-[16px] sm:text-[24px] md:text-[28px] xl:text-[30px] 2xl:text-[36px] 3xl:text-[45px] text-center">

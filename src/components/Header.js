@@ -33,7 +33,7 @@ const Header = ({userName,userType}) => {
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "E - Card", href: "/ecard" },
-    { label: "Manage guest", href: "/home" },
+    { label: "Manage guest", href: "/manage-guest" },
     { label: "Create your website", href: "/create-website" },
     { label: "Book vendors", href: "/vendors" },
     { label: "PlanIt AI", href: "/planit-ai" },
