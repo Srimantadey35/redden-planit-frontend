@@ -223,40 +223,42 @@ const Page = () => {
                               Image:
                             </label>
                             <div className="bg-gray-100 p-4 rounded-lg grid grid-cols-2 gap-4 items-center">
-                              {/* Placeholder image box */}
-                              <div className="bg-white border border-gray-300 rounded-md h-32 flex items-center justify-center">
-                                <div className="text-center text-gray-400 text-sm">
-                                  <div className="mb-1 w-12 h-4 bg-gray-200 rounded"></div>
-                                  <div className="w-16 h-3 bg-gray-200 rounded"></div>
-                                </div>
+                              {/* Left: Preview or Placeholder */}
+                              <div className="bg-white border border-gray-300 rounded-md h-32 flex items-center justify-center overflow-hidden">
+                                {storyImage ? (
+                                  <Image
+                                    width={120}
+                                    height={120}
+                                    src={URL.createObjectURL(storyImage)}
+                                    alt="Story"
+                                    className="h-full max-h-28 rounded object-cover"
+                                  />
+                                ) : (
+                                  <div className="text-center text-gray-400 text-sm">
+                                    <div className="mb-1 w-12 h-4 bg-gray-200 rounded"></div>
+                                    <div className="w-16 h-3 bg-gray-200 rounded"></div>
+                                  </div>
+                                )}
                               </div>
 
-                              {/* Add photo dashed box */}
+                              {/* Right: Add photo dashed box */}
                               <div
                                 className={`border-2 border-dashed border-pink-500 h-32 rounded-md flex items-center justify-center cursor-pointer hover:bg-pink-50 transition flex-col ${
-                                  storyDragActive
-                                    ? "bg-pink-50 border-pink-600"
-                                    : ""
+                                  storyDragActive ? "bg-pink-50 border-pink-600" : ""
                                 }`}
-                                onClick={() =>
-                                  storyInputRef.current &&
-                                  storyInputRef.current.click()
-                                }
-                                onDragOver={(e) => {
+                                onClick={() => storyInputRef.current && storyInputRef.current.click()}
+                                onDragOver={e => {
                                   e.preventDefault();
                                   setStoryDragActive(true);
                                 }}
-                                onDragLeave={(e) => {
+                                onDragLeave={e => {
                                   e.preventDefault();
                                   setStoryDragActive(false);
                                 }}
-                                onDrop={(e) => {
+                                onDrop={e => {
                                   e.preventDefault();
                                   setStoryDragActive(false);
-                                  if (
-                                    e.dataTransfer.files &&
-                                    e.dataTransfer.files[0]
-                                  ) {
+                                  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
                                     setStoryImage(e.dataTransfer.files[0]);
                                   }
                                 }}
@@ -266,25 +268,17 @@ const Page = () => {
                                   type="file"
                                   accept="image/*"
                                   className="hidden"
-                                  onChange={(e) => {
+                                  onChange={e => {
                                     if (e.target.files && e.target.files[0]) {
                                       setStoryImage(e.target.files[0]);
                                     }
                                   }}
                                 />
-                                {storyImage ? (
-                                  <Image
-                                  width={100}
-                                height={100}
-                                    src={URL.createObjectURL(storyImage)}
-                                    alt="Story"
-                                    className="h-full max-h-28 rounded object-cover"
-                                  />
-                                ) : (
-                                  <span className="text-pink-600 text-sm font-medium select-none">
-                                    + Add a photo
-                                  </span>
-                                )}
+                                <span className="text-pink-600 text-sm font-medium select-none cursor-pointer text-center">
+                                  + Add a photo
+                                  <br />
+                                  <span className="text-gray-400 text-xs">(Click or drag & drop)</span>
+                                </span>
                               </div>
                             </div>
                           </div>
