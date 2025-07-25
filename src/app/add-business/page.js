@@ -23,6 +23,7 @@ import toast from "react-hot-toast";
 import { uploadToCloudinary } from "@/utils/cloudinary";
 import { State } from "country-state-city";
 import ProcessBarMyBusiness from "@/components/widgets/ProcessBarMyBusinsess";
+import { useRouter } from "next/navigation";
 
 
 
@@ -51,7 +52,7 @@ const Page = () => {
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [galleryUploadProgress, setGalleryUploadProgress] = useState([]);
 
-
+  const router = useRouter()
 
   useEffect(() => {
     const isAddBusinessSubmitted = localStorage.getItem('addBusinessSubmitted');
@@ -362,45 +363,45 @@ const Page = () => {
 
 
 
-  useEffect(() => {
-    const getUniqueNamesFromRef = (ref) => {
-      const elements = ref?.current?.querySelectorAll('input[name], select[name], textarea[name]');
-      const names = new Set();
-      elements?.forEach((el) => {
-        if (el.name) names.add(el.name);
-      });
-      return names;
-    };
+  // useEffect(() => {
+  //   const getUniqueNamesFromRef = (ref) => {
+  //     const elements = ref?.current?.querySelectorAll('input[name], select[name], textarea[name]');
+  //     const names = new Set();
+  //     elements?.forEach((el) => {
+  //       if (el.name) names.add(el.name);
+  //     });
+  //     return names;
+  //   };
 
-    const sections = [
-      { name: 'Add Business', ref: addBusinessRef },
-      { name: 'Opening Hours', ref: openingHoursRef },
-      { name: 'Portfolio', ref: portFolioRef },
-    ];
+  //   const sections = [
+  //     { name: 'Add Business', ref: addBusinessRef },
+  //     { name: 'Opening Hours', ref: openingHoursRef },
+  //     { name: 'Portfolio', ref: portFolioRef },
+  //   ];
 
-    let allNames = new Set();
+  //   let allNames = new Set();
 
-    console.log('================== FIELD SUMMARY ==================');
+  //   console.log('================== FIELD SUMMARY ==================');
 
-    sections.forEach(({ name, ref }) => {
-      const names = getUniqueNamesFromRef(ref);
-      names.forEach(n => allNames.add(n));
+  //   sections.forEach(({ name, ref }) => {
+  //     const names = getUniqueNamesFromRef(ref);
+  //     names.forEach(n => allNames.add(n));
 
-      console.log(`\n📂 Section: ${name}`);
-      console.log(`→ Unique Fields Count: ${names.size}`);
-      if (names.size > 0) {
-        console.log('→ Field Names:');
-        Array.from(names).forEach((field, i) => {
-          console.log(`   ${i + 1}. ${field}`);
-        });
-      } else {
-        console.log('→ No fields found.');
-      }
-    });
+  //     console.log(`\n📂 Section: ${name}`);
+  //     console.log(`→ Unique Fields Count: ${names.size}`);
+  //     if (names.size > 0) {
+  //       console.log('→ Field Names:');
+  //       Array.from(names).forEach((field, i) => {
+  //         console.log(`   ${i + 1}. ${field}`);
+  //       });
+  //     } else {
+  //       console.log('→ No fields found.');
+  //     }
+  //   });
 
-    console.log('\n✅ Total Unique Field Names Across All Sections:', allNames.size);
-    console.log('===================================================');
-  }, []);
+  //   console.log('\n✅ Total Unique Field Names Across All Sections:', allNames.size);
+  //   console.log('===================================================');
+  // }, []);
 
 
   const handleCategoryDataChange = useCallback((data) => {
@@ -594,6 +595,7 @@ const Page = () => {
         toast.success("Business details added successfully");
         localStorage.setItem('addBusinessSubmitted', 'true')
         setOpeningHoursButton(true)
+        setopenAccordion('opening-hours')
       }
     } catch (error) {
       console.error("Error adding business:", error);
@@ -635,7 +637,7 @@ const Page = () => {
         toast.success("Service info added successfully!")
         localStorage.setItem('isServiceSubmitted', 'true')
         setPortFolioButton(true)
-        // setopenAccordion('services')
+        setopenAccordion('upload-portfolio')
       }
     } catch (error) {
       console.error("Error adding service info:", error);
@@ -682,6 +684,7 @@ const Page = () => {
 
     if (response.status === 200) {
       toast.success("Portfolio info saved successfully!");
+      setopenAccordion('upload-gallery')
     }
   } catch (error) {
     console.error("Error uploading portfolio:", error);
@@ -719,14 +722,25 @@ const Page = () => {
   const handleAddGalleryFile = async(e) => {
     e.preventDefault()
     console.log('gallery images url',formik.values.allGalleryFiles)
-    //  try {
-    //   const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/update-business-image`,{
-    //     imageUrls:formik.values.allGalleryFiles,
-    //     category:selectedCategory
-    //   })
-    //  } catch (error) {
-      
-    //  }
+     try {
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-business-image`,{
+        imageUrls:formik.values.allGalleryFiles,
+        category:selectedCategory
+      },{
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+
+        if(response.status == 200){
+          toast.success("Gallery images added successfully!")
+          router.push('/my-business')
+        }
+     } catch (error) {
+      console.error("Error adding gallery:", error);
+      toast.error("Failed to add gallery. Please try again.");
+     }
   }
 
   const handleGalleryFileChange = async (e) => {

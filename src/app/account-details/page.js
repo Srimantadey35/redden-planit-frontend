@@ -11,49 +11,49 @@ import toast from "react-hot-toast";
 import { uploadToCloudinary } from "@/utils/cloudinary";
 
 const Page = () => {
-   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [profileImageUrl, setProfileImageUrl] = useState("/images/sign-up/face-1.jpg");
-   const token = useSelector((state) => state.auth.accessToken);
-   const [fetchedUser,setFetchedUser] = useState({})
-   
-   const changePasswordSchema = Yup.object({
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+  const token = useSelector((state) => state.auth.accessToken);
+  const [fetchedUser, setFetchedUser] = useState({})
+
+  const changePasswordSchema = Yup.object({
     currentPassword: Yup.string().required('Current password is required'),
     newPassword: Yup.string().required('New password is required')
-          .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-          .matches(/[^a-zA-Z0-9]/, 'Password must contain at least one special character')
-          .matches(/[1-9]/, 'Password must contain at least one number'),
+      .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .matches(/[^a-zA-Z0-9]/, 'Password must contain at least one special character')
+      .matches(/[1-9]/, 'Password must contain at least one number'),
     confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
-    .required('Please confirm your new password')
-   })
+      .required('Please confirm your new password')
+  })
   const formik = useFormik({
-    initialValues:{
-      currentPassword:"",
-      newPassword:"",
-      confirmNewPassword:""
+    initialValues: {
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: ""
     },
-    validationSchema:changePasswordSchema,
-    onSubmit:async(values)=>{
-      console.log('password change ',values)
-       try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/change-password`,values,
+    validationSchema: changePasswordSchema,
+    onSubmit: async (values) => {
+      console.log('password change ', values)
+      try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/change-password`, values,
           {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-       if(response.status === 200 || response.success){
-        toast.success("Password Changed Successfully")
-        setShowPasswordModal(false)
-       }
-       } catch (error) {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+        if (response.status === 200 || response.success) {
+          toast.success("Password Changed Successfully")
+          setShowPasswordModal(false)
+        }
+      } catch (error) {
         toast.error('Password changed failed')
-       }
+      }
     }
   })
-  
+
 
 
   const socialMedia = [
@@ -70,67 +70,67 @@ const Page = () => {
       socialMediaName: "Twitter",
     },
   ];
-   useEffect(() => {
+  useEffect(() => {
     if (token) {
       fetchUserDetails(token);
     }
   }, [token]);
 
   const fetchUserDetails = async (token) => {
-  try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/current-user`, {
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    console.log('user response', response);
-    setFetchedUser(response.data.data)
-  } catch (error) {
-    console.error('fetch error', error);
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/current-user`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('user response', response);
+      setFetchedUser(response.data.data)
+    } catch (error) {
+      console.error('fetch error', error);
+    }
+  };
+
+  // const [changePasswordForm,setChangePaswwordForm] = useState({
+  //   currentPassword:"",
+  //   newPassword:"",
+  //   confirmNewPassword:""
+  // })
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0]
+    try {
+      const cloudinaryUrl = await uploadToCloudinary(file);
+      setSelectedImage(cloudinaryUrl)
+
+    } catch (error) {
+      toast.error("Image upload failed.");
+    }
   }
-};
 
-// const [changePasswordForm,setChangePaswwordForm] = useState({
-//   currentPassword:"",
-//   newPassword:"",
-//   confirmNewPassword:""
-// })
-
-const handleImageChange = async(e)=>{
-  const file = e.target.files[0]
-  try {
-     const cloudinaryUrl = await uploadToCloudinary(file);
-     setSelectedImage(cloudinaryUrl)
-     
-  } catch (error) {
-   toast.error("Image upload failed.");
-  }
-}
-
-const uploadImage = async(e)=>{
-  e.preventDefault()
-  try {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/upload-image`,{imageUrl:selectedImage},
-      {
+  const uploadImage = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/upload-image`, { imageUrl: selectedImage },
+        {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
-    )
+      )
 
-    if(response.status === 200){
-      toast.success("Image uploaded successfully")
-      if(selectedImage){
-        setProfileImageUrl(selectedImage)
+      if (response.status === 200) {
+        toast.success("Image uploaded successfully")
+        if (selectedImage) {
+          setProfileImageUrl(selectedImage)
+        }
+        setShowUploadModal(false)
       }
-      setShowUploadModal(false)
+    } catch (error) {
+      console.log('iamge upload failed', error)
     }
-  } catch (error) {
-    console.log('iamge upload failed',error)
   }
-}
   return (
     // <div>
     //   <Layouts>
@@ -352,7 +352,7 @@ const uploadImage = async(e)=>{
     //   </Layouts>
     // </div>
 
-     <div>
+    <div>
       <Layouts>
         <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen flex flex-col justify-center mb-8">
           <h3 className="font-semibold text-[#303030] text-[22px] 3xl:text-[25px] 4xl:text-[28px]">
@@ -366,9 +366,10 @@ const uploadImage = async(e)=>{
                   width={100}
                   height={100}
                   className="size-[60px] 3xl:size-[80px] 4xl:size-[100px] rounded-full object-cover"
-                  src={profileImageUrl || fetchedUser?.image}
+                  src={profileImageUrl || fetchedUser?.image || "/images/sign-up/face-1.jpg"}
                   alt="profile"
                 />
+
                 <button
                   className="absolute bottom-[-5px] right-0 3xl:right-2 size-[25px] 3xl:size-[28px] 4xl:size-[33px] rounded-full bg-[#F9F9F9] grid place-items-center cursor-pointer"
                   onClick={() => setShowUploadModal(true)}
@@ -601,7 +602,7 @@ const uploadImage = async(e)=>{
                       Current Password
                     </label>
                     <input
-                      className={`h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black ${(formik.errors.currentPassword && formik.touched.currentPassword) ? 'ring ring-red-500':'ring ring-blue-500'}`}
+                      className={`h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black ${(formik.errors.currentPassword && formik.touched.currentPassword) ? 'ring ring-red-500' : 'ring ring-blue-500'}`}
                       placeholder="Current password"
                       type="password"
                       value={formik.values.currentPassword}
@@ -611,7 +612,7 @@ const uploadImage = async(e)=>{
                       id="currentPassword"
                     />
                     <div className="mb-2">
-                    {formik.touched.currentPassword && formik.errors.currentPassword && <p className="text-red-600 mt-1  text-sm absolute w-sm">{formik.errors.currentPassword}</p>}
+                      {formik.touched.currentPassword && formik.errors.currentPassword && <p className="text-red-600 mt-1  text-sm absolute w-sm">{formik.errors.currentPassword}</p>}
                     </div>
                   </div>
                   <div className="flex flex-col mb-3">
@@ -619,9 +620,9 @@ const uploadImage = async(e)=>{
                       New Password
                     </label>
                     <input
-                      className={`h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black ${(formik.errors.newPassword && formik.touched.newPassword) ? 'ring ring-red-500':'ring ring-blue-500'}`}
+                      className={`h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black ${(formik.errors.newPassword && formik.touched.newPassword) ? 'ring ring-red-500' : 'ring ring-blue-500'}`}
                       placeholder="New password"
-                      value={formik.values.newPassword}    
+                      value={formik.values.newPassword}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       type="password"
@@ -629,7 +630,7 @@ const uploadImage = async(e)=>{
                       id="newPassword"
                     />
                     <div className="mb-2">
-                    {formik.touched.newPassword && formik.errors.newPassword && <p className="text-red-600 mt-1 text-sm absolute w-sm">{formik.errors.newPassword}</p>}
+                      {formik.touched.newPassword && formik.errors.newPassword && <p className="text-red-600 mt-1 text-sm absolute w-sm">{formik.errors.newPassword}</p>}
                     </div>
                   </div>
                   <div className="flex flex-col mb-3">
@@ -637,7 +638,7 @@ const uploadImage = async(e)=>{
                       Confirm New Password
                     </label>
                     <input
-                      className={`h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black ${(formik.errors.confirmNewPassword && formik.touched.confirmNewPassword) ? 'ring ring-red-500':'ring ring-blue-500'}`}
+                      className={`h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black ${(formik.errors.confirmNewPassword && formik.touched.confirmNewPassword) ? 'ring ring-red-500' : 'ring ring-blue-500'}`}
                       placeholder="Confirm new password"
                       value={formik.values.confirmNewPassword}
                       onChange={formik.handleChange}
@@ -647,7 +648,7 @@ const uploadImage = async(e)=>{
                       id="confirmNewPassword"
                     />
                     <div className="mb-2">
-                    {formik.touched.confirmNewPassword && formik.errors.confirmNewPassword && <p className="text-red-600 mt-1 text-sm absolute w-sm">{formik.errors.confirmNewPassword}</p>}
+                      {formik.touched.confirmNewPassword && formik.errors.confirmNewPassword && <p className="text-red-600 mt-1 text-sm absolute w-sm">{formik.errors.confirmNewPassword}</p>}
                     </div>
                   </div>
                   <button
@@ -696,7 +697,9 @@ const uploadImage = async(e)=>{
                   </label>
                   {selectedImage && (
                     <div className="mb-4 flex justify-center">
-                      <img
+                      <Image
+                        width={24}
+                        height={24}
                         src={selectedImage}
                         alt="Preview"
                         className="rounded-full w-24 h-24 object-cover"

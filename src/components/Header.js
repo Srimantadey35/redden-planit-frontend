@@ -62,7 +62,8 @@ const Header = ({userName,userType}) => {
   }, []);
 
  
- const logoutUser = async () => {
+ const logoutUser = async (e) => {
+  e.preventDefault()
   const rememberMe = localStorage.getItem("rememberMe") === "true";
   const token = rememberMe
     ? localStorage.getItem("refreshToken")
@@ -210,7 +211,7 @@ const handleCloseSlide = () => {
                       <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         Settings
                       </li>
-                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      <li onClick={logoutUser} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         Logout
                       </li>
                     </ul>
@@ -390,7 +391,7 @@ const handleCloseSlide = () => {
 
             {/* Buttons */}
             <div className="mt-6 space-y-3">
-              <button className="w-full bg-red-500 text-white py-2 rounded-md">
+              <button onClick={logoutUser} className="w-full bg-red-500 text-white py-2 rounded-md">
                 Logout
               </button>
               <button className="w-full border border-red-500 text-red-600 py-2 rounded-md">
