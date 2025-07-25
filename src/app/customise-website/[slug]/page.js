@@ -105,7 +105,9 @@ const Page = () => {
                                 }}
                               />
                               {coverImage ? (
-                                <img
+                                <Image
+                                width={100}
+                                height={100}
                                   src={URL.createObjectURL(coverImage)}
                                   alt="Cover"
                                   className="h-full max-h-36 rounded object-cover"
@@ -271,7 +273,9 @@ const Page = () => {
                                   }}
                                 />
                                 {storyImage ? (
-                                  <img
+                                  <Image
+                                  width={100}
+                                height={100}
                                     src={URL.createObjectURL(storyImage)}
                                     alt="Story"
                                     className="h-full max-h-28 rounded object-cover"
@@ -370,7 +374,9 @@ const Page = () => {
                                     className="bg-gray-300 rounded-md h-24 w-full flex items-center justify-center overflow-hidden"
                                   >
                                     {galleryImages[i] ? (
-                                      <img
+                                      <Image
+                                      width={100}
+                                height={100}
                                         src={URL.createObjectURL(
                                           galleryImages[i]
                                         )}
