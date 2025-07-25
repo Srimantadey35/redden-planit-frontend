@@ -4,7 +4,7 @@ import Layouts from "@/components/Layouts";
 import Image from "next/image";
 import Link from "next/link";
 
-const page = () => {
+const Page = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -356,7 +356,7 @@ const page = () => {
                   </label>
                   {selectedImage && (
                     <div className="mb-4 flex justify-center">
-                      <img
+                      <Image
                         src={URL.createObjectURL(selectedImage)}
                         alt="Preview"
                         className="rounded-full w-24 h-24 object-cover"
@@ -379,4 +379,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

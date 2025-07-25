@@ -1,7 +1,7 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const BridalMakeup = () => {
+const BridalMakeup = ({categoryRef,onFieldCount}) => {
   const [form, setForm] = useState({
     services: [],
     outstationPrice: '',
@@ -23,6 +23,40 @@ const BridalMakeup = () => {
     trialPolicy: '',
   });
 
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    if (categoryRef.current) {
+      const allFields = categoryRef.current.querySelectorAll("input, select, textarea");
+
+      const visibleFields = Array.from(allFields).filter((el) => {
+        const style = window.getComputedStyle(el);
+        return (
+          el.offsetParent !== null &&
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          el.name?.trim() !== "" // ensure it has a name
+        );
+      });
+
+      // ✅ Extract unique field names
+      const uniqueNames = new Set(visibleFields.map((el) => el.name));
+      const uniqueCount = uniqueNames.size;
+
+      console.log("✅ Unique visible field count:", uniqueCount);
+      console.log("🧾 Field names:", [...uniqueNames]);
+
+      // ✅ Send count back to parent
+      onFieldCount(uniqueCount);
+    }
+  }, 0);
+
+  return () => clearTimeout(timer);
+}, []);
+
+
+
+
   const handleChange = (key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
@@ -40,6 +74,7 @@ const BridalMakeup = () => {
     <div className="flex flex-col">
       <label className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">{label}</label>
       <input
+        name={key} // <-- add name attribute
         type="text"
         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-1/2"
         value={form[key]}
@@ -53,6 +88,7 @@ const BridalMakeup = () => {
     <div className="flex flex-col">
       <label className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">{label}</label>
       <textarea
+        name={key} // <-- add name attribute
         className="h-[90px] 3xl:h-[120px] rounded-[8px] outline-none bg-white px-[22px] py-2 placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-1/2"
         value={form[key]}
         onChange={(e) => handleChange(key, e.target.value)}
@@ -70,9 +106,9 @@ const BridalMakeup = () => {
           return (
             <div key={opt} className="flex items-center mb-2">
               <input
+                name={key} // <-- add name attribute
                 type="radio"
                 id={id}
-                name={key}
                 value={opt}
                 checked={form[key] === opt}
                 onChange={(e) => handleChange(key, e.target.value)}
@@ -95,6 +131,7 @@ const BridalMakeup = () => {
           return (
             <div key={item} className="flex items-center mb-2">
               <input
+                name={key} // <-- add name attribute
                 type="checkbox"
                 id={id}
                 value={item}
@@ -111,7 +148,7 @@ const BridalMakeup = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div ref={categoryRef} className="space-y-6">
       {renderCheckboxGroup("Which of the following do you offer?", "services", [
         "Bridal Makeup",
         "Airbrush Makeup",

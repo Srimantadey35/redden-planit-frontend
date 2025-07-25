@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
 import Image from "next/image";
+import Link from "next/link";
 
 const Page = () => {
   const tabHeader = ["Wedding", "Birthday", "Corporate", "Anniversary"];
@@ -21,38 +22,44 @@ const Page = () => {
         width: el.offsetWidth,
       });
     }
-  }, [activetab]);
+  }, [activetab, tabHeader]);
 
   const cardData = [
     {
       url: "/images/create-website/card1.png",
       isNew: false,
       isTrending: false,
+      slug: "card1",
     },
     {
       url: "/images/create-website/card2.png",
       isNew: true,
       isTrending: false,
+      slug: "card2",
     },
     {
       url: "/images/create-website/card3.png",
       isNew: false,
       isTrending: false,
+      slug: "card3",
     },
     {
       url: "/images/create-website/card4.png",
       isNew: false,
       isTrending: true,
+      slug: "card4",
     },
     {
       url: "/images/create-website/card1.png",
       isNew: false,
       isTrending: false,
+      slug: "card1b",
     },
     {
       url: "/images/create-website/card2.png",
       isNew: false,
       isTrending: true,
+      slug: "card2b",
     },
   ];
   const cardData2 = [
@@ -60,31 +67,37 @@ const Page = () => {
       url: "/images/create-website/card2.png",
       isNew: true,
       isTrending: false,
+      slug: "card2c",
     },
     {
       url: "/images/create-website/card1.png",
       isNew: false,
       isTrending: false,
+      slug: "card1c",
     },
     {
       url: "/images/create-website/card2.png",
       isNew: false,
       isTrending: true,
+      slug: "card2d",
     },
     {
       url: "/images/create-website/card3.png",
       isNew: false,
       isTrending: false,
+      slug: "card3b",
     },
     {
       url: "/images/create-website/card4.png",
       isNew: false,
       isTrending: true,
+      slug: "card4b",
     },
     {
       url: "/images/create-website/card1.png",
       isNew: false,
       isTrending: false,
+      slug: "card1d",
     },
   ];
   return (
@@ -150,7 +163,7 @@ const Page = () => {
           </div>
 
           {activetab === tabHeader[0] && (
-            <div className="grid grid-cols-3 gap-[30px] 3xl:gap-[40px] py-14">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-[30px] 3xl:gap-[40px] py-14">
               {cardData.map((item, index) => (
                 <div
                   key={index}
@@ -169,19 +182,19 @@ const Page = () => {
                     </span>
                   )}
                   <div className="bg-[#ffffffab] absolute top-0 right-0 bottom-0 left-0 rounded-xl flex-col items-center justify-center hidden group-hover:flex transition-all ease">
-                      <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
-                        Preview design
-                      </button>
-                      <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
-                        Customise design
-                      </button>
+                    <Link href={`/preview-website/${item.slug}`} className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
+                      Preview design
+                    </Link>
+                    <Link href={`/customise-website/${item.slug}`} className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
+                      Customise design
+                    </Link>
                   </div>
                 </div>
               ))}
             </div>
           )}
           {activetab === tabHeader[1] && (
-            <div className="grid grid-cols-3 gap-[40px] py-14">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[30px] 3xl:gap-[40px] py-14">
               {cardData2.map((item, index) => (
                 <div
                   key={index}
@@ -200,19 +213,19 @@ const Page = () => {
                     </span>
                   )}
                   <div className="bg-[#ffffffab] absolute top-0 right-0 bottom-0 left-0 rounded-xl flex-col items-center justify-center hidden group-hover:flex transition-all ease">
-                      <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
-                        Preview design
-                      </button>
-                      <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
-                        Customise design
-                      </button>
+                    <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
+                      Preview design
+                    </button>
+                    <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
+                      Customise design
+                    </button>
                   </div>
                 </div>
               ))}
             </div>
           )}
           {activetab === tabHeader[2] && (
-            <div className="grid grid-cols-3 gap-[40px] py-14">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[30px] 3xl:gap-[40px] py-14">
               {cardData.map((item, index) => (
                 <div
                   key={index}
@@ -231,19 +244,19 @@ const Page = () => {
                     </span>
                   )}
                   <div className="bg-[#ffffffab] absolute top-0 right-0 bottom-0 left-0 rounded-xl flex-col items-center justify-center hidden group-hover:flex transition-all ease">
-                      <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
-                        Preview design
-                      </button>
-                      <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
-                        Customise design
-                      </button>
+                    <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
+                      Preview design
+                    </button>
+                    <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
+                      Customise design
+                    </button>
                   </div>
                 </div>
               ))}
             </div>
           )}
           {activetab === tabHeader[3] && (
-            <div className="grid grid-cols-3 gap-[40px] py-14">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[30px] 3xl:gap-[40px] py-14">
               {cardData2.map((item, index) => (
                 <div
                   key={index}
@@ -262,12 +275,12 @@ const Page = () => {
                     </span>
                   )}
                   <div className="bg-[#ffffffab] absolute top-0 right-0 bottom-0 left-0 rounded-xl flex-col items-center justify-center hidden group-hover:flex transition-all ease">
-                      <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
-                        Preview design
-                      </button>
-                      <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
-                        Customise design
-                      </button>
+                    <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-black transition ease bg-[#212121] py-2 px-7 rounded-sm">
+                      Preview design
+                    </button>
+                    <button className="w-[170px] cursor-pointer mt-4 font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-7 rounded-sm">
+                      Customise design
+                    </button>
                   </div>
                 </div>
               ))}

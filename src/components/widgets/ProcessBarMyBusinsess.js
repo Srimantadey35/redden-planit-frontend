@@ -14,7 +14,7 @@ export default function ProcessBarMyBusiness({ processes, onProcessUpdate, edita
   };
 
   return (
-    <div className="w-full max-w-xs p-4 rounded-md shadow sticky top-[76px] bg-[#ededed]">
+    <div className="w-full max-w-xs p-4 rounded-md shadow sticky top-[80px] bg-[#ededed]">
       {processes?.map((item, idx) => (
         <div
           key={idx}

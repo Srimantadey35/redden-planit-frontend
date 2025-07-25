@@ -141,7 +141,7 @@ const Header = () => {
                   className="font-normal text-[15px] 3xl:text-[19px] text-white xl:border-none border-b border-b-[#eede] xl:pb-0 pb-2 sm:pb-3 xl:pl-0 pl-8"
                 >
                   <Link
-                    className={pathName === item.href ? "text-[#f70399]" : ""}
+                    className={pathName === item.href ? "text-[#f70399]" : "hover:text-[#f70399]"}
                     href={item.href}
                   >
                     {item.label}

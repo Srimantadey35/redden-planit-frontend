@@ -17,12 +17,15 @@ import Bartenders from "@/components/business-categories/Bartenders";
 import ProcessBarMyBusiness from "@/components/widgets/ProcessBarMyBusinsess";
 
 const Page = () => {
+  const [photographyForm, setPhotographyForm] = useState({});
   const [isToggled, setIsToggled] = useState(false);
   const [openAccordion, setopenAccordion] = useState("add-business");
   const [images, setImages] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [galleryFiles, setGalleryFiles] = useState([]);
-  const [galleryUploadProgress, setGalleryUploadProgress] = useState({}); // {index: percent}
+  const [galleryUploadProgress, setGalleryUploadProgress] = useState({}); 
+  const [totalInputs, setTotalInputs] = useState(6);
+// {index: percent}
 
   console.log("selectedCategory", selectedCategory);
   const categoryRef = useRef(null);
@@ -33,6 +36,10 @@ const Page = () => {
       url: URL.createObjectURL(file),
     }));
     setImages((prev) => [...prev, ...newImages]);
+  };
+
+  const handleFieldCount = (countFromChild) => {
+    setTotalInputs((prev) => prev + countFromChild);
   };
 
   const removeImageServices = (index) => {
@@ -180,7 +187,7 @@ const Page = () => {
       title: "Services",
       icon: "/images/checklisticons/addbusiness.svg",
       count: 0,
-      total: 6,
+      total: totalInputs,
       completed: false,
     },
     {
@@ -235,6 +242,7 @@ const Page = () => {
         "service_deliveryTimeline",
         "service_priceRange",
       ],
+      total:totalInputs,
     },
     {
       key: "upload-portfolio",
@@ -307,26 +315,33 @@ const Page = () => {
     });
     return count;
   };
-
+  console.log('input valuessssssss',totalInputs)
   // 5. Update businessProcesses dynamically
   useEffect(() => {
-    setBusinessProcesses(
-      businessSections.map((section) => ({
-        key: section.key,
-        title: section.title,
-        icon: section.icon,
-        count: getFilledCount(section),
-        total: section.fields.length,
-        completed: getFilledCount(section) === section.fields.length,
-      }))
-    );
-  }, [formValues]);
+  setBusinessProcesses(
+    businessSections.map((section) => ({
+      key: section.key,
+      title: section.title,
+      icon: section.icon,
+      count: section.key === "services"
+        ? getServicesFilledCount()
+        : getFilledCount(section),
+      total: section.key === "services"
+        ? totalInputs
+        : section.fields.length,
+      completed: (section.key === "services"
+        ? getServicesFilledCount() === totalInputs
+        : getFilledCount(section) === section.fields.length),
+    }))
+  );
+}, [formValues, photographyForm, selectedCategory, totalInputs]);
+   
 
   useEffect(() => {
     setSelectedCategory(formValues.business_category);
+    setTotalInputs(6);
   }, [formValues.business_category]);
 
-  const [photographyForm, setPhotographyForm] = useState({});
 
   const handlePhotographyChange = (key, value) => {
     setPhotographyForm(prev => ({ ...prev, [key]: value }));
@@ -364,6 +379,16 @@ const Page = () => {
 
   const servicesFields = [...servicesBaseFields, ...getCategoryFields()];
 
+  const getCategoryForm = () => {
+    switch (selectedCategory) {
+      case "photography":
+        return photographyForm;
+      // Add other cases for other categories
+      default:
+        return {};
+    }
+  };
+
   const getServicesFilledCount = () => {
     let count = 0;
     servicesBaseFields.forEach((field) => {
@@ -379,9 +404,7 @@ const Page = () => {
 
     // Count category fields
     const categoryFields = getCategoryFields();
-    let categoryForm = {};
-    if (selectedCategory === "photography") categoryForm = photographyForm;
-    // Add similar logic for other categories if you lift their state up
+    const categoryForm = getCategoryForm();
 
     categoryFields.forEach((field) => {
       const value = categoryForm[field];
@@ -396,6 +419,8 @@ const Page = () => {
 
     return count;
   };
+
+ 
 
   return (
     <div>
@@ -1015,10 +1040,10 @@ const Page = () => {
                               {selectedCategory === "catering" && <Catering />}
                               {selectedCategory === "venues" && <Venue />}
                               {selectedCategory === "photography" && (
-                                <PhotographerForm onChange={handlePhotographyChange} form={photographyForm} categoryRef={categoryRef}/>
+                                <PhotographerForm onChange={handlePhotographyChange} form={photographyForm} onFieldCount={handleFieldCount} categoryRef={categoryRef}/>
                               )}
                               {selectedCategory === "bridalmakeup" && (
-                                <BridalMakeup />
+                                <BridalMakeup categoryRef={categoryRef} onFieldCount={handleFieldCount} />
                               )}
                               {selectedCategory === "decorators" && (
                                 <Decorators />

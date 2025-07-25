@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const photographyFields = [
   "deliveryWeeks",
@@ -24,7 +24,7 @@ export const photographyFields = [
   "selectedServices",
 ];
 
-const PhotographerForm = ({ categoryRef }) => {
+const PhotographerForm = ({ categoryRef, onFieldCount,onChange }) => {
   const [form, setForm] = useState({
     deliveryWeeks: "",
     mostBookedValue: "",
@@ -49,6 +49,48 @@ const PhotographerForm = ({ categoryRef }) => {
     selectedServices: [],
   });
 
+// useEffect(() => {
+//   if (categoryRef.current) {
+//     const namedFields = categoryRef.current.querySelectorAll(
+//       'input[name], select[name], textarea[name]'
+//     );
+
+//     console.log("Total fields with name attribute:", namedFields.length);
+//   }
+// }, []);
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    if (categoryRef.current) {
+      const allFields = categoryRef.current.querySelectorAll("input, select, textarea");
+
+      const visibleFields = Array.from(allFields).filter((el) => {
+        const style = window.getComputedStyle(el);
+        return (
+          el.offsetParent !== null &&
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          el.name?.trim() !== "" // ensure it has a name
+        );
+      });
+
+      // ✅ Extract unique field names
+      const uniqueNames = new Set(visibleFields.map((el) => el.name));
+      const uniqueCount = uniqueNames.size;
+
+      console.log("✅ Unique visible field count:", uniqueCount);
+      console.log("🧾 Field names:", [...uniqueNames]);
+
+      // ✅ Send count back to parent
+      onFieldCount(uniqueCount);
+    }
+  }, 0);
+
+  return () => clearTimeout(timer);
+}, []);
+
+
+
   const services = [
     "Candid Photography",
     "Wedding Films",
@@ -64,11 +106,27 @@ const PhotographerForm = ({ categoryRef }) => {
     "Small Function Photography",
   ];
 
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    if (type === "checkbox") {
+      // For checkboxes (assuming selectedServices is an array)
+      let updated = form.selectedServices || [];
+      if (checked) {
+        updated = [...updated, value];
+      } else {
+        updated = updated.filter((item) => item !== value);
+      }
+      onChange("selectedServices", updated);
+    } else {
+      onChange(name, value);
+    }
+  };
+
   console.log(categoryRef.current);
 
-  const handleChange = (key, value) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  };
+  // const handleChange = (key, value) => {
+  //   setForm((prev) => ({ ...prev, [key]: value }));
+  // };
 
   const toggleService = (service) => {
     setForm((prev) => ({
@@ -83,9 +141,10 @@ const PhotographerForm = ({ categoryRef }) => {
     <div className="flex flex-col">
       <label className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">{label}</label>
       <input
+        name={key} // <-- add name attribute
         className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-1/2"
         value={form[key]}
-        onChange={(e) => handleChange(key, e.target.value)}
+        onChange={handleChange}
         placeholder={placeholder}
       />
     </div>
@@ -95,9 +154,10 @@ const PhotographerForm = ({ categoryRef }) => {
     <div className="flex flex-col">
       <label className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">{label}</label>
       <textarea
+        name={key} // <-- add name attribute
         className={`h-[${rows * 25}px] 3xl:h-[${rows * 30}px] rounded-[8px] outline-none bg-white px-[22px] py-2 placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black w-1/2`}
         value={form[key]}
-        onChange={(e) => handleChange(key, e.target.value)}
+        onChange={ handleChange}
         placeholder="Enter your message"
       ></textarea>
     </div>
@@ -112,13 +172,13 @@ const PhotographerForm = ({ categoryRef }) => {
           return (
             <div key={opt} className="flex items-center mb-2">
               <input
+                name={key} // <-- add name attribute
                 className="accent-[#EA0056] size-5"
                 type="radio"
-                name={key}
                 id={id}
                 value={opt}
                 checked={form[key] === opt}
-                onChange={(e) => handleChange(key, e.target.value)}
+                onChange={handleChange}
               />
               <label htmlFor={id} className="text-black font-normal text-[14px] ml-2 cursor-pointer">{opt}</label>
             </div>
@@ -133,20 +193,21 @@ const PhotographerForm = ({ categoryRef }) => {
       <label className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">{label}</label>
       <div className="flex items-center gap-4">
         <input
+          name={key} // <-- add name attribute
           type="text"
           placeholder="Enter here"
           className="h-[42px] w-1/2 rounded-[8px] bg-white px-[22px] outline-none text-[14px] text-black font-medium placeholder:text-[#525252]"
           value={form[key]}
-          onChange={(e) => handleChange(key, e.target.value)}
+          onChange={handleChange}
         />
         <label className="flex items-center text-[14px] cursor-pointer text-black">
           <input
+            name="defaultPackage" // <-- add name attribute
             type="radio"
-            name="defaultPackage"
             className="accent-[#EA0056] mr-2"
             value={radioValue}
             checked={form.defaultPackage === radioValue}
-            onChange={(e) => handleChange("defaultPackage", e.target.value)}
+            onChange={handleChange}
           />
           Set as default
         </label>
