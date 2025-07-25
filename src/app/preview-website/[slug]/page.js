@@ -16,12 +16,12 @@ const Page = () => {
 
       {/* Main preview area with equal side gaps */}
       <div className="px-10 4xl:px-0 4xl:max-w-[1760px] my-10">
-        <div className="flex items-center gap-2 mb-4 justify-between bg-[#bcbcbcdd] p-5 rounded-xl">
+        <div className="flex items-center gap-2 mb-4 justify-between bg-[#bcbcbc70] p-5 rounded-xl">
           <div className="rounded-md">
             <button
               className={`px-3 py-1 rounded-l-md cursor-pointer ${
                 view === "desktop"
-                  ? "bg-blue-600 text-white"
+                  ? "bg-[#ea0056] text-white"
                   : "bg-gray-200 text-black"
               }`}
               onClick={() => setView("desktop")}
