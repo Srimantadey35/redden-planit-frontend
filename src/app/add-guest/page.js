@@ -411,7 +411,7 @@ const Page = () => {
   const handleSubmitAllBusiness = async (e) => {
     e.preventDefault()
     const selectedGuests = guestList.filter((_, index) => checkedGuests[index]);
-    
+
     if (selectedGuests.length === 0) {
       toast.error('Please select at least one guest to submit');
       return;
@@ -430,12 +430,12 @@ const Page = () => {
       }
       );
       toast.dismiss('submit-loading');
-      if(response.statusCode === 201){
-      toast.success('Contact details added successfully')
-      const remainingGuests = guestList.filter((_, index) => !checkedGuests[index]);
-      setGuestList(remainingGuests);
-      localStorage.setItem("guests", JSON.stringify(remainingGuests));
-      setCheckedGuests({})
+      if (response.statusCode === 201) {
+        toast.success('Contact details added successfully')
+        const remainingGuests = guestList.filter((_, index) => !checkedGuests[index]);
+        setGuestList(remainingGuests);
+        localStorage.setItem("guests", JSON.stringify(remainingGuests));
+        setCheckedGuests({})
       }
       console.log("API Response:", response.data);
     } catch (error) {
@@ -448,16 +448,26 @@ const Page = () => {
 
   return (
     <div className="bg-white">
-      <Toaster 
+      <Toaster
         position="top-right"
         toastOptions={{
           duration: 4000,
           style: {
-            background: '#363636',
-            color: '#fff',
+            background: "#363636",
+            color: "#fff",
+            fontSize: "14px",     // optional: for better readability
+            borderRadius: "6px",  // optional: smooth look
+          },
+          success: {
+            icon: '✅',
+          },
+          error: {
+            icon: '❌',
           },
         }}
+        containerStyle={{ marginTop: '60px' }} // instead of containerClassName
       />
+
       <Header />
       <div className="min-h-screen flex items-center">
         <div className="container">
