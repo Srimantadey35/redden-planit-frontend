@@ -454,7 +454,7 @@ const Page = () => {
           style: {
             background: "#363636",
             color: "#fff",
-            fontSize: "24px",     // optional: for better readability
+            fontSize: "18px",     // optional: for better readability
             borderRadius: "6px",  // optional: smooth look
           },
           success: {
@@ -464,7 +464,7 @@ const Page = () => {
             icon: '❌',
           },
         }}
-        containerStyle={{ marginTop: '150px' }} // instead of containerClassName
+        containerStyle={{ marginTop: '110px' }} // instead of containerClassName
       />
 
       <Header />
