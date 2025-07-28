@@ -26,7 +26,7 @@ const ImportFromGmail = ({setisModalOpen}) => {
             },
           }
         );
-
+        console.log('google contacts import',res)
         toast.success(`Imported ${res.data.imported} contacts`);
         setisModalOpen(false);
       } catch (err) {
