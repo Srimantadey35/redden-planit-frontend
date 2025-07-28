@@ -430,7 +430,7 @@ const Page = () => {
       }
       );
       toast.dismiss('submit-loading');
-      if (response.statusCode === 201) {
+      if (response.data.statusCode === 201) {
         toast.success('Contact details added successfully')
         const remainingGuests = guestList.filter((_, index) => !checkedGuests[index]);
         setGuestList(remainingGuests);
@@ -465,7 +465,7 @@ const Page = () => {
             icon: '❌',
           },
         }}
-        containerStyle={{ marginTop: '60px' }} // instead of containerClassName
+        containerStyle={{ marginTop: '200px' }} // instead of containerClassName
       />
 
       <Header />
