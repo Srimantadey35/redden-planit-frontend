@@ -448,7 +448,7 @@ const Page = () => {
   return (
     <div className="bg-white">
       <Toaster
-        position="top-right"
+        position="top-center"
         toastOptions={{
           duration: 4000,
           style: {
@@ -464,7 +464,7 @@ const Page = () => {
             icon: '❌',
           },
         }}
-        containerStyle={{ marginTop: '80px' }} // instead of containerClassName
+        containerStyle={{ marginTop: '100px' }} // instead of containerClassName
       />
 
       <Header />
