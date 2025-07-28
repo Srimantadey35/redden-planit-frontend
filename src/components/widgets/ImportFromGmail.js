@@ -29,8 +29,10 @@ const ImportFromGmail = ({setisModalOpen}) => {
           }
         );
         console.log('google contacts import',res)
-        toast.success(`Imported ${res.data.imported} contacts`);
+        if(res.status === 200){
+        toast.success(`Contacts imported sucessfully`);
         setisModalOpen(false);
+        }
       } catch (err) {
         toast.error("Failed to import contacts");
         console.error("Google contact import error", err);
