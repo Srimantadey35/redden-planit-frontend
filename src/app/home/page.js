@@ -164,7 +164,7 @@ const fetchUserDetails = async (accessToken) => {
     // </div>
 
     <div className="bg-white">
-      <Header />
+      <Header userName={fetchedUser.name} userType={fetchedUser.userType}/>
       <div className="container">
         <div className="max-w-[952px] mx-auto">
           <div className="py-[120px] 2xl:py-[60px] 3xl:py-[120px]">

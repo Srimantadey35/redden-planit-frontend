@@ -88,7 +88,7 @@ const Header = ({userName,userType}) => {
       dispatch(clearAccessToken())
       dispatch(clearUser())
       setTimeout(() => {
-        router.push(`/sign-in/${userType}`);
+        router.push(`/sign-in/planner`);
       }, 100);
     }
   } catch (err) {
