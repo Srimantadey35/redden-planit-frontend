@@ -333,7 +333,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Image from "next/image";
-import Link from "next/link";
 import { useFormik } from "formik";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -374,9 +373,9 @@ const Page = () => {
       } else {
         updatedList = [...guestList, newGuest];
       }
-      toast.success('Contact details added on guest list')
       localStorage.setItem("guests", JSON.stringify(updatedList));
       setGuestList(updatedList);
+      toast.success('Contact details added on guest list')
       setCheckedGuests({});
       formik.resetForm();
     },
@@ -422,7 +421,7 @@ const Page = () => {
         },
       }
       );
-      if(response.status === 201){
+      if(response.statusCode === 201){
       toast.success('Contact details added successfully')
       const remainingGuests = guestList.filter((_, index) => !checkedGuests[index]);
       setGuestList(remainingGuests);
