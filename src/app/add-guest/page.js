@@ -335,7 +335,7 @@ import Header from "@/components/Header";
 import Image from "next/image";
 import { useFormik } from "formik";
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 const Page = () => {
@@ -370,8 +370,10 @@ const Page = () => {
         updatedList = [...guestList];
         updatedList[editIndex] = newGuest;
         setEditIndex(null);
+        toast.success('Guest updated successfully');
       } else {
         updatedList = [...guestList, newGuest];
+        toast.success('Guest added to list');
       }
       localStorage.setItem("guests", JSON.stringify(updatedList));
       setGuestList(updatedList);
@@ -403,15 +405,21 @@ const Page = () => {
       delete newChecked[index];
       return newChecked;
     });
+    toast.success('Guest deleted successfully')
   };
 
   const handleSubmitAllBusiness = async (e) => {
     e.preventDefault()
     const selectedGuests = guestList.filter((_, index) => checkedGuests[index]);
-
+    
+    if (selectedGuests.length === 0) {
+      toast.error('Please select at least one guest to submit');
+      return;
+    }
     console.log("Sending guests:", selectedGuests);
 
     try {
+      toast.loading('Submitting guests...', { id: 'submit-loading' });
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/planners/create-contacts`,
         { contacts: selectedGuests }, {
@@ -421,6 +429,7 @@ const Page = () => {
         },
       }
       );
+      toast.dismiss('submit-loading');
       if(response.statusCode === 201){
       toast.success('Contact details added successfully')
       const remainingGuests = guestList.filter((_, index) => !checkedGuests[index]);
@@ -439,6 +448,16 @@ const Page = () => {
 
   return (
     <div className="bg-white">
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+        }}
+      />
       <Header />
       <div className="min-h-screen flex items-center">
         <div className="container">
