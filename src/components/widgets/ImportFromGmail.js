@@ -1,7 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useSelector } from "react-redux";
 
 const ImportFromGmail = ({setisModalOpen}) => {
+  const [loading,setLoading] = useState(false)
+  const token = useSelector((state) => state.auth.accessToken);
+   const handleGoogleImport = useGoogleLogin({
+    scope: "https://www.googleapis.com/auth/contacts.readonly",
+    onSuccess: async (tokenResponse) => {
+      const accessToken = tokenResponse.access_token;
+
+      if (!accessToken) return toast.error("Access token missing");
+
+      try {
+        setLoading(true);
+
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/planners/import-google-contacts`,
+          { accessToken },
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`, // Or from Redux
+            },
+          }
+        );
+
+        toast.success(`Imported ${res.data.imported} contacts`);
+        setisModalOpen(false);
+      } catch (err) {
+        toast.error("Failed to import contacts");
+        console.error("Google contact import error", err);
+      } finally {
+        setLoading(false);
+      }
+    },
+    onError: (err) => {
+      console.error("Google login error", err);
+      toast.error("Google login failed");
+    },
+  });
+
+  const handleClick = () => {
+    const agreed = document.getElementById("checkbox").checked;
+    if (!agreed) return toast.error("Please agree to the terms first");
+    handleGoogleImport();
+  };
+
   const liElements = [
     "Enter column headers (eg. Name, Plus One, Street Address) in the first row.",
     "Enter guests and their plus ones or family members on the same line.",
@@ -43,8 +89,8 @@ const ImportFromGmail = ({setisModalOpen}) => {
           </div>
           <div className="mt-[50px] 3xl:mt-[90px] px-[30px] 3xl:px-[50px] mb-9 3xl:mb-14">
             
-            <button className="font-semibold text-[16px] 3xl:text-[20px] text-white bg-[#EA0056] hover:bg-[#c30048] rounded-lg px-[90px] 3xl:px-[115px] py-3 3xl:py-3.5 mx-auto table cursor-pointer">
-              Continue
+            <button  disabled={loading} onClick={handleClick} className="font-semibold text-[16px] 3xl:text-[20px] text-white bg-[#EA0056] hover:bg-[#c30048] rounded-lg px-[90px] 3xl:px-[115px] py-3 3xl:py-3.5 mx-auto table cursor-pointer">
+             {loading ? "Importing..." : "Continue"}
             </button>
           </div>
         </div>

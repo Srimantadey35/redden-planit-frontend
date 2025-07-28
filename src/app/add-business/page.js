@@ -1728,8 +1728,10 @@ const Page = () => {
 
                         {/* catering  */}
                         <div className="space-y-[25px]">
-                          {selectedCategory === "catering" && <Catering />}
-                          {selectedCategory === "venues" && <Venue />}
+                          {selectedCategory === "catering" && <Catering defaultValues={categoryForms["photography"] || {}}
+                              onDataChange={handleCategoryDataChange}/>}
+                          {selectedCategory === "venues" && <Venue defaultValues={categoryForms["photography"] || {}}
+                              onDataChange={handleCategoryDataChange}/>}
                           {selectedCategory === "photography" && (
                             <PhotographerForm defaultValues={categoryForms["photography"] || {}}
                               onDataChange={handleCategoryDataChange}
@@ -1738,20 +1740,27 @@ const Page = () => {
                           {selectedCategory === "bridalmakeup" && <BridalMakeup defaultValues={categoryForms["bridalmakeup"] || {}} onDataChange={handleCategoryDataChange} />}
                           {selectedCategory === "decorators" && <Decorators defaultValues={categoryForms["decorators"] || {}} onDataChange={handleCategoryDataChange} />}
                           {selectedCategory === "wedding-planners" && (
-                            <WeddingPlannerForm />
+                            <WeddingPlannerForm defaultValues={categoryForms["photography"] || {}}
+                              onDataChange={handleCategoryDataChange}/>
                           )}
                           {selectedCategory === "mehandi-artist" && (
-                            <MehendiArtist />
+                            <MehendiArtist defaultValues={categoryForms["photography"] || {}}
+                              onDataChange={handleCategoryDataChange}/>
                           )}
-                          {selectedCategory === "dj" && <DJForm />}
+                          {selectedCategory === "dj" && <DJForm defaultValues={categoryForms["photography"] || {}}
+                              onDataChange={handleCategoryDataChange}/>}
                           {selectedCategory === "pre-wedding-photographers" && (
-                            <PreWeddingPhotographersForm />
+                            <PreWeddingPhotographersForm defaultValues={categoryForms["photography"] || {}}
+                              onDataChange={handleCategoryDataChange}/>
                           )}
                           {selectedCategory === "wedding-pandit" && (
-                            <WeddingPandit />
+                            <WeddingPandit defaultValues={categoryForms["photography"] || {}}
+                              onDataChange={handleCategoryDataChange}/>
                           )}
-                          {selectedCategory === "cake" && <Cake />}
-                          {selectedCategory === "bartenders" && <Bartenders />}
+                          {selectedCategory === "cake" && <Cake defaultValues={categoryForms["photography"] || {}}
+                              onDataChange={handleCategoryDataChange} />}
+                          {selectedCategory === "bartenders" && <Bartenders defaultValues={categoryForms["photography"] || {}}
+                              onDataChange={handleCategoryDataChange} />}
                         </div>
                         <div className="pt-4">
                           <button

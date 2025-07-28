@@ -39,10 +39,30 @@ const DecoratorsForm = ({prefilledValues,defaultValues,onDataChange}) => {
   // useEffect(() => {
   //     onDataChange(form);
   //   }, [form, onDataChange]);
+
+  const countFilledFields = (formObj) => {
+  let count = 0;
+  Object.entries(formObj).forEach(([key, value]) => {
+    let filled = false;
+    if (Array.isArray(value)) {
+      filled = value.length > 0;
+    } else if (typeof value === 'string') {
+      filled = value.trim() !== "";
+    } else if (value) {
+      filled = true;
+    }
+    if (filled) count++;
+    console.log(key, value, filled, count);
+  });
+  return count;
+};
+
+  const getTotalFields = (formObj) => Object.keys(formObj).length;
+
   const handleChange = (key, value) => {
     const updated = { ...form, [key]: value };
     setForm(updated);
-    onDataChange(updated);
+    onDataChange(updated,countFilledFields(updated),getTotalFields(updated));
   };
 
   const toggleCheckbox = (key, value) => {
@@ -53,6 +73,10 @@ const DecoratorsForm = ({prefilledValues,defaultValues,onDataChange}) => {
         : [...prev[key], value],
     }));
   };
+
+  useEffect(() => {
+        onDataChange(form, countFilledFields(form),getTotalFields(form));
+      }, [form]);
 
   const renderInput = (label, key, placeholder = 'Enter your message') => (
     <div className="flex flex-col">
