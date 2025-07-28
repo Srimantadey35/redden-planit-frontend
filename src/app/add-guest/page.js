@@ -1,38 +1,442 @@
 
+// "use client";
+// import Header from "@/components/Header";
+// import React, { useEffect, useState } from "react";
+// import Image from "next/image";
+// import Link from "next/link";
+// import { useFormik } from "formik";
+
+// const Page = () => {
+//   const [guestList, setGuestList] = useState([]);
+//   const [checkedGuests, setCheckedGuests] = useState({});
+
+//   useEffect(() => {
+//     const storedGuests = JSON.parse(localStorage.getItem("guests") || "[]");
+//     setGuestList(storedGuests);
+//   }, []);
+
+//   const initialValues = {
+//     firstname: "",
+//     lastname: "",
+//     email: "",
+//     number: "",
+//     address: "",
+//     guestType: "",
+//     dietary: "",
+//     notes: ""
+//   }
+//   const { values, handleChange, handleSubmit, handleBlur } = useFormik({
+//     initialValues,
+//     onSubmit: async () => {
+//       const newGuest = { ...values };
+//       const updatedList = [...guestList, newGuest];
+
+//       localStorage.setItem("guests", JSON.stringify(updatedList));
+//       setGuestList(updatedList);
+//       setCheckedGuests({});
+//       formik.resetForm();
+//     }
+//   })
+//   const guestNames = [
+
+//   ];
+
+
+//   const handleCheck = (name) => {
+//     setCheckedGuests((prev) => ({
+//       ...prev,
+//       [name]: !prev[name],
+//     }));
+//   };
+
+//   // This will always be up-to-date with the selected values
+//   const selectedGuests = Object.keys(checkedGuests).filter(
+//     (name) => checkedGuests[name]
+//   );
+
+//   // const handleSubmit = (e) => {
+//   //   e.preventDefault();
+//   //   console.log("Selected guests to submit:", selectedGuests);
+//   // };
+
+//   return (
+//     <div className="bg-white">
+//       <Header />
+//       <div className="min-h-screen flex items-center">
+//         <div className="container">
+//           <div className="py-[100px] 3xl:py-[120px] md:flex  items-stretch">
+//             <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl md:w-[60%] w-full 3xl:w-[800px]">
+//               <h3 className="text-[22px] 3xl:text-[30px] font-semibold text-[#151515] mb-[43px]">
+//                 Add guest
+//               </h3>
+
+//               <form onSubmit={handleSubmit} className="space-y-[30px]">
+//                 {/* First & Last Name */}
+//                 <div className="flex flex-col md:flex-row gap-5">
+//                   <div className="flex flex-col w-full">
+//                     <label
+//                       htmlFor="firstname"
+//                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+//                     >
+//                       First name<span className="text-[#FF2C2C]">*</span>
+//                     </label>
+//                     <input
+//                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+//                       placeholder="Enter guest's first name"
+//                       type="text"
+//                       value={values.firstname}
+//                       name="firstname"
+//                       onChange={handleChange}
+//                       onBlur={handleBlur}
+//                       id="firstname"
+//                     />
+//                   </div>
+//                   <div className="flex flex-col w-full">
+//                     <label
+//                       htmlFor="lastname"
+//                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+//                     >
+//                       Last name<span className="text-[#FF2C2C]">*</span>
+//                     </label>
+//                     <input
+//                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+//                       placeholder="Enter guest's last name"
+//                       type="text"
+//                       value={values.lastname}
+//                       name="lastname"
+//                       onChange={handleChange}
+//                       onBlur={handleBlur}
+//                       id="lastname"
+//                     />
+//                   </div>
+//                 </div>
+
+//                 {/* Email & Phone */}
+//                 <div className="flex flex-col md:flex-row gap-5">
+//                   <div className="flex flex-col w-full">
+//                     <label
+//                       htmlFor="email"
+//                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+//                     >
+//                       Email
+//                     </label>
+//                     <input
+//                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+//                       placeholder="Enter guest's email"
+//                       type="email"
+//                       value={values.email}
+//                       name="email"
+//                       onChange={handleChange}
+//                       onBlur={handleBlur}
+//                       id="email"
+//                     />
+//                   </div>
+//                   <div className="flex flex-col w-full">
+//                     <label
+//                       htmlFor="number"
+//                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+//                     >
+//                       Phone number<span className="text-[#FF2C2C]">*</span>
+//                     </label>
+//                     <input
+//                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+//                       placeholder="Enter guest's number"
+//                       type="text"
+//                       value={values.number}
+//                       name="number"
+//                       onChange={handleChange}
+//                       onBlur={handleBlur}
+//                       id="number"
+//                     />
+//                   </div>
+//                 </div>
+
+//                 {/* Address */}
+//                 <div>
+//                   <div className="flex flex-col w-full">
+//                     <label
+//                       htmlFor="address"
+//                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+//                     >
+//                       Address
+//                     </label>
+//                     <input
+//                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+//                       placeholder="Enter guest's address"
+//                       type="text"
+//                       value={values.address}
+//                       name="address"
+//                       onChange={handleChange}
+//                       onBlur={handleBlur}
+//                       id="address"
+//                     />
+//                   </div>
+//                 </div>
+
+//                 {/* Guest Type & Dietary Preference */}
+//                 <div className="flex flex-col md:flex-row gap-5">
+//                   <div className="flex flex-col w-full">
+//                     <label
+//                       htmlFor="guestType"
+//                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+//                     >
+//                       Guest Type
+//                     </label>
+//                     <select
+//                       name="guestType"
+//                       value={values.guestType}
+//                       id="guestType"
+//                       defaultValue=""
+//                       onChange={handleChange}
+//                       onBlur={handleBlur}
+//                       className="text-[#919191] text-[14px] font-normal h-[44px] 3xl:h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
+//                     >
+//                       <option value="" disabled hidden>
+//                         Select type
+//                       </option>
+//                       <option value="family">Family</option>
+//                       <option value="friend">Friend</option>
+//                       <option value="colleague">Colleague</option>
+//                       <option value="vip">VIP</option>
+//                     </select>
+//                   </div>
+//                   <div className="flex flex-col w-full">
+//                     <label
+//                       htmlFor="dietary"
+//                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+//                     >
+//                       Dietary Preference
+//                     </label>
+//                     <select
+//                       name="dietary"
+//                       id="dietary"
+//                       value={values.dietary}
+//                       defaultValue=""
+//                       onChange={handleChange}
+//                       onBlur={handleBlur}
+//                       className="text-[#919191] text-[14px] font-normal h-[44px] 3xl:h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
+//                     >
+//                       <option value="" disabled hidden>
+//                         Select dietary
+//                       </option>
+//                       <option value="vegetarian">Vegetarian</option>
+//                       <option value="vegan">Vegan</option>
+//                       <option value="gluten-free">Gluten-Free</option>
+//                       <option value="non-vegeterian">Non Vegeterian</option>
+//                       <option value="dietary 4">No preference</option>
+//                     </select>
+//                   </div>
+//                 </div>
+
+//                 {/* Notes */}
+//                 <div>
+//                   <div className="flex flex-col w-full">
+//                     <label
+//                       htmlFor="notes"
+//                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+//                     >
+//                       Notes
+//                     </label>
+//                     <textarea
+//                       className="h-[80px] 3xl:h-[100px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none pt-3 resize-none"
+//                       placeholder="Enter notes about your guests."
+//                       name="notes"
+//                       value={values.notes}
+//                       onChange={handleChange}
+//                       onBlur={handleBlur}
+//                       id="notes"
+//                     ></textarea>
+//                   </div>
+//                 </div>
+
+//                 {/* Submit Button */}
+//                 <button
+//                   className="cursor-pointer transition font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 bg-[#EA0056] hover:bg-[#c9004a] rounded-lg w-full max-w-[317px] mx-auto block"
+//                 >
+//                   Add to list
+//                 </button>
+//               </form>
+
+//             </div>
+//             <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl md:w-[40%] w-full 3xl:w-[calc(100%-800px)] md:ml-[30px] ml-0 3xl:ml-[40px] flex flex-col">
+//               <h3 className="text-[22px] 3xl:text-[30px] font-semibold text-[#151515] mb-[43px]">
+//                 Guest list
+//               </h3>
+
+//               <form
+//                 onSubmit={handleSubmit}
+//                 className="space-y-[30px] flex flex-col h-full"
+//               >
+//                 {guestList.map((item, index) => (
+//                   <div
+//                     key={index}
+//                     className="flex items-center justify-between"
+//                   >
+//                     <div className="flex items-center">
+//                       <input
+//                         name="checkbox"
+//                         id={`checkbox-${index}`}
+//                         type="checkbox"
+//                         className="size-[16px] 3xl:size-[20px] mr-3.5"
+//                         checked={!!checkedGuests[item]}
+//                         onChange={() => handleCheck(item)}
+//                       />
+//                       <label
+//                         htmlFor={`checkbox-${index}`}
+//                         className="font-normal text-[15px] 3xl:text-[20px] text-[#151515]"
+//                       >
+//                         {item.length > 15 ? `${item.slice(0, 15)}...` : item}
+//                       </label>
+//                     </div>
+//                     <div className="flex items-center space-x-3.5">
+//                       <button type="button" className="cursor-pointer w-[17px] 3xl:w-[20px]">
+//                         <Image
+//                           width={20}
+//                           height={20}
+//                           src="/images/edit.svg"
+//                           alt="edit"
+//                         />
+//                       </button>
+//                       <button type="button" className="cursor-pointer w-[17px] 3xl:w-[20px]">
+//                         <Image
+//                           width={20}
+//                           height={20}
+//                           src="/images/delete.svg"
+//                           alt="delete"
+//                         />
+//                       </button>
+//                     </div>
+//                   </div>
+//                 ))}
+
+//                 <Link href={'/guest-list'}
+//                   type="submit"
+//                   className="cursor-pointer mt-auto font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg  mx-auto table text-center"
+//                 >
+//                   Submit all
+//                 </Link>
+//               </form>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Page;
+
+
+
 "use client";
+
+import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
-import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useFormik } from "formik";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const Page = () => {
-  const guestNames = [
-    "Jaydon Curtis",
-    "Madelyn Levin",
-    "Tiana Philips",
-    "Marcus Schleifer",
-    "Nolan Torff",
-    "Tiana Baptista",
-  ];
-
+  const [guestList, setGuestList] = useState([]);
   const [checkedGuests, setCheckedGuests] = useState({});
+  const [editIndex, setEditIndex] = useState(null);
+  const [hasMounted, setHasMounted] = useState(false);
+  const token = useSelector((state) => state.auth.accessToken);
 
-  const handleCheck = (name) => {
+  useEffect(() => {
+    const storedGuests = JSON.parse(localStorage.getItem("guests")) || [];
+    setGuestList(storedGuests);
+    setHasMounted(true);
+  }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      firstname: "",
+      lastname: "",
+      email: "",
+      number: "",
+      address: "",
+      guestType: "",
+      dietary: "",
+      notes: ""
+    },
+    onSubmit: async () => {
+      const newGuest = { ...formik.values };
+      let updatedList;
+
+      if (editIndex !== null) {
+        updatedList = [...guestList];
+        updatedList[editIndex] = newGuest;
+        setEditIndex(null);
+      } else {
+        updatedList = [...guestList, newGuest];
+      }
+      toast.success('Contact details added on guest list')
+      localStorage.setItem("guests", JSON.stringify(updatedList));
+      setGuestList(updatedList);
+      setCheckedGuests({});
+      formik.resetForm();
+    },
+  });
+
+  const handleCheck = (index) => {
     setCheckedGuests((prev) => ({
       ...prev,
-      [name]: !prev[name],
+      [index]: !prev[index],
     }));
   };
 
-  // This will always be up-to-date with the selected values
-  const selectedGuests = Object.keys(checkedGuests).filter(
-    (name) => checkedGuests[name]
-  );
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Selected guests to submit:", selectedGuests);
+  const handleEdit = (index) => {
+    const guestToEdit = guestList[index];
+    formik.setValues(guestToEdit);
+    setEditIndex(index);
   };
+
+  const handleDelete = (index) => {
+    const updatedList = guestList.filter((_, i) => i !== index);
+    setGuestList(updatedList);
+    localStorage.setItem("guests", JSON.stringify(updatedList));
+    setCheckedGuests((prev) => {
+      const newChecked = { ...prev };
+      delete newChecked[index];
+      return newChecked;
+    });
+  };
+
+  const handleSubmitAllBusiness = async (e) => {
+    e.preventDefault()
+    const selectedGuests = guestList.filter((_, index) => checkedGuests[index]);
+
+    console.log("Sending guests:", selectedGuests);
+
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/planners/create-contacts`,
+        { contacts: selectedGuests }, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      );
+      if(response.status === 201){
+      toast.success('Contact details added successfully')
+      const remainingGuests = guestList.filter((_, index) => !checkedGuests[index]);
+      setGuestList(remainingGuests);
+      localStorage.setItem("guests", JSON.stringify(remainingGuests));
+      setCheckedGuests({})
+      }
+      console.log("API Response:", response.data);
+    } catch (error) {
+      console.error("Error sending guests:", error);
+    }
+  }
+
+  if (!hasMounted) return null;
+
 
   return (
     <div className="bg-white">
@@ -45,7 +449,7 @@ const Page = () => {
                 Add guest
               </h3>
 
-              <form className="space-y-[30px]">
+              <form onSubmit={formik.handleSubmit} className="space-y-[30px]">
                 {/* First & Last Name */}
                 <div className="flex flex-col md:flex-row gap-5">
                   <div className="flex flex-col w-full">
@@ -57,9 +461,12 @@ const Page = () => {
                     </label>
                     <input
                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
-                      placeholder="Enter your first name"
+                      placeholder="Enter guest's first name"
                       type="text"
+                      value={formik.values.firstname}
                       name="firstname"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       id="firstname"
                     />
                   </div>
@@ -72,9 +479,12 @@ const Page = () => {
                     </label>
                     <input
                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
-                      placeholder="Enter your last name"
+                      placeholder="Enter guest's last name"
                       type="text"
+                      value={formik.values.lastname}
                       name="lastname"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       id="lastname"
                     />
                   </div>
@@ -91,9 +501,12 @@ const Page = () => {
                     </label>
                     <input
                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
-                      placeholder="Enter your email"
+                      placeholder="Enter guest's email"
                       type="email"
+                      value={formik.values.email}
                       name="email"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       id="email"
                     />
                   </div>
@@ -106,9 +519,12 @@ const Page = () => {
                     </label>
                     <input
                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
-                      placeholder="Enter your number"
+                      placeholder="Enter guest's number"
                       type="text"
+                      value={formik.values.number}
                       name="number"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       id="number"
                     />
                   </div>
@@ -125,9 +541,12 @@ const Page = () => {
                     </label>
                     <input
                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
-                      placeholder="Enter address"
+                      placeholder="Enter guest's address"
                       type="text"
+                      value={formik.values.address}
                       name="address"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       id="address"
                     />
                   </div>
@@ -137,24 +556,26 @@ const Page = () => {
                 <div className="flex flex-col md:flex-row gap-5">
                   <div className="flex flex-col w-full">
                     <label
-                      htmlFor="guest"
+                      htmlFor="guestType"
                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       Guest Type
                     </label>
                     <select
-                      name="guest"
-                      id="guest"
-                      defaultValue=""
+                      name="guestType"
+                      value={formik.values.guestType}
+                      id="guestType"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       className="text-[#919191] text-[14px] font-normal h-[44px] 3xl:h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
                     >
                       <option value="" disabled hidden>
                         Select type
                       </option>
-                      <option value="guest 1">guest 1</option>
-                      <option value="guest 2">guest 2</option>
-                      <option value="guest 3">guest 3</option>
-                      <option value="guest 4">guest 4</option>
+                      <option value="family">Family</option>
+                      <option value="friend">Friend</option>
+                      <option value="colleague">Colleague</option>
+                      <option value="vip">VIP</option>
                     </select>
                   </div>
                   <div className="flex flex-col w-full">
@@ -167,16 +588,19 @@ const Page = () => {
                     <select
                       name="dietary"
                       id="dietary"
-                      defaultValue=""
+                      value={formik.values.dietary}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       className="text-[#919191] text-[14px] font-normal h-[44px] 3xl:h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
                     >
                       <option value="" disabled hidden>
                         Select dietary
                       </option>
-                      <option value="dietary 1">dietary 1</option>
-                      <option value="dietary 2">dietary 2</option>
-                      <option value="dietary 3">dietary 3</option>
-                      <option value="dietary 4">dietary 4</option>
+                      <option value="vegetarian">Vegetarian</option>
+                      <option value="vegan">Vegan</option>
+                      <option value="gluten-free">Gluten-Free</option>
+                      <option value="non-vegeterian">Non Vegeterian</option>
+                      <option value="dietary 4">No preference</option>
                     </select>
                   </div>
                 </div>
@@ -194,6 +618,9 @@ const Page = () => {
                       className="h-[80px] 3xl:h-[100px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none pt-3 resize-none"
                       placeholder="Enter notes about your guests."
                       name="notes"
+                      value={formik.values.notes}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       id="notes"
                     ></textarea>
                   </div>
@@ -205,7 +632,7 @@ const Page = () => {
                 >
                   Add to list
                 </button>
-             </form>
+              </form>
 
             </div>
             <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl md:w-[40%] w-full 3xl:w-[calc(100%-800px)] md:ml-[30px] ml-0 3xl:ml-[40px] flex flex-col">
@@ -214,57 +641,62 @@ const Page = () => {
               </h3>
 
               <form
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmitAllBusiness}
                 className="space-y-[30px] flex flex-col h-full"
               >
-                {guestNames.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center">
-                      <input
-                        name="checkbox"
-                        id={`checkbox-${index}`}
-                        type="checkbox"
-                        className="size-[16px] 3xl:size-[20px] mr-3.5"
-                        checked={!!checkedGuests[item]}
-                        onChange={() => handleCheck(item)}
-                      />
-                      <label
-                        htmlFor={`checkbox-${index}`}
-                        className="font-normal text-[15px] 3xl:text-[20px] text-[#151515]"
-                      >
-                        {item.length > 15 ? `${item.slice(0, 15)}...` : item}
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-3.5">
-                      <button type="button" className="cursor-pointer w-[17px] 3xl:w-[20px]">
-                        <Image
-                          width={20}
-                          height={20}
-                          src="/images/edit.svg"
-                          alt="edit"
-                        />
-                      </button>
-                      <button type="button" className="cursor-pointer w-[17px] 3xl:w-[20px]">
-                        <Image
-                          width={20}
-                          height={20}
-                          src="/images/delete.svg"
-                          alt="delete"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                {guestList.map((item, index) => {
+                  const guestName = `${item.firstname || ''} ${item.lastname || ''}`.trim() || 'Unnamed Guest';
+                  const displayName = guestName.length > 25 ? `${guestName.slice(0, 25)}...` : guestName;
 
-                <Link href={'/guest-list'}
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center">
+                        <input
+                          name="checkbox"
+                          id={`checkbox-${index}`}
+                          type="checkbox"
+                          className="size-[16px] 3xl:size-[20px] mr-3.5"
+                          checked={!!checkedGuests[index]}
+                          onChange={() => handleCheck(index)}
+                        />
+                        <label
+                          htmlFor={`checkbox-${index}`}
+                          className="font-normal text-[15px] 3xl:text-[20px] text-[#151515]"
+                        >
+                          {displayName}
+                        </label>
+                      </div>
+                      <div className="flex items-center space-x-3.5">
+                        <button onClick={() => handleEdit(index)} type="button" className="cursor-pointer w-[17px] 3xl:w-[20px]">
+                          <Image
+                            width={20}
+                            height={20}
+                            src="/images/edit.svg"
+                            alt="edit"
+                          />
+                        </button>
+                        <button onClick={() => handleDelete(index)} type="button" className="cursor-pointer w-[17px] 3xl:w-[20px]">
+                          <Image
+                            width={20}
+                            height={20}
+                            src="/images/delete.svg"
+                            alt="delete"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                <button
                   type="submit"
-                  className="cursor-pointer mt-auto font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg  mx-auto table text-center"
+                  className="cursor-pointer mt-auto font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 3xl:px-3 bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg  mx-auto table text-center"
                 >
                   Submit all
-                </Link>
+                </button>
               </form>
             </div>
           </div>
@@ -275,3 +707,4 @@ const Page = () => {
 };
 
 export default Page;
+
