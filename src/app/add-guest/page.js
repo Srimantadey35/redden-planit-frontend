@@ -354,13 +354,13 @@ const Page = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstname: "",
-      lastname: "",
+      firstName: "",
+      lastName: "",
       email: "",
-      number: "",
+      phone: "",
       address: "",
       guestType: "",
-      dietary: "",
+      dietaryPreference: "",
       notes: ""
     },
     onSubmit: async () => {
@@ -454,7 +454,7 @@ const Page = () => {
                 <div className="flex flex-col md:flex-row gap-5">
                   <div className="flex flex-col w-full">
                     <label
-                      htmlFor="firstname"
+                      htmlFor="firstName"
                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       First name<span className="text-[#FF2C2C]">*</span>
@@ -463,16 +463,16 @@ const Page = () => {
                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                       placeholder="Enter guest's first name"
                       type="text"
-                      value={formik.values.firstname}
-                      name="firstname"
+                      value={formik.values.firstName}
+                      name="firstName"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      id="firstname"
+                      id="firstName"
                     />
                   </div>
                   <div className="flex flex-col w-full">
                     <label
-                      htmlFor="lastname"
+                      htmlFor="lastName"
                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       Last name<span className="text-[#FF2C2C]">*</span>
@@ -481,11 +481,11 @@ const Page = () => {
                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                       placeholder="Enter guest's last name"
                       type="text"
-                      value={formik.values.lastname}
-                      name="lastname"
+                      value={formik.values.lastName}
+                      name="lastName"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      id="lastname"
+                      id="lastName"
                     />
                   </div>
                 </div>
@@ -512,7 +512,7 @@ const Page = () => {
                   </div>
                   <div className="flex flex-col w-full">
                     <label
-                      htmlFor="number"
+                      htmlFor="phone"
                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       Phone number<span className="text-[#FF2C2C]">*</span>
@@ -521,11 +521,11 @@ const Page = () => {
                       className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                       placeholder="Enter guest's number"
                       type="text"
-                      value={formik.values.number}
-                      name="number"
+                      value={formik.values.phone}
+                      name="phone"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      id="number"
+                      id="phone"
                     />
                   </div>
                 </div>
@@ -580,15 +580,15 @@ const Page = () => {
                   </div>
                   <div className="flex flex-col w-full">
                     <label
-                      htmlFor="dietary"
+                      htmlFor="dietaryPreference"
                       className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
                     >
                       Dietary Preference
                     </label>
                     <select
-                      name="dietary"
-                      id="dietary"
-                      value={formik.values.dietary}
+                      name="dietaryPreference"
+                      id="dietaryPreference"
+                      value={formik.values.dietaryPreference}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       className="text-[#919191] text-[14px] font-normal h-[44px] 3xl:h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
@@ -645,7 +645,7 @@ const Page = () => {
                 className="space-y-[30px] flex flex-col h-full"
               >
                 {guestList.map((item, index) => {
-                  const guestName = `${item.firstname || ''} ${item.lastname || ''}`.trim() || 'Unnamed Guest';
+                  const guestName = `${item.firstName || ''} ${item.lastName || ''}`.trim() || 'Unnamed Guest';
                   const displayName = guestName.length > 25 ? `${guestName.slice(0, 25)}...` : guestName;
 
                   return (
