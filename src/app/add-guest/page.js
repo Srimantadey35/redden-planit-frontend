@@ -377,7 +377,6 @@ const Page = () => {
       }
       localStorage.setItem("guests", JSON.stringify(updatedList));
       setGuestList(updatedList);
-      toast.success('Contact details added on guest list')
       setCheckedGuests({});
       formik.resetForm();
     },
@@ -455,7 +454,7 @@ const Page = () => {
           style: {
             background: "#363636",
             color: "#fff",
-            fontSize: "14px",     // optional: for better readability
+            fontSize: "24px",     // optional: for better readability
             borderRadius: "6px",  // optional: smooth look
           },
           success: {
@@ -465,7 +464,7 @@ const Page = () => {
             icon: '❌',
           },
         }}
-        containerStyle={{ marginTop: '200px' }} // instead of containerClassName
+        containerStyle={{ marginTop: '150px' }} // instead of containerClassName
       />
 
       <Header />
