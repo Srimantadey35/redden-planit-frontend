@@ -464,7 +464,7 @@ const Page = () => {
             icon: '❌',
           },
         }}
-        containerStyle={{ marginTop: '110px' }} // instead of containerClassName
+        containerStyle={{ marginTop: '80px' }} // instead of containerClassName
       />
 
       <Header />
@@ -472,7 +472,7 @@ const Page = () => {
         <div className="container">
           <div className="py-[100px] 3xl:py-[120px] md:flex  items-stretch">
             <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl md:w-[60%] w-full 3xl:w-[800px]">
-              <h3 className="text-[22px] 3xl:text-[30px] font-semibold text-[#151515] mb-[43px]">
+              <h3 className="text-[22px] 3xl:text-[30px] font-semibold text-[#151515] mb-[43px] text-center">
                 Add guest
               </h3>
 
@@ -663,7 +663,7 @@ const Page = () => {
 
             </div>
             <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl md:w-[40%] w-full 3xl:w-[calc(100%-800px)] md:ml-[30px] ml-0 3xl:ml-[40px] flex flex-col">
-              <h3 className="text-[22px] 3xl:text-[30px] font-semibold text-[#151515] mb-[43px]">
+              <h3 className="text-[22px] 3xl:text-[30px] font-semibold text-[#151515] mb-[43px] text-center">
                 Guest list
               </h3>
 
