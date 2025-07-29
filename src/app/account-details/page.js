@@ -373,18 +373,69 @@ const Page = () => {
    <div>
    {loading ? (
   <div className="animate-pulse">
-    <div className="flex items-center">
-      <div className="bg-gray-300 rounded-full w-[60px] h-[60px] 3xl:w-[80px] 3xl:h-[80px] 4xl:w-[100px] 4xl:h-[100px]" />
-      <div className="ml-4">
-        <div className="bg-gray-300 h-6 w-32 rounded mb-2" />
-        <div className="bg-gray-200 h-4 w-24 rounded" />
+    <Layouts>
+      <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen flex flex-col justify-center mb-8">
+        {/* Title skeleton */}
+        <div className="bg-gray-300 h-7 w-48 rounded mb-3"></div>
+
+        {/* Profile section skeleton */}
+        <div className="mt-3 px-3 xl:px-6 py-3 xl:py-5 flex items-center bg-[#F2F2F2] rounded-[10px] justify-between">
+          <div className="flex items-center">
+            <div className="relative">
+              <div className="bg-gray-300 rounded-full w-[60px] h-[60px] 3xl:w-[80px] 3xl:h-[80px] 4xl:w-[100px] 4xl:h-[100px]"></div>
+              <div className="absolute bottom-[-5px] right-0 3xl:right-2 size-[25px] 3xl:size-[28px] 4xl:size-[33px] rounded-full bg-gray-200"></div>
+            </div>
+            <div className="ml-4">
+              <div className="bg-gray-300 h-6 w-32 rounded mb-2"></div>
+              <div className="bg-gray-200 h-4 w-24 rounded"></div>
+            </div>
+          </div>
+          <div className="bg-gray-200 h-10 w-32 rounded-[8px]"></div>
+        </div>
+
+        {/* Form section skeleton */}
+        <div className="px-3 xl:px-[35px] py-5 bg-[#F2F2F2] rounded-[10px] my-[28px]">
+          {/* Input fields grid skeleton */}
+          <div className="grid grid-cols-3 gap-[20px] xl:gap-[25px]">
+            <div className="flex flex-col">
+              <div className="bg-gray-300 h-4 w-20 rounded mb-2"></div>
+              <div className="bg-gray-200 h-[42px] 3xl:h-[53px] rounded-[8px]"></div>
+            </div>
+            <div className="flex flex-col">
+              <div className="bg-gray-300 h-4 w-20 rounded mb-2"></div>
+              <div className="bg-gray-200 h-[42px] 3xl:h-[53px] rounded-[8px]"></div>
+            </div>
+            <div className="flex flex-col">
+              <div className="bg-gray-300 h-4 w-16 rounded mb-2"></div>
+              <div className="bg-gray-200 h-[42px] 3xl:h-[53px] rounded-[8px]"></div>
+            </div>
+            <div className="flex flex-col">
+              <div className="bg-gray-300 h-4 w-12 rounded mb-2"></div>
+              <div className="bg-gray-200 h-[42px] 3xl:h-[53px] rounded-[8px]"></div>
+            </div>
+          </div>
+
+          {/* Social links section skeleton */}
+          <div className="mt-[25px]">
+            <div className="bg-gray-300 h-4 w-32 rounded mb-2"></div>
+            <div className="grid grid-cols-3 gap-6">
+              {[1, 2, 3].map((index) => (
+                <div key={index} className="flex items-center space-x-2.5">
+                  <div className="bg-gray-200 size-[28px] rounded-[4px]"></div>
+                  <div className="bg-gray-200 h-[42px] 3xl:h-[53px] rounded-[8px] w-full"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Buttons section skeleton */}
+        <div className="flex items-center mt-10 justify-end">
+          <div className="bg-gray-200 h-10 w-40 rounded-[8px] mr-4"></div>
+          <div className="bg-gray-300 h-10 w-20 rounded-[8px]"></div>
+        </div>
       </div>
-    </div>
-    <div className="mt-6 grid grid-cols-3 gap-4">
-      <div className="bg-gray-200 h-10 rounded" />
-      <div className="bg-gray-200 h-10 rounded" />
-      <div className="bg-gray-200 h-10 rounded" />
-    </div>
+    </Layouts>
   </div>
 ):(
       <Layouts>
