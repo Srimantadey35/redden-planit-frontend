@@ -47,7 +47,8 @@ const CreateAccModal = ({ planName }) => {
   const router = useRouter();
   // const [fromGoogle, setFromGoogle] = useState(false);
   const [prefilledValues, setPrefilledValues] = useState({
-    fullName: "",
+    firstName: "",
+    lastName:"",
     email: "",
     phone: "",
     password: "",
@@ -67,7 +68,8 @@ const CreateAccModal = ({ planName }) => {
       if (prefill) {
         setPrefilledValues((prev) => ({
           ...prev,
-          fullName: prefill.fullName || '',
+          firstName: prefill.firstName || '',
+          lastName: prefill.lastName || '',
           email: prefill.email || '',
           fromGoogle: true,
           providerId: prefill.providerId
@@ -82,7 +84,7 @@ const CreateAccModal = ({ planName }) => {
   }, []);
 
   const signupSchema = YUP.object({
-    fullName: YUP.string().required('Please enter your name'),
+    firstName: YUP.string().required('Please enter your first name'),
 
     phone: YUP.string()
       .required('Mobile number is required')
@@ -396,15 +398,16 @@ const CreateAccModal = ({ planName }) => {
             <div>
               <form onSubmit={handleSubmit} className="floating-form relative mt-4">
                 {/* Name */}
+                <div className={`${!prefilledValues.fromGoogle ? 'flex gap-4' : 'flex-col mb-3'}`}>
                 <div className="input-wrap mb-5 3xl:mb-10">
                   <input
                     type="text"
-                    name="fullName"
-                    id="fullName"
+                    name="firstName"
+                    id="firstName"
                     autoComplete="name"
                     placeholder=" "
                     required
-                    value={values.fullName}
+                    value={values.firstName}
                     onChange={(e) => {
                       const cleaned = removeExtraSpace(e.target.value);
                       setFieldValue(e.target.name, cleaned);
@@ -412,13 +415,34 @@ const CreateAccModal = ({ planName }) => {
                     onBlur={(e) => { handleBlur(e); Blur(e) }}
                     disabled={values.fromGoogle}
                   />
-                  <label className={`${values.fullName ? 'active_label' : ''}`} htmlFor="fullName">Name*</label>
-                  {touched.fullName && errors.fullName && <p className="text-red-600 text-sm mt-1 absolute w-sm">{errors.fullName}</p>}
+                  <label className={`${values.firstName ? 'active_label' : ''}`} htmlFor="firstName">First Name*</label>
+                  {touched.firstName && errors.firstName && <p className="text-red-600 text-sm mt-1 absolute w-sm">{errors.firstName}</p>}
 
                 </div>
 
+                <div className="input-wrap mb-5 3xl:mb-10">
+                  <input
+                    type="text"
+                    name="lastName"
+                    id="lastName"
+                    autoComplete="name"
+                    placeholder=" "
+                    required
+                    value={values.lastName}
+                    onChange={(e) => {
+                      const cleaned = removeExtraSpace(e.target.value);
+                      setFieldValue(e.target.name, cleaned);
+                    }}
+                    onBlur={(e) => { handleBlur(e); Blur(e) }}
+                    disabled={values.fromGoogle}
+                  />
+                  <label className={`${values.lastName ? 'active_label' : ''}`} htmlFor="lastName">Last Name*</label>
+                  {/* {touched.lastName && errors.lastName && <p className="text-red-600 text-sm mt-1 absolute w-sm">{errors.fullName}</p>} */}
+
+                </div>
+                </div>
                 {/* Email & Phone Row */}
-                <div className={`${!prefilledValues.fromGoogle ? 'flex-row' : 'flex-col mb-3'} flex mb-1 3xl:mb-3 gap-5 2xl:gap-10`}>
+                <div className={`${!prefilledValues.fromGoogle ? 'flex-row' : 'flex-col mb-3'} flex mb-1 3xl:mb-3 gap-5 2xl:gap-4`}>
                   <div className="input-wrap flex-1">
                     <input
                       type="email"
@@ -477,7 +501,7 @@ const CreateAccModal = ({ planName }) => {
                   <>
                     <div className="input-wrap mb-5 3xl:mb-10 relative mt-2">
                       <input
-                        type={`${isPassVisible.pass ? "text" : "password"}`}
+                        type={isPassVisible.pass ? "text" : "password"}
                         name="password"
                         id="password"
                         autoComplete="current-password"
@@ -489,13 +513,14 @@ const CreateAccModal = ({ planName }) => {
                       />
                       <label htmlFor="password">Password*</label>
                       <button type="button"
+                        disabled={!values.password}
                         onClick={() => togglePasswordVisibility("pass")}
                         className="absolute top-1/2 -translate-y-1/2 cursor-pointer h-full right-0 w-[53px] flex items-center justify-center z-[2]"
                       >
                         <Image
                           width={18}
                           height={18}
-                          src={"/images/sign-up/passvisible.svg"}
+                          src={isPassVisible.pass && values.password ? "/images/eye-open.svg" : "/images/eye-close.svg"}
                           alt="passvisible"
                         />
                       </button>
@@ -506,7 +531,7 @@ const CreateAccModal = ({ planName }) => {
                     <div className="input-wrap">
                       <div className="relative">
                         <input
-                          type={`${isPassVisible.CPass ? "text" : "password"}`}
+                          type={isPassVisible.CPass ? "text" : "password"}
                           name="confirmpassword"
                           id="confirmpassword"
                           autoComplete="confirmpassword"
@@ -518,13 +543,14 @@ const CreateAccModal = ({ planName }) => {
                         />
                         <label htmlFor="confirmpassword">Confirm Password*</label>
                         <button type="button"
+                          disabled={!values.confirmpassword}
                           onClick={() => togglePasswordVisibility("CPass")}
                           className="absolute top-1/2 -translate-y-1/2 cursor-pointer h-full right-0 w-[53px] flex items-center justify-center z-[2]"
                         >
                           <Image
                             width={18}
                             height={18}
-                            src={"/images/sign-up/passvisible.svg"}
+                            src={isPassVisible.CPass && values.confirmpassword ? "/images/eye-open.svg" : "/images/eye-close.svg"}
                             alt="passvisible"
                           />
                         </button>

@@ -66,7 +66,7 @@ const Page = () => {
       }
     } catch (error) {
       console.error("business fetching failed:", error);
-      toast.error("business fetching failed . Please try again.");
+      // toast.error("business fetching failed . Please try again.");
     }
 
   }

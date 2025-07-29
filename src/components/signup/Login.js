@@ -80,7 +80,7 @@ const Login = ({ planName }) => {
 
             }
             localStorage.removeItem('verification')
-            toast.success("User LoggedIn successfully")
+            toast.success("User Logged In successfully")
             if(userType.toLowerCase()=="planner"){
              router.push('/home')
             }
@@ -310,7 +310,7 @@ const Login = ({ planName }) => {
                 {/* Password */}
                 <div className="input-wrap relative">
                   <input
-                    type={`${isPassVisible ? "text" : "password"}`}
+                    type={isPassVisible && values.password ? "text" : "password"}
                     name="password"
                     id="password"
                     autoComplete="current-password"
@@ -322,13 +322,14 @@ const Login = ({ planName }) => {
                   />
                   <label htmlFor="password">Password*</label>
                   <button type="button"
+                    disabled={!values.password}
                     onClick={(e) => setisPassVisible(!isPassVisible)}
                     className="absolute top-1/2 -translate-y-1/2 cursor-pointer h-full right-0 w-[53px] flex items-center justify-center z-[2]"
                   >
                     <Image
                       width={18}
                       height={18}
-                      src={`${isPassVisible ? '/images/eye-open.svg':'/images/sign-up/passvisible.svg'}`}
+                      src={`${isPassVisible ? '/images/eye-open.svg':'/images/eye-close.svg'}`}
                       alt="passvisible"
                     />
                   </button>

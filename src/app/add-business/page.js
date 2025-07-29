@@ -24,6 +24,7 @@ import { uploadToCloudinary } from "@/utils/cloudinary";
 import { State } from "country-state-city";
 import ProcessBarMyBusiness from "@/components/widgets/ProcessBarMyBusinsess";
 import { useRouter } from "next/navigation";
+import * as Yup from 'yup'
 
 
 
@@ -70,6 +71,56 @@ const Page = () => {
     }
   }, [])
 
+  const openingHourSchema = Yup.object().shape({
+    day: Yup.string().required("Day is required"),
+    isOpen: Yup.boolean(),
+    from: Yup.string().when("isOpen", {
+      is: true,
+      then: (schema) =>
+        schema.required("From time is required"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    to: Yup.string().when("isOpen", {
+      is: true,
+      then: (schema) =>
+        schema
+          .required("To time is required")
+          .test("is-after", "To time must be after From time", function (value) {
+            const { from } = this.parent;
+            if (!from || !value) return true;
+            return value > from;
+          })
+          .test("not-equal", "From and To times cannot be the same", function (value) {
+            const { from } = this.parent;
+            return from !== value;
+          }),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+  });
+
+  const validationSchema = Yup.object({
+    businessName: Yup.string().required("Business name is required"),
+    category: Yup.string().required("Please select business category"),
+    businessAddress: Yup.string().required("Address is required"),
+    city: Yup.string().required("City is required"),
+    state: Yup.string().required("Please select State"),
+    pin: Yup.string().required("Pin is required"),
+    languages: Yup.string(),
+    travelAvailability: Yup.string(),
+    description: Yup.string(),
+    availability: Yup.array(),
+    images: Yup.array(),
+    deliveryTimeline: Yup.string(),
+    priceRange: Yup.string(),
+    portfolioFiles: Yup.array(),
+    portfolioDescription: Yup.string(),
+    portfolioLocation: Yup.string(),
+    portfolioEventType: Yup.string(),
+    portfolioTags: Yup.string(),
+    openingHours: Yup.array().of(openingHourSchema),
+    allGalleryFiles: Yup.array()
+  });
+
   console.log("selectedCategory", selectedCategory);
 
   const formik = useFormik({
@@ -97,6 +148,7 @@ const Page = () => {
       ],
       allGalleryFiles: []
     },
+    validationSchema,
     // onSubmit: async (values) => {
     //   const payload = {
     //     vendorDetails: {
@@ -205,12 +257,12 @@ const Page = () => {
   };
 
 
-// const handleInitialTotalCount = useCallback((totalCount) => {
-//   setCategoryTotalCount(prev => ({
-//     ...prev,
-//     [selectedCategory]: totalCount
-//   }));
-// }, [selectedCategory]);
+  // const handleInitialTotalCount = useCallback((totalCount) => {
+  //   setCategoryTotalCount(prev => ({
+  //     ...prev,
+  //     [selectedCategory]: totalCount
+  //   }));
+  // }, [selectedCategory]);
 
 
   const [businessProcesses, setBusinessProcesses] = useState([
@@ -372,7 +424,7 @@ const Page = () => {
         };
       })
     );
-  }, [formik.values, selectedCategory, totalInputs, selectedFiles, galleryFiles, filled,categoryTotalCount]);
+  }, [formik.values, selectedCategory, totalInputs, selectedFiles, galleryFiles, filled, categoryTotalCount]);
 
   // Calculate Add Business progress
   const getFilledCount = (section) => {
@@ -400,7 +452,7 @@ const Page = () => {
     }
 
     if (section.key === "upload-gallery") {
-      const fields = getAllGalleryFiles(); // ✅ use your function
+      const fields = getAllGalleryFiles();
       let filled = 0;
 
       Object.entries(fields).forEach(([key, value]) => {
@@ -999,9 +1051,17 @@ const Page = () => {
                           type="text"
                           value={formik.values.businessName}
                           onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                           name="businessName"
                           id="businessName"
                         />
+                        <div>
+                          {(formik.touched.businessName && formik.errors.businessName) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.businessName}
+                            </p>
+                          )}
+                        </div>
                       </div>
                       <div className="flex flex-col w-full">
                         <label
@@ -1013,6 +1073,7 @@ const Page = () => {
                         <select
                           value={selectedCategory}
                           onChange={handleCategoryChange}
+                          onBlur={formik.handleBlur}
                           name="businesscategory"
                           id="businesscategory"
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
@@ -1037,6 +1098,13 @@ const Page = () => {
                           <option value="cake">Cake</option>
                           <option value="bartenders">Bartenders</option>
                         </select>
+                        <div>
+                          {!selectedCategory && (
+                            <p className="text-red-500 absolute text-sm  ml-1">
+                              {formik.errors.category}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div className="flex flex-col relative">
@@ -1052,6 +1120,7 @@ const Page = () => {
                           placeholder="Choose your location"
                           value={formik.values.businessAddress}
                           onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                           name="businessAddress"
                           id="businessAddress"
                           className="h-[72px] w-full rounded-[8px] outline-none bg-white px-[40px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black py-3 resize-none"
@@ -1064,7 +1133,16 @@ const Page = () => {
                           src="/images/add-business/locationicon.svg"
                           alt="locationicon"
                         />
+                        <div>
+                          {(formik.touched.businessAddress && formik.errors.businessAddress) && (
+                            <p className="text-red-500 absolute text-sm  ml-1">
+                              {formik.errors.businessAddress}
+                            </p>
+                          )}
+                        </div>
+
                       </div>
+
                     </div>
 
                     <div className="grid grid-cols-3 gap-[10px]">
@@ -1079,11 +1157,19 @@ const Page = () => {
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
                           placeholder="Enter city"
                           value={formik.values.city}
+                          onBlur={formik.handleBlur}
                           onChange={formik.handleChange}
                           type="text"
                           name="city"
                           id="city"
                         />
+                        <div>
+                          {(formik.touched.city && formik.errors.city) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.city}
+                            </p>
+                          )}
+                        </div>
                       </div>
                       <div className="flex flex-col w-full">
                         <label
@@ -1096,6 +1182,7 @@ const Page = () => {
                           name="state"
                           value={formik.values.state}
                           onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                           id="state"
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                         > <option value="" disabled>
@@ -1105,6 +1192,13 @@ const Page = () => {
                             <option key={state.isoCode} value={state.name}>{state.name}</option>
                           ))}
                         </select>
+                        <div>
+                          {(formik.touched.state && formik.errors.state) && (
+                            <p className="text-red-500 absolute text-sm ">
+                              {formik.errors.state}
+                            </p>
+                          )}
+                        </div>
                       </div>
                       <div className="flex flex-col w-full">
                         <label
@@ -1118,10 +1212,18 @@ const Page = () => {
                           placeholder="Enter Pincode"
                           value={formik.values.pin}
                           onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                           type="text"
                           name="pin"
                           id="pin"
                         />
+                        <div>
+                          {(formik.touched.pin && formik.errors.pin) && (
+                            <p className="text-red-500 absolute text-sm mt-1 text-center">
+                              {formik.errors.pin}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div className="flex justify-between">
@@ -1174,6 +1276,13 @@ const Page = () => {
                               {lang}
                             </label>
                           ))}
+                          {/* <div>
+                          {(formik.touched.languages && formik.errors.languages) && (
+                                <p className="text-red-500 absolute text-sm mt-1 text-center">
+                                  {formik.errors.languages}
+                                </p>
+                              )}
+                        </div> */}
                         </div>
                       </div>
 
@@ -1360,10 +1469,19 @@ const Page = () => {
                               type="time"
                               name={`openingHours[${index}].from`}
                               value={entry.from}
-                              onChange={formik.handleChange}
-                              disabled={!entry.isOpen}
+                              onChange={(e) => {
+                                formik.setFieldValue(`openingHours[${index}].from`, e.target.value);
+                                formik.setFieldTouched(`openingHours[${index}].from`, true, false);
+                              }} disabled={!entry.isOpen}
                               className="absolute opacity-0 pointer-events-none"
                             />
+
+                            {formik.touched.openingHours?.[index]?.from &&
+                              formik.errors.openingHours?.[index]?.from && (
+                                <p className="text-red-500 text-sm mt-1 ml-1">
+                                  {formik.errors.openingHours[index].from}
+                                </p>
+                              )}
                           </div>
 
                           {/* To */}
@@ -1384,10 +1502,20 @@ const Page = () => {
                               type="time"
                               name={`openingHours[${index}].to`}
                               value={entry.to}
-                              onChange={formik.handleChange}
+                              onChange={(e) => {
+                                formik.setFieldValue(`openingHours[${index}].to`, e.target.value);
+                                formik.setFieldTouched(`openingHours[${index}].to`, true, false);
+                              }}
                               disabled={!entry.isOpen}
                               className="absolute opacity-0 pointer-events-none"
                             />
+
+                            {formik.touched.openingHours?.[index]?.to &&
+                              formik.errors.openingHours?.[index]?.to && (
+                                <p className="text-red-500 absolute text-sm mt-1 text-center">
+                                  {formik.errors.openingHours[index].to}
+                                </p>
+                              )}
                           </div>
                         </div>
 
@@ -1559,7 +1687,7 @@ const Page = () => {
                           onChange={formik.handleChange}
                           name="description"
                           className="h-[110px] 3xl:h-[125px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black py-3.5"
-                          placeholder="add your description"
+                          placeholder="Add your description"
                         ></textarea>
                       </div>
                       {/* availability */}
@@ -1729,9 +1857,9 @@ const Page = () => {
                         {/* catering  */}
                         <div className="space-y-[25px]">
                           {selectedCategory === "catering" && <Catering defaultValues={categoryForms["photography"] || {}}
-                              onDataChange={handleCategoryDataChange}/>}
+                            onDataChange={handleCategoryDataChange} />}
                           {selectedCategory === "venues" && <Venue defaultValues={categoryForms["photography"] || {}}
-                              onDataChange={handleCategoryDataChange}/>}
+                            onDataChange={handleCategoryDataChange} />}
                           {selectedCategory === "photography" && (
                             <PhotographerForm defaultValues={categoryForms["photography"] || {}}
                               onDataChange={handleCategoryDataChange}
@@ -1741,26 +1869,26 @@ const Page = () => {
                           {selectedCategory === "decorators" && <Decorators defaultValues={categoryForms["decorators"] || {}} onDataChange={handleCategoryDataChange} />}
                           {selectedCategory === "wedding-planners" && (
                             <WeddingPlannerForm defaultValues={categoryForms["photography"] || {}}
-                              onDataChange={handleCategoryDataChange}/>
+                              onDataChange={handleCategoryDataChange} />
                           )}
                           {selectedCategory === "mehandi-artist" && (
                             <MehendiArtist defaultValues={categoryForms["photography"] || {}}
-                              onDataChange={handleCategoryDataChange}/>
+                              onDataChange={handleCategoryDataChange} />
                           )}
                           {selectedCategory === "dj" && <DJForm defaultValues={categoryForms["photography"] || {}}
-                              onDataChange={handleCategoryDataChange}/>}
+                            onDataChange={handleCategoryDataChange} />}
                           {selectedCategory === "pre-wedding-photographers" && (
                             <PreWeddingPhotographersForm defaultValues={categoryForms["photography"] || {}}
-                              onDataChange={handleCategoryDataChange}/>
+                              onDataChange={handleCategoryDataChange} />
                           )}
                           {selectedCategory === "wedding-pandit" && (
                             <WeddingPandit defaultValues={categoryForms["photography"] || {}}
-                              onDataChange={handleCategoryDataChange}/>
+                              onDataChange={handleCategoryDataChange} />
                           )}
                           {selectedCategory === "cake" && <Cake defaultValues={categoryForms["photography"] || {}}
-                              onDataChange={handleCategoryDataChange} />}
+                            onDataChange={handleCategoryDataChange} />}
                           {selectedCategory === "bartenders" && <Bartenders defaultValues={categoryForms["photography"] || {}}
-                              onDataChange={handleCategoryDataChange} />}
+                            onDataChange={handleCategoryDataChange} />}
                         </div>
                         <div className="pt-4">
                           <button
@@ -1851,7 +1979,7 @@ const Page = () => {
                                 )}
                                 <span
                                   onClick={() => removeImage(index)}
-                                  className="grid place-items-center absolute right-[-5px] top-[-5px] size-[15px] rounded-full bg-[#505050] text-[10px] text-white cursor-pointer"
+                                  className="grid place-items-center absolute right-[-5px] top-[-5px] size-[15px] rounded-full bg-red-500 text-[10px] text-white cursor-pointer"
                                 >
                                   x
                                 </span>
@@ -2008,9 +2136,6 @@ const Page = () => {
                   <div className="bg-[#F2F2F2] px-5 py-6 rounded-[10px] mb-[20px]">
                     <div
                       className="bg-white rounded-[8px] py-8 px-5 w-full flex flex-col items-center justify-center border-2 border-dashed border-[#dadada] cursor-pointer transition hover:bg-[#f5f5f5]"
-                      onClick={() =>
-                        document.getElementById("gallery-upload").click()
-                      }
                       onDragOver={(e) => e.preventDefault()}
                       onDrop={(e) => {
                         e.preventDefault();

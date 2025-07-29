@@ -15,6 +15,9 @@ const Page = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const token = useSelector((state) => state.auth.accessToken);
   const [fetchedUser, setFetchedUser] = useState({})
 
@@ -23,7 +26,7 @@ const Page = () => {
     newPassword: Yup.string().required('New password is required')
       .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
       .matches(/[^a-zA-Z0-9]/, 'Password must contain at least one special character')
-      .matches(/[1-9]/, 'Password must contain at least one number'),
+      .matches(/[0-9]/, 'Password must contain at least one number'),
     confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
       .required('Please confirm your new password')
   })
@@ -597,25 +600,35 @@ const Page = () => {
                 <form
                   onSubmit={formik.handleSubmit}
                 >
-                  <div className="flex flex-col mb-3">
+                  <div className="flex flex-col mb-3 relative">
                     <label htmlFor="currentPassword" className="font-semibold text-[15px] text-[#151515] mb-2">
                       Current Password
                     </label>
                     <input
                       className={`h-[42px] rounded-[8px] outline-none bg-white px-[16px] placeholder:text-[#525252] text-[14px] font-medium text-black ${(formik.errors.currentPassword && formik.touched.currentPassword) ? 'ring ring-red-500' : 'ring ring-blue-500'}`}
                       placeholder="Current password"
-                      type="password"
+                      type={showCurrentPassword ? "text" : "password"}
                       value={formik.values.currentPassword}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       name="currentPassword"
                       id="currentPassword"
                     />
-                    <div className="mb-2">
+                    <span
+                      className="absolute right-3 top-10 cursor-pointer"
+                      onClick={() => setShowCurrentPassword((prev) => !prev)}
+                    >
+                      {formik.values.currentPassword && showCurrentPassword ? (
+                        <Image src="/images/eye-open.svg" width={20} height={20} alt="Hide" />
+                      ) : (
+                        <Image src="/images/eye-close.svg" width={20} height={20} alt="Show" />
+                      )}
+                    </span>
+                    <div className="mb-4">
                       {formik.touched.currentPassword && formik.errors.currentPassword && <p className="text-red-600 mt-1  text-sm absolute w-sm">{formik.errors.currentPassword}</p>}
                     </div>
                   </div>
-                  <div className="flex flex-col mb-3">
+                  <div className="flex flex-col mb-3 relative">
                     <label htmlFor="newPassword" className="font-semibold text-[15px] text-[#151515] mb-2">
                       New Password
                     </label>
@@ -625,15 +638,25 @@ const Page = () => {
                       value={formik.values.newPassword}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      type="password"
+                      type={showNewPassword? "text": "password"}
                       name="newPassword"
                       id="newPassword"
                     />
-                    <div className="mb-2">
+                    <span
+                      className="absolute right-3 top-10 cursor-pointer"
+                      onClick={() => setShowNewPassword((prev) => !prev)}
+                    >
+                      {formik.values.newPassword && showNewPassword ? (
+                        <Image src="/images/eye-open.svg" width={20} height={20} alt="Hide" />
+                      ) : (
+                        <Image src="/images/eye-close.svg" width={20} height={20} alt="Show" />
+                      )}
+                    </span>
+                    <div className="mb-4">
                       {formik.touched.newPassword && formik.errors.newPassword && <p className="text-red-600 mt-1 text-sm absolute w-sm">{formik.errors.newPassword}</p>}
                     </div>
                   </div>
-                  <div className="flex flex-col mb-3">
+                  <div className="flex flex-col mb-3 relative">
                     <label htmlFor="confirmNewPassword" className="font-semibold text-[15px] text-[#151515] mb-2">
                       Confirm New Password
                     </label>
@@ -643,10 +666,20 @@ const Page = () => {
                       value={formik.values.confirmNewPassword}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      type="password"
+                      type={showConfirmPassword? "text" :"password"}
                       name="confirmNewPassword"
                       id="confirmNewPassword"
                     />
+                     <span
+                      className="absolute right-3 top-10 cursor-pointer"
+                      onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    >
+                      {formik.values.confirmNewPassword && showConfirmPassword ? (
+                        <Image src="/images/eye-open.svg" width={20} height={20} alt="Hide" />
+                      ) : (
+                        <Image src="/images/eye-close.svg" width={20} height={20} alt="Show" />
+                      )}
+                    </span>
                     <div className="mb-2">
                       {formik.touched.confirmNewPassword && formik.errors.confirmNewPassword && <p className="text-red-600 mt-1 text-sm absolute w-sm">{formik.errors.confirmNewPassword}</p>}
                     </div>
