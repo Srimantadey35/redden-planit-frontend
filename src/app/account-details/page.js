@@ -24,6 +24,7 @@ const Page = () => {
   const [firstName, setFirstName] = useState(fetchedUser?.firstName || "");
   const [lastName, setLastName] = useState(fetchedUser?.lastName || "");
   const [hasChanged, setHasChanged] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   
 
@@ -97,7 +98,9 @@ const Page = () => {
       setFetchedUser(response.data.data)
     } catch (error) {
       console.error('fetch error', error);
-    }
+    }finally {
+    setLoading(false);
+  }
   };
 
   // const [changePasswordForm,setChangePaswwordForm] = useState({
@@ -147,6 +150,7 @@ const Page = () => {
     }
   }
   return (
+    
     // <div>
     //   <Layouts>
     //     <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen flex flex-col justify-center mb-8">
@@ -366,8 +370,23 @@ const Page = () => {
     //     </div>
     //   </Layouts>
     // </div>
-
-    <div>
+   <div>
+   {loading ? (
+  <div className="animate-pulse">
+    <div className="flex items-center">
+      <div className="bg-gray-300 rounded-full w-[60px] h-[60px] 3xl:w-[80px] 3xl:h-[80px] 4xl:w-[100px] 4xl:h-[100px]" />
+      <div className="ml-4">
+        <div className="bg-gray-300 h-6 w-32 rounded mb-2" />
+        <div className="bg-gray-200 h-4 w-24 rounded" />
+      </div>
+    </div>
+    <div className="mt-6 grid grid-cols-3 gap-4">
+      <div className="bg-gray-200 h-10 rounded" />
+      <div className="bg-gray-200 h-10 rounded" />
+      <div className="bg-gray-200 h-10 rounded" />
+    </div>
+  </div>
+):(
       <Layouts>
         <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen flex flex-col justify-center mb-8">
           <h3 className="font-semibold text-[#303030] text-[22px] 3xl:text-[25px] 4xl:text-[28px]">
@@ -801,8 +820,8 @@ const Page = () => {
             </div>
           )}
         </div>
-      </Layouts>
-    </div>
+      </Layouts>)}
+      </div>
   );
 };
 
