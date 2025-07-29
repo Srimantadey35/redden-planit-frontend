@@ -36,7 +36,6 @@ const Page = () => {
           <div className="w-[30%] ml-5">
             <div className="p-5 font-sans bg-white rounded-xl size-full">
               {/* Top Section */}
-              <button className="w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-5 rounded-sm mb-8 ml-auto table">Publish</button>
               <div className="border-b pb-4 mb-4">
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="text-sm font-medium text-gray-500">Pages</h2>
