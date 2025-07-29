@@ -435,7 +435,7 @@ const AddMultipleGuests = ({setisModalOpen, onGuestsImported}) => {
               disabled={!selectedFile || isProcessing || isUploading || rawData.length === 0 || (showMapping && (!fieldMapping.firstName || !fieldMapping.phone))}
               className="font-semibold text-[16px] 3xl:text-[20px] text-white bg-[#EA0056] hover:bg-[#c30048] disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg px-[90px] 3xl:px-[115px] py-3 3xl:py-3.5 mx-auto table cursor-pointer"
             >
-              {isUploading ? 'Uploading to Backend...' : 
+              {isUploading ? 'Uploading...' : 
                isProcessing ? 'Processing...' : 
                isImportCompleted ? 'Upload Guests' : 
                rawData.length > 0 ? 'Import Guests' : 'Upload'}
