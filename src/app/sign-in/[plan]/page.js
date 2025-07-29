@@ -12,15 +12,16 @@ const Page = ({ params }) => {
   }
 
   return (
-   <div>
       <div
-        className="bg-no-repeat bg-center bg-cover h-screen grid place-items-center relative z-[1]"
+        className="bg-no-repeat bg-center bg-cover min-h-screen grid place-items-center relative"
         style={{ backgroundImage: "url('/images/sign-up/signupbg.png')" }}
       >
-          <div className="absolute inset-0 bg-black opacity-45 z-[-1]"></div>
+        {/* Black gradient overlay for background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70 h-full w-full z-0" />
+        <div className="relative z-10">
           <Login planName={plan} />
+        </div>
       </div>
-    </div>
   );
 };
 

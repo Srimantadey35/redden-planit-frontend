@@ -168,7 +168,7 @@ body {
   font-size: 18px;
   color: #151515;
   top: 0px;
-  left: 25px;
+  left: 15px;
   background: #fff;
   padding: 0 5px;
   z-index: 3;
@@ -433,4 +433,10 @@ input:-webkit-autofill:active {
   .venuwsearchslider .sliderbtns{
     display: none;
   }
+}
+
+/* in your global CSS or module */
+.big-password-dots {
+  letter-spacing: 0.3em;
+  font-size: 1.5rem;
 }

@@ -28,10 +28,10 @@ const Otp = () => {
   };
 
   return (
-    <div className="bg-[#ffffffe3] w-fit rounded-2xl py-6 3xl:py-[90px] px-[40px] md:px-[60px] 2xl:px-[108px] 3xl:px-24">
+    <div className="bg-[#ffffff] w-fit rounded-2xl py-[40px] px-[85px]">
       <div className="mb-6">
         <Image
-          className="mx-auto w-[100px] 2xl:w-[158px]"
+          className="mx-auto w-[120px] 4xl:w-[152px]"
           width={158}
           height={52}
           src={"/images/PlanItLogo.png"}
@@ -39,12 +39,12 @@ const Otp = () => {
         />
       </div>
 
-      <h2 className="font-medium text-[22px] sm:text-[24px] 2xl:text-[44px] text-black text-center">
+      <h2 className="font-normal text-[26px] 4xl:text-[32px] text-black text-center">
         Enter verification code
       </h2>
-      <p className="font-normal text-[16px] 3xl:text-[18px] text-[#151515] mt-2 mb-8 flex flex-col 3xl:flex-row items-center justify-center">
-        Enter the verification code that we&apos;ve send your email{" "}
-        <span className="font-semibold text-black ml-1.5">
+      <p className="font-normal text-[16px] 3xl:text-[18px] text-[#5D5D5D] mt-5 mb-3">
+        Enter the verification code that we&apos;ve send your email <br />
+        <span className="font-semibold text-[#151515]">
           {" "}
           he******@**mail.com
         </span>
@@ -71,12 +71,12 @@ const Otp = () => {
             </div>
           </div>
 
-          <p className="text-[16px] 3xl:text-[20px] font-normal text-[#151515] mt-3 text-end">
+          <p className="text-[16px] 3xl:text-[20px] font-normal text-[#5B5B5B] mt-3 text-end">
             Resend code in <span className="font-semibold">00:30</span>
           </p>
         </div>
 
-        <button className="font-semibold text-[15px] 2xl:text-[16px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 3xl:py-4 mt-7 cursor-pointer w-full">
+        <button className="font-semibold text-[16px] 4xl:text-[18px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 3xl:py-4 mt-7 cursor-pointer w-full">
           Verify my account
         </button>
       </form>

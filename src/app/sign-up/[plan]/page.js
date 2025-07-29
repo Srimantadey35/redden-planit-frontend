@@ -40,9 +40,9 @@ export default function SignupPlanPage({ params }) {
   }
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
-     
-      <div className="block sm:hidden absolute inset-0 z-0">
+    <div className="relative">
+      {/* Mobile Swiper */}
+      <div className="block sm:hidden absolute inset-0 z-0 h-full min-h-screen">
         <Swiper
           modules={[Pagination, Autoplay, EffectFade]}
           pagination={{ clickable: true }}
@@ -69,10 +69,16 @@ export default function SignupPlanPage({ params }) {
                     {slide.caption}
                   </h2>
                   <div className="flex flex-row gap-3 animate-fade-in delay-200">
-                    <Link href={`/sign-in/${plan}`} className="bg-[#f70399] text-white font-medium cursor-pointer px-4 py-1.5 rounded hover:bg-neutral-200 hover:text-black transition text-sm">
+                    <Link
+                      href={`/sign-in/${plan}`}
+                      className="bg-[#f70399] text-white font-medium cursor-pointer px-4 py-1.5 rounded hover:bg-neutral-200 hover:text-black transition text-sm"
+                    >
                       Sign In
                     </Link>
-                    <Link href={`/sign-up/${plan}`} className="bg-white text-black font-medium cursor-pointer px-4 py-1.5 rounded hover:bg-neutral-200 transition text-sm">
+                    <Link
+                      href={`/sign-up/${plan}`}
+                      className="bg-white text-black font-medium cursor-pointer px-4 py-1.5 rounded hover:bg-neutral-200 transition text-sm"
+                    >
                       Sign Up
                     </Link>
                   </div>
@@ -83,16 +89,13 @@ export default function SignupPlanPage({ params }) {
         </Swiper>
       </div>
 
-     
+      {/* Desktop Background & Modal Container */}
       <div
-        className="hidden sm:block absolute inset-0 bg-no-repeat bg-center bg-cover z-0"
         style={{ backgroundImage: "url('/images/sign-up/signupbg.png')" }}
+        className="hidden sm:grid relative z-30 place-items-center px-4 h-full min-h-screen bg-no-repeat bg-center bg-cover"
       >
-        <div className="absolute inset-0 bg-black opacity-45" />
-      </div>
-
-     
-      <div className="hidden sm:grid absolute inset-0 z-30 place-items-center px-4">
+        {/* Black overlay with gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70 h-full min-h-screen z-[-1]" />
         {isModalPlan ? (
           <CreateAccModal isSignup={true} planName={formattedPlan} />
         ) : (

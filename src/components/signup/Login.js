@@ -45,63 +45,127 @@ const Login = ({ planName }) => {
     router.push(`/sign-up/${planName}`);
   };
 
+   const joinPlanItPlanner = [
+    "Smart planning tool",
+    "All in one place",
+    "Trusted vendor network",
+    "Beautiful invites & guest lists",
+  ];
+
   return (
     <div className="size-full overflow-y-auto example modalAnim">
       <div className="my-10 flex flex-col lg:flex-row items-center min-h-full">
-        <div className="flex flex-col lg:flex-row justify-center w-full px-[30px] max-w-[991px] xl:max-w-[1100px] 2xl:max-w-[1200px] 3xl:max-w-[1423px] mx-auto">
+        <div className="flex flex-col lg:flex-row justify-center w-full max-w-[960px] 3xl:max-w-[1026px] mx-auto">
           
           {/* Left Panel */}
-          <div
-            className="bg-[#faf2f2] w-full lg:w-1/2 sm:px-[45px] px-[30px] 2xl:px-[55px] py-[60px] 3xl:py-[80px] 4xl:py-[120px] rounded-t-[15px] lg:rounded-tl-[15px] lg:rounded-bl-[15px] lg:rounded-tr-none"
+           <div
+            className="bg-[#faf2f2] w-[44%] rounded-t-[15px] lg:rounded-tr-none lg:rounded-bl-[15px] flex flex-col justify-center px-[55px] py-12"
             style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
           >
-            <Image
-              className="w-[110px] 2xl:w-[130px] 3xl:w-[158px]"
-              width={158}
-              height={52}
-              src={"/images/PlanItLogo.png"}
-              alt="logo"
-            />
-            <h3 className="text-[30px] 2xl:text-[45px] 3xl:text-[64px] text-black 3xl:leading-[74px] font-semibold mt-5 leading-[1.2]">
-              Plan your big <br /> moments with ease
+            <Link href="/">
+              <Image
+                className="w-[90px] sm:w-[100px] md:w-[120px] 3xl:w-[150px] mx-auto"
+                width={158}
+                height={52}
+                src="/images/PlanItLogo.png"
+                alt="logo"
+              />
+            </Link>
+
+            <h3 className="text-2xl sm:text-3xl md:text-4xl text-[#191919] font-normal text-center mt-4 leading-[1.2]">
+              {planName === "Vendor" ? (
+                <>
+                  Grow your business <br /> with PlanIt
+                </>
+              ) : (
+                <>
+                  Plan your big <br /> moments with ease
+                </>
+              )}
             </h3>
 
-            <div className="my-[25px] 3xl:my-[35px]">
-              <p className="font-medium text-[18px] 3xl:text-[24px] text-black">
-                Join PlanIt — your personal event planning assistant.
+            <div className="my-6 sm:my-8 3xl:my-[35px]">
+              <p className="font-medium text-base sm:text-lg 3xl:text-2xl text-[#212121]">
+                {planName === "Vendor" ? (
+                  <>Join our trusted network of event professionals.</>
+                ) : (
+                  <>
+                    <span className="text-[#EA0056] font-medium inline-block">
+                      Join PlanIt
+                    </span>{" "}
+                    — your personal event <br/> planning assistant.
+                  </>
+                )}
               </p>
-              <p className="mt-3 text-[#505050] text-[16px] 3xl:text-[19px] ">
-                From weddings and birthdays to corporate events, we help you{" "}
-                <br /> manage every detail effortlessly.
+
+              <p className="mt-3 text-[#505050] text-sm sm:text-[16px]">
+                {planName === "Vendor" ? (
+                  <>
+                    Whether you&apos;re a photographer, florist, caterer, or
+                    <br className="hidden 3xl:block" /> entertainer — we connect
+                    you with clients planning
+                    <br className="hidden 3xl:block" /> unforgettable moments.
+                  </>
+                ) : (
+                  <>
+                    From weddings and birthdays to corporate events, <br className="4xl:block hidden"/> we help you
+                    manage every detail effortlessly.
+                  </>
+                )}
               </p>
             </div>
 
-            <ul className="space-y-2.5">
-              {joinPlanIt.map((item, index) => (
+            <ul className="space-y-[7px]">
+              {joinPlanItPlanner.map((item, index) => (
                 <li
                   key={index}
-                  className="border border-[#FFD8E6] text-[#EA0056] text-[15px] 3xl:text-[20px] font-normal bg-[#FFE4EE] flex items-center py-2 3xl:py-2.5 px-3.5 rounded-lg sm:w-[300px] w-full"
+                  className="border border-[#FFD8E6] text-[#6D1133] text-sm 3xl:text-[17px] font-normal bg-white flex items-center py-1.5 px-3.5 rounded-lg w-full"
                 >
                   <Image
                     width={15}
                     height={15}
-                    src={"/images/sign-up/tick.svg"}
+                    src="/images/sign-up/tick.svg"
                     alt=""
                   />
                   <span className="ml-2.5">{item}</span>
                 </li>
               ))}
             </ul>
+
+            {planName === "Planner" && (
+              <div className="mt-6 3xl:mt-[35px] pt-5 3xl:pt-6">
+                <div className="flex items-center justify-between">
+                  {faces.map((item, index) => (
+                    <div
+                      key={index}
+                      className={`size-[50px] ml-[-10px] relative shrink-0`}
+                    >
+                      <Image
+                        className="rounded-full object-cover shrink-0 size-full [box-shadow:0_0_0px_3px_#ffffff]"
+                        width={50}
+                        height={50}
+                        src={item}
+                        alt={`face-${index + 1}`}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[#505050] font-normal text-sm sm:text-[14px] mt-4 text-center">
+                  Over <span className="font-semibold">2.5 Million</span> people
+                  trust our platform
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Right Panel */}
-          <div className="w-full lg:w-1/2 sm:px-[60px] px-[30px] xl:px-[80px] 2xl:px-[100px] 3xl:px-[130px] bg-white sm:py-[60px] py-[30px] 3xl:py-[80px] 4xl:py-[120px] rounded-b-[15px] lg:rounded-tr-[15px] lg:rounded-br-[15px] lg:rounded-bl-none flex flex-col justify-center">
+          <div className="w-full lg:w-1/2 px-6 sm:px-8 md:px-14 4xl:px-[80px] bg-white  rounded-b-[15px] lg:rounded-tr-[15px] lg:rounded-br-[15px] lg:rounded-bl-none flex flex-col justify-center">
             <div className="mb-5">
               <h3 className="font-medium text-[35px] 3xl:text-[40px] text-black text-center">
                 Sign In
               </h3>
               <p className="font-normal text-[18px] 3xl:text-[21px] text-black text-center mt-2">
-                Enter your details to sign in your account
+               Enter your details to sign in your account
               </p>
               <button
                 onClick={() => signIn("google", { callbackUrl: "/" })}
@@ -174,7 +238,7 @@ const Login = ({ planName }) => {
                       type="checkbox"
                       name="checkbox"
                       id="checkbox"
-                      className="!size-[20px] mr-2"
+                      className="!size-[16px] !3xl:size-[20px] mr-2"
                     />
                     <p className="text-black font-normal text-[14px] 3xl:text-[16px]">
                       Remember me
