@@ -260,12 +260,10 @@ const Page = () => {
     },
   ];
 
-
   return (
     <div>
       <Header />
 
-      
       {/* banner  */}
       <div
         className="relative"
@@ -281,18 +279,19 @@ const Page = () => {
             <p className="text-[15px] sm:text-[18px] lg:text-[21px] text-white font-[500] text-center">
               Let&apos;s make everlasting experiences with us.
             </p>
-            <h3 className="text-[20px] sm:text-[26px] md:text-[30px] lg:text-[38px] xl:text-[40px] 3xl:text-[52px] text-white font-semibold text-center my-2">
+            <h3 className="text-[20px] sm:text-[26px] md:text-[30px] lg:text-[38px] xl:text-[40px] 3xl:text-[52px] text-white font-semibold text-center mb-2">
               We Plan For Your Celebration.
             </h3>
             <div className="flex justify-center sm:flex-row flex-col sm:w-auto w-[80%] mx-auto">
               <input
-                className="rounded-[6px] bg-white placeholder:text-[#7C7C7C] placeholder:text-[15px] placeholder:font-normal py-2 lg:py-3 px-4 lg:px-6 w-full sm:w-[50%] md:w-[400px] lg:w-[550px] xl:w-[617px]"
+                className="rounded-[6px] bg-white placeholder:text-[#7C7C7C] placeholder:text-[15px] placeholder:font-normal py-2 lg:py-3 px-4 lg:px-6 w-full sm:w-[50%] md:w-[400px] lg:w-[550px] xl:w-[617px] text-black outline-none transition-all duration-300 ease-in-out
+    hover:shadow-[0_0_20px_0px_#EA0056]/30"
                 placeholder="Chat with us for best wedding plan."
                 type="text"
                 name="search"
                 id="search"
               />
-              <button className="font-semibold sm:ml-2.5 text-[15px] lg:text-[16px] cursor-pointer 3xl:text-[18px] text-white bg-[#EA0056] rounded-[6px] py-2 sm:mt-0 mt-3 px-5">
+              <button className="font-semibold sm:ml-2.5 text-[15px] lg:text-[16px] cursor-pointer 3xl:text-[18px] text-white bg-[#EA0056] hover:bg-[#c80049] rounded-[6px] py-2 sm:mt-0 mt-3 px-5 transition-all ease">
                 Chat with PlanIt AI
               </button>
             </div>

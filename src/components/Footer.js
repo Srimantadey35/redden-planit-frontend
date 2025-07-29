@@ -137,7 +137,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-between col-span-4">
+            <div className="flex flex-col justify-between col-span-3 xl:col-span-4">
               <div>
                 <h5 className="font-medium text-[16px] 3xl:text-[20px] text-white mb-[24px]">
                   Get Latest Blog Alerts

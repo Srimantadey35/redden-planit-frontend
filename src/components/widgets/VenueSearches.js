@@ -133,8 +133,8 @@ const VenueSearches = ({
                 )}
                 <div
                   className={`${
-                    slideKey === "event" ? "justify-center" : "justify-between"
-                  } flex items-start md:items-center pt-3 lg:pt-5 md:flex-row flex-col`}
+                    slideKey === "event" ? "justify-center items-center" : "justify-between items-start md:items-center"
+                  } flex pt-3 lg:pt-5 md:flex-row flex-col`}
                 >
                   <h3 className="text-[#333333] font-medium text-[16px] 3xl:text-[18px]">
                     {item.title}
