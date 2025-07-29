@@ -376,7 +376,7 @@ const AddMultipleGuests = ({setisModalOpen, onGuestsImported}) => {
               <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <h5 className="font-medium text-[16px] mb-3 text-blue-800">Map Your Fields:</h5>
                 <p className="text-sm text-blue-600 mb-4">
-                  We couldn't automatically map some required fields. Please match your file columns to the required fields:
+                  We couldn&apos;t automatically map some required fields. Please match your file columns to the required fields:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-64 overflow-y-auto">
                   {Object.entries(expectedFields).map(([backendField, displayName]) => (
