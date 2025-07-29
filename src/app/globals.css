@@ -131,7 +131,7 @@ body {
 }
 
 .floating-form input {
-  border: 2px solid #afbdcf;
+  border: 1px solid #D8D8D8;
   border-radius: 5px;
   height: 53px;
   width: 100%;

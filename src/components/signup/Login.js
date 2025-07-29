@@ -55,13 +55,10 @@ const Login = ({ planName }) => {
   return (
     <div className="size-full overflow-y-auto example modalAnim">
       <div className="my-10 flex flex-col lg:flex-row items-center min-h-full">
-        <div className="flex flex-col lg:flex-row justify-center w-full max-w-[960px] 3xl:max-w-[1026px] mx-auto">
+        <div className="flex justify-center px-4 sm:px-6 md:px-8 mx-auto w-full xl:p-0 max-w-[960px] 3xl:max-w-[1026px] flex-col lg:flex-row">
           
           {/* Left Panel */}
-           <div
-            className="bg-[#faf2f2] w-[44%] rounded-t-[15px] lg:rounded-tr-none lg:rounded-bl-[15px] flex flex-col justify-center px-[55px] py-12"
-            style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}
-          >
+           <div className="bg-[#faf2f2] w-[45%] rounded-t-[15px] lg:rounded-tr-none lg:rounded-bl-[15px] flex flex-col justify-center px-[55px] py-12" style={{ backgroundImage: `url(/images/sign-up/signupformbg.png)` }}>
             <Link href="/">
               <Image
                 className="w-[90px] sm:w-[100px] md:w-[120px] 3xl:w-[150px] mx-auto"
@@ -159,8 +156,8 @@ const Login = ({ planName }) => {
           </div>
 
           {/* Right Panel */}
-          <div className="w-full lg:w-1/2 px-6 sm:px-8 md:px-14 4xl:px-[80px] bg-white  rounded-b-[15px] lg:rounded-tr-[15px] lg:rounded-br-[15px] lg:rounded-bl-none flex flex-col justify-center">
-            <div className="mb-5">
+          <div className="bg-white w-[55%] px-6 sm:px-8 md:px-14 4xl:px-[80px] py-12 rounded-b-[15px] lg:rounded-tr-[15px] lg:rounded-br-[15px] lg:rounded-bl-none flex flex-col justify-center">
+            <div>
               <h3 className="font-medium text-[35px] 3xl:text-[40px] text-black text-center">
                 Sign In
               </h3>
@@ -187,7 +184,7 @@ const Login = ({ planName }) => {
             </div>
 
             <div>
-              <form className="floating-form relative 3xl:mt-14">
+              <form className="floating-form relative mt-4">
                 {/* Email */}
                 <div className="input-wrap mb-5 3xl:mb-10">
                   <input

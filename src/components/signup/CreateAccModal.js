@@ -115,7 +115,7 @@ const CreateAccModal = ({ planName }) => {
                     <span className="text-[#EA0056] font-medium inline-block">
                       Join PlanIt
                     </span>{" "}
-                    — your personal event <br/> planning assistant.
+                    — your personal event <br /> planning assistant.
                   </>
                 )}
               </p>
@@ -130,8 +130,9 @@ const CreateAccModal = ({ planName }) => {
                   </>
                 ) : (
                   <>
-                    From weddings and birthdays to corporate events, <br className="4xl:block hidden"/> we help you
-                    manage every detail effortlessly.
+                    From weddings and birthdays to corporate events,{" "}
+                    <br className="4xl:block hidden" /> we help you manage every
+                    detail effortlessly.
                   </>
                 )}
               </p>
@@ -183,7 +184,7 @@ const CreateAccModal = ({ planName }) => {
           {/* Right Panel */}
           <div className="w-[56%] bg-white px-6 sm:px-8 md:px-14 4xl:px-[80px] py-12 rounded-b-[15px] lg:rounded-bl-none lg:rounded-tr-[15px]">
             <div className="mb-5">
-              <h3 className="font-medium text-2xl sm:text-3xl 3xl:text-[40px] text-black text-center">
+              <h3 className="font-medium text-2xl text-[40px] text-black text-center">
                 {planName === "Vendor" ? "Vendor registration" : "Welcome!"}
               </h3>
               <p className="font-normal text-base sm:text-lg 3xl:text-[21px] text-black text-center mt-2">
@@ -210,8 +211,7 @@ const CreateAccModal = ({ planName }) => {
 
             {/* Form */}
             <form className="floating-form relative mt-4">
-              {/* Name */}
-              <div className="flex flex-col md:flex-row mb-4 gap-4">
+              <div className="flex flex-col md:flex-row mb-5 gap-4">
                 <div className="input-wrap flex-1">
                   <input
                     type="text"
@@ -243,7 +243,7 @@ const CreateAccModal = ({ planName }) => {
               </div>
 
               {/* Email & Phone Row */}
-              <div className="input-wrap flex-1 mb-4">
+              <div className="input-wrap flex-1 mb-5">
                 <input
                   type="email"
                   name="email"
@@ -257,7 +257,7 @@ const CreateAccModal = ({ planName }) => {
                 />
                 <label htmlFor="email">Email</label>
               </div>
-              <div className="input-wrap flex-1 mb-4">
+              <div className="input-wrap flex-1 mb-5">
                 <input
                   type="text"
                   name="Phone"
@@ -357,8 +357,8 @@ const CreateAccModal = ({ planName }) => {
                   </Link>
                 </p>
               </div>
-              
-              <button className="font-semibold text-sm text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-7 w-full mb-4">
+
+              <button className="font-semibold text-sm text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-7 w-full mb-5">
                 Register
               </button>
               <p className="text-[#505050] font-normal text-sm text-center">
