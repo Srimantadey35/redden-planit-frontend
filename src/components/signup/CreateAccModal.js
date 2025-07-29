@@ -398,7 +398,7 @@ const CreateAccModal = ({ planName }) => {
             <div>
               <form onSubmit={handleSubmit} className="floating-form relative mt-4">
                 {/* Name */}
-                <div className={`${!prefilledValues.fromGoogle ? 'flex gap-4' : 'flex-col mb-3'}`}>
+                <div className={`flex gap-4`}>
                 <div className="input-wrap mb-5 3xl:mb-10">
                   <input
                     type="text"

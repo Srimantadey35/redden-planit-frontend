@@ -20,6 +20,12 @@ const Page = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const token = useSelector((state) => state.auth.accessToken);
   const [fetchedUser, setFetchedUser] = useState({})
+  const [isEditing, setIsEditing] = useState(false);
+  const [firstName, setFirstName] = useState(fetchedUser?.firstName || "");
+  const [lastName, setLastName] = useState(fetchedUser?.lastName || "");
+  const [hasChanged, setHasChanged] = useState(false);
+
+  
 
   const changePasswordSchema = Yup.object({
     currentPassword: Yup.string().required('Current password is required'),
@@ -99,6 +105,12 @@ const Page = () => {
   //   newPassword:"",
   //   confirmNewPassword:""
   // })
+
+  useEffect(() => {
+    setFirstName(fetchedUser?.firstName || "");
+    setLastName(fetchedUser?.lastName || "");
+    setHasChanged(false);
+  }, [fetchedUser]);
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0]
@@ -418,11 +430,19 @@ const Page = () => {
                   </label>
                   <input
                     className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                    placeholder="Name"
-                    defaultValue={fetchedUser?.name || ""}
+                    placeholder="First name"
+                    value={firstName}
+                    onChange={e => {
+                      setFirstName(e.target.value);
+                      setHasChanged(
+                        e.target.value !== (fetchedUser?.firstName || "") || lastName !== (fetchedUser?.lastName || "")
+                      );
+                    }}
                     type="text"
                     name="firstname"
                     id="firstname"
+                    disabled={!isEditing}
+                    readOnly={!isEditing}
                   />
                 </div>
                 <div className="flex flex-col">
@@ -434,10 +454,19 @@ const Page = () => {
                   </label>
                   <input
                     className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                    placeholder="last name"
+                    placeholder="Last name"
+                    value={lastName}
+                    onChange={e => {
+                      setLastName(e.target.value);
+                      setHasChanged(
+                        firstName !== (fetchedUser?.firstName || "") || e.target.value !== (fetchedUser?.lastName || "")
+                      );
+                    }}
                     type="text"
                     name="lastname"
                     id="lastname"
+                    disabled={!isEditing}
+                    readOnly={!isEditing}
                   />
                 </div>
                 <div className="flex flex-col">
@@ -449,7 +478,7 @@ const Page = () => {
                   </label>
                   <input
                     className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                    placeholder="rubinapaul@mail.com"
+                    placeholder="Email"
                     defaultValue={fetchedUser?.email || ""}
                     disabled={fetchedUser?.email}
                     type="text"
@@ -467,7 +496,7 @@ const Page = () => {
                   </label>
                   <input
                     className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
-                    placeholder="(+91) 7586 123 456"
+                    placeholder="Phone"
                     type="text"
                     defaultValue={fetchedUser?.phone || ""}
                     disabled={fetchedUser?.phone}
@@ -578,9 +607,31 @@ const Page = () => {
                 alt="editicon"
               />
             </button>
-            <button className="cursor-pointer font-semibold text-[16px] 4xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 4xl:py-3.5 px-[40px] 4xl:px-[62px]">
-              Save Changes
-            </button>
+            {/* <button className="cursor-pointer font-semibold text-[16px] 4xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 4xl:py-3.5 px-[40px] 4xl:px-[62px]">
+              Edit
+            </button> */}
+            {!isEditing ? (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="cursor-pointer font-semibold text-[16px] 4xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 4xl:py-3.5 px-[40px] 4xl:px-[62px]"
+                type="button"
+              >
+                Edit
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  // Save logic here (API call etc.)
+                  setIsEditing(false);
+                  setHasChanged(false);
+                }}
+                className="cursor-pointer font-semibold text-[16px] 4xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 4xl:py-3.5 px-[40px] 4xl:px-[62px]"
+                type="button"
+                disabled={!hasChanged}
+              >
+                Save Changes
+              </button>
+            )}
           </div>
 
           {/* Password Change Popup Modal */}
@@ -638,7 +689,7 @@ const Page = () => {
                       value={formik.values.newPassword}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      type={showNewPassword? "text": "password"}
+                      type={showNewPassword ? "text" : "password"}
                       name="newPassword"
                       id="newPassword"
                     />
@@ -666,11 +717,11 @@ const Page = () => {
                       value={formik.values.confirmNewPassword}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      type={showConfirmPassword? "text" :"password"}
+                      type={showConfirmPassword ? "text" : "password"}
                       name="confirmNewPassword"
                       id="confirmNewPassword"
                     />
-                     <span
+                    <span
                       className="absolute right-3 top-10 cursor-pointer"
                       onClick={() => setShowConfirmPassword((prev) => !prev)}
                     >
