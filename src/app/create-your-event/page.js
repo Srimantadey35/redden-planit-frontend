@@ -1,7 +1,7 @@
 "use client";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
@@ -11,6 +11,10 @@ import "swiper/css/pagination";
 import Link from "next/link";
 
 const page = () => {
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+  const [swiperInstance, setSwiperInstance] = useState(null);
+
   const cardData = [
     {
       img: "/images/create-your-event/card-1.png",
@@ -153,12 +157,22 @@ const page = () => {
         </div>
       </div>
 
-      <div className="pb-10 ml-[22px] sm:ml-6 md:hidden block">
+      <div className="pb-10 ml-[22px] sm:ml-6 md:hidden block relative">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={20}
           slidesPerView={2.5}
-          navigation={false}
+          navigation={{
+            prevEl: prevRef.current,
+            nextEl: nextRef.current,
+          }}
+          onInit={(swiper) => {
+            setSwiperInstance(swiper);
+            swiper.params.navigation.prevEl = prevRef.current;
+            swiper.params.navigation.nextEl = nextRef.current;
+            swiper.navigation.init();
+            swiper.navigation.update();
+          }}
           pagination={false}
           autoplay={{ delay: 3000 }}
           loop={true}
@@ -200,6 +214,35 @@ const page = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+
+        <div
+          className="flex justify-between items-center absolute w-full z-[2] sliderbtns top-[30%]"
+        >
+          <button
+            ref={prevRef}
+            className="size-[31px] rounded-full bg-white shadow-lg flex items-center justify-center cursor-pointer ml-[-15px]"
+            onClick={() => swiperInstance?.slidePrev()}
+          >
+            <Image
+              width={5}
+              height={10}
+              src={"/images/final-home/leftarrow.svg"}
+              alt="leftarrow"
+            />
+          </button>
+          {/* <button
+            ref={nextRef}
+            className="size-[31px] rounded-full bg-white shadow-lg flex items-center justify-center cursor-pointer mr-[-15px]"
+            onClick={() => swiperInstance?.slideNext()}
+          >
+            <Image
+              width={5}
+              height={10}
+              src={"/images/final-home/rightarrow.svg"}
+              alt="rightarrow"
+            />
+          </button> */}
+        </div>
       </div>
 
       <Footer />
