@@ -25,6 +25,8 @@ import { State } from "country-state-city";
 import ProcessBarMyBusiness from "@/components/widgets/ProcessBarMyBusinsess";
 import { useRouter } from "next/navigation";
 import * as Yup from 'yup'
+import _ from "lodash";
+
 
 
 
@@ -54,7 +56,30 @@ const Page = () => {
   const [galleryUploadProgress, setGalleryUploadProgress] = useState([]);
   const [categoryFilledCounts, setCategoryFilledCounts] = useState({});
   const [categoryTotalCount, setCategoryTotalCount] = useState({})
+  const [uploadingFiles, setUploadingFiles] = useState(false)
   const router = useRouter()
+
+  const removeExtraSpace = (s) => {
+    var rSpase = s.replace(/\s{2,}/g, " ");
+    return _.trimStart(rSpase);
+  };
+
+  const handlePhoneKeyDown = (e) => {
+    const allowedKeys = [
+      "Backspace", "ArrowLeft", "ArrowRight", "Delete", "Tab"
+    ];
+    if (e.key === " ") {
+      e.preventDefault();
+    }
+    if (!/^[0-9+]$/.test(e.key) && !allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+    if (e.key === "+") {
+      if (e.target.value.includes("+") || e.target.selectionStart !== 0) {
+        e.preventDefault();
+      }
+    }
+  };
 
   useEffect(() => {
     const isAddBusinessSubmitted = localStorage.getItem('addBusinessSubmitted');
@@ -99,12 +124,16 @@ const Page = () => {
   });
 
   const validationSchema = Yup.object({
-    businessName: Yup.string().required("Business name is required"),
+    businessName: Yup.string()
+      .min(3, "Business name must be at least 3 characters")
+      .required("Business name is required"),
     category: Yup.string().required("Please select business category"),
     businessAddress: Yup.string().required("Address is required"),
     city: Yup.string().required("City is required"),
     state: Yup.string().required("Please select State"),
-    pin: Yup.string().required("Pin is required"),
+    pin: Yup.string()
+      .matches(/^\d{6}$/, "Pin must be exactly 6 digits")
+      .required("Pin is required"),
     languages: Yup.string(),
     travelAvailability: Yup.string(),
     description: Yup.string(),
@@ -630,32 +659,136 @@ const Page = () => {
 
   const [checkedItems, setCheckedItems] = useState([]);
 
-  const handleFileChange = (e) => {
+  // const handleFileChange = (e) => {
+  //   const files = Array.from(e.target.files);
+
+  //   const newFiles = files.map((file) => ({
+  //     file,
+  //     url: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
+  //     name: file.name,
+  //     type: file.type,
+  //   }));
+
+  //   setSelectedFiles((prev) => [...prev, ...newFiles]);
+
+  //   const existingFiles = Array.isArray(formik.values.portfolioFiles)
+  //     ? formik.values.portfolioFiles
+  //     : [];
+
+  //   formik.setFieldValue("portfolioFiles", [...existingFiles, ...files]);
+  // };
+
+
+  const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
+    if (files.length === 0) return;
 
-    const newFiles = files.map((file) => ({
-      file,
-      url: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
-      name: file.name,
-      type: file.type,
-    }));
+    setUploadingFiles(true);
 
-    setSelectedFiles((prev) => [...prev, ...newFiles]);
+    try {
+      // Prevent duplicate files by checking name+size
+      const existingKeys = selectedFiles.map(f => `${f.name}-${f.file.size}`);
+      const filteredFiles = files.filter(f => !existingKeys.includes(`${f.name}-${f.size}`));
+      if (filteredFiles.length === 0) {
+        setUploadingFiles(false);
+        e.target.value = null; // reset input
+        return;
+      }
 
-    const existingFiles = Array.isArray(formik.values.portfolioFiles)
-      ? formik.values.portfolioFiles
-      : [];
+      // Create preview objects with unique tempId
+      const newFiles = filteredFiles.map((file, index) => ({
+        tempId: `${Date.now()}-${index}`,
+        file,
+        url: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
+        name: file.name,
+        type: file.type,
+        uploading: true,
+        cloudinaryUrl: null,
+        uploadError: false
+      }));
 
-    formik.setFieldValue("portfolioFiles", [...existingFiles, ...files]);
+      // Add to state for preview
+      setSelectedFiles((prev) => [...prev, ...newFiles]);
+
+      // Upload files
+      const uploadPromises = newFiles.map(async (fileObj) => {
+        try {
+          const cloudinaryUrl = await uploadToCloudinary(fileObj.file);
+
+          setSelectedFiles((prev) =>
+            prev.map((f) =>
+              f.tempId === fileObj.tempId
+                ? { ...f, cloudinaryUrl, uploading: false }
+                : f
+            )
+          );
+
+          return cloudinaryUrl;
+        } catch (error) {
+          console.error(`Failed to upload ${fileObj.name}:`, error);
+
+          setSelectedFiles((prev) =>
+            prev.map((f) =>
+              f.tempId === fileObj.tempId
+                ? { ...f, uploading: false, uploadError: true }
+                : f
+            )
+          );
+
+          throw error;
+        }
+      });
+
+      // Wait for all uploads
+      const cloudinaryUrls = await Promise.all(uploadPromises);
+
+      // Update Formik
+      const existingUrls = Array.isArray(formik.values.portfolioFiles)
+        ? formik.values.portfolioFiles
+        : [];
+
+      formik.setFieldValue("portfolioFiles", [...existingUrls, ...cloudinaryUrls]);
+
+      console.log("Files uploaded successfully:", cloudinaryUrls);
+    } catch (error) {
+      console.error("Error uploading files:", error);
+      // Optional: toast.error('Some files failed to upload.');
+    } finally {
+      setUploadingFiles(false);
+      e.target.value = null; // Allow selecting same file again
+    }
   };
 
 
 
+  // const removeImage = (index) => {
+  //   const updated = [...selectedFiles];
+  //   updated.splice(index, 1);
+  //   setSelectedFiles(updated);
+  // };
 
   const removeImage = (index) => {
-    const updated = [...selectedFiles];
-    updated.splice(index, 1);
-    setSelectedFiles(updated);
+    const fileToRemove = selectedFiles[index];
+
+    // Remove from selectedFiles array
+    const updatedFiles = [...selectedFiles];
+    updatedFiles.splice(index, 1);
+    setSelectedFiles(updatedFiles);
+
+    // Remove corresponding Cloudinary URL from formik values if it exists
+    if (fileToRemove?.cloudinaryUrl) {
+      const existingUrls = Array.isArray(formik.values.portfolioFiles)
+        ? formik.values.portfolioFiles
+        : [];
+
+      const updatedUrls = existingUrls.filter(url => url !== fileToRemove.cloudinaryUrl);
+      formik.setFieldValue("portfolioFiles", updatedUrls);
+    }
+
+    // Clean up object URL to prevent memory leaks
+    if (fileToRemove?.url && fileToRemove.url.startsWith('blob:')) {
+      URL.revokeObjectURL(fileToRemove.url);
+    }
   };
   const included = [
     {
@@ -788,52 +921,80 @@ const Page = () => {
     }
   }
 
+  // const handleAddPortfolio = async (e) => {
+  //   e.preventDefault();
+  //   const {
+  //     portfolioTags,
+  //     portfolioDescription,
+  //     portfolioLocation,
+  //     portfolioEventType,
+  //     portfolioFiles,
+  //   } = formik.values;
+
+  //   const formData = new FormData();
+
+  //   // Append text fields
+  //   formData.append("portfolioTags", portfolioTags);
+  //   formData.append("portfolioDescription", portfolioDescription);
+  //   formData.append("portfolioLocation", portfolioLocation);
+  //   formData.append("portfolioEventType", portfolioEventType);
+  //   formData.append("category", selectedCategory);
+
+  //   // Append each file
+  //   portfolioFiles.forEach((file) => {
+  //     formData.append("portfolioFiles", file); 
+  //   });
+
+  //   try {
+  //     const response = await axios.put(
+  //       `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-portfolio`,
+  //       formData, // ✅ send formData directly
+  //       {
+  //         withCredentials: true,
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       toast.success("Portfolio info saved successfully!");
+  //       setopenAccordion('upload-gallery')
+  //     }
+  //   } catch (error) {
+  //     console.error("Error uploading portfolio:", error);
+  //     toast.error("Failed to add service info. Please try again.");
+  //   }
+  // };
+
   const handleAddPortfolio = async (e) => {
-    e.preventDefault();
-    const {
-      portfolioTags,
-      portfolioDescription,
-      portfolioLocation,
-      portfolioEventType,
-      portfolioFiles,
-    } = formik.values;
-
-    const formData = new FormData();
-
-    // Append text fields
-    formData.append("portfolioTags", portfolioTags);
-    formData.append("portfolioDescription", portfolioDescription);
-    formData.append("portfolioLocation", portfolioLocation);
-    formData.append("portfolioEventType", portfolioEventType);
-    formData.append("category", selectedCategory); // ✅ category included here
-
-    // Append each file
-    portfolioFiles.forEach((file) => {
-      formData.append("portfolioFiles", file); // ✅ use same field name as backend
-    });
+    e.preventDefault()
+    const { portfolioTags, portfolioDescription, portfolioLocation, portfolioEventType, portfolioFiles } = formik.values
+    const portfolioInfo = {
+      portfolioTags, portfolioDescription, portfolioLocation, portfolioEventType, portfolioFiles
+    }
 
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-portfolio`,
-        formData, // ✅ send formData directly
+        { portfolioInfo, category: selectedCategory },
         {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "multipart/form-data",
           },
         }
       );
-
       if (response.status === 200) {
-        toast.success("Portfolio info saved successfully!");
+        toast.success("Portfolio  info saved successfully!")
         setopenAccordion('upload-gallery')
       }
     } catch (error) {
-      console.error("Error uploading portfolio:", error);
+      console.error("Error adding service info:", error);
       toast.error("Failed to add service info. Please try again.");
     }
-  };
+  }
 
   const handleAddOpeningHours = async (e) => {
     e.preventDefault()
@@ -1050,7 +1211,10 @@ const Page = () => {
                           placeholder="Name"
                           type="text"
                           value={formik.values.businessName}
-                          onChange={formik.handleChange}
+                          onChange={(e) => {
+                            const cleaned = removeExtraSpace(e.target.value);
+                            formik.setFieldValue(e.target.name, cleaned);
+                          }}
                           onBlur={formik.handleBlur}
                           name="businessName"
                           id="businessName"
@@ -1158,7 +1322,10 @@ const Page = () => {
                           placeholder="Enter city"
                           value={formik.values.city}
                           onBlur={formik.handleBlur}
-                          onChange={formik.handleChange}
+                          onChange={(e) => {
+                            const cleaned = removeExtraSpace(e.target.value);
+                            formik.setFieldValue(e.target.name, cleaned);
+                          }}
                           type="text"
                           name="city"
                           id="city"
@@ -1213,6 +1380,7 @@ const Page = () => {
                           value={formik.values.pin}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
+                          onKeyDown={handlePhoneKeyDown}
                           type="text"
                           name="pin"
                           id="pin"
@@ -1478,7 +1646,7 @@ const Page = () => {
 
                             {formik.touched.openingHours?.[index]?.from &&
                               formik.errors.openingHours?.[index]?.from && (
-                                <p className="text-red-500 text-sm mt-1 ml-1">
+                                <p className="text-red-500 text-sm mt-1 ml-1 text-center">
                                   {formik.errors.openingHours[index].from}
                                 </p>
                               )}
@@ -1512,7 +1680,7 @@ const Page = () => {
 
                             {formik.touched.openingHours?.[index]?.to &&
                               formik.errors.openingHours?.[index]?.to && (
-                                <p className="text-red-500 absolute text-sm mt-1 text-center">
+                                <p className="text-red-500  text-sm mt-2 pb-1 text-center">
                                   {formik.errors.openingHours[index].to}
                                 </p>
                               )}

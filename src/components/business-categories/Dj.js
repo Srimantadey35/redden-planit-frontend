@@ -317,6 +317,7 @@ const DJForm = ({prefilledValues,defaultValues,onDataChange}) => {
   };
 
   const getTotalFields = (formObj) => Object.keys(formObj).length;
+  console.log('dj length',Object.keys(form))
 
   const handleChange = (key, value) => {
     const updated = { ...form, [key]: value };

@@ -374,7 +374,7 @@ const Page = () => {
    {loading ? (
   <div className="animate-pulse">
     <Layouts>
-      <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen flex flex-col justify-center mb-8">
+      <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen flex flex-col  mb-8">
         {/* Title skeleton */}
         <div className="bg-gray-300 h-7 w-48 rounded mb-3"></div>
 
@@ -439,7 +439,7 @@ const Page = () => {
   </div>
 ):(
       <Layouts>
-        <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen flex flex-col justify-center mb-8">
+        <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen flex flex-col mb-8">
           <h3 className="font-semibold text-[#303030] text-[22px] 3xl:text-[25px] 4xl:text-[28px]">
             Account details
           </h3>
