@@ -210,7 +210,7 @@ body {
 
 .datatable tr th:first-child,
 .datatable td:first-child {
-  padding-left: 60px;
+  padding-left: 30px;
 }
 .datatable tr th:last-child,
 .datatable td:last-child {

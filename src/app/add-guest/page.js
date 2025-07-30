@@ -34,28 +34,28 @@ const Page = () => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-[#FBFBFB]">
       <Header />
       <div className="min-h-screen flex items-center">
         <div className="container">
-          <div className="py-[100px] 3xl:py-[120px] md:flex  items-stretch">
-            <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl md:w-[60%] w-full 3xl:w-[800px]">
-              <h3 className="text-[22px] 3xl:text-[30px] font-semibold text-[#151515] mb-[43px]">
+          <div className="py-[50px] md:flex  items-stretch px-12">
+            <div className="bg-white p-[50px] rounded-l-[12px] md:w-[70%] w-full  shadow-sm">
+              <h3 className="text-[22px] 3xl:text-[30px] font-semibold text-[#151515] mb-[28px]">
                 Add guest
               </h3>
 
-              <form className="space-y-[30px]">
+              <form className="space-y-[14px]">
                 {/* First & Last Name */}
-                <div className="flex flex-col md:flex-row gap-5">
+                <div className="flex flex-col md:flex-row gap-[15px]">
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="firstname"
-                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                      className="font-normal text-[#151515] text-[17px]"
                     >
                       First name<span className="text-[#FF2C2C]">*</span>
                     </label>
                     <input
-                      className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                      className="h-[42px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                       placeholder="Enter your first name"
                       type="text"
                       name="firstname"
@@ -65,12 +65,12 @@ const Page = () => {
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="lastname"
-                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                      className="font-normal text-[#151515] text-[17px]"
                     >
                       Last name<span className="text-[#FF2C2C]">*</span>
                     </label>
                     <input
-                      className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                      className="h-[42px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                       placeholder="Enter your last name"
                       type="text"
                       name="lastname"
@@ -80,16 +80,16 @@ const Page = () => {
                 </div>
 
                 {/* Email & Phone */}
-                <div className="flex flex-col md:flex-row gap-5">
+                <div className="flex flex-col md:flex-row gap-[15px]">
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="email"
-                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                      className="font-normal text-[#151515] text-[17px]"
                     >
                       Email
                     </label>
                     <input
-                      className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                      className="h-[42px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                       placeholder="Enter your email"
                       type="email"
                       name="email"
@@ -99,12 +99,12 @@ const Page = () => {
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="number"
-                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                      className="font-normal text-[#151515] text-[17px]"
                     >
                       Phone number<span className="text-[#FF2C2C]">*</span>
                     </label>
                     <input
-                      className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                      className="h-[42px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                       placeholder="Enter your number"
                       type="text"
                       name="number"
@@ -118,12 +118,12 @@ const Page = () => {
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="address"
-                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                      className="font-normal text-[#151515] text-[17px]"
                     >
                       Address
                     </label>
                     <input
-                      className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                      className="h-[42px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                       placeholder="Enter address"
                       type="text"
                       name="address"
@@ -133,11 +133,11 @@ const Page = () => {
                 </div>
 
                 {/* Guest Type & Dietary Preference */}
-                <div className="flex flex-col md:flex-row gap-5">
+                <div className="flex flex-col md:flex-row gap-[15px]">
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="guest"
-                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                      className="font-normal text-[#151515] text-[17px]"
                     >
                       Guest Type
                     </label>
@@ -145,7 +145,7 @@ const Page = () => {
                       name="guest"
                       id="guest"
                       defaultValue=""
-                      className="text-[#919191] text-[14px] font-normal h-[44px] 3xl:h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
+                      className="text-[#919191] text-[14px] font-normal h-[42px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
                     >
                       <option value="" disabled hidden>
                         Select type
@@ -159,7 +159,7 @@ const Page = () => {
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="dietary"
-                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                      className="font-normal text-[#151515] text-[17px]"
                     >
                       Dietary Preference
                     </label>
@@ -167,7 +167,7 @@ const Page = () => {
                       name="dietary"
                       id="dietary"
                       defaultValue=""
-                      className="text-[#919191] text-[14px] font-normal h-[44px] 3xl:h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
+                      className="text-[#919191] text-[14px] font-normal h-[42px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
                     >
                       <option value="" disabled hidden>
                         Select dietary
@@ -185,7 +185,7 @@ const Page = () => {
                   <div className="flex flex-col w-full">
                     <label
                       htmlFor="notes"
-                      className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                      className="font-normal text-[#151515] text-[17px]"
                     >
                       Notes
                     </label>
@@ -200,16 +200,16 @@ const Page = () => {
 
                 {/* Submit Button */}
                 <button
-                  className="cursor-pointer transition font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 bg-[#EA0056] hover:bg-[#c9004a] rounded-lg w-full max-w-[317px] mx-auto block"
+                  className="cursor-pointer mt-[28px] w-full transition font-semibold text-[15px] 2xl:text-[16px]  text-white py-3 3xl:py-3.5 bg-[#EA0056] hover:bg-[#c9004a] rounded-lg mx-auto block"
                 >
                   Add to list
                 </button>
              </form>
 
             </div>
-            <div className="bg-[#F7F7F7] p-[40px] 2xl:p-[60px] rounded-2xl md:w-[40%] w-full 3xl:w-[calc(100%-800px)] md:ml-[30px] ml-0 3xl:ml-[40px] flex flex-col">
+            <div className="bg-[#F8F8F8] shadow-sm py-[50px] px-[30px] rounded-r-[12px] md:w-[30%] w-full  flex flex-col">
               <h3 className="text-[22px] 3xl:text-[30px] font-semibold text-[#151515] mb-[43px]">
-                Guest list
+                Add guest
               </h3>
 
               <form
@@ -260,7 +260,7 @@ const Page = () => {
 
                 <Link href={'/guest-list'}
                   type="submit"
-                  className="cursor-pointer mt-auto font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg  mx-auto table text-center"
+                  className="cursor-pointer mt-auto font-semibold text-[15px] 2xl:text-[16px] text-[#EA0056] py-3 3xl:py-3.5 border border-[#EA0056] transition rounded-lg  mx-auto table text-center w-full"
                 >
                   Submit all
                 </Link>

@@ -249,10 +249,15 @@ const Page = () => {
             </div>
           </div>
 
-          <h4 className="text-black text-[23px] 4xl:text-[25px] font-medium lg:mb-5">
+          {/* <h4 className="text-black text-[23px] 4xl:text-[25px] font-medium lg:mb-5">
             Choose from beautifully designed templates and customize them for
             your event
-          </h4>
+          </h4> */}
+          <h3 className="font-medium text-[23px] md:mb-[20px] smd:mb-[28px] 3xl:text-[28px] text-black leading-[1.5] flex ">
+            <span className="inline-block border-l-[5px] border-l-[#EA0056] mr-2 h-[35px]"></span>
+            <span>Choose from beautifully designed templates and customize them for
+            your event</span>
+          </h3>
         </div>
 
         {/* <div className="grid grid-cols-3 gap-[40px] 4xl:gap-[50px]">

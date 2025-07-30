@@ -9,6 +9,7 @@ const Page = () => {
   const dateRef = useRef(null);
   const timeRef = useRef(null);
   const router = useRouter();
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const [formData, setformData] = useState({
     eventType: "",
@@ -52,7 +53,7 @@ const Page = () => {
       } else {
         console.log("📦 Final submitted data:", trimmedData);
         localStorage.setItem("eventFormData", JSON.stringify(trimmedData));
-        // alert("Form submitted successfully!");
+        setIsFormSubmitted(true);
         router.push("/thank-you");
       }
     } catch (error) {
@@ -66,12 +67,20 @@ const Page = () => {
   const percentage = ((formData.budget - min) / (max - min)) * 100;
 
   return (
-    <div className="bg-white">
+    <div className="bg-[#FBFBFB]">
       <Header />
       <div className="max-w-[914px] mx-auto">
         <div className="py-[40px] 2xl:py-[60px] 3xl:py-[120px]">
-          <div className="bg-[#F7F7F7] p-[60px] rounded-[15px]">
-            <h3 className="text-[22px] font-medium text-[#151515] text-center">
+          {step > 1 && (
+            <button
+              onClick={() => setStep((prev) => prev - 1)}
+              className="text-[#5D5D5D] font-normal text-[15px] mb-[10px] 4xl:mb-[15px] cursor-pointer"
+            >
+              Back
+            </button>
+          )}
+          <div className="bg-white border border-[#F0F0F0] pt-[32px] pb-[47px] px-[50px] rounded-[15px] shadow-md">
+            <h3 className="text-[26px] font-medium text-[#151515] text-center">
               Plan your event in 3 easy steps
             </h3>
             <div className="relative w-full flex items-center justify-between z-[1] mt-6">
@@ -83,11 +92,20 @@ const Page = () => {
                       ? "bg-[#EA0056] text-white"
                       : step > s
                       ? "bg-[#EA0056] text-white"
-                      : "bg-white text-black"
+                      : "bg-[#FCFCFC] text-black border border-[#E8E8E8]"
                   } 
-    font-semibold text-[20px] size-[35px] 3xl:size-[40px] flex items-center justify-center rounded-full`}
+    font-semibold text-[20px] size-[35px] 3xl:size-[40px] flex items-center justify-center rounded-full shadow-xl`}
                 >
-                  {s}
+                  {s === 3 && isFormSubmitted ? (
+                    <Image
+                      width={19}
+                      height={14}
+                      src={"/images/whitetick.svg"}
+                      alt="tick"
+                    />
+                  ) : (
+                    s
+                  )}
                 </div>
               ))}
 
@@ -98,18 +116,18 @@ const Page = () => {
                 ></div>
               </div>
             </div>
-            <div className="mt-14">
-              <h3 className="text-[25px] 3xl:text-[30px] font-semibold text-[#151515]">
+            <div className="mt-11">
+              <h3 className="text-[20px] 3xl:text-[24x] font-normal text-[#151515]">
                 Tell us about your event
               </h3>
               {step === 1 && (
-                <form className="mt-8" onSubmit={handleSubmit}>
-                  <div className=" space-y-[25px]">
+                <form className="mt-5" onSubmit={handleSubmit}>
+                  <div className=" space-y-[13px]">
                     <div className="flex items-center">
                       <div className="flex flex-col w-full mr-7">
                         <label
                           htmlFor="eventType"
-                          className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                          className="font-normal text-[#151515] text-[15px] 3xl:text-[17px]"
                         >
                           Event type<span className="text-[#FF2C2C]">*</span>
                         </label>
@@ -118,7 +136,7 @@ const Page = () => {
                           name="eventType"
                           id="eventType"
                           value={formData.eventType}
-                          className="text-[#919191] text-[14px] font-normal h-[44px] 3xl:h-[53px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
+                          className="text-[#707070] text-[13px] font-normal h-[44px] 3xl:h-[46px] mt-1 bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
                           onChange={handleChange}
                         >
                           <option value="" disabled>
@@ -132,7 +150,7 @@ const Page = () => {
                       <div className="flex flex-col w-full ">
                         <label
                           htmlFor="eventDate"
-                          className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                          className="font-normal text-[#151515] text-[15px] 3xl:text-[17px]"
                         >
                           Event date<span className="text-[#FF2C2C]">*</span>
                         </label>
@@ -141,7 +159,7 @@ const Page = () => {
                             required
                             ref={dateRef}
                             type="date"
-                            className="text-[#919191] w-full text-[14px] font-normal h-[44px] 3xl:h-[53px] bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
+                            className="text-[#707070] w-full text-[13px] font-normal h-[44px] 3xl:h-[46px] bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
                             name="eventDate"
                             id="eventDate"
                             value={formData.eventDate}
@@ -167,13 +185,13 @@ const Page = () => {
                       <div className="flex flex-col w-full mr-7">
                         <label
                           htmlFor="brideName"
-                          className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                          className="font-normal text-[#151515] text-[15px] 3xl:text-[17px]"
                         >
                           Name of Bride<span className="text-[#FF2C2C]">*</span>
                         </label>
                         <input
                           required
-                          className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                          className="h-[44px] 3xl:h-[46px] mt-1 bg-white placeholder:text-[#707070] placeholder:text-[13px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                           placeholder="Enter bride’s name"
                           type="text"
                           name="brideName"
@@ -185,13 +203,13 @@ const Page = () => {
                       <div className="flex flex-col w-full ">
                         <label
                           htmlFor="groomName"
-                          className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                          className="font-normal text-[#151515] text-[15px] 3xl:text-[17px]"
                         >
                           Name of Groom<span className="text-[#FF2C2C]">*</span>
                         </label>
                         <input
                           required
-                          className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                          className="h-[44px] 3xl:h-[46px] mt-1 bg-white placeholder:text-[#707070] placeholder:text-[13px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                           placeholder="Enter Groom's name"
                           type="text"
                           name="groomName"
@@ -204,13 +222,13 @@ const Page = () => {
                     <div className="flex flex-col mb-[55px] w-[383px] mr-7">
                       <label
                         htmlFor="city"
-                        className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                        className="font-normal text-[#151515] text-[15px] 3xl:text-[17px]"
                       >
                         Event city<span className="text-[#FF2C2C]">*</span>
                       </label>
                       <input
                         required
-                        className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                        className="h-[44px] 3xl:h-[46px] mt-1 bg-white placeholder:text-[#707070] placeholder:text-[13px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                         placeholder="Enter your city"
                         type="text"
                         name="city"
@@ -238,20 +256,20 @@ const Page = () => {
                       (step === 2 && !formData.eventTime)
                         ? "bg-gray-300 cursor-not-allowed"
                         : "bg-[#EA0056] hover:bg-[#d2004d] cursor-pointer"
-                    } font-semibold text-[18px] 3xl:text-[20px] text-white rounded-lg py-2.5 3xl:py-4 px-[135px] mx-auto table`}
+                    } font-semibold text-[15px] 3xl:text-[16px] text-white rounded-lg py-2.5 3xl:py-4 px-[155px] mx-auto table`}
                   >
                     Next
                   </button>
                 </form>
               )}
               {step === 2 && (
-                <form className="mt-8" onSubmit={handleSubmit}>
-                  <div className=" space-y-[25px]">
+                <form className="mt-5" onSubmit={handleSubmit}>
+                  <div className=" space-y-[13px]">
                     <div className="flex items-center">
                       <div className="flex flex-col w-full mr-7">
                         <label
                           htmlFor="eventTime"
-                          className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                          className="font-normal text-[#151515] text-[15px] 3xl:text-[17px]"
                         >
                           Event time<span className="text-[#FF2C2C]">*</span>
                         </label>
@@ -259,7 +277,7 @@ const Page = () => {
                           <input
                             required
                             ref={timeRef}
-                            className="text-[#919191] w-full text-[14px] font-normal h-[44px] 3xl:h-[53px] bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
+                            className="text-[#919191] w-full text-[14px] font-normal h-[44px] 3xl:h-[46px] bg-white px-5 border border-[#EEEEEE] rounded-lg outline-none"
                             type="time"
                             name="eventTime"
                             id="eventTime"
@@ -268,7 +286,7 @@ const Page = () => {
                           />
 
                           {!formData.eventTime && (
-                            <span className="absolute bg-white left-5 top-[11px] 3xl:top-[15px] text-[#919191] text-[14px] pointer-events-none">
+                            <span className="absolute bg-white left-5 top-[11px] 3xl:top-[15px] text-[#707070] text-[13px] pointer-events-none">
                               Select event time
                             </span>
                           )}
@@ -291,13 +309,13 @@ const Page = () => {
                       <div className="flex flex-col w-full">
                         <label
                           htmlFor="guestcount"
-                          className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                          className="font-normal text-[#151515] text-[15px] 3xl:text-[17px]"
                         >
                           Guest count<span className="text-[#FF2C2C]">*</span>
                         </label>
                         <input
                           required
-                          className="h-[44px] 3xl:h-[53px] mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
+                          className="h-[44px] 3xl:h-[46px] mt-1 bg-white placeholder:text-[#707070] placeholder:text-[13px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none"
                           placeholder="Enter number of guests"
                           type="text"
                           name="guestcount"
@@ -308,15 +326,7 @@ const Page = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-center mt-20 ">
-                    <button
-                      type="button"
-                      onClick={() => setStep(3)}
-                      className="font-semibold text-[18px] 3xl:text-[20px] text-white rounded-lg py-2.5 3xl:py-4 px-[100px] 4xl:px-[126px] mr-7 bg-[#EA0056] hover:bg-[#d2004d] cursor-pointer"
-                    >
-                      Skip
-                    </button>
-
+                  <div className="flex items-center justify-center mt-[65px] ">
                     <button
                       type="submit"
                       disabled={
@@ -336,7 +346,7 @@ const Page = () => {
                         (step === 2 && !formData.eventTime)
                           ? "bg-gray-300 cursor-not-allowed"
                           : "bg-[#EA0056] hover:bg-[#d2004d] cursor-pointer"
-                      } font-semibold text-[18px] 3xl:text-[20px] text-white rounded-lg py-2.5 3xl:py-4 px-[100px] 4xl:px-[126px]`}
+                      } font-semibold text-[15px] 3xl:text-[16px] text-white rounded-lg py-2.5 3xl:py-4 px-[155px] 4xl:px-[126px]`}
                     >
                       Next
                     </button>
@@ -344,12 +354,12 @@ const Page = () => {
                 </form>
               )}
               {step === 3 && (
-                <form className="mt-8" onSubmit={handleSubmit}>
-                  <div className=" space-y-[25px]">
+                <form className="mt-5" onSubmit={handleSubmit}>
+                  <div className="space-y-[13px]">
                     <div className="flex flex-col w-full ">
                       <p
                         htmlFor="eventDate"
-                        className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                        className="font-normal text-[#151515] text-[15px] 3xl:text-[17px]"
                       >
                         Estimated budget
                       </p>
@@ -409,13 +419,13 @@ const Page = () => {
                     <div className="flex flex-col w-full mt-10">
                       <label
                         htmlFor="groomName"
-                        className="font-normal text-[#151515] text-[16px] 3xl:text-[18px]"
+                        className="font-normal text-[#151515] text-[15px] 3xl:text-[17px]"
                       >
                         Notes
                       </label>
 
                       <textarea
-                        className="mt-1 bg-white placeholder:text-[#919191] placeholder:text-[14px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none h-[100px] py-3.5 resize-none"
+                        className="mt-1 bg-white placeholder:text-[#707070] placeholder:text-[13px] placeholder:font-normal px-5 border border-[#EEEEEE] rounded-lg text-black outline-none h-[100px] py-3.5 resize-none"
                         placeholder="Enter notes about event."
                         name="notes"
                         id="notes"
@@ -444,7 +454,7 @@ const Page = () => {
                       (step === 2 && !formData.eventTime)
                         ? "bg-gray-300 cursor-not-allowed"
                         : "bg-[#EA0056] hover:bg-[#d2004d] cursor-pointer"
-                    } font-semibold mt-20 text-[18px] 3xl:text-[20px] text-white rounded-lg py-2.5 3xl:py-4 px-[100px] 4xl:px-[126px] mx-auto table`}
+                    } font-semibold mt-[73px] text-[15px] 3xl:text-[16px] text-white rounded-lg py-2.5 3xl:py-4 px-[155px] mx-auto table`}
                   >
                     Submit
                   </button>

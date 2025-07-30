@@ -186,7 +186,7 @@ const Login = ({ planName }) => {
             <div>
               <form className="floating-form relative mt-4">
                 {/* Email */}
-                <div className="input-wrap mb-5 3xl:mb-10">
+                <div className="input-wrap mb-5 3xl:mb-6">
                   <input
                     type="email"
                     name="email"
