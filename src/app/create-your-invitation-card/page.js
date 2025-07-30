@@ -126,7 +126,7 @@ const Page = () => {
     py-0.5 banner_gradient backdrop-blur sticky top-[75px] z-[99] shadow-sm modalAnim`}
       >
         <div className="container flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-1.5 sm:gap-3">
-          <form className="w-full sm:flex-1 min-w-[120px] max-w-[320px] relative rounded-[8px] border border-gray-200 bg-[#f7f7f7] mb-1 sm:mb-0">
+          <form className="w-full sm:flex-1 md:min-w-[120px] md:max-w-[320px] relative rounded-[8px] border border-gray-200 bg-[#f7f7f7] mb-1 sm:mb-0">
             <label className="size-full inline-block">
               <input
                 className="bg-white rounded-[8px] w-full text-black font-normal text-[13px] placeholder:text-[#b0b0b0] pl-3 pr-10 outline-none border-none py-1"

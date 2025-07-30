@@ -92,7 +92,7 @@ const page = () => {
   return (
     <div className="bg-[#FBFBFB]">
       <Header />
-      <div className="pt-[25px] sm:pt-[40px] 2xl:pt-[60px] w-full 2xl:px-0 px-[22px] sm:px-6 smd:px-10 2xl:max-w-[1200px] mx-auto ">
+      <div className="pt-[20px] sm:pt-[40px] 2xl:pt-[60px] w-full 2xl:px-0 px-[22px] sm:px-6 smd:px-10 2xl:max-w-[1200px] mx-auto ">
         <div className="bg-white rounded-[12px] border border-[#F0F0F0] py-[30px] sm:py-[5px] px-[25px] sm:px-[30px] smd:px-[50px] 4xl:px-[90px] flex items-center justify-between shadow-sm sm:flex-row flex-col-reverse">
           <div className="pt-[30px] sm:py-[30px]">
             <h4 className="font-normal text-[13px] sm:text-left text-center sm:text-[17px] 3xl:text-[20px] text-[#333333]">
@@ -128,7 +128,7 @@ const page = () => {
                 <Image
                   width={216}
                   height={312}
-                  className="rounded-[12px]"
+                  className=" w-full h-auto rounded-xl"
                   src={card.img}
                   alt={`card-${index}`}
                 />
@@ -153,7 +153,7 @@ const page = () => {
         </div>
       </div>
 
-      <div className="pb-10 pl-[22px] sm:pl-6 md:hidden block">
+      <div className="pb-10 ml-[22px] sm:ml-6 md:hidden block">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={20}
@@ -177,7 +177,7 @@ const page = () => {
                 <Image
                   width={216}
                   height={312}
-                  className="rounded-[12px]"
+                  className="rounded-[12px] w-full h-auto"
                   src={card.img}
                   alt={`card-${index}`}
                 />
