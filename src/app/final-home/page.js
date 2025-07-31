@@ -320,7 +320,7 @@ const Page = () => {
               <VenueSearches
                 venuesearchData={dataPopularSearches}
                 imgSizeDesktop={[
-                  "w-[216px] h-[150px] smd:h-[200px] lg:h-[250px] 3xl:w-[216px] 3xl:h-[291px]",
+                  "w-[216px] h-full 3xl:w-[216px] 3xl:h-[291px]",
                 ]}
                 slidesPerView={5}
                 slidesPerViewTab={3}

@@ -120,7 +120,7 @@ const VenueSearches = ({
                     alt="eye"
                   />
 
-                  <p className="font-normal text-[11px] text-[#696969] ml-2">
+                  <p className="font-normal text-[11px] text-[#696969] ml-1">
                     {item.viewers}
                   </p>
                 </div>
