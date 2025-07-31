@@ -5,9 +5,79 @@ import Layouts from "@/components/Layouts";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Page = () => {
+  const token = useSelector((state) => state.auth.accessToken);
   const fetchedUser = useSelector((state)=>state.auth.user)
+  const [myLeads,setMyLeads] = useState([])
+  const [myBookings,setMyBookings] = useState([])
+  const [myReviews,setMyReviews] = useState([])
+  
+  
+  useEffect(()=>{
+    if(token){
+      fetchMyLeads()
+      fetchMyBookings()
+      fetchMyReviews()
+    }
+  },[token])
+  const fetchMyLeads=async()=>{
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/my-leads`,
+      {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      console.log('my leads',response)
+      if(response.status === 200){
+        setMyLeads(response.data.data)
+      }
+    } catch (error) {
+      
+    }
+  }
+
+  const fetchMyBookings=async()=>{
+       try {
+         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/my-bookings`,
+         {
+         withCredentials: true,
+         headers: {
+           Authorization: `Bearer ${token}`
+         }
+       })
+         console.log('my bookings',response)
+         if(response.status === 200){
+           setMyBookings(response.data.data)
+         }
+       } catch (error) {
+         
+       }
+     }
+
+     const fetchMyReviews=async()=>{
+       try {
+         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/my-reviews`,
+         {
+         withCredentials: true,
+         headers: {
+           Authorization: `Bearer ${token}`
+         }
+       })
+         console.log('my bookings',response)
+         if(response.status === 200){
+           setMyReviews(response.data.data)
+         }
+       } catch (error) {
+         
+       }
+     }
+    
+  
+  
   const bookingChart = [
     {
       title: "Leads This Week",
@@ -25,67 +95,84 @@ const Page = () => {
       value: "120",
     },
   ];
-  const leadsFData = [
-    {
-      image: "/images/sign-up/face-1.jpg",
-      name: "Drishti Ram",
-      location: "Noida, India",
-      detailsLink: "#",
-    },
-    {
-      image: "/images/sign-up/face-2.jpg",
-      name: "Zeenat Wason",
-      location: "Pune, India",
-      detailsLink: "#",
-    },
-    {
-      image: "/images/sign-up/face-3.jpg",
-      name: "Kajol Kabra",
-      location: "Lucknow, India",
-      detailsLink: "#",
-    },
-    {
-      image: "/images/sign-up/face-4.jpg",
-      name: "Sunita Mohan",
-      location: "Kolkata, India",
-      detailsLink: "#",
-    },
-    {
-      image: "/images/sign-up/face-5.jpg",
-      name: "Ankita Somani",
-      location: "Mumbai, India",
-      detailsLink: "#",
-    },
-    {
-      image: "/images/sign-up/face-6.jpg",
-      name: "Sid Mukherjee",
-      location: "Mumbai, India",
-      detailsLink: "#",
-    },
-  ];
-  const reviewsData = [
-    {
-      image: "/images/sign-up/face-1.jpg",
-      name: "Lalita Sandal",
-      rating: 4.5,
-      desc: "“Rabina have captured the most precious moments of my life”",
-      date: "January 2, 2025",
-    },
-    {
-      image: "/images/sign-up/face-2.jpg",
-      name: "Sona Pingle",
-      rating: 3.5,
-      desc: "“Rabina have a great experience for phtography”",
-      date: "January 3, 2025",
-    },
-    {
-      image: "/images/sign-up/face-3.jpg",
-      name: "Malik Kar",
-      rating: 4.0,
-      desc: "“Rabina&apos;s team is the most outstanding one.”",
-      date: "January 4, 2025",
-    },
-  ];
+  // const leadsFData = [
+  //   {
+  //     image: "/images/sign-up/face-1.jpg",
+  //     name: "Drishti Ram",
+  //     location: "Noida, India",
+  //     detailsLink: "#",
+  //   },
+  //   {
+  //     image: "/images/sign-up/face-2.jpg",
+  //     name: "Zeenat Wason",
+  //     location: "Pune, India",
+  //     detailsLink: "#",
+  //   },
+  //   {
+  //     image: "/images/sign-up/face-3.jpg",
+  //     name: "Kajol Kabra",
+  //     location: "Lucknow, India",
+  //     detailsLink: "#",
+  //   },
+  //   {
+  //     image: "/images/sign-up/face-4.jpg",
+  //     name: "Sunita Mohan",
+  //     location: "Kolkata, India",
+  //     detailsLink: "#",
+  //   },
+  //   {
+  //     image: "/images/sign-up/face-5.jpg",
+  //     name: "Ankita Somani",
+  //     location: "Mumbai, India",
+  //     detailsLink: "#",
+  //   },
+  //   {
+  //     image: "/images/sign-up/face-6.jpg",
+  //     name: "Sid Mukherjee",
+  //     location: "Mumbai, India",
+  //     detailsLink: "#",
+  //   },
+  // ];
+  const leadsFData = myLeads.map((lead, index) => ({
+  image: `/images/sign-up/face-${(index % 6) + 1}.jpg`,
+  name: lead.clientName,
+  location: lead.location || 'India',
+  detailsLink: `#`, // You can customize this based on lead._id if needed
+}));
+  
+  // const reviewsData = [
+  //   {
+  //     image: "/images/sign-up/face-1.jpg",
+  //     name: "Lalita Sandal",
+  //     rating: 4.5,
+  //     desc: "“Rabina have captured the most precious moments of my life”",
+  //     date: "January 2, 2025",
+  //   },
+  //   {
+  //     image: "/images/sign-up/face-2.jpg",
+  //     name: "Sona Pingle",
+  //     rating: 3.5,
+  //     desc: "“Rabina have a great experience for phtography”",
+  //     date: "January 3, 2025",
+  //   },
+  //   {
+  //     image: "/images/sign-up/face-3.jpg",
+  //     name: "Malik Kar",
+  //     rating: 4.0,
+  //     desc: "“Rabina&apos;s team is the most outstanding one.”",
+  //     date: "January 4, 2025",
+  //   },
+  // ];
+  const reviewsData = myReviews.map((review, index) => ({
+  image: `/images/sign-up/face-${(index % 6) + 1}.jpg`, // fallback image if needed
+  name: review.clientName,
+  rating: review.rating,
+  desc: `“${review.comment}”`,
+  date: new Date(review.date).toLocaleDateString('en-US', {
+    year: 'numeric', month: 'long', day: 'numeric'
+  }), // e.g., January 4, 2025
+}));
+  
   const profileData = [
     {
       name: "Upload profile photo",
@@ -112,84 +199,121 @@ const Page = () => {
       link: "#",
     },
   ];
-  const tableData = {
-    thead: {
-      heads: [
-        "Booking id",
-        "Client Name",
-        "Location",
-        "Booking date",
-        "Notes",
-        "Actions",
-      ],
-      widths: ["15%", "20%", "20%", "20%", "25%", "5%"],
-    },
-    tbody: [
-      {
-        bookingId: "#000125",
-        client: {
-          name: "Drishti Ram",
-          image: "/images/sign-up/face-1.jpg",
-        },
-        location: {
-          icon: "/images/vendor/location.svg",
-          name: "Kolkata, India",
-        },
-        bookingDate: {
-          icon: "/images/vendor/calender.svg",
-          value: "Feb 06, 2025",
-        },
-        notes: "Looking for a traditional wedding setup with floral décor.",
-        actions: "...",
-      },
-      {
-        bookingId: "#000126",
-        client: {
-          name: "Durjaya Ghosal",
-          image: "/images/sign-up/face-1.jpg",
-        },
-        location: {
-          name: "Kolkata, India",
-        },
-        bookingDate: {
-          value: "Feb 08, 2025",
-        },
-        notes: "Need full-day photography coverage for Bengali wedding.",
-        actions: "...",
-      },
-      {
-        bookingId: "#000127",
-        client: {
-          name: "Mohul Nara",
-          image: "/images/sign-up/face-1.jpg",
-        },
-        location: {
-          name: "Kolkata, India",
-        },
-        bookingDate: {
-          value: "Feb 11, 2025",
-        },
-        notes: "Can you share sample menus and pricing?",
-        actions: "...",
-      },
-      {
-        bookingId: "#000128",
-        client: {
-          name: "Piyush Kaushik",
-          image: "/images/sign-up/face-1.jpg",
-        },
-        location: {
-          name: "Kolkata, India",
-        },
-        bookingDate: {
-          value: "Feb 12, 2025",
-        },
-        notes: "utdoor setup required, Haldi & Mehendi theme included.",
-        actions: "...",
-      },
-    ],
-  };
 
+  console.log('leads data',myBookings);
+  
+  // const tableData = {
+  //   thead: {
+  //     heads: [
+  //       "Booking id",
+  //       "Client Name",
+  //       "Location",
+  //       "Booking date",
+  //       "Notes",
+  //       "Actions",
+  //     ],
+  //     widths: ["15%", "20%", "20%", "20%", "25%", "5%"],
+  //   },
+  //   tbody: [
+  //     {
+  //       bookingId: "#000125",
+  //       client: {
+  //         name: "Drishti Ram",
+  //         image: "/images/sign-up/face-1.jpg",
+  //       },
+  //       location: {
+  //         icon: "/images/vendor/location.svg",
+  //         name: "Kolkata, India",
+  //       },
+  //       bookingDate: {
+  //         icon: "/images/vendor/calender.svg",
+  //         value: "Feb 06, 2025",
+  //       },
+  //       notes: "Looking for a traditional wedding setup with floral décor.",
+  //       actions: "...",
+  //     },
+  //     {
+  //       bookingId: "#000126",
+  //       client: {
+  //         name: "Durjaya Ghosal",
+  //         image: "/images/sign-up/face-1.jpg",
+  //       },
+  //       location: {
+  //         name: "Kolkata, India",
+  //       },
+  //       bookingDate: {
+  //         value: "Feb 08, 2025",
+  //       },
+  //       notes: "Need full-day photography coverage for Bengali wedding.",
+  //       actions: "...",
+  //     },
+  //     {
+  //       bookingId: "#000127",
+  //       client: {
+  //         name: "Mohul Nara",
+  //         image: "/images/sign-up/face-1.jpg",
+  //       },
+  //       location: {
+  //         name: "Kolkata, India",
+  //       },
+  //       bookingDate: {
+  //         value: "Feb 11, 2025",
+  //       },
+  //       notes: "Can you share sample menus and pricing?",
+  //       actions: "...",
+  //     },
+  //     {
+  //       bookingId: "#000128",
+  //       client: {
+  //         name: "Piyush Kaushik",
+  //         image: "/images/sign-up/face-1.jpg",
+  //       },
+  //       location: {
+  //         name: "Kolkata, India",
+  //       },
+  //       bookingDate: {
+  //         value: "Feb 12, 2025",
+  //       },
+  //       notes: "utdoor setup required, Haldi & Mehendi theme included.",
+  //       actions: "...",
+  //     },
+  //   ],
+  // };
+
+
+const tableData = {
+  thead: {
+    heads: [
+      "Booking id",
+      "Client Name",
+      "Location",
+      "Booking date",
+      "Notes",
+      "Actions",
+    ],
+    widths: ["15%", "20%", "20%", "20%", "25%", "5%"],
+  },
+  tbody: myBookings.map((booking, index) => ({
+    bookingId: `#000${booking.bookingId.toString().padStart(3, '0')}`,
+    client: {
+      name: booking.clientName,
+      image: `/images/sign-up/face-${(index % 6) + 1}.jpg`, // cycle through available face images
+    },
+    location: {
+      icon: "/images/vendor/location.svg",
+      name: booking.location,
+    },
+    bookingDate: {
+      icon: "/images/vendor/calender.svg",
+      value: new Date(booking.bookingDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+      }), // e.g., Feb 14, 2025
+    },
+    notes: booking.notes,
+    actions: "...",
+  }))}
   const profileComPercentage = 10;
   const [isVisible, setIsVisible] = useState(false);
   const [count, setCount] = useState(0);
@@ -667,6 +791,7 @@ const Page = () => {
       </div>
     </Layouts>
   );
+
 };
 
 export default Page;

@@ -142,9 +142,9 @@ const Page = () => {
     deliveryTimeline: Yup.string(),
     priceRange: Yup.string(),
     portfolioFiles: Yup.array(),
-    portfolioDescription: Yup.string(),
-    portfolioLocation: Yup.string(),
-    portfolioEventType: Yup.string(),
+    portfolioDescription: Yup.string().required('Portfolio description is required'),
+    portfolioLocation: Yup.string().required("Location is required"),
+    portfolioEventType: Yup.string().required("Please select event type"),
     portfolioTags: Yup.array().of(Yup.string()),
     openingHours: Yup.array().of(openingHourSchema),
     allGalleryFiles: Yup.array()
@@ -1004,6 +1004,24 @@ const Page = () => {
     const portfolioInfo = {
       portfolioTags, portfolioDescription, portfolioLocation, portfolioEventType, portfolioFiles
     }
+
+    formik.setTouched({
+    portfolioTags:true,
+    portfolioDescription:true,
+    portfolioLocation:true,
+    portfolioEventType:true,
+    portfolioFiles:true
+  });
+    const filterInfo = {portfolioDescription,portfolioLocation,portfolioEventType}
+    const isAnyEmpty = Object.values(filterInfo).some(
+      (value) => value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0)
+    );
+
+    if (isAnyEmpty) {
+      toast.error('Please fill out all required fields.');
+      return; // stop further execution
+    }
+
 
     try {
       const response = await axios.put(
@@ -2280,6 +2298,13 @@ const Page = () => {
                             <option value="mercedes">Mercedes</option>
                             <option value="audi">Audi</option>
                           </select>
+                          <div>
+                          {(formik.touched.portfolioEventType && formik.errors.portfolioEventType) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.portfolioEventType}
+                            </p>
+                          )}
+                        </div>
                         </div>
                         <div className="flex flex-col w-full">
                           <label
@@ -2305,6 +2330,13 @@ const Page = () => {
                               src={"/images/location.svg"}
                               alt="location"
                             />
+                            <div>
+                          {(formik.touched.portfolioLocation && formik.errors.portfolioLocation) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.portfolioLocation}
+                            </p>
+                          )}
+                        </div>
                           </div>
                         </div>
                       </div>
@@ -2324,6 +2356,13 @@ const Page = () => {
                           className="h-[110px] 3xl:h-[125px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black py-3.5"
                           placeholder="Write your short description"
                         ></textarea>
+                        <div>
+                          {(formik.touched.portfolioDescription && formik.errors.portfolioDescription) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.portfolioDescription}
+                            </p>
+                          )}
+                        </div>
                       </div>
                       <div className="flex items-center mt-2 justify-end">
                         <button type="submit" className="cursor-pointer font-semibold text-[16px] 4xl:text-[20px] bg-[#EA0056] hover:bg-[#d6004f] rounded-[8px] py-2 4xl:py-3.5 px-[20px]">

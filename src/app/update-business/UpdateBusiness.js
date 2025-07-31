@@ -1680,11 +1680,11 @@ const UpdateBusiness = () => {
     images: Yup.array(),
     deliveryTimeline: Yup.string(),
     priceRange: Yup.string(),
-    portfolioFiles: Yup.array(),
-    portfolioDescription: Yup.string(),
-    portfolioLocation: Yup.string(),
-    portfolioEventType: Yup.string(),
-    portfolioTags: Yup.string(),
+    portfolioFiles: Yup.array().required('Portfolio files is required'),
+    portfolioDescription: Yup.string().required('Portfolio description is required'),
+    portfolioLocation: Yup.string().required("Location is required"),
+    portfolioEventType: Yup.string().required("Please select event type"),
+    portfolioTags: Yup.string().required('Portfolio tags is required'),
     openingHours: Yup.array().of(openingHourSchema),
     allGalleryFiles: Yup.array()
   });
@@ -1843,17 +1843,17 @@ const UpdateBusiness = () => {
               languages: data?.business?.languagesSpoken || "",
               travelAvailability: data?.business?.travelAvailability || "",
               description: data?.service?.serviceInfo?.description || "",
-              availability: data?.serviceInfo?.availability || [],
+              availability: data?.service?.serviceInfo?.availability || [],
               images: data?.serviceInfo?.images || [],
               deliveryTimeline: data?.service?.serviceInfo?.deliveryTimeline || "",
               priceRange: data?.service?.serviceInfo?.priceRange || "",
               portfolioDescription: data?.service?.portfolioData?.portfolioDescription || "",
               portfolioLocation: data?.service?.portfolioData?.portfolioLocation || "",
               portfolioEventType: data?.service?.portfolioData?.portfolioEventType || "",
-              portfolioTags: data?.service?.portfolioData?.portfolioTags || "",
-              portfolioFiles: data?.service?.portfolioData?.portfolioFiles || "",
+              portfolioTags: data?.service?.portfolioData?.portfolioTags || [],
+              portfolioFiles: data?.service?.portfolioData?.portfolioFiles || [],
               openingHours: Array.isArray(data?.business?.openingHours) ? data.business.openingHours : [],
-              allGalleryFiles: data?.business?.images || []
+              allGalleryFiles: data?.business?.images || [],
             });
 
           }
@@ -2509,28 +2509,65 @@ const UpdateBusiness = () => {
   //   setSelectedFiles(updated);
   // };
 
+  // const removeImage = (index) => {
+  //   const fileToRemove = selectedFiles[index];
+  //   // Remove from selectedFiles array
+  //   const updatedFiles = [...selectedFiles];
+  //   updatedFiles.splice(index, 1);
+  //   setSelectedFiles(updatedFiles);
+
+  //   // Remove corresponding Cloudinary URL from formik values if it exists
+  //   if (fileToRemove?.cloudinaryUrl) {
+  //     const existingUrls = Array.isArray(formik.values.portfolioFiles)
+  //       ? formik.values.portfolioFiles
+  //       : [];
+
+  //     const updatedUrls = existingUrls.filter(url => url !== fileToRemove.cloudinaryUrl);
+  //     formik.setFieldValue("portfolioFiles", updatedUrls);
+  //   }
+
+  //   // Clean up object URL to prevent memory leaks
+  //   if (fileToRemove?.url && fileToRemove.url.startsWith('blob:')) {
+  //     URL.revokeObjectURL(fileToRemove.url);
+  //   }
+  // };
+
   const removeImage = (index) => {
-    const fileToRemove = selectedFiles[index];
-    // Remove from selectedFiles array
-    const updatedFiles = [...selectedFiles];
-    updatedFiles.splice(index, 1);
-    setSelectedFiles(updatedFiles);
+  const fileToRemove = selectedFiles[index];
+  const updatedFiles = [...selectedFiles];
+  updatedFiles.splice(index, 1);
+  setSelectedFiles(updatedFiles);
 
-    // Remove corresponding Cloudinary URL from formik values if it exists
-    if (fileToRemove?.cloudinaryUrl) {
-      const existingUrls = Array.isArray(formik.values.portfolioFiles)
-        ? formik.values.portfolioFiles
-        : [];
+  const existingFiles = Array.isArray(formik.values.portfolioFiles)
+    ? formik.values.portfolioFiles
+    : [];
 
-      const updatedUrls = existingUrls.filter(url => url !== fileToRemove.cloudinaryUrl);
-      formik.setFieldValue("portfolioFiles", updatedUrls);
-    }
+  let updatedUrls;
 
-    // Clean up object URL to prevent memory leaks
-    if (fileToRemove?.url && fileToRemove.url.startsWith('blob:')) {
-      URL.revokeObjectURL(fileToRemove.url);
-    }
-  };
+  if (fileToRemove?.isExisting) {
+    // For existing files from API - remove by URL match
+    updatedUrls = existingFiles.filter(fileObj => {
+      if (typeof fileObj === 'string') {
+        return fileObj !== fileToRemove.url;
+      }
+      return fileObj.url !== fileToRemove.url;
+    });
+  } else if (fileToRemove?.cloudinaryUrl) {
+    // For newly uploaded files - remove by cloudinaryUrl
+    updatedUrls = existingFiles.filter(url => url !== fileToRemove.cloudinaryUrl);
+  } else {
+    // Fallback
+    updatedUrls = existingFiles;
+  }
+
+  formik.setFieldValue("portfolioFiles", updatedUrls);
+
+  if (fileToRemove?.url && fileToRemove.url.startsWith('blob:')) {
+    URL.revokeObjectURL(fileToRemove.url);
+  }
+};
+
+
   const included = [
     {
       checkboxid: 1,
@@ -2552,18 +2589,59 @@ const UpdateBusiness = () => {
     );
   };
 
+  // const handleKeyDown = (e) => {
+  //  if (e.key === "Enter" && inputValue.trim()) {
+  //        e.preventDefault();
+
+  //        let tagValue = inputValue.trim();
+  //        if (!tagValue.startsWith('#')) {
+  //          tagValue = '#' + tagValue;
+  //        }
+
+  //        if (!formik.values.portfolioTags.includes(tagValue)) {
+  //          setTags((prev) => [...prev, tagValue]);
+  //          formik.setFieldValue("portfolioTags", [...formik.values.portfolioTags, tagValue]);
+  //        }
+  //        setInputValue("");
+  //      }
+  // };
+
   const handleKeyDown = (e) => {
-    if (e.key === "Enter" && inputValue.trim()) {
+    if (e.key === "Enter" && e.target.value.trim()) {
       e.preventDefault();
-      if (!tags.includes(inputValue.trim())) {
-        setTags((prev) => [...prev, inputValue.trim()]);
+
+      let tagValue = e.target.value.trim();
+      if (!tagValue.startsWith('#')) {
+        tagValue = '#' + tagValue;
       }
-      setInputValue("");
+
+      // Get current tags from formik (ensure it's an array)
+      const currentTags = Array.isArray(formik.values.portfolioTags)
+        ? formik.values.portfolioTags
+        : [];
+
+      if (!currentTags.includes(tagValue)) {
+        const newTags = [...currentTags, tagValue];
+        formik.setFieldValue("portfolioTags", newTags);
+      }
+
+      // Clear the input
+      e.target.value = "";
     }
   };
+  // const removeTag = (index) => {
+  //    const newTags = tags.filter((_, i) => i !== index);
+  //   setTags(newTags);
+  //   // Update formik as well
+  //   formik.setFieldValue("portfolioTags", newTags);;
+  // };
 
   const removeTag = (index) => {
-    setTags(tags.filter((_, i) => i !== index));
+    const currentTags = Array.isArray(formik.values.portfolioTags)
+      ? formik.values.portfolioTags
+      : [];
+    const newTags = currentTags.filter((_, i) => i !== index);
+    formik.setFieldValue("portfolioTags", newTags);
   };
 
   const saveAndPublish = () => {
@@ -2591,21 +2669,21 @@ const UpdateBusiness = () => {
       pincode: pin,
       languagesSpoken: languages,
     };
-     formik.setTouched({
-    businessName: true,
-    businessAddress: true,
-    city: true,
-    state: true,
-    pin: true,
-    languages: true,
-  });
+    formik.setTouched({
+      businessName: true,
+      businessAddress: true,
+      city: true,
+      state: true,
+      pin: true,
+      languages: true,
+    });
     const isAnyEmpty = Object.values(businessData).some(
       (value) => value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0)
     );
 
     if (isAnyEmpty) {
       toast.error('Please fill out all required fields.');
-      return; 
+      return;
     }
 
     console.log('businessData', businessData)
@@ -2637,7 +2715,7 @@ const UpdateBusiness = () => {
   }
   const handleAddService = async (e) => {
     e.preventDefault()
-    const { description, availability, deliveryTimeline, priceRange } = formik.values
+    const { description, availability, deliveryTimeline, priceRange} = formik.values
     const serviceInfo = {
       description, availability, deliveryTimeline, priceRange,
       images: uploadedImageUrls,
@@ -2646,7 +2724,7 @@ const UpdateBusiness = () => {
     // const portfolioInfo = {
     //   portfolioTags, portfolioDescription, portfolioLocation, portfolioEventType
     // }
-    console.log("opening hours", serviceInfo)
+    console.log("service info", categoryForms)
     // const formData = new FormData();
     // formData.append("serviceInfo", JSON.stringify(serviceInfo));
     // formData.append("portfolioInfo", JSON.stringify(portfolioInfo));
@@ -2655,9 +2733,9 @@ const UpdateBusiness = () => {
     //   formData.append("images", file);
     // });
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/create-service`,
-        { serviceInfo, category: selectedCategory },
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-service`,
+        {serviceInfo,category:selectedCategory},
         {
           withCredentials: true,
           headers: {
@@ -2665,11 +2743,11 @@ const UpdateBusiness = () => {
           },
         }
       );
-      if (response.status === 201) {
-        toast.success("Service info added successfully!")
-        localStorage.setItem('isServiceSubmitted', 'true')
+      if (response.status === 200) {
+        toast.success("Service info updated successfully!")
+        localStorage.setItem('isServiceSubmitted','true')
         setPortFolioButton(true)
-        setopenAccordion('upload-portfolio')
+        // setopenAccordion('services')
       }
     } catch (error) {
       console.error("Error adding service info:", error);
@@ -2737,9 +2815,25 @@ const UpdateBusiness = () => {
     const portfolioInfo = {
       portfolioTags, portfolioDescription, portfolioLocation, portfolioEventType, portfolioFiles: portfolioUrls
     }
+
+    const filterInfo = {portfolioDescription,portfolioLocation,portfolioEventType}
     console.log('handleAddPortfolio', portfolioInfo);
 
+    formik.setTouched({
+    portfolioTags:true,
+    portfolioDescription:true,
+    portfolioLocation:true,
+    portfolioEventType:true,
+    portfolioFiles:true
+  });
+    const isAnyEmpty = Object.values(filterInfo).some(
+      (value) => value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0)
+    );
 
+    if (isAnyEmpty) {
+      toast.error('Please fill out all required fields.');
+      return; // stop further execution
+    }
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-portfolio`,
@@ -2766,7 +2860,7 @@ const UpdateBusiness = () => {
     const { openingHours } = formik.values
     console.log("opening hours", openingHours)
     formik.setTouched({
-      openingHours:true
+      openingHours: true
     })
     const hasInvalidEntry = openingHours.some(hour => {
       if (hour.isOpen) {
@@ -3715,8 +3809,8 @@ const UpdateBusiness = () => {
                                 name="availability"  // all radios share the same name
                                 id={`radio-${item.checkboxid}`}
                                 value={item.checkboxName}
-                                checked={formik.values.availability === item.checkboxid}
-                                onChange={() => formik.setFieldValue("availability", item.checkboxid)}
+                                checked={formik.values.availability === item.checkboxName}
+                                onChange={() => formik.setFieldValue("availability", item.checkboxName)}
                               />
                               <label
                                 htmlFor={`radio-${item.checkboxid}`}
@@ -3915,6 +4009,7 @@ const UpdateBusiness = () => {
                               multiple
                               accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, application/msword, application/pdf"
                               onChange={handleFileChange}
+                              onBlur={formik.handleBlur}
                             />
                           </label>
 
@@ -3927,11 +4022,18 @@ const UpdateBusiness = () => {
                           />
 
                           <p className="text-[#505050] font-medium text-[14px] text-center my-1.5">
-                            Drag & drop files here, or click to select files
+                            Drag & drop files here, or click to select files*
                           </p>
                           <p className="text-[#787878] font-normal text-[12px] text-center">
                             Supported File Types: .jpg, .png
                           </p>
+                          <div>
+                          {(!formik.values.portfolioFiles) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              Portfolio files is required
+                            </p>
+                          )}
+                        </div>
                         </div>
                         {/* Preview Thumbnails */}
                         <div className="flex flex-wrap gap-2 mt-3">
@@ -3991,12 +4093,12 @@ const UpdateBusiness = () => {
                         </p>
                         <div className="rounded-[18px] bg-white py-4 px-4">
                           <ul className="flex items-center flex-wrap gap-3">
-                            {tags.map((tag, index) => (
+                            {/* {tags.map((tag, index) => (
                               <li
                                 key={index}
                                 className="font-normal text-[15px] 3xl:text-[16px] text-[#505050] bg-[#F6F6F6] rounded-[36px] py-2 px-4 w-fit flex items-center space-x-[17px]"
                               >
-                                <span>{tag}</span>
+                                <span className="text-blue-500">{tag}</span>
                                 <button
                                   className="cursor-pointer grid place-items-center size-[21px] bg-[#E5E5E5] rounded-full"
                                   onClick={() => removeTag(index)}
@@ -4009,9 +4111,30 @@ const UpdateBusiness = () => {
                                   />
                                 </button>
                               </li>
+                            ))} */}
+                            {Array.isArray(formik.values.portfolioTags) && formik.values.portfolioTags.map((tag, index) => (
+                              <li
+                                key={index}
+                                className="font-normal text-[15px] 3xl:text-[16px] text-[#505050] bg-[#F6F6F6] rounded-[36px] py-2 px-4 w-fit flex items-center space-x-[17px]"
+                              >
+                              <span className="text-blue-500">
+                                {tag} </span>
+                                 <button
+                                  className="cursor-pointer grid place-items-center size-[21px] bg-[#E5E5E5] rounded-full"
+                                  onClick={() => removeTag(index)}
+                                >
+                                  <Image
+                                    width={7}
+                                    height={7}
+                                    src={"/images/services/crossIcon.svg"}
+                                    alt="crossIcon"
+                                  />
+                                </button>
+                             
+                              </li>
                             ))}
                             <li className="flex items-center">
-                              <input
+                              {/* <input
                                 type="text"
                                 name="portfolioTags"
                                 className="outline-none bg-transparent text-[15px] 3xl:text-[16px] placeholder:text-[#b0b0b0] text-[#505050] py-2 px-4"
@@ -4019,9 +4142,17 @@ const UpdateBusiness = () => {
                                 value={formik.values.portfolioTags}
                                 onChange={(e) => { setInputValue(e.target.value), formik.handleChange(e) }}
                                 onKeyDown={handleKeyDown}
+                              /> */}
+                              <input
+                                type="text"
+                                name="portfolioTags"
+                                onKeyDown={handleKeyDown}
+                                placeholder="Add tags..."
+                                className="outline-none bg-transparent text-[15px] 3xl:text-[16px] placeholder:text-[#b0b0b0] text-[#505050] py-2 px-4"
                               />
                             </li>
                           </ul>
+                          
                         </div>
                       </div>
 
@@ -4049,6 +4180,13 @@ const UpdateBusiness = () => {
                             <option value="mercedes">Mercedes</option>
                             <option value="audi">Audi</option>
                           </select>
+                          <div>
+                          {(formik.touched.portfolioEventType && formik.errors.portfolioEventType) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.portfolioEventType}
+                            </p>
+                          )}
+                        </div>
                         </div>
                         <div className="flex flex-col w-full">
                           <label
@@ -4074,6 +4212,13 @@ const UpdateBusiness = () => {
                               src={"/images/location.svg"}
                               alt="location"
                             />
+                            <div>
+                          {(formik.touched.portfolioLocation && formik.errors.portfolioLocation) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.portfolioLocation}
+                            </p>
+                          )}
+                        </div>
                           </div>
                         </div>
                       </div>
@@ -4093,6 +4238,13 @@ const UpdateBusiness = () => {
                           className="h-[110px] 3xl:h-[125px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black py-3.5"
                           placeholder="Write your short description"
                         ></textarea>
+                        <div>
+                          {(formik.touched.portfolioDescription && formik.errors.portfolioDescription) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.portfolioDescription}
+                            </p>
+                          )}
+                        </div>
                       </div>
                       <div className="flex items-center mt-2 justify-end">
                         <button type="submit" className="cursor-pointer font-semibold text-[16px] 4xl:text-[20px] bg-[#EA0056] hover:bg-[#d6004f] rounded-[8px] py-2 4xl:py-3.5 px-[20px]">

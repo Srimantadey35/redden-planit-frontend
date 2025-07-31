@@ -13,7 +13,7 @@ const Page = () => {
 
      console.log('my reviews token',token);
      
-      useEffect(()=>{
+  useEffect(()=>{
     if(token){
       const fetchMyReviews=async()=>{
        try {
