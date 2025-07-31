@@ -213,6 +213,12 @@ const Login = ({ planName }) => {
                     value={formData.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    className="relative z-[1] text-lg tracking-widest font-mono"
+                    style={{
+                      fontFamily: isPassVisible ? 'inherit' : 'caption',
+                      fontSize: isPassVisible ? '12px' : '20px',
+                      letterSpacing: isPassVisible ? 'normal' : '3px'
+                    }}
                   />
                   <label htmlFor="password">Password</label>
                   <button

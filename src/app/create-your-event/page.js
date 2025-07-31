@@ -216,10 +216,10 @@ const page = () => {
         </Swiper>
 
         <div
-          className="flex justify-between items-center absolute w-full z-[2] sliderbtns top-[30%]"
+          className="flex justify-between items-center absolute w-full z-[2] sliderbtns"
+          style={{ top: '27%' }}
         >
           <button
-            ref={prevRef}
             className="size-[31px] rounded-full bg-white shadow-lg flex items-center justify-center cursor-pointer ml-[-15px]"
             onClick={() => swiperInstance?.slidePrev()}
           >
@@ -231,7 +231,6 @@ const page = () => {
             />
           </button>
           {/* <button
-            ref={nextRef}
             className="size-[31px] rounded-full bg-white shadow-lg flex items-center justify-center cursor-pointer mr-[-15px]"
             onClick={() => swiperInstance?.slideNext()}
           >

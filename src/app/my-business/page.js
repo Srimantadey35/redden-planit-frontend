@@ -1114,7 +1114,7 @@ const Page = () => {
                             htmlFor="portfolio-upload"
                             className="w-full flex flex-col items-center justify-center cursor-pointer"
                           >
-                            <span className="text-[#EA0056] text-4xl mb-2 border border-[#dadada] rounded-full bg-white w-14 h-14 flex items-center justify-center">
+                            <span className="text-[#EA0056] text-4xl mb-2 border border-[#dadada] rounded-full bg-white w-14 h-14 flex items-center justify-center pb-[6px]">
                               +
                             </span>
                             <p className="text-[#505050] font-medium text-[15px] mb-1">
@@ -1337,7 +1337,7 @@ const Page = () => {
                           htmlFor="gallery-upload"
                           className="w-full flex flex-col items-center justify-center cursor-pointer"
                         >
-                          <span className="text-[#EA0056] text-4xl mb-2 border border-[#dadada] rounded-full bg-white w-14 h-14 flex items-center justify-center">
+                          <span className="text-[#EA0056] text-4xl mb-2 border border-[#dadada] rounded-full bg-white w-14 h-14 flex items-center justify-center pb-[6px]">
                             +
                           </span>
                           <p className="text-[#505050] font-medium text-[15px] mb-1">

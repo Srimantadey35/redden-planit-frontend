@@ -285,7 +285,12 @@ const CreateAccModal = ({ planName }) => {
                     value={formData.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className="relative z-[1] big-password-dots"
+                    className="relative z-[1] text-lg tracking-widest font-mono"
+                    style={{
+                      fontFamily: isPassVisible.pass ? 'inherit' : 'caption',
+                      fontSize: isPassVisible.pass ? '12px' : '20px',
+                      letterSpacing: isPassVisible.pass ? 'normal' : '3px'
+                    }}
                   />
                   <label htmlFor="password">Password</label>
                   <button
@@ -317,7 +322,12 @@ const CreateAccModal = ({ planName }) => {
                       value={formData.confirmpassword}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className="relative z-[1]"
+                      className="relative z-[1] text-lg tracking-widest font-mono"
+                      style={{
+                        fontFamily: isPassVisible.CPass ? 'inherit' : 'caption',
+                        fontSize: isPassVisible.CPass ? '12px' : '20px',
+                        letterSpacing: isPassVisible.CPass ? 'normal' : '3px'
+                      }}
                     />
                     <label htmlFor="confirmpassword">Confirm Password</label>
                     <button

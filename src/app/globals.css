@@ -437,6 +437,36 @@ input:-webkit-autofill:active {
 
 /* in your global CSS or module */
 .big-password-dots {
-  letter-spacing: 0.3em;
-  font-size: 1.5rem;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+  font-size: 18px;
+}
+
+.big-password-dots::-webkit-textfield-decoration-container {
+  font-size: 20px;
+}
+
+.big-password-dots[type="password"] {
+  font-family: caption;
+  font-size: 20px;
+  letter-spacing: 3px;
+}
+
+/* For better cross-browser compatibility */
+.big-password-dots[type="password"]::-webkit-input-placeholder {
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: normal;
+}
+
+.big-password-dots[type="password"]::-moz-placeholder {
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: normal;
+}
+
+.big-password-dots[type="password"]:-ms-input-placeholder {
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: normal;
 }
