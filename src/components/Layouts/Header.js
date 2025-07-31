@@ -130,7 +130,7 @@ const fetchUserDetails = async (accessToken) => {
             </button>
 
             <h4 className="font-semibold text-[18px] 3xl:text-[24px] text-[#313131] flex-[1] smd:flex-1/2">
-              Hello, {fetchedUser.name}
+              Hello, {fetchedUser.firstName}
             </h4>
             {/* Right Icons */}
             <div className="flex items-center relative space-x-3 sm:space-x-5 3xl:space-x-6">

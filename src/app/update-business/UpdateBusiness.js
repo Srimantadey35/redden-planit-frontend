@@ -1821,11 +1821,11 @@ const UpdateBusiness = () => {
             if (Array.isArray(galleryImageUrls) && galleryImageUrls.length > 0) {
               const existingGalleryFiles = galleryImageUrls.map((url, index) => ({
                 url: url,
-                file:{
-                id: `existing-gallery-${index}`,
-                isExisting: true,
-                file: null,
-                name: url.split('/').pop() || `gallery-${index}` // Add name property
+                file: {
+                  id: `existing-gallery-${index}`,
+                  isExisting: true,
+                  file: null,
+                  name: url.split('/').pop() || `gallery-${index}` // Add name property
                 }
 
               }));
@@ -2571,8 +2571,9 @@ const UpdateBusiness = () => {
 
   }
 
-   const handleAddBusiness = async (e) => {
+  const handleAddBusiness = async (e) => {
     e.preventDefault()
+
     const {
       businessName,
       businessAddress,
@@ -2582,7 +2583,7 @@ const UpdateBusiness = () => {
       languages } = formik.values
 
     const businessData = {
-     name: businessName,
+      name: businessName,
       address: businessAddress,
       category: selectedCategory,
       city,
@@ -2590,6 +2591,22 @@ const UpdateBusiness = () => {
       pincode: pin,
       languagesSpoken: languages,
     };
+     formik.setTouched({
+    businessName: true,
+    businessAddress: true,
+    city: true,
+    state: true,
+    pin: true,
+    languages: true,
+  });
+    const isAnyEmpty = Object.values(businessData).some(
+      (value) => value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0)
+    );
+
+    if (isAnyEmpty) {
+      toast.error('Please fill out all required fields.');
+      return; 
+    }
 
     console.log('businessData', businessData)
 
@@ -2748,6 +2765,20 @@ const UpdateBusiness = () => {
     e.preventDefault()
     const { openingHours } = formik.values
     console.log("opening hours", openingHours)
+    formik.setTouched({
+      openingHours:true
+    })
+    const hasInvalidEntry = openingHours.some(hour => {
+      if (hour.isOpen) {
+        return !hour.from?.trim() || !hour.to?.trim(); // if from or to is empty
+      }
+      return false; // skip validation if isOpen is false
+    });
+
+    if (hasInvalidEntry) {
+      toast.error("Please fill all 'from' and 'to' times for the open days.");
+      return;
+    }
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-opening-hours`,
@@ -4139,8 +4170,8 @@ const UpdateBusiness = () => {
                     {/* Preview Thumbnails */}
                     <div className="flex flex-wrap gap-2 mt-3">
                       {galleryFiles.map((img, index) => {
-                        console.log('gallery imagessss',img);
-                        
+                        console.log('gallery imagessss', img);
+
                         const isImage = /\.(jpe?g|png)$/i.test(img?.file?.name);
 
                         return (

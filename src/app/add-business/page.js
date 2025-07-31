@@ -145,7 +145,7 @@ const Page = () => {
     portfolioDescription: Yup.string(),
     portfolioLocation: Yup.string(),
     portfolioEventType: Yup.string(),
-    portfolioTags: Yup.string(),
+    portfolioTags: Yup.array().of(Yup.string()),
     openingHours: Yup.array().of(openingHourSchema),
     allGalleryFiles: Yup.array()
   });
@@ -171,7 +171,7 @@ const Page = () => {
       portfolioDescription: "",
       portfolioLocation: "",
       portfolioEventType: "",
-      portfolioTags: "",
+      portfolioTags: [],
       openingHours: [
         { day: "Monday", isOpen: true, from: "", to: "" }
       ],
@@ -678,6 +678,11 @@ const Page = () => {
   //   formik.setFieldValue("portfolioFiles", [...existingFiles, ...files]);
   // };
 
+  useEffect(() => {
+    if (formik.values.portfolioTags.length > 0) {
+      setTags(formik.values.portfolioTags);
+    }
+  }, [formik.values.portfolioTags]);
 
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
@@ -814,15 +819,25 @@ const Page = () => {
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && inputValue.trim()) {
       e.preventDefault();
-      if (!tags.includes(inputValue.trim())) {
-        setTags((prev) => [...prev, inputValue.trim()]);
+
+      let tagValue = inputValue.trim();
+      if (!tagValue.startsWith('#')) {
+        tagValue = '#' + tagValue;
+      }
+
+      if (!formik.values.portfolioTags.includes(tagValue)) {
+        setTags((prev) => [...prev, tagValue]);
+        formik.setFieldValue("portfolioTags", [...formik.values.portfolioTags, tagValue]);
       }
       setInputValue("");
     }
   };
 
   const removeTag = (index) => {
-    setTags(tags.filter((_, i) => i !== index));
+    const newTags = tags.filter((_, i) => i !== index);
+    setTags(newTags);
+    // Update formik as well
+    formik.setFieldValue("portfolioTags", newTags);
   };
 
   const saveAndPublish = () => {
@@ -850,7 +865,22 @@ const Page = () => {
       pincode: pin,
       languagesSpoken: languages,
     };
+    formik.setTouched({
+    businessName: true,
+    businessAddress: true,
+    city: true,
+    state: true,
+    pin: true,
+    languages: true,
+  });
+    const isAnyEmpty = Object.values(businessData).some(
+      (value) => value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0)
+    );
 
+    if (isAnyEmpty) {
+      toast.error('Please fill out all required fields.');
+      return; // stop further execution
+    }
     console.log('businessData', businessData)
 
     try {
@@ -999,6 +1029,20 @@ const Page = () => {
   const handleAddOpeningHours = async (e) => {
     e.preventDefault()
     const { openingHours } = formik.values
+    formik.setTouched({
+      openingHours:true
+    })
+    const hasInvalidEntry = openingHours.some(hour => {
+      if (hour.isOpen) {
+        return !hour.from?.trim() || !hour.to?.trim(); // if from or to is empty
+      }
+      return false; // skip validation if isOpen is false
+    });
+
+    if (hasInvalidEntry) {
+      toast.error("Please fill all 'from' and 'to' times for the open days.");
+      return;
+    }
     console.log("opening hours", openingHours)
     try {
       const response = await axios.put(
@@ -1905,8 +1949,8 @@ const Page = () => {
                                 name="availability"  // all radios share the same name
                                 id={`radio-${item.checkboxid}`}
                                 value={item.checkboxName}
-                                checked={formik.values.availability === item.checkboxid}
-                                onChange={() => formik.setFieldValue("availability", item.checkboxid)}
+                                checked={formik.values.availability === item.checkboxName}
+                                onChange={() => formik.setFieldValue("availability", item.checkboxName)}
                               />
                               <label
                                 htmlFor={`radio-${item.checkboxid}`}
@@ -2169,7 +2213,7 @@ const Page = () => {
                                 key={index}
                                 className="font-normal text-[15px] 3xl:text-[16px] text-[#505050] bg-[#F6F6F6] rounded-[36px] py-2 px-4 w-fit flex items-center space-x-[17px]"
                               >
-                                <span>{tag}</span>
+                                <span className="text-blue-500">{tag}</span>
                                 <button
                                   className="cursor-pointer grid place-items-center size-[21px] bg-[#E5E5E5] rounded-full"
                                   onClick={() => removeTag(index)}
@@ -2183,7 +2227,7 @@ const Page = () => {
                                 </button>
                               </li>
                             ))}
-                            <li className="flex items-center">
+                            {/* <li className="flex items-center">
                               <input
                                 type="text"
                                 name="portfolioTags"
@@ -2191,6 +2235,20 @@ const Page = () => {
                                 placeholder="Type & press Enter"
                                 value={formik.values.portfolioTags}
                                 onChange={(e) => { setInputValue(e.target.value), formik.handleChange(e) }}
+                                onKeyDown={handleKeyDown}
+                              />
+                            </li> */}
+                            <li className="flex items-center relative">
+                              {/* <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#505050] text-[15px] 3xl:text-[16px] pointer-events-none z-10 mr-1">
+                                #
+                              </span> */}
+                              <input
+                                type="text"
+                                name="portfolioTagsInput" // Different name to avoid confusion
+                                className="outline-none bg-transparent text-[15px] 3xl:text-[16px] placeholder:text-[#b0b0b0] text-[#505050] py-2 pl-6 pr-4"
+                                placeholder="Type & press Enter"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
                                 onKeyDown={handleKeyDown}
                               />
                             </li>
