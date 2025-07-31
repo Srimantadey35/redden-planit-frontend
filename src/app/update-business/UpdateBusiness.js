@@ -1795,6 +1795,8 @@ const UpdateBusiness = () => {
           if (response.status === 200) {
             setFormValues(response.data.data)
             const data = response.data.data;
+            console.log('all business dataaaaaaa', data);
+            // const galleryImageUrls = data?.business?.images || []
             setSelectedCategory(data?.business?.category)
             const portFolioUrls = data?.service?.portfolioData?.portfolioFiles || []
             console.log('portfolio urls', portFolioUrls);
@@ -1813,6 +1815,23 @@ const UpdateBusiness = () => {
                 size: fileObj.size || 0
               }))
               setSelectedFiles(existingFiles)
+            }
+
+            const galleryImageUrls = data?.business?.images || [];
+            if (Array.isArray(galleryImageUrls) && galleryImageUrls.length > 0) {
+              const existingGalleryFiles = galleryImageUrls.map((url, index) => ({
+                url: url,
+                file:{
+                id: `existing-gallery-${index}`,
+                isExisting: true,
+                file: null,
+                name: url.split('/').pop() || `gallery-${index}` // Add name property
+                }
+
+              }));
+
+              setGalleryFiles(existingGalleryFiles);
+              setGalleryUploadProgress(galleryImageUrls.map(() => 100));
             }
             formik.setValues({
               businessName: data?.business?.name || "",
@@ -1834,6 +1853,7 @@ const UpdateBusiness = () => {
               portfolioTags: data?.service?.portfolioData?.portfolioTags || "",
               portfolioFiles: data?.service?.portfolioData?.portfolioFiles || "",
               openingHours: Array.isArray(data?.business?.openingHours) ? data.business.openingHours : [],
+              allGalleryFiles: data?.business?.images || []
             });
 
           }
@@ -2376,110 +2396,110 @@ const UpdateBusiness = () => {
     }
   };
 
-//   const handleFileChange = async (e) => {
-//   const files = Array.from(e.target.files);
-//   if (files.length === 0) return;
+  //   const handleFileChange = async (e) => {
+  //   const files = Array.from(e.target.files);
+  //   if (files.length === 0) return;
 
-//   setUploadingFiles(true);
+  //   setUploadingFiles(true);
 
-//   try {
-//     // Get existing file identifiers (both from selectedFiles and formik.values.portfolioFiles)
-//     const existingKeys = new Set();
-    
-//     // Add keys from selectedFiles (preview state)
-//     selectedFiles.forEach(f => {
-//       if (f.file) {
-//         existingKeys.add(`${f.name}-${f.file.size}`);
-//       } else {
-//         existingKeys.add(`${f.name}-${f.size || 0}`);
-//       }
-//     });
-    
-//     // Add keys from formik.values.portfolioFiles (submitted state)
-//     const portfolioFiles = formik.values.portfolioFiles || [];
-//     portfolioFiles.forEach(fileObj => {
-//       if (typeof fileObj === 'object' && fileObj.originalName && fileObj.size) {
-//         existingKeys.add(`${fileObj.originalName}-${fileObj.size}`);
-//       }
-//     });
+  //   try {
+  //     // Get existing file identifiers (both from selectedFiles and formik.values.portfolioFiles)
+  //     const existingKeys = new Set();
 
-//     // Filter out duplicate files
-//     const filteredFiles = files.filter(f => !existingKeys.has(`${f.name}-${f.size}`));
-    
-//     if (filteredFiles.length === 0) {
-//       setUploadingFiles(false);
-//       e.target.value = null;
-//       // Optional: show message that files already exist
-//       console.log('All selected files already exist');
-//       return;
-//     }
+  //     // Add keys from selectedFiles (preview state)
+  //     selectedFiles.forEach(f => {
+  //       if (f.file) {
+  //         existingKeys.add(`${f.name}-${f.file.size}`);
+  //       } else {
+  //         existingKeys.add(`${f.name}-${f.size || 0}`);
+  //       }
+  //     });
 
-//     // Create preview objects with unique tempId
-//     const newFiles = filteredFiles.map((file, index) => ({
-//       tempId: `${Date.now()}-${index}`,
-//       file,
-//       url: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
-//       name: file.name,
-//       type: file.type,
-//       uploading: true,
-//       cloudinaryUrl: null,
-//       uploadError: false
-//     }));
+  //     // Add keys from formik.values.portfolioFiles (submitted state)
+  //     const portfolioFiles = formik.values.portfolioFiles || [];
+  //     portfolioFiles.forEach(fileObj => {
+  //       if (typeof fileObj === 'object' && fileObj.originalName && fileObj.size) {
+  //         existingKeys.add(`${fileObj.originalName}-${fileObj.size}`);
+  //       }
+  //     });
 
-//     // Add to state for preview
-//     setSelectedFiles((prev) => [...prev, ...newFiles]);
+  //     // Filter out duplicate files
+  //     const filteredFiles = files.filter(f => !existingKeys.has(`${f.name}-${f.size}`));
 
-//     // Upload files and create objects matching existing format
-//     const uploadPromises = newFiles.map(async (fileObj) => {
-//       try {
-//         const uploadedUrl = await uploadToCloudinary(fileObj.file);
-        
-//         // Update the file object in selectedFiles
-//         setSelectedFiles(prev => prev.map(f => 
-//           f.tempId === fileObj.tempId 
-//             ? { ...f, uploading: false, cloudinaryUrl: uploadedUrl }
-//             : f
-//         ));
+  //     if (filteredFiles.length === 0) {
+  //       setUploadingFiles(false);
+  //       e.target.value = null;
+  //       // Optional: show message that files already exist
+  //       console.log('All selected files already exist');
+  //       return;
+  //     }
 
-//         // Return object matching existing format
-//         return {
-//           url: uploadedUrl,
-//           publicId: uploadedUrl.split('/').pop()?.split('.')[0] || '',
-//           fileType: fileObj.file.type.startsWith('image/') ? 'image' : 'document',
-//           originalName: fileObj.file.name,
-//           size: fileObj.file.size,
-//           mimeType: fileObj.file.type,
-//           uploadedAt: new Date().toISOString(),
-//           _id: `new_${Date.now()}_${Math.random()}`
-//         };
-//       } catch (error) {
-//         setSelectedFiles(prev => prev.map(f => 
-//           f.tempId === fileObj.tempId 
-//             ? { ...f, uploading: false, uploadError: true }
-//             : f
-//         ));
-//         throw error;
-//       }
-//     });
+  //     // Create preview objects with unique tempId
+  //     const newFiles = filteredFiles.map((file, index) => ({
+  //       tempId: `${Date.now()}-${index}`,
+  //       file,
+  //       url: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
+  //       name: file.name,
+  //       type: file.type,
+  //       uploading: true,
+  //       cloudinaryUrl: null,
+  //       uploadError: false
+  //     }));
 
-//     // Wait for all uploads
-//     const newFileObjects = await Promise.all(uploadPromises);
+  //     // Add to state for preview
+  //     setSelectedFiles((prev) => [...prev, ...newFiles]);
 
-//     // Update Formik with complete objects
-//     const existingFiles = Array.isArray(formik.values.portfolioFiles)
-//       ? formik.values.portfolioFiles
-//       : [];
+  //     // Upload files and create objects matching existing format
+  //     const uploadPromises = newFiles.map(async (fileObj) => {
+  //       try {
+  //         const uploadedUrl = await uploadToCloudinary(fileObj.file);
 
-//     formik.setFieldValue("portfolioFiles", [...existingFiles, ...newFileObjects]);
+  //         // Update the file object in selectedFiles
+  //         setSelectedFiles(prev => prev.map(f => 
+  //           f.tempId === fileObj.tempId 
+  //             ? { ...f, uploading: false, cloudinaryUrl: uploadedUrl }
+  //             : f
+  //         ));
 
-//     console.log("Files uploaded successfully:", newFileObjects);
-//   } catch (error) {
-//     console.error("Error uploading files:", error);
-//   } finally {
-//     setUploadingFiles(false);
-//     e.target.value = null;
-//   }
-// };
+  //         // Return object matching existing format
+  //         return {
+  //           url: uploadedUrl,
+  //           publicId: uploadedUrl.split('/').pop()?.split('.')[0] || '',
+  //           fileType: fileObj.file.type.startsWith('image/') ? 'image' : 'document',
+  //           originalName: fileObj.file.name,
+  //           size: fileObj.file.size,
+  //           mimeType: fileObj.file.type,
+  //           uploadedAt: new Date().toISOString(),
+  //           _id: `new_${Date.now()}_${Math.random()}`
+  //         };
+  //       } catch (error) {
+  //         setSelectedFiles(prev => prev.map(f => 
+  //           f.tempId === fileObj.tempId 
+  //             ? { ...f, uploading: false, uploadError: true }
+  //             : f
+  //         ));
+  //         throw error;
+  //       }
+  //     });
+
+  //     // Wait for all uploads
+  //     const newFileObjects = await Promise.all(uploadPromises);
+
+  //     // Update Formik with complete objects
+  //     const existingFiles = Array.isArray(formik.values.portfolioFiles)
+  //       ? formik.values.portfolioFiles
+  //       : [];
+
+  //     formik.setFieldValue("portfolioFiles", [...existingFiles, ...newFileObjects]);
+
+  //     console.log("Files uploaded successfully:", newFileObjects);
+  //   } catch (error) {
+  //     console.error("Error uploading files:", error);
+  //   } finally {
+  //     setUploadingFiles(false);
+  //     e.target.value = null;
+  //   }
+  // };
 
 
 
@@ -2491,7 +2511,6 @@ const UpdateBusiness = () => {
 
   const removeImage = (index) => {
     const fileToRemove = selectedFiles[index];
-
     // Remove from selectedFiles array
     const updatedFiles = [...selectedFiles];
     updatedFiles.splice(index, 1);
@@ -2552,7 +2571,7 @@ const UpdateBusiness = () => {
 
   }
 
-  const handleAddBusiness = async (e) => {
+   const handleAddBusiness = async (e) => {
     e.preventDefault()
     const {
       businessName,
@@ -2560,11 +2579,10 @@ const UpdateBusiness = () => {
       city,
       state,
       pin,
-      languages,
-      travelAvailability } = formik.values
+      languages } = formik.values
 
     const businessData = {
-      name: businessName,
+     name: businessName,
       address: businessAddress,
       category: selectedCategory,
       city,
@@ -2576,8 +2594,8 @@ const UpdateBusiness = () => {
     console.log('businessData', businessData)
 
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/add-business`,
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-business/${id}`,
         businessData,
         {
           withCredentials: true,
@@ -2589,11 +2607,10 @@ const UpdateBusiness = () => {
 
       console.log("businessAdded", response);
 
-      if (response.status === 201) {
-        toast.success("Business details added successfully");
+      if (response.status === 200) {
+        toast.success("Business details updated successfully");
         localStorage.setItem('addBusinessSubmitted', 'true')
         setOpeningHoursButton(true)
-        setopenAccordion('opening-hours')
       }
     } catch (error) {
       console.error("Error adding business:", error);
@@ -2690,26 +2707,26 @@ const UpdateBusiness = () => {
   //   }
   // };
 
-  const handleAddPortfolio = async(e)=>{
+  const handleAddPortfolio = async (e) => {
     e.preventDefault()
-    const {portfolioTags, portfolioDescription, portfolioLocation, portfolioEventType,portfolioFiles } = formik.values
-    
+    const { portfolioTags, portfolioDescription, portfolioLocation, portfolioEventType, portfolioFiles } = formik.values
+
     const portfolioUrls = portfolioFiles.map(file => {
-    if (typeof file === 'string') {
-      return file; // Already a URL string
+      if (typeof file === 'string') {
+        return file; // Already a URL string
+      }
+      return file.url || file.cloudinaryUrl; // Extract URL from object
+    });
+    const portfolioInfo = {
+      portfolioTags, portfolioDescription, portfolioLocation, portfolioEventType, portfolioFiles: portfolioUrls
     }
-    return file.url || file.cloudinaryUrl; // Extract URL from object
-  });
-  const portfolioInfo = {
-      portfolioTags, portfolioDescription, portfolioLocation, portfolioEventType,portfolioFiles:portfolioUrls
-    }
-    console.log('handleAddPortfolio',portfolioInfo);
-    
+    console.log('handleAddPortfolio', portfolioInfo);
+
 
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-portfolio`,
-         {portfolioInfo,category:selectedCategory},
+        { portfolioInfo, category: selectedCategory },
         {
           withCredentials: true,
           headers: {
@@ -2813,8 +2830,12 @@ const UpdateBusiness = () => {
           });
         });
 
+        // formik.setFieldValue("allGalleryFiles", [
+        //   ...formik.values.allGalleryFiles,
+        //   url,
+        // ]);
         formik.setFieldValue("allGalleryFiles", [
-          ...formik.values.allGalleryFiles,
+          ...(Array.isArray(formik.values.allGalleryFiles) ? formik.values.allGalleryFiles : []),
           url,
         ]);
 
@@ -2994,6 +3015,7 @@ const UpdateBusiness = () => {
                         <select
                           value={selectedCategory}
                           onChange={handleCategoryChange}
+                          disabled={formValues}
                           onBlur={formik.handleBlur}
                           name="businesscategory"
                           id="businesscategory"
@@ -4117,7 +4139,9 @@ const UpdateBusiness = () => {
                     {/* Preview Thumbnails */}
                     <div className="flex flex-wrap gap-2 mt-3">
                       {galleryFiles.map((img, index) => {
-                        const isImage = /\.(jpe?g|png)$/i.test(img.file.name);
+                        console.log('gallery imagessss',img);
+                        
+                        const isImage = /\.(jpe?g|png)$/i.test(img?.file?.name);
 
                         return (
                           <div
