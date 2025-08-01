@@ -1,12 +1,11 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import Image from "next/image";
-import Layouts from '@/components/Layouts';
+import Layouts from '@/components/Layouts'
 import userOne from "../assets/images/user-1.jpg"
 import aiIcon from "../assets/images/ai-icon.png"
-import Link from 'next/link';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+// import 'react-datepicker/dist/react-datepicker.css';
 import PlanItCardSlider from '@/components/widgets/PlanItCardSlider';
 import Header from '@/components/Header';
 

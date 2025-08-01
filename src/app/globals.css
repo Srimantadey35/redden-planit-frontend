@@ -13,39 +13,50 @@
   --breakpoint-xl: 1200px;
   --breakpoint-2xl: 1366px;
   --breakpoint-3xl: 1536px;
+  --breakpoint-4xl: 1760px;
 }
 /*tailwind custom container class start */
 .container {
   margin: auto;
+  padding: 0 1rem;
 }
 
-/* @media (min-width: 640px) {
+@media (min-width: 320px) {
   .container {
-    padding: 0 1.5rem;
+    max-width: 100% ;
+    padding: 0 1rem;
   }
 }
-
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .container {
+    max-width: 100% ;
     padding: 0 2rem;
   }
-} */
-
-@media (min-width: 1024px) {
+}
+@media (min-width: 991px) {
   .container {
     padding: 0 3rem;
   }
 }
-
-@media (min-width: 1366px) {
+@media (min-width: 1024px) {
   .container {
-    padding: 0 5rem;
+    padding: 0 4rem;
   }
 }
-
-@media (min-width: 1500px) {
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 6rem;
+  }
+}
+@media (min-width: 1366px) {
+  .container {
+    padding: 0 7rem;
+  }
+}
+@media (min-width: 1536px) {
   .container {
     max-width: 1418px;
+    padding: 0;
   }
 }
 
@@ -121,7 +132,7 @@ body {
 }
 
 .floating-form input {
-  border: 2px solid #afbdcf;
+  border: 1px solid #D8D8D8;
   border-radius: 5px;
   height: 53px;
   width: 100%;
@@ -158,20 +169,12 @@ body {
   font-size: 18px;
   color: #151515;
   top: 0px;
-  left: 25px;
+  left: 15px;
   background: #fff;
   padding: 0 5px;
   z-index: 3;
 }
-label.active_label{
-  font-size: 18px;
-  color: #151515;
-  top: 0px;
-  left: 25px;
-  background: #fff;
-  padding: 0 5px;
-  z-index: 3;
-}
+
 .floating-form input[type='password'] {
   /* font-size: 20px !important; */
   /* padding-top: 10px; */
@@ -184,9 +187,11 @@ label.active_label{
 @keyframes modalAnim {
   0% {
     transform: translateY(-15%);
+    opacity: 0;
   }
   100% {
     transform: translateY(0px);
+    opacity: 1;
   }
 }
 
@@ -206,7 +211,7 @@ label.active_label{
 
 .datatable tr th:first-child,
 .datatable td:first-child {
-  padding-left: 60px;
+  padding-left: 30px;
 }
 .datatable tr th:last-child,
 .datatable td:last-child {
@@ -348,6 +353,15 @@ input:-webkit-autofill:active {
       transform: translateY(-50px);
     }
   }
+
+  /* Add to your global CSS file */
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+  .animate-fade-in {
+    animation: fade-in 0.2s ease;
+  }
 }
 
 /* visible scrollbar end  */
@@ -360,34 +374,43 @@ input:-webkit-autofill:active {
   );
 }
 
-.glow-border {
-  background: linear-gradient(
-    90deg,
-    #ff8038 0%,
-    #ff0099 30.43%,
-    #00ebeb 68.23%,
-    #db00ff 100%
-  );
-  background-size: 600% 600%;
-  animation: glowAnimation 4s ease infinite;
-  border-radius: 20px;
-  transform: translate(0px, 0px);
+
+/* gradient border start  */
+@property --angle {
+	syntax: '<angle>';
+	inherits: true;
+	initial-value: 0deg;
 }
 
-@keyframes glowAnimation {
+.card {
+	--angle: 0deg;
+	background: linear-gradient(white, white) padding-box, conic-gradient(from var(--angle), #dfdfdf, #ea0056) border-box;
+	border: 2px solid transparent;
+	border-radius: 16px;
+	animation: rotate-gradient 3s infinite linear;
+}
+
+@keyframes rotate-gradient {
+    from { --angle: 0deg; }
+    to { --angle: 360deg; }
+}
+
+
+/* gradient border end  */
+
+.chatpopsup {
+  animation: chatpopsup 0.4s ease-in-out both;
+}
+@keyframes chatpopsup {
   0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
+    transform: translateY(150px);
+    opacity: 0;
   }
   100% {
-    background-position: 0% 50%;
+    transform: translateY(0);
+    opacity: 1;
   }
 }
-
-
-
 @media (max-width: 1700px) {
   .gradientline:before {
     width: 110%;
@@ -406,4 +429,45 @@ input:-webkit-autofill:active {
     height: 40px;
     font-size: 12px;
   }
+}
+@media (max-width:768px) {
+  .venuwsearchslider .sliderbtns{
+    display: none;
+  }
+}
+
+/* in your global CSS or module */
+.big-password-dots {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+  font-size: 18px;
+}
+
+.big-password-dots::-webkit-textfield-decoration-container {
+  font-size: 20px;
+}
+
+.big-password-dots[type="password"] {
+  font-family: caption;
+  font-size: 20px;
+  letter-spacing: 3px;
+}
+
+/* For better cross-browser compatibility */
+.big-password-dots[type="password"]::-webkit-input-placeholder {
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: normal;
+}
+
+.big-password-dots[type="password"]::-moz-placeholder {
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: normal;
+}
+
+.big-password-dots[type="password"]:-ms-input-placeholder {
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: normal;
 }

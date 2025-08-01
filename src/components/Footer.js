@@ -4,10 +4,10 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="banner_gradient sm:sticky fixed left-0 right-0 w-full top-0 z-[99999]">
+    <div className="banner_gradient sticky left-0 right-0 w-full top-0 z-[99]">
       <div className="container">
         <div className="py-[50px]">
-          <div className="flex items-center space-x-5">
+          <div className="flex items-center sm:space-x-5 sm:flex-row flex-col">
             <Image
               className="w-[70px] sm:w-[90px] 3xl:w-[158px]"
               width={158}
@@ -15,7 +15,7 @@ const Footer = () => {
               src={"/images/PlanItLogoWhite.svg"}
               alt="planItLogo"
             />
-            <h3 className="font-semibold text-[18px] 3xl:text-[22px] 4xl:text-[28px] text-white">
+            <h3 className="font-semibold text-[18px] 3xl:text-[22px] 4xl:text-[28px] text-white sm:my-0 my-2">
               - Your Personal Wedding Planner -
             </h3>
             <h3 className="font-medium text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-white">
@@ -23,7 +23,7 @@ const Footer = () => {
             </h3>
           </div>
 
-          <div className="pt-[40px] grid grid-cols-11 gap-12">
+          <div className="pt-[40px] grid grid-cols-1 sm:grid-cols-7 xl:grid-cols-11 gap-8 xl:gap-12">
             <ul className="space-y-[18px] 3xl:space-y-[24px] col-span-2">
               <li className="font-medium text-[16px] 3xl:text-[20px] text-white">
                 Quick Links
@@ -137,7 +137,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-between col-span-4">
+            <div className="flex flex-col justify-between col-span-3 xl:col-span-4">
               <div>
                 <h5 className="font-medium text-[16px] 3xl:text-[20px] text-white mb-[24px]">
                   Get Latest Blog Alerts
@@ -162,7 +162,7 @@ const Footer = () => {
                   </span>
                 </label>
               </div>
-              <button className="font-semibold text-white text-[15px] 3xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 px-12 table cursor-pointer w-fit">
+              <button className="my-3.5 font-semibold text-white text-[15px] 3xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 px-12 table cursor-pointer w-fit">
                 Register as a Vendor
               </button>
               <div>
@@ -222,7 +222,7 @@ const Footer = () => {
         </div>
       </div>
       <p className="text-white text-[14px] 3xl:text-[14px] font-normal py-3 3xl:py-3 text-center border-t border-t-[#4a4a4add]">
-        © 2025 Plan<span className="text-[#EA0056]">It</span>. All rights
+        © {new Date().getUTCFullYear()} Plan<span className="text-[#EA0056]">It</span>. All rights
         reserved.
       </p>
     </div>

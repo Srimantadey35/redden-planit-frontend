@@ -63,7 +63,7 @@ const InvitationCardModal = ({ modalVal, setModalVal }) => {
   console.log(modalVal)
 
   return (
-      <div className="fixed h-[calc(100%-60px)] 3xl:h-[calc(100%-99px)] w-screen bg-[#000000a9] left-0 top-[60px] 3xl:top-[99px] flex items-center z-50">
+      <div className="fixed z-[99999] h-full w-screen bg-[#000000a9] left-0 top-0 flex items-center">
         <div className="size-full overflow-hidden rounded-[17px] h-[calc(100%-70px)] max-w-[1450px] mx-auto flex items-center modalAnim">
           <div className="rounded-[17px] h-full max-w-[1024px] 3xl:max-w-[1200px] 4xl:max-w-[1450px] w-full overflow-y-auto overflow-x-hidden scrollable-element mx-auto">
             <div className="rounded-[17px] h-full w-full relative overflow-x-hidden">

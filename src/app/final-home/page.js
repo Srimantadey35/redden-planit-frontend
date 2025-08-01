@@ -1,10 +1,36 @@
+"use client";
 import Header from "@/components/Header";
 import VenueSearches from "@/components/widgets/VenueSearches";
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Footer from "@/components/Footer";
 
-const page = () => {
+const Page = () => {
+  const targetRef = useRef(null);
+  const [isChatShow, setisChatShow] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!targetRef.current) return;
+
+      const rect = targetRef.current.getBoundingClientRect();
+      const scrollTriggerTop = 0;
+
+      if (rect.top <= scrollTriggerTop) {
+        setisChatShow(true);
+      } else {
+        setisChatShow(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [targetRef, isChatShow]);
+
   const dataPopularSearches = [
     {
       image: "/images/homepage-slider-images/event-now/card1.png",
@@ -38,6 +64,8 @@ const page = () => {
       title: "4 Star & Above Wedding Hotels",
       rating: "4.5",
       places: ["Mumbai", "Bangalore", "Pune"],
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/vanue-searches/card2.png",
@@ -45,6 +73,8 @@ const page = () => {
       title: "Banquet Halls",
       rating: "4.8",
       places: ["Mumbai", "Bangalore", "Pune"],
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/vanue-searches/card3.png",
@@ -52,6 +82,8 @@ const page = () => {
       title: "Marriage Garden / Lawns",
       rating: "5.0",
       places: ["Mumbai", "Bangalore", "Pune"],
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/vanue-searches/card1.png",
@@ -59,46 +91,66 @@ const page = () => {
       title: "4 Star & Above Wedding Hotels",
       rating: "4.5",
       places: ["Mumbai", "Bangalore", "Pune"],
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
   ];
   const dataFreeCard = [
     {
       image: "/images/homepage-slider-images/free-card/card1.png",
       title: "Wedding Ceremony",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-card/card2.png",
       title: "Annaprashan Ceremony",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-card/card3.png",
       title: "Haldi Invitation",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-card/card4.png",
       title: "Ganesh Chaturthi",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-card/card1.png",
       title: "Wedding Ceremony",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
   ];
   const dataFreeWebsite = [
     {
       image: "/images/homepage-slider-images/free-website/card1.png",
       title: "Picture This - Green",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-website/card2.png",
       title: "Aura Love - Purple",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-website/card3.png",
       title: "Vintage Hollywood - Black",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
     {
       image: "/images/homepage-slider-images/free-website/card1.png",
       title: "Picture This - Green",
+      isShowMatchingInvitation: true,
+      matchingInvitationLink: "#",
     },
   ];
   const weddingCategories = [
@@ -177,7 +229,8 @@ const page = () => {
       date: "By Apoorva  |  03 Jul 2025  |  7 min read",
       title: "These 7 Lehenga Labels Are Our Best-Kept Secrets!",
       desc: "Lets be real, when it comes to bridal lehengas, everyone and their BFF knows the usual suspects. Sabyasachi, Manish, Anita Dongre. Sure, theyre stunning but theyre also everywhere. And if yo...",
-      btnName: "more",
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/blogs/card2.png",
@@ -185,7 +238,8 @@ const page = () => {
       title:
         "Seaside Terrace Wedding At Home With A Bride Who Rocked A Neon Lehenga!",
       desc: "From a casual post-gym catch-up to a wedding bursting with love, laughter, and seriously unforgettable vibes, Sanam and Mohits story is what full-circle dreams are made of. They said I do o...",
-      btnName: "more",
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/blogs/card3.png",
@@ -193,41 +247,23 @@ const page = () => {
       title:
         "Bridal Styling Hacks: How to Flatter Your Figure Without Revealing Your Belly!",
       desc: "Lets get one thing straight - every bride is beautiful exactly the way she is. But hey, if youre a bride-to-be whos feeling a little conscious about your belly in that gorgeous lehenga, we to...",
-      btnName: "more",
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
     {
       image: "/images/homepage-slider-images/blogs/card1.png",
       date: "By Apoorva  |  03 Jul 2025  |  7 min read",
       title: "These 7 Lehenga Labels Are Our Best-Kept Secrets!",
       desc: "Lets be real, when it comes to bridal lehengas, everyone and their BFF knows the usual suspects. Sabyasachi, Manish, Anita Dongre. Sure, theyre stunning but theyre also everywhere. And if yo...",
-      btnName: "more",
+      isShowMoreButton: true,
+      moreBtnLink: "#",
     },
   ];
-  const inhouseService = [
-    {
-      img: "/images/randomplace.jpg",
-      title: "Wedsta",
-      desc: "WMG At Home, Family Makeup Services",
-    },
-    {
-      img: "/images/randomplace.jpg",
-      title: "Genie Services",
-      desc: "WMG At Home, Family Makeup Services",
-    },
-    {
-      img: "/images/randomplace.jpg",
-      title: "Genie Services",
-      desc: "WMG At Home, Family Makeup Services",
-    },
-    {
-      img: "/images/randomplace.jpg",
-      title: "Genie Services",
-      desc: "WMG At Home, Family Makeup Services",
-    },
-  ];
+
   return (
     <div>
       <Header />
+
       {/* banner  */}
       <div
         className="relative"
@@ -238,23 +274,24 @@ const page = () => {
         }}
       >
         <div className="absolute bottom-0 top-[35%] z-[0] left-0 right-0 homepagebanner_bg"></div>
-        <div className="w-full max-w-[1204px] mx-auto pt-[260px] 4  xl:pt-[375px] pb-[58px] relative z-[2]">
+        <div className="w-full max-w-[1204px] mx-auto pt-[150px] sm:pt-[130px] lg:pt-[160px] xl:pt-[260px] 4xl:!pt-[375px] pb-[35px] lg:pb-[58px] relative z-[2]">
           <div>
-            <p className="text-[21px] text-white font-[500] text-center">
+            <p className="text-[15px] sm:text-[18px] lg:text-[21px] text-white font-[500] text-center">
               Let&apos;s make everlasting experiences with us.
             </p>
-            <h3 className="text-[40px] 3xl:text-[52px] text-white font-semibold text-center my-2">
+            <h3 className="text-[20px] sm:text-[26px] md:text-[30px] lg:text-[38px] xl:text-[40px] 3xl:text-[52px] text-white font-semibold text-center mb-2">
               We Plan For Your Celebration.
             </h3>
-            <div className="flex justify-center">
+            <div className="flex justify-center sm:flex-row flex-col sm:w-auto w-[80%] mx-auto">
               <input
-                className="rounded-[6px] bg-white placeholder:text-[#7C7C7C] placeholder:text-[15px] placeholder:font-normal py-3 px-6 w-[617px]"
+                className="rounded-[6px] bg-white placeholder:text-[#7C7C7C] placeholder:text-[15px] placeholder:font-normal py-2 lg:py-3 px-4 lg:px-6 w-full sm:w-[50%] md:w-[400px] lg:w-[550px] xl:w-[617px] text-black outline-none transition-all duration-300 ease-in-out
+    hover:shadow-[0_0_20px_0px_#EA0056]/30"
                 placeholder="Chat with us for best wedding plan."
                 type="text"
                 name="search"
                 id="search"
               />
-              <button className="font-semibold ml-2.5 text-[16px] cursor-pointer 3xl:text-[18px] text-white bg-[#EA0056] rounded-[6px] px-5">
+              <button className="font-semibold sm:ml-2.5 text-[15px] lg:text-[16px] cursor-pointer 3xl:text-[18px] text-white bg-[#EA0056] hover:bg-[#c80049] rounded-[6px] py-2 sm:mt-0 mt-3 px-5 transition-all ease">
                 Chat with PlanIt AI
               </button>
             </div>
@@ -262,16 +299,18 @@ const page = () => {
         </div>
       </div>
 
+      <div ref={targetRef} className="h-[1px] w-full"></div>
+
       {/* popular vanue search  */}
-      <div className="w-full max-w-[1204px] mx-auto">
-        <div className="space-y-20">
+      <div className="container" id="comesViweMode">
+        <div className="space-y-4 sm:space-y-10 xl:space-y-20">
           {/* title  */}
-          <div className="pt-[60px]">
+          <div className="pt-10 xl:pt-[60px]">
             <div className="pb-[40px]">
-              <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] text-center pb-2">
+              <h3 className="font-semibold text-black text-[20px] sm:text-[24px] 3xl:text-[28px] text-center pb-2">
                 Everything You Need to Plan the Perfect Event
               </h3>
-              <p className="text-[#333333] font-normal text-[16px] 3xl:text-[18px] text-center">
+              <p className="text-[#333333] font-normal text-[15px] sm:text-[16px] 3xl:text-[18px] text-center">
                 Discover tools that handle the details — guest lists,
                 invitations, vendors, and more — so you can focus on what
                 matters.
@@ -281,22 +320,24 @@ const page = () => {
               <VenueSearches
                 venuesearchData={dataPopularSearches}
                 imgSizeDesktop={[
-                  "w-[216px] h-[250px] 3xl:w-[216px] 3xl:h-[291px]",
+                  "size-full",
                 ]}
                 slidesPerView={5}
+                slidesPerViewTab={3}
+                slidesPerViewMobo={2}
                 imgOriginalSize={[216, 291]}
                 top={"40%"}
                 slideKey={"event"}
               />
             </div>
-            <button className="font-semibold text-white text-[16px] 3xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 px-8 mx-auto table mt-11 cursor-pointer">
+            <button className="font-semibold text-white text-[15px] sm:text-[16px] 3xl:text-[20px] bg-[#EA0056] rounded-[8px] py-2 px-8 mx-auto table mt-5 sm:mt-11 cursor-pointer">
               Create you event now
             </button>
           </div>
 
           {/* popular vanue search */}
           <div>
-            <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] pb-[25px]">
+            <h3 className="font-semibold sm:text-left text-center text-black text-[20px] sm:text-[24px] 3xl:text-[28px] pb-[25px]">
               Popular Venue Searches
             </h3>
 
@@ -306,6 +347,8 @@ const page = () => {
                 imgSizeDesktop={[380, 224]}
                 imgOriginalSize={[380, 224]}
                 slidesPerView={3}
+                slidesPerViewTab={2}
+                slidesPerViewMobo={1}
                 top={"30%"}
               />
             </div>
@@ -314,10 +357,10 @@ const page = () => {
           {/* Creating Your Free Card is Simple */}
           <div>
             <div className="pb-[40px]">
-              <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] text-center pb-2">
+              <h3 className="font-semibold text-black text-[20px] sm:text-[24px] 3xl:text-[28px] text-center pb-2">
                 Creating Your Free Card is Simple
               </h3>
-              <p className="text-[#333333] font-normal text-[16px] 3xl:text-[18px] text-center">
+              <p className="text-[#333333] font-normal text-[15px] sm:text-[16px] 3xl:text-[18px] text-center">
                 Discover tools that handle the details — guest lists,
                 invitations, vendors, and more — so you can focus on what
                 matters.
@@ -329,6 +372,8 @@ const page = () => {
                 imgSizeDesktop={[277, 400]}
                 imgOriginalSize={[277, 400]}
                 slidesPerView={4}
+                slidesPerViewTab={3}
+                slidesPerViewMobo={1}
                 top={"40%"}
                 seemoreBtn={true}
               />
@@ -348,25 +393,25 @@ const page = () => {
                 View all categories
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-8 4xl:gap-x-11 gap-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xl:gap-8 4xl:gap-x-11 xl:gap-y-6">
               {weddingCategories.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center rounded-lg w-full"
+                  className="flex rounded-lg w-full"
                   style={{ backgroundColor: `${item.bg}` }}
                 >
                   <Image
-                    className="rounded-l-lg w-[200px] 3xl:w-[237px]"
+                    className="rounded-l-lg w-[150px] lg:w-[200px] 3xl:w-[237px]"
                     width={237}
                     height={157}
                     src={`${item.img}`}
                     alt="places"
                   />
-                  <div className="px-[45px] rounded-r-lg">
-                    <h4 className="text-[#333333] font-medium text-[20px] 3xl:text-[24px]">
+                  <div className="px-[20px] lg:px-[45px] rounded-r-lg flex flex-col justify-center">
+                    <h4 className="text-[#333333] font-medium text-[15px] md:text-[17px] lg:text-[20px] 3xl:text-[24px] w-full">
                       {item.title}
                     </h4>
-                    <p className="text-[15px] font-normal text-[#454545]">
+                    <p className="text-[13px] lg:text-[15px] font-normal text-[#454545]">
                       {item.desc
                         ? item.desc.slice(0, 31)
                         : "description is not available"}
@@ -377,105 +422,29 @@ const page = () => {
               ))}
             </div>
           </div>
-
-          {/* WMG Inhouse Services */}
-          {/* <div>
-            <h3 className="font-semibold text-black text-[28px] pb-[25px]">
-              WMG Inhouse Services
-            </h3>
-            <div className="grid grid-cols-2 gap-[40px]">
-              {inhouseService.map((item, index) => (
-                <div key={index}>
-                  <Image
-                    className="w-full"
-                    width={580}
-                    height={282}
-                    src={`${item.img}`}
-                    alt=""
-                  />
-
-                  <div className="flex flex-col items-center justify-center mt-5">
-                    <h4 className="font-medium text-[24px] text-[#333333]">
-                      {item.title}
-                    </h4>
-                    <p className="font-normal text-[15px] text-[#333333] mt-0.5 mb-2">
-                      {item.desc}
-                    </p>
-                    <button className="font-normal text-[15px] text-[#EA0056]">
-                      Know more
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div> */}
-
-          {/* chat  */}
-          <div className="relative group w-full mx-auto p-[2px]">
-            {/* Gradient animated border background */}
-            <div className="absolute top-0 left-0 right-0 bottom-0 w-full h-full -z-10 rounded-[20px] glow-border group-hover:blur-[10px] transition-all duration-300"></div>
-
-            {/* Main card content */}
-            <div className="rounded-[18px] bg-[#fbfbfb] overflow-hidden relative z-10 shadow-[0_0_30px_0px_#b5b5b5]">
-              <div>
-                <div className="relative">
-                  <input
-                    className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[80px] 3xl:h-[103px] px-11 outline-none text-black border-b border-b-[#e9e9e9]"
-                    type="text"
-                    name="chat"
-                    id="chat"
-                    placeholder="Write here..."
-                  />
-                  <button className="cursor-pointer">
-                    <Image
-                      className="absolute right-4 top-1/2 -translate-y-1/2"
-                      width={32}
-                      height={32}
-                      src={"/images/sendbtn2.svg"}
-                      alt="sendbtn2.svg"
-                    />
-                  </button>
-                </div>
-
-                <div className="space-x-[12px] flex items-center justify-center py-4">
-                  {[
-                    "Beautiful wedding cards",
-                    "Explore wedding venues",
-                    "Continental food service",
-                  ].map((item, index) => (
-                    <button
-                      key={index}
-                      className="text-[#575757] font-normal text-[13px] bg-[#eeeeee] rounded-full px-[28px] 3xl:px-[35px] py-1.5"
-                    >
-                      {item}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
       {/* think it done it  */}
-      <div className="bg-[#D4004E] bg-[linear-gradient(95deg,_rgba(212,_0,_78,_1)_5%,_rgba(125,_0,_46,_1)_100%)] mt-[100px]">
-        <div className="w-full max-w-[1204px] mx-auto">
-          <div className="flex justify-between">
-            <div className="py-20">
-              <h3 className="font-bold text-[68px] text-white leading-[1.1]">
-                Think It. <br /> Plan It. Done.
+      <div className="bg-[#D4004E] bg-[linear-gradient(95deg,_rgba(212,_0,_78,_1)_5%,_rgba(125,_0,_46,_1)_100%)] mt-[70px] xl:mt-[100px]">
+        <div className="container">
+          <div className="flex justify-between md:flex-row flex-col">
+            <div className="py-15 lg:py-20 md:text-start text-center">
+              <h3 className="font-bold text-[30px] sm:text-[38px] lg:text-[45px] xl:text-[68px] text-white leading-[1.1]">
+                Think It. <br className="md:block hidden" /> Plan It. Done.
               </h3>
-              <p className="font-medium text-[24px] 4xl:text-[27px] text-white leading-[1.2] my-4">
-                Your all-in-one AI assistant for creating <br /> unforgettable
-                events effortlessly.
+              <p className="font-medium text-[18px] xl:text-[24px] 4xl:text-[27px] text-white leading-[1.2] my-4">
+                Your all-in-one AI assistant for creating{" "}
+                <br className="sm:block hidden" /> unforgettable events
+                effortlessly.
               </p>
               <button className="font-semibold text-[16px] cursor-pointer 3xl:text-[20px] text-[#EA0056] rounded-[8px] bg-white py-2 px-8">
                 Start Planning Now
               </button>
             </div>
-            <div className="flex items-end">
+            <div className="flex items-end md:w-fit w-[80%] mx-auto md:ml-auto md:mr-0">
               <Image
-                className="rounded-t-lg w-[550px] 3xl:w-[634px]"
+                className="rounded-t-lg w-full md:w-[430px] xl:w-[550px] 3xl:w-[634px]"
                 width={634}
                 height={468}
                 src={"/images/rightsideimg.png"}
@@ -486,15 +455,15 @@ const page = () => {
         </div>
       </div>
 
-      <div className="w-full max-w-[1204px] mx-auto mb-[120px]">
-        <div className="space-y-20">
+      <div className="container mb-[120px]">
+        <div className="space-y-10 xl:space-y-20">
           {/* popular vanue search */}
           <div className="pt-[70px]">
             <div className="pb-[40px]">
-              <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] text-center pb-2">
+              <h3 className="font-semibold text-black text-[20px] sm:text-[24px] 3xl:text-[28px] text-center pb-2">
                 Creating Your Free Website is Simple
               </h3>
-              <p className="text-[#333333] font-normal text-[16px] 3xl:text-[18px] text-center">
+              <p className="text-[#333333] font-normal text-[15px] sm:text-[16px] 3xl:text-[18px] text-center">
                 Discover tools that handle the details — guest lists,
                 invitations, vendors, and more — so you can focus on what
                 matters.
@@ -507,6 +476,8 @@ const page = () => {
                 imgSizeDesktop={[380, 270]}
                 imgOriginalSize={[380, 270]}
                 slidesPerView={3}
+                slidesPerViewTab={2}
+                slidesPerViewMobo={1}
                 top={"35%"}
                 seemoreBtn={true}
               />
@@ -518,7 +489,7 @@ const page = () => {
 
           {/* Featured Make Up Artist For june */}
           <div>
-            <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] pb-[25px]">
+            <h3 className="font-semibold text-black text-[20px] sm:text-left text-center sm:text-[24px] 3xl:text-[28px] pb-[25px]">
               Featured Make Up Artist For june
             </h3>
 
@@ -528,14 +499,16 @@ const page = () => {
                 imgSizeDesktop={[257, 240]}
                 imgOriginalSize={[257, 240]}
                 slidesPerView={4}
+                slidesPerViewTab={3}
+                slidesPerViewMobo={1}
                 top={"30%"}
               />
             </div>
           </div>
 
           {/* Featured Make Up Artist For june */}
-          <div>
-            <h3 className="font-semibold text-black text-[24px] 3xl:text-[28px] pb-[25px]">
+          <div className="mb-12 lg:mb-28">
+            <h3 className="font-semibold text-black text-[20px] sm:text-left text-center sm:text-[24px] 3xl:text-[28px] pb-[25px]">
               Latest Blogs
             </h3>
 
@@ -545,8 +518,45 @@ const page = () => {
                 imgSizeDesktop={[380, 270]}
                 imgOriginalSize={[380, 270]}
                 slidesPerView={3}
+                slidesPerViewTab={2}
+                slidesPerViewMobo={1}
                 top={"26%"}
               />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* chat  */}
+      <div
+        className={`${
+          isChatShow
+            ? "sticky bottom-16 xl:bottom-3 z-[9] chatpopsup"
+            : "hidden"
+        } w-[70%] mx-auto md:block hidden mb-10`}
+      >
+        <div className="relative group w-full mx-auto p-[2px]">
+          {/* Main card content */}
+          <div className="rounded-full bg-[#fbfbfb] overflow-hidden relative z-10 shadow-[0_0_30px_0px_#b5b5b5] card">
+            <div>
+              <div className="relative">
+                <input
+                  className="placeholder:text-[#454545] placeholder:text-[15px] 3xl:placeholder:text-[18px] placeholder:font-normal bg-white w-full h-[50px]  px-11 outline-none text-black border-b border-b-[#e9e9e9]"
+                  type="text"
+                  name="chat"
+                  id="chat"
+                  placeholder="Chat with planit AI..."
+                />
+                <button className="cursor-pointer">
+                  <Image
+                    className="absolute right-4 top-1/2 -translate-y-1/2"
+                    width={32}
+                    height={32}
+                    src={"/images/sendbtn2.svg"}
+                    alt="sendbtn2.svg"
+                  />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -557,4 +567,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
