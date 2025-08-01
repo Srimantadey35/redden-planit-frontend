@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const page = () => {
+const Page = () => {
    const [guest,setGuest] = useState([])
     const token = useSelector((state) => state.auth.accessToken);
   
@@ -326,5 +326,5 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
 
