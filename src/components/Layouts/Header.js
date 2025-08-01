@@ -173,9 +173,9 @@ const fetchUserDetails = async (accessToken) => {
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
                     <div className="flex items-center space-x-3 p-4 border-b">
                       <Image
-                        src="/images/userimg.png"
-                        width={32}
-                        height={32}
+                        src={fetchedUser?.image}
+                        width={42}
+                        height={62}
                         alt="user"
                         className="rounded-full"
                       />
@@ -185,10 +185,10 @@ const fetchUserDetails = async (accessToken) => {
                     </div>
                     <ul className="py-2 text-sm text-gray-700">
                       <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        Profile
+                        {/* Profile */}
                       </li>
                       <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        Settings
+                        {/* Settings */}
                       </li>
                       <li onClick={logoutUser} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         Logout

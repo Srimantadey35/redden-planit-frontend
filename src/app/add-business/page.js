@@ -866,20 +866,31 @@ const Page = () => {
       languagesSpoken: languages,
     };
     formik.setTouched({
-    businessName: true,
-    businessAddress: true,
-    city: true,
-    state: true,
-    pin: true,
-    languages: true,
-  });
+      businessName: true,
+      businessAddress: true,
+      city: true,
+      state: true,
+      pin: true,
+      languages: true,
+    });
+    const errors = await formik.validateForm();
+
+    // Check if any of the targeted fields have errors
+    const targetFields = ['businessName', 'businessAddress', 'city', 'state', 'pin', 'languages'];
+    const hasFieldErrors = targetFields.some((field) => errors[field]);
+
+    if (hasFieldErrors) {
+      toast.error('Please fix the highlighted errors before submitting.');
+      return;
+    }
+
     const isAnyEmpty = Object.values(businessData).some(
       (value) => value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0)
     );
 
     if (isAnyEmpty) {
       toast.error('Please fill out all required fields.');
-      return; // stop further execution
+      return;
     }
     console.log('businessData', businessData)
 
@@ -906,18 +917,18 @@ const Page = () => {
     } catch (error) {
       console.error("Error adding business:", error);
       if (error?.response?.status === 406) {
-    const message =
-      error.response.data?.message ||
-      error.response.data?.error ||
-      "The server rejected the data. Please review your inputs.";
-    toast.error(message);
-  } else {
-    const message =
-      error.response?.data?.message ||
-      error.response?.data?.error ||
-      "Failed to add business. Please try again.";
-    toast.error(message);
-  }
+        const message =
+          error.response.data?.message ||
+          error.response.data?.error ||
+          "The server rejected the data. Please review your inputs.";
+        toast.error(message);
+      } else {
+        const message =
+          error.response?.data?.message ||
+          error.response?.data?.error ||
+          "Failed to add business. Please try again.";
+        toast.error(message);
+      }
     }
 
   }
@@ -960,11 +971,11 @@ const Page = () => {
     } catch (error) {
       console.error("Error adding service info:", error);
       const message =
-      error.response.data?.message ||
-      error.response.data?.error ||
-      "The server rejected the data. Please review your inputs.";
-    toast.error(message);
-    setopenAccordion('add-business')
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message);
+      setopenAccordion('add-business')
     }
   }
 
@@ -1023,13 +1034,13 @@ const Page = () => {
     }
 
     formik.setTouched({
-    portfolioTags:true,
-    portfolioDescription:true,
-    portfolioLocation:true,
-    portfolioEventType:true,
-    portfolioFiles:true
-  });
-    const filterInfo = {portfolioDescription,portfolioLocation,portfolioEventType}
+      portfolioTags: true,
+      portfolioDescription: true,
+      portfolioLocation: true,
+      portfolioEventType: true,
+      portfolioFiles: true
+    });
+    const filterInfo = { portfolioDescription, portfolioLocation, portfolioEventType }
     const isAnyEmpty = Object.values(filterInfo).some(
       (value) => value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0)
     );
@@ -1058,11 +1069,11 @@ const Page = () => {
     } catch (error) {
       console.error("Error adding service info:", error);
       const message =
-      error.response.data?.message ||
-      error.response.data?.error ||
-      "The server rejected the data. Please review your inputs.";
-    toast.error(message);
-    setopenAccordion('add-business')
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message);
+      setopenAccordion('add-business')
     }
   }
 
@@ -1070,7 +1081,7 @@ const Page = () => {
     e.preventDefault()
     const { openingHours } = formik.values
     formik.setTouched({
-      openingHours:true
+      openingHours: true
     })
     const hasInvalidEntry = openingHours.some(hour => {
       if (hour.isOpen) {
@@ -1104,11 +1115,11 @@ const Page = () => {
     } catch (error) {
       console.error("Error adding opening hours:", error);
       const message =
-      error.response.data?.message ||
-      error.response.data?.error ||
-      "The server rejected the data. Please review your inputs.";
-    toast.error(message);
-    setopenAccordion('add-business')
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message);
+      setopenAccordion('add-business')
     }
   }
 
@@ -1443,7 +1454,7 @@ const Page = () => {
                           id="state"
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                         > <option value="" disabled>
-                            Select State<span className="text-red-500 text-bold">*</span>
+                            Select State
                           </option>
                           {indianStates.map(state => (
                             <option key={state.isoCode} value={state.name}>{state.name}</option>
@@ -2327,12 +2338,12 @@ const Page = () => {
                             <option value="audi">Audi</option>
                           </select>
                           <div>
-                          {(formik.touched.portfolioEventType && formik.errors.portfolioEventType) && (
-                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
-                              {formik.errors.portfolioEventType}
-                            </p>
-                          )}
-                        </div>
+                            {(formik.touched.portfolioEventType && formik.errors.portfolioEventType) && (
+                              <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                {formik.errors.portfolioEventType}
+                              </p>
+                            )}
+                          </div>
                         </div>
                         <div className="flex flex-col w-full">
                           <label
@@ -2359,12 +2370,12 @@ const Page = () => {
                               alt="location"
                             />
                             <div>
-                          {(formik.touched.portfolioLocation && formik.errors.portfolioLocation) && (
-                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
-                              {formik.errors.portfolioLocation}
-                            </p>
-                          )}
-                        </div>
+                              {(formik.touched.portfolioLocation && formik.errors.portfolioLocation) && (
+                                <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                  {formik.errors.portfolioLocation}
+                                </p>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>

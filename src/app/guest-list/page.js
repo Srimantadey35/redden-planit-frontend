@@ -1,115 +1,152 @@
+'use client'
 import Header from "@/components/Header";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const page = () => {
-  const tableData = [
-    {
-      name: "Jaydon Curtis",
-      email: "jaydoncurtis@gmail.com",
-      phNumber: "+91 8952370146",
-      address:
-        "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
-      guestType: "Family",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Madelyn Levin",
-      email: "madelynlevin@gmail.com",
-      phNumber: null,
-      address:
-        "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-    {
-      name: "Tiana Philips",
-      email: "tianaphilips@gmail.com",
-      phNumber: "+91 8922378524",
-      address:
-        "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
-      guestType: "VIP",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Marcus Schleifer",
-      email: null,
-      phNumber: "+91 89785123146",
-      address: null,
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-    {
-      name: "Jaydon Curtis",
-      email: "jaydoncurtis@gmail.com",
-      phNumber: "+91 8952370146",
-      address:
-        "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
-      guestType: "Family",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Madelyn Levin",
-      email: "madelynlevin@gmail.com",
-      phNumber: null,
-      address:
-        "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-    {
-      name: "Tiana Philips",
-      email: "tianaphilips@gmail.com",
-      phNumber: "+91 8922378524",
-      address:
-        "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
-      guestType: "VIP",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Marcus Schleifer",
-      email: null,
-      phNumber: "+91 89785123146",
-      address: null,
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-    {
-      name: "Jaydon Curtis",
-      email: "jaydoncurtis@gmail.com",
-      phNumber: "+91 8952370146",
-      address:
-        "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
-      guestType: "Family",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Madelyn Levin",
-      email: "madelynlevin@gmail.com",
-      phNumber: null,
-      address:
-        "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-    {
-      name: "Tiana Philips",
-      email: "tianaphilipdsdsdsdsdss@gmail.com",
-      phNumber: "+91 8922378524",
-      address:
-        "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
-      guestType: "VIP",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Marcus Schleifer",
-      email: null,
-      phNumber: "+91 89785123146",
-      address: null,
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-  ];
+   const [guest,setGuest] = useState([])
+    const token = useSelector((state) => state.auth.accessToken);
+  
+  const getAllContacts = async()=>{
+    try{
+   const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/planners/get-all-contacts`,
+      {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      console.log('my guest',response)
+      if(response.status === 200){
+        setGuest(response.data.data.contacts)
+      }
+    } catch (error) {
+      
+    }
+  }
+   useEffect(()=>{
+    if(token){
+      getAllContacts()
+    }
+   },[token])
+  // const tableData = [
+  //   {
+  //     name: "Jaydon Curtis",
+  //     email: "jaydoncurtis@gmail.com",
+  //     phNumber: "+91 8952370146",
+  //     address:
+  //       "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
+  //     guestType: "Family",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Madelyn Levin",
+  //     email: "madelynlevin@gmail.com",
+  //     phNumber: null,
+  //     address:
+  //       "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  //   {
+  //     name: "Tiana Philips",
+  //     email: "tianaphilips@gmail.com",
+  //     phNumber: "+91 8922378524",
+  //     address:
+  //       "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
+  //     guestType: "VIP",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Marcus Schleifer",
+  //     email: null,
+  //     phNumber: "+91 89785123146",
+  //     address: null,
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  //   {
+  //     name: "Jaydon Curtis",
+  //     email: "jaydoncurtis@gmail.com",
+  //     phNumber: "+91 8952370146",
+  //     address:
+  //       "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
+  //     guestType: "Family",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Madelyn Levin",
+  //     email: "madelynlevin@gmail.com",
+  //     phNumber: null,
+  //     address:
+  //       "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  //   {
+  //     name: "Tiana Philips",
+  //     email: "tianaphilips@gmail.com",
+  //     phNumber: "+91 8922378524",
+  //     address:
+  //       "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
+  //     guestType: "VIP",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Marcus Schleifer",
+  //     email: null,
+  //     phNumber: "+91 89785123146",
+  //     address: null,
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  //   {
+  //     name: "Jaydon Curtis",
+  //     email: "jaydoncurtis@gmail.com",
+  //     phNumber: "+91 8952370146",
+  //     address:
+  //       "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
+  //     guestType: "Family",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Madelyn Levin",
+  //     email: "madelynlevin@gmail.com",
+  //     phNumber: null,
+  //     address:
+  //       "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  //   {
+  //     name: "Tiana Philips",
+  //     email: "tianaphilipdsdsdsdsdss@gmail.com",
+  //     phNumber: "+91 8922378524",
+  //     address:
+  //       "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
+  //     guestType: "VIP",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Marcus Schleifer",
+  //     email: null,
+  //     phNumber: "+91 89785123146",
+  //     address: null,
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  // ];
+  const tableData = guest.map((guest) => ({
+  name: guest.fullName,
+  email: guest.email ?? null,
+  phNumber: guest.phone ? `+91 ${guest.phone}` : null,
+  address: guest?.address || null,
+  guestType: guest?.guestType || "others", // default or from another source
+  dietaryPreference: guest?.dietaryPreference || "" // default or from another source
+}));
+  
   const tHeadData = [
     { title: "Name", w: "w-[20%]" },
     { title: "Email", w: "w-[20%]" },
@@ -131,7 +168,7 @@ const page = () => {
               </h4>
 
               <h2 className="font-semibold lg:text-[28px] xl:text-[36px] 2xl:text-[45px] 3xl:text-[60px] text-[#EA0056] leading-[1] mt-auto">
-                549
+                {guest?.length}
               </h2>
             </div>
 
@@ -243,9 +280,7 @@ const page = () => {
                       </td>
                       <td className="text-[#5D5D5D] font-normal text-[15px] 3xl:text-[16px] text-left py-[20px]">
                         {items.address
-                          ? items.address.length > 12 &&
-                            `${items.address.slice(0, 12)}...`
-                          : "--------------------"}
+                          }
                       </td>
                       <td
                         className={`${

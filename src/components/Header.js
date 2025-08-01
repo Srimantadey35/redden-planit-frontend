@@ -35,8 +35,9 @@ const Header = ({userName,userType}) => {
     { label: "E - Card", href: "/ecard" },
     { label: "Manage guest", href: "/manage-guest" },
     { label: "Create your website", href: "/create-website" },
-    { label: "Book vendors", href: "/vendors" },
+    { label: "Book vendors", href: "/listing-page" },
     { label: "PlanIt AI", href: "/planit-ai" },
+    { label: "Guest List", href: "/guest-list" }
   ];
 
 

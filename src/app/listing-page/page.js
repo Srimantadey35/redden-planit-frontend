@@ -252,7 +252,7 @@ const Page = async () => {
                       }`}
                       width={item.iconWidth}
                       height={item.iconHeight}
-                      src={item.icon}
+                      src={item?.icon || null}
                       alt={item.label}
                     />
                     <Image
@@ -261,7 +261,7 @@ const Page = async () => {
                       }`}
                       width={item.iconWidth}
                       height={item.iconHeight}
-                      src={item.hoverIcon}
+                      src={item?.hoverIcon || null}
                       alt={`${item.label}-hover`}
                     />
 
@@ -287,7 +287,7 @@ const Page = async () => {
                 className="size-[60px] 3xl:size-[80px] rounded-full object-cover mx-auto"
                 width={80}
                 height={80}
-                src={item.image}
+                src={item.image || null}
                 alt={item.placeName}
               />
               <p className="font-normal text-black text-[15px] 3xl:text-[16px] text-center h-[24px] mt-2">
@@ -483,7 +483,7 @@ const Page = async () => {
                   className="rounded-t-lg"
                   width={282}
                   height={166}
-                  src={`${item.img}`}
+                  src={`${item.img}`|| null}
                   alt=""
                 />
 
