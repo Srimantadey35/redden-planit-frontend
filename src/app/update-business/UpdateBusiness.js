@@ -2853,7 +2853,12 @@ const UpdateBusiness = () => {
       }
     } catch (error) {
       console.error("Error adding service info:", error);
-      toast.error("Failed to add service info. Please try again.");
+      const message =
+                error.response?.data?.message ||
+                error.response?.data?.error ||
+                "Failed to add business. Please try again.";
+              toast.error(message);
+      // toast.error("Failed to add service info. Please try again.");
     }
   }
 
