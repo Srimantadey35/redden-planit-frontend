@@ -873,16 +873,16 @@ const Page = () => {
       pin: true,
       languages: true,
     });
-    const errors = await formik.validateForm();
+    // const errors = await formik.validateForm();
 
-    // Check if any of the targeted fields have errors
-    const targetFields = ['businessName', 'businessAddress', 'city', 'state', 'pin', 'languages'];
-    const hasFieldErrors = targetFields.some((field) => errors[field]);
+    // // Check if any of the targeted fields have errors
+    // const targetFields = ['businessName', 'businessAddress', 'city', 'state', 'pin', 'languages'];
+    // const hasFieldErrors = targetFields.some((field) => errors[field]);
 
-    if (hasFieldErrors) {
-      toast.error('Please fix the highlighted errors before submitting.');
-      return;
-    }
+    // if (hasFieldErrors) {
+    //   toast.error('Please fix the highlighted errors before submitting.');
+    //   return;
+    // }
 
     const isAnyEmpty = Object.values(businessData).some(
       (value) => value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0)
