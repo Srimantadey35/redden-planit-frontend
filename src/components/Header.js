@@ -107,7 +107,7 @@ const Header = () => {
       {/* Header */}
       <div className="banner_gradient sticky left-0 right-0 w-full top-0 z-[99999]">
         <div className="container">
-          <div className="py-5 3xl:py-6 flex items-center justify-between">
+          <div className="py-2 md:py-5 3xl:py-6 flex items-center justify-between">
             {/* Logo */}
             <Image
               className="w-[70px] sm:w-[90px] 3xl:w-[158px]"

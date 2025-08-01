@@ -32,7 +32,7 @@ const Page = () => {
   return (
     <div>
       <Layouts>
-        <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen flex flex-col justify-center mb-8">
+        <div className="w-full max-w-full px-5 4xl:px-0 4xl:max-w-[1440px] mx-auto min-h-screen flex flex-col mb-8">
           <h3 className="font-semibold text-[#303030] text-[22px] 3xl:text-[25px] 4xl:text-[28px]">
             Account details
           </h3>
@@ -158,9 +158,10 @@ const Page = () => {
                     <div key={index} className="flex items-center space-x-2.5">
                       <label
                         htmlFor={`${item.socialMediaName}`}
-                        className="shrink-0 size-[28px] rounded-[4px] border border-[#dadada] bg-white flex items-center justify-center"
+                        className="shrink-0 size-[28px] rounded-[4px] border border-[#dadada] bg-white flex items-center justify-center cursor-pointer"
                       >
                         <Image
+                        className="mx-auto"
                           width={20}
                           height={20}
                           src={`${item.icon}`}
@@ -281,21 +282,25 @@ const Page = () => {
                   <div className="flex flex-col mb-3">
                     <label
                       htmlFor="currentPassword"
-                      className="font-semibold text-[15px] text-[#151515] mb-2"
+                      className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                     >
                       Current Password
                     </label>
                     <div className="relative">
                       <input
-                        className="h-[42px] rounded-[8px] w-full outline-none bg-white px-[16px] pr-10 placeholder:text-[#525252] text-[14px] font-medium text-black"
+                        className="h-[42px] 3xl:h-[53px] rounded-[8px] w-full outline-none bg-white px-[22px] pr-10 placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black relative z-[1]"
                         placeholder="Current password"
                         type={showCurrent ? "text" : "password"}
                         name="currentPassword"
                         id="currentPassword"
+                        style={{
+                          fontFamily: showCurrent ? "inherit" : "caption",
+                          fontSize: showCurrent ? "12px" : "20px",
+                        }}
                       />
                       <button
                         type="button"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                        className="absolute z-[2] right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                         tabIndex={-1}
                         onClick={() => setShowCurrent((v) => !v)}
                       >
@@ -315,21 +320,25 @@ const Page = () => {
                   <div className="flex flex-col mb-3">
                     <label
                       htmlFor="newPassword"
-                      className="font-semibold text-[15px] text-[#151515] mb-2"
+                      className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                     >
                       New Password
                     </label>
                     <div className="relative">
                       <input
-                        className="h-[42px] rounded-[8px] w-full outline-none bg-white px-[16px] pr-10 placeholder:text-[#525252] text-[14px] font-medium text-black"
+                        className="h-[42px] 3xl:h-[53px] rounded-[8px] w-full outline-none bg-white px-[22px] pr-10 placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black relative z-[1]"
                         placeholder="New password"
                         type={showNew ? "text" : "password"}
                         name="newPassword"
                         id="newPassword"
+                        style={{
+                          fontFamily: showCurrent ? "inherit" : "caption",
+                          fontSize: showNew ? "12px" : "20px",
+                        }}
                       />
                       <button
                         type="button"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                        className="absolute z-[2] right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                         tabIndex={-1}
                         onClick={() => setShowNew((v) => !v)}
                       >
@@ -349,21 +358,25 @@ const Page = () => {
                   <div className="flex flex-col mb-3">
                     <label
                       htmlFor="confirmNewPassword"
-                      className="font-semibold text-[15px] text-[#151515] mb-2"
+                      className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                     >
                       Confirm New Password
                     </label>
                     <div className="relative">
                       <input
-                        className="h-[42px] rounded-[8px] w-full outline-none bg-white px-[16px] pr-10 placeholder:text-[#525252] text-[14px] font-medium text-black"
+                        className="h-[42px] 3xl:h-[53px] rounded-[8px] w-full outline-none bg-white px-[22px] pr-10 placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black relative z-[1]"
                         placeholder="Confirm new password"
                         type={showConfirm ? "text" : "password"}
                         name="confirmNewPassword"
                         id="confirmNewPassword"
+                        style={{
+                          fontFamily: showCurrent ? "inherit" : "caption",
+                          fontSize: showConfirm ? "12px" : "20px",
+                        }}
                       />
                       <button
                         type="button"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                        className="absolute z-[2] right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                         tabIndex={-1}
                         onClick={() => setShowConfirm((v) => !v)}
                       >
