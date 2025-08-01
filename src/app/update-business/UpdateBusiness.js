@@ -1830,7 +1830,7 @@ const UpdateBusiness = () => {
 
               }));
 
-              setGalleryFiles(existingGalleryFiles);
+              setGalleryFiles(prev => prev.length === 0 ? existingGalleryFiles : prev);;
               setGalleryUploadProgress(galleryImageUrls.map(() => 100));
             }
             formik.setValues({
@@ -2939,12 +2939,15 @@ const UpdateBusiness = () => {
     const currentGallery = [...galleryFiles, ...newImages];
     const currentProgress = [...galleryUploadProgress, ...newProgress];
 
-    setGalleryFiles(currentGallery);
+    // setGalleryFiles(currentGallery);
+    setGalleryFiles(prev => [...prev, ...newImages]);
     setGalleryUploadProgress(currentProgress);
+    const uploadedUrls = [];
 
     for (let i = 0; i < imageFiles.length; i++) {
       const file = imageFiles[i];
       const currentIndex = galleryFiles.length + i;
+      // const currentIndex = galleryUploadProgress.length - newProgress.length + i;
 
       try {
         const url = await uploadToCloudinary(file, (percent) => {
@@ -2956,14 +2959,14 @@ const UpdateBusiness = () => {
             return updated;
           });
         });
-
+           uploadedUrls.push(url); // collect
         // formik.setFieldValue("allGalleryFiles", [
         //   ...formik.values.allGalleryFiles,
         //   url,
         // ]);
         formik.setFieldValue("allGalleryFiles", [
           ...(Array.isArray(formik.values.allGalleryFiles) ? formik.values.allGalleryFiles : []),
-          url,
+          ...uploadedUrls,
         ]);
 
         setGalleryUploadProgress((prev = []) => {

@@ -905,7 +905,19 @@ const Page = () => {
       }
     } catch (error) {
       console.error("Error adding business:", error);
-      toast.error("Failed to add business. Please try again.");
+      if (error?.response?.status === 406) {
+    const message =
+      error.response.data?.message ||
+      error.response.data?.error ||
+      "The server rejected the data. Please review your inputs.";
+    toast.error(message);
+  } else {
+    const message =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      "Failed to add business. Please try again.";
+    toast.error(message);
+  }
     }
 
   }
@@ -947,7 +959,12 @@ const Page = () => {
       }
     } catch (error) {
       console.error("Error adding service info:", error);
-      toast.error("Failed to add service info. Please try again.");
+      const message =
+      error.response.data?.message ||
+      error.response.data?.error ||
+      "The server rejected the data. Please review your inputs.";
+    toast.error(message);
+    setopenAccordion('add-business')
     }
   }
 
@@ -1040,7 +1057,12 @@ const Page = () => {
       }
     } catch (error) {
       console.error("Error adding service info:", error);
-      toast.error("Failed to add service info. Please try again.");
+      const message =
+      error.response.data?.message ||
+      error.response.data?.error ||
+      "The server rejected the data. Please review your inputs.";
+    toast.error(message);
+    setopenAccordion('add-business')
     }
   }
 
@@ -1081,7 +1103,12 @@ const Page = () => {
       }
     } catch (error) {
       console.error("Error adding opening hours:", error);
-      toast.error("Failed to add opening hours. Please try again.");
+      const message =
+      error.response.data?.message ||
+      error.response.data?.error ||
+      "The server rejected the data. Please review your inputs.";
+    toast.error(message);
+    setopenAccordion('add-business')
     }
   }
 
@@ -1126,9 +1153,10 @@ const Page = () => {
     const currentGallery = [...galleryFiles, ...newImages];
     const currentProgress = [...galleryUploadProgress, ...newProgress];
 
-    setGalleryFiles(currentGallery);
+    // setGalleryFiles(currentGallery);
+    setGalleryFiles(prev => [...prev, ...newImages]);
     setGalleryUploadProgress(currentProgress);
-
+    const uploadedUrls = [];
     for (let i = 0; i < imageFiles.length; i++) {
       const file = imageFiles[i];
       const currentIndex = galleryFiles.length + i;
@@ -1143,10 +1171,10 @@ const Page = () => {
             return updated;
           });
         });
-
+        uploadedUrls.push(url);
         formik.setFieldValue("allGalleryFiles", [
           ...formik.values.allGalleryFiles,
-          url,
+          ...uploadedUrls,
         ]);
 
         setGalleryUploadProgress((prev = []) => {
@@ -1266,7 +1294,7 @@ const Page = () => {
                           htmlFor="businessName"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          Business name
+                          Business name<span className="text-red-500 text-bold">*</span>
                         </label>
                         <input
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
@@ -1294,7 +1322,7 @@ const Page = () => {
                           htmlFor="businesscategory"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          Business Category
+                          Business Category<span className="text-red-500 text-bold">*</span>
                         </label>
                         <select
                           value={selectedCategory}
@@ -1338,7 +1366,7 @@ const Page = () => {
                         htmlFor="businessAddress"
                         className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                       >
-                        Business Address
+                        Business Address<span className="text-red-500 text-bold">*</span>
                       </label>
 
                       <div className="relative">
@@ -1377,7 +1405,7 @@ const Page = () => {
                           htmlFor="city"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          City
+                          City<span className="text-red-500 text-bold">*</span>
                         </label>
                         <input
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
@@ -1405,7 +1433,7 @@ const Page = () => {
                           htmlFor="state"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          State
+                          State<span className="text-red-500 text-bold">*</span>
                         </label>
                         <select
                           name="state"
@@ -1415,7 +1443,7 @@ const Page = () => {
                           id="state"
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                         > <option value="" disabled>
-                            Select State
+                            Select State<span className="text-red-500 text-bold">*</span>
                           </option>
                           {indianStates.map(state => (
                             <option key={state.isoCode} value={state.name}>{state.name}</option>
@@ -1434,7 +1462,7 @@ const Page = () => {
                           htmlFor="pin"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          Pin code
+                          Pin code<span className="text-red-500 text-bold">*</span>
                         </label>
                         <input
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
@@ -1483,7 +1511,7 @@ const Page = () => {
                           htmlFor="languages"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          Languages Spoken
+                          Languages Spoken<span className="text-red-500 text-bold">*</span>
                         </label>
 
                         <div className="flex flex-row gap-2">
@@ -2281,7 +2309,7 @@ const Page = () => {
                             htmlFor="portfolioEventType"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Event Type
+                            Event Type<span className="text-red-500 text-bold">*</span>
                           </label>
                           <select
                             name="portfolioEventType"
@@ -2311,7 +2339,7 @@ const Page = () => {
                             htmlFor="portfolioLocation"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Location
+                            Location<span className="text-red-500 text-bold">*</span>
                           </label>
                           <div className="relative">
                             <input
@@ -2347,7 +2375,7 @@ const Page = () => {
                           htmlFor="portfolioDescription"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          Description
+                          Description<span className="text-red-500 text-bold">*</span>
                         </label>
                         <textarea
                           name="portfolioDescription"
