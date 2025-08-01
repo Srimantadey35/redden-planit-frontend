@@ -21,7 +21,10 @@ const page = () => {
     const handleClickOutside = (event) => {
       // For screens between sm (640px) and md (768px), check if click is on mobile search box
       if (window.innerWidth >= 640 && window.innerWidth < 768) {
-        if (mobileSearchRef.current && mobileSearchRef.current.contains(event.target)) {
+        if (
+          mobileSearchRef.current &&
+          mobileSearchRef.current.contains(event.target)
+        ) {
           return; // Exit early, don't close anything
         }
       }
@@ -33,7 +36,7 @@ const page = () => {
           setIsSearchOpen(false);
         }
       }
-      
+
       if (filterRef.current && !filterRef.current.contains(event.target)) {
         setIsFilterOpen(false);
         setActiveFilter("Guest type");
@@ -303,26 +306,32 @@ const page = () => {
               <div className="flex items-center space-x-2 sm:space-x-2 md:space-x-6 w-full md:mt-0 mt-3 justify-end md:justify-end ">
                 {/* Search - Works like desktop from sm and above */}
                 {isSearchOpen ? (
-                  <div ref={searchRef} className="sm:flex hidden items-center bg-white rounded-full px-3 sm:px-4 py-2 border border-gray-200">
+                  <div
+                    ref={searchRef}
+                    className="sm:flex hidden items-center bg-white rounded-full px-3 sm:px-4 py-2 border border-gray-200"
+                  >
                     <input
                       type="text"
                       placeholder="Search by name, email, phone etc."
                       className="outline-none bg-transparent w-48 sm:w-64 placeholder:text-[#6B6B6B] placeholder:text-[12px] text-black text-[14px]"
                       autoFocus
-                      onBlur={() => setIsSearchOpen(false)}
+                      // onBlur={() => setIsSearchOpen(false)}
                     />
-                    <Image
-                      width={18}
-                      height={18}
-                      src={"/images/search.svg"}
-                      alt="search"
-                      className="ml-3"
-                    />
+                    <button className="rounded-full p-[7px] bg-[#E8E8E8] shrink-0 size-[30px] flex items-center justify-center">
+                      <Image
+                        width={18}
+                        height={18}
+                        src={"/images/search.svg"}
+                        alt="search"
+                      />
+                    </button>
                   </div>
                 ) : (
                   <button
                     onClick={() => setIsSearchOpen(true)}
-                    className="cursor-pointer shrink-0 sm:block hidden"
+                    className={`${
+                      isSearchOpen ? "bg-[#ededed]" : ""
+                    } cursor-pointer shrink-0 sm:block hidden`}
                   >
                     <Image
                       width={18}
@@ -352,7 +361,10 @@ const page = () => {
                 </div>
 
                 {/* Filter - Responsive design */}
-                <div ref={filterRef} className="grid place-items-center shrink-0">
+                <div
+                  ref={filterRef}
+                  className="grid place-items-center shrink-0"
+                >
                   {isFilterOpen ? (
                     <div className="relative">
                       <div className="flex items-center bg-gray-100 rounded-full border border-gray-200">
@@ -375,7 +387,9 @@ const page = () => {
                               : "text-[#333333]"
                           }`}
                         >
-                          <span className="hidden sm:inline">Dietary preference</span>
+                          <span className="hidden sm:inline">
+                            Dietary preference
+                          </span>
                           <span className="sm:hidden">Diet</span>
                         </button>
                         <Image
@@ -393,7 +407,7 @@ const page = () => {
 
                       {/* Floating Filter Dropdown - Responsive positioning */}
                       {activeFilter === "Guest type" && (
-                        <div 
+                        <div
                           className="absolute top-12 sm:top-14 right-0 p-3 sm:p-4 rounded-xl shadow-md bg-white w-fit z-10 min-w-[280px] sm:min-w-[320px]"
                           onClick={(e) => e.stopPropagation()}
                         >
@@ -403,7 +417,9 @@ const page = () => {
                                 type="checkbox"
                                 className="w-3.5 h-3.5 sm:w-4 sm:h-4"
                                 checked={selectedGuestTypes.includes("Friends")}
-                                onChange={() => handleGuestTypeChange("Friends")}
+                                onChange={() =>
+                                  handleGuestTypeChange("Friends")
+                                }
                               />
                               Friends
                             </label>
@@ -437,7 +453,7 @@ const page = () => {
 
                       {/* Dietary Preference Filter Dropdown - Responsive */}
                       {activeFilter === "Dietary preference" && (
-                        <div 
+                        <div
                           className="absolute top-12 sm:top-14 right-0 p-3 sm:p-4 rounded-xl shadow-md bg-white w-fit z-10 min-w-[240px] sm:min-w-[280px]"
                           onClick={(e) => e.stopPropagation()}
                         >
@@ -447,7 +463,9 @@ const page = () => {
                                 type="checkbox"
                                 className="w-3.5 h-3.5 sm:w-4 sm:h-4"
                                 checked={selectedDietaryPrefs.includes("Vegan")}
-                                onChange={() => handleDietaryPrefChange("Vegan")}
+                                onChange={() =>
+                                  handleDietaryPrefChange("Vegan")
+                                }
                               />
                               Vegan
                             </label>
@@ -564,6 +582,13 @@ const page = () => {
                       </td>
                       <td className="text-[#5D5D5D] font-normal py-[20px] flex items-center justify-end">
                         <button className="mr-2 w-[18px] 3xl:w-[20px]">
+                          <Image
+                            className="mr-4 cursor-pointer"
+                            width={20}
+                            height={20}
+                            src={"/images/edit.svg"}
+                            alt="edit"
+                          />
                           <Image
                             className="mr-4 cursor-pointer"
                             width={20}

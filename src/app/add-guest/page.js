@@ -32,6 +32,8 @@ const Page = () => {
     e.preventDefault();
     console.log("Selected guests to submit:", selectedGuests);
   };
+  console.log(checkedGuests);
+  
 
   return (
     <div className="bg-[#FBFBFB]">
@@ -242,7 +244,7 @@ const Page = () => {
                         <Image
                           width={20}
                           height={20}
-                          src="/images/edit.svg"
+                          src={checkedGuests[item] ? "/images/edit-checked.svg" : "/images/edit.svg"}
                           alt="edit"
                         />
                       </button>
@@ -250,7 +252,7 @@ const Page = () => {
                         <Image
                           width={20}
                           height={20}
-                          src="/images/delete.svg"
+                          src={checkedGuests[item] ? "/images/delete-checked.svg" : "/images/delete.svg"}
                           alt="delete"
                         />
                       </button>
