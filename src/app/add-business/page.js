@@ -57,6 +57,8 @@ const Page = () => {
   const [categoryFilledCounts, setCategoryFilledCounts] = useState({});
   const [categoryTotalCount, setCategoryTotalCount] = useState({})
   const [uploadingFiles, setUploadingFiles] = useState(false)
+  const [tags, setTags] = useState([]);
+  const [inputValue, setInputValue] = useState("");
   const router = useRouter()
 
   const removeExtraSpace = (s) => {
@@ -141,13 +143,23 @@ const Page = () => {
     images: Yup.array(),
     deliveryTimeline: Yup.string(),
     priceRange: Yup.string(),
-    portfolioFiles: Yup.array(),
+   portfolioFiles: Yup.array()
+  .min(1, "At least one file is required"),
+
     portfolioDescription: Yup.string().required('Portfolio description is required'),
     portfolioLocation: Yup.string().required("Location is required"),
     portfolioEventType: Yup.string().required("Please select event type"),
-    portfolioTags: Yup.array().of(Yup.string()),
+portfolioTags: Yup.array()
+  .of(
+    Yup.string()
+      .trim()
+      .min(1, "Tags cannot be empty")
+  )
+  .min(1, "At least one tag is required"),
     openingHours: Yup.array().of(openingHourSchema),
-    allGalleryFiles: Yup.array()
+    alallGalleryFiles: Yup.array()
+  .min(1, "Please upload at least one gallery file")
+  .max(10, "You can upload up to 10 files only")
   });
 
   console.log("selectedCategory", selectedCategory);
@@ -654,8 +666,7 @@ const Page = () => {
   };
 
   // services
-  const [tags, setTags] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  
 
   const [checkedItems, setCheckedItems] = useState([]);
 
@@ -866,20 +877,39 @@ const Page = () => {
       languagesSpoken: languages,
     };
     formik.setTouched({
-    businessName: true,
-    businessAddress: true,
-    city: true,
-    state: true,
-    pin: true,
-    languages: true,
-  });
+      businessName: true,
+      businessAddress: true,
+      city: true,
+      state: true,
+      pin: true,
+      languages: true,
+    });
+    // const errors = await formik.validateForm();
+
+    // // Check if any of the targeted fields have errors
+    // const targetFields = ['businessName', 'businessAddress', 'city', 'state', 'pin', 'languages'];
+    // const hasFieldErrors = targetFields.some((field) => errors[field]);
+
+    // if (hasFieldErrors) {
+    //   toast.error('Please fix the highlighted errors before submitting.');
+    //   return;
+    // }
+
     const isAnyEmpty = Object.values(businessData).some(
       (value) => value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0)
     );
 
     if (isAnyEmpty) {
       toast.error('Please fill out all required fields.');
-      return; // stop further execution
+      return;
+    }
+    if(businessData.name.length < 3){
+      toast.error('Business name must be at least 3 characters long.');
+      return;
+    }
+    if (businessData.pincode.length !== 6) {
+      toast.error('Pin code must be exactly 6 digits.');
+      return;
     }
     console.log('businessData', businessData)
 
@@ -906,18 +936,18 @@ const Page = () => {
     } catch (error) {
       console.error("Error adding business:", error);
       if (error?.response?.status === 406) {
-    const message =
-      error.response.data?.message ||
-      error.response.data?.error ||
-      "The server rejected the data. Please review your inputs.";
-    toast.error(message);
-  } else {
-    const message =
-      error.response?.data?.message ||
-      error.response?.data?.error ||
-      "Failed to add business. Please try again.";
-    toast.error(message);
-  }
+        const message =
+          error.response.data?.message ||
+          error.response.data?.error ||
+          "The server rejected the data. Please review your inputs.";
+        toast.error(message);
+      } else {
+        const message =
+          error.response?.data?.message ||
+          error.response?.data?.error ||
+          "Failed to add business. Please try again.";
+        toast.error(message);
+      }
     }
 
   }
@@ -960,11 +990,11 @@ const Page = () => {
     } catch (error) {
       console.error("Error adding service info:", error);
       const message =
-      error.response.data?.message ||
-      error.response.data?.error ||
-      "The server rejected the data. Please review your inputs.";
-    toast.error(message);
-    setopenAccordion('add-business')
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message);
+      setopenAccordion('add-business')
     }
   }
 
@@ -1023,14 +1053,14 @@ const Page = () => {
     }
 
     formik.setTouched({
-    portfolioTags:true,
-    portfolioDescription:true,
-    portfolioLocation:true,
-    portfolioEventType:true,
-    portfolioFiles:true
-  });
-    const filterInfo = {portfolioDescription,portfolioLocation,portfolioEventType}
-    const isAnyEmpty = Object.values(filterInfo).some(
+      portfolioTags: true,
+      portfolioDescription: true,
+      portfolioLocation: true,
+      portfolioEventType: true,
+      portfolioFiles: true
+    });
+    const filterInfo = { portfolioDescription, portfolioLocation, portfolioEventType }
+    const isAnyEmpty = Object.values(portfolioInfo).some(
       (value) => value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0)
     );
 
@@ -1058,11 +1088,11 @@ const Page = () => {
     } catch (error) {
       console.error("Error adding service info:", error);
       const message =
-      error.response.data?.message ||
-      error.response.data?.error ||
-      "The server rejected the data. Please review your inputs.";
-    toast.error(message);
-    setopenAccordion('add-business')
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message);
+      setopenAccordion('add-business')
     }
   }
 
@@ -1070,7 +1100,7 @@ const Page = () => {
     e.preventDefault()
     const { openingHours } = formik.values
     formik.setTouched({
-      openingHours:true
+      openingHours: true
     })
     const hasInvalidEntry = openingHours.some(hour => {
       if (hour.isOpen) {
@@ -1104,16 +1134,23 @@ const Page = () => {
     } catch (error) {
       console.error("Error adding opening hours:", error);
       const message =
-      error.response.data?.message ||
-      error.response.data?.error ||
-      "The server rejected the data. Please review your inputs.";
-    toast.error(message);
-    setopenAccordion('add-business')
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message);
+      setopenAccordion('add-business')
     }
   }
 
   const handleAddGalleryFile = async (e) => {
     e.preventDefault()
+    formik.setTouched({
+      allGalleryFiles: true,
+    });
+    if (formik.values.allGalleryFiles.length === 0) {
+      toast.error("Please upload at least one gallery image.");
+      return;
+    }
     console.log('gallery images url', formik.values.allGalleryFiles)
     try {
       const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-business-image`, {
@@ -1136,7 +1173,7 @@ const Page = () => {
     }
   }
 
-  const handleGalleryFileChange = async (e) => {
+   const handleGalleryFileChange = async (e) => {
     const files = Array.from(e.target.files);
     const imageFiles = files.filter((file) => /\.(jpe?g|png)$/i.test(file.name));
 
@@ -1192,33 +1229,11 @@ const Page = () => {
 
 
 
-  const uploadGalleryImage = (file, index) => {
-    const xhr = new XMLHttpRequest();
-    const formData = new FormData();
-    formData.append("image", file);
 
-    xhr.upload.onprogress = (event) => {
-      if (event.lengthComputable) {
-        const percent = Math.round((event.loaded / event.total) * 100);
-        setGalleryUploadProgress(prev => ({ ...prev, [index]: percent }));
-      }
-    };
-
-    xhr.onload = () => {
-      setGalleryUploadProgress(prev => ({ ...prev, [index]: 100 }));
-      // handle success, update galleryFiles with server url if needed
-    };
-
-    xhr.onerror = () => {
-      setGalleryUploadProgress(prev => ({ ...prev, [index]: 0 }));
-      // handle error
-    };
-
-    xhr.open("POST", "/api/upload"); // your upload endpoint
-    xhr.send(formData);
+    const uploadGalleryImage = (file, index) => {
   };
 
-  const removeGalleryImage = (index) => {
+   const removeGalleryImage = (index) => {
     // Remove preview image
     setGalleryFiles((prev) => {
       const updated = [...prev];
@@ -1239,6 +1254,7 @@ const Page = () => {
       ...formik.values.allGalleryFiles.slice(index + 1),
     ]);
   };
+
 
 
   return (
@@ -1443,7 +1459,7 @@ const Page = () => {
                           id="state"
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                         > <option value="" disabled>
-                            Select State<span className="text-red-500 text-bold">*</span>
+                            Select State
                           </option>
                           {indianStates.map(state => (
                             <option key={state.isoCode} value={state.name}>{state.name}</option>
@@ -2207,7 +2223,7 @@ const Page = () => {
                           />
 
                           <p className="text-[#505050] font-medium text-[14px] text-center my-1.5">
-                            Drag & drop files here, or click to select files
+                            Drag & drop files here, or click to select files<span className="text-red-500 text-bold">*</span>
                           </p>
                           <p className="text-[#787878] font-normal text-[12px] text-center">
                             Supported File Types: .jpg, .png
@@ -2244,11 +2260,13 @@ const Page = () => {
                               </div>
                             );
                           })}
-
+                          {formik.errors.portfolioFiles && formik.touched.portfolioFiles && (
+                            <p className="text-red-400 text-[14px] ml-1">{formik.errors.portfolioFiles}</p>
+                          )}
                         </div>
                       </div>
-                      {/* tags  */}
-                      <div>
+
+                      {/* <div>
                         <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">
                           Tags
                         </p>
@@ -2273,21 +2291,9 @@ const Page = () => {
                                 </button>
                               </li>
                             ))}
-                            {/* <li className="flex items-center">
-                              <input
-                                type="text"
-                                name="portfolioTags"
-                                className="outline-none bg-transparent text-[15px] 3xl:text-[16px] placeholder:text-[#b0b0b0] text-[#505050] py-2 px-4"
-                                placeholder="Type & press Enter"
-                                value={formik.values.portfolioTags}
-                                onChange={(e) => { setInputValue(e.target.value), formik.handleChange(e) }}
-                                onKeyDown={handleKeyDown}
-                              />
-                            </li> */}
+                            
                             <li className="flex items-center relative">
-                              {/* <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#505050] text-[15px] 3xl:text-[16px] pointer-events-none z-10 mr-1">
-                                #
-                              </span> */}
+                              
                               <input
                                 type="text"
                                 name="portfolioTagsInput" // Different name to avoid confusion
@@ -2299,6 +2305,55 @@ const Page = () => {
                               />
                             </li>
                           </ul>
+                        </div>
+                      </div> */}
+                      <div>
+                        <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">
+                          Tags<span className="text-red-500 text-bold">*</span>
+                        </p>
+                        <div className="rounded-[18px] bg-white py-4 px-4">
+                          {/* Input Section - Full width clickable */}
+                          <div className="w-full mb-3">
+                            <input
+                              type="text"
+                              name="portfolioTagsInput"
+                              className="w-full outline-none bg-transparent text-[15px] 3xl:text-[16px] placeholder:text-[#b0b0b0] text-[#505050] py-2 px-4 border-2 border-[#E5E5E5] rounded-[6px] focus:border-[#EA0056]"
+                              placeholder="Type & press Enter to add tags"
+                              value={inputValue}
+                              onChange={(e) => setInputValue(e.target.value)}
+                              onBlur={formik.handleBlur}
+                              onKeyDown={handleKeyDown}
+                            />
+                          </div>
+
+                          {/* Tags Display Section */}
+                          <div className="flex items-center flex-wrap gap-3">
+                            {tags.map((tag, index) => (
+                              <div
+                                key={index}
+                                className="font-normal text-[15px] 3xl:text-[16px] text-[#505050] bg-[#F6F6F6] rounded-[36px] py-2 px-4 w-fit flex items-center space-x-[17px]"
+                              >
+                                <span className="text-blue-500">{tag}</span>
+                                <button
+                                  type="button"
+                                  className="cursor-pointer grid place-items-center size-[21px] bg-[#E5E5E5] rounded-full hover:bg-red-100"
+                                  onClick={() => removeTag(index)}
+                                >
+                                  <Image
+                                    width={7}
+                                    height={7}
+                                    src={"/images/services/crossIcon.svg"}
+                                    alt="crossIcon"
+                                  />
+                                </button>
+                              </div>
+                            ))}
+
+                            {/* Show message when no tags */}
+                            {formik.errors.portfolioTags && formik.touched.portfolioTags && (
+                              <p className="text-red-400 text-[14px]  ml-1">{formik.errors.portfolioTags}</p>
+                            )}
+                          </div>
                         </div>
                       </div>
 
@@ -2316,6 +2371,7 @@ const Page = () => {
                             id="portfolioEventType"
                             value={formik.values.portfolioEventType}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                           >
                             <option value="" disabled>
@@ -2327,12 +2383,12 @@ const Page = () => {
                             <option value="audi">Audi</option>
                           </select>
                           <div>
-                          {(formik.touched.portfolioEventType && formik.errors.portfolioEventType) && (
-                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
-                              {formik.errors.portfolioEventType}
-                            </p>
-                          )}
-                        </div>
+                            {(formik.touched.portfolioEventType && formik.errors.portfolioEventType) && (
+                              <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                {formik.errors.portfolioEventType}
+                              </p>
+                            )}
+                          </div>
                         </div>
                         <div className="flex flex-col w-full">
                           <label
@@ -2349,6 +2405,7 @@ const Page = () => {
                               name="portfolioLocation"
                               value={formik.values.portfolioLocation}
                               onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
                               id="portfolioLocation"
                             />
                             <Image
@@ -2359,12 +2416,12 @@ const Page = () => {
                               alt="location"
                             />
                             <div>
-                          {(formik.touched.portfolioLocation && formik.errors.portfolioLocation) && (
-                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
-                              {formik.errors.portfolioLocation}
-                            </p>
-                          )}
-                        </div>
+                              {(formik.touched.portfolioLocation && formik.errors.portfolioLocation) && (
+                                <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                  {formik.errors.portfolioLocation}
+                                </p>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -2424,7 +2481,7 @@ const Page = () => {
                   alt="downarrow"
                 />
               </button>
-              {openAccordion === "upload-gallery" && (
+                {openAccordion === "upload-gallery" && (
                 <form onSubmit={handleAddGalleryFile}>
                   <div className="bg-[#F2F2F2] px-5 py-6 rounded-[10px] mb-[20px]">
                     <div
@@ -2463,8 +2520,15 @@ const Page = () => {
                           className="hidden"
                         />
                       </label>
+                     
                     </div>
-
+                     <div>
+                       {galleryFiles.length == 0 && (
+                        <p className="text-red-400 text-[14px] ml-1">
+                          No files uploaded yet.
+                        </p>
+                      )}
+                     </div>
                     {/* Preview Thumbnails */}
                     <div className="flex flex-wrap gap-2 mt-3">
                       {galleryFiles.map((img, index) => {

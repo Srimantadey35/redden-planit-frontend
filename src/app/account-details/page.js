@@ -191,6 +191,7 @@ const Page = () => {
         })
       if (response.status === 200 || response.success) {
         toast.success("Password Changed Successfully")
+        formik.resetForm();
         setShowPasswordModal(false)
       }
     } catch (error) {

@@ -42,13 +42,14 @@ const CreateAccModal = ({ planName }) => {
     }
   };
   // const [checkBoxStatus, setCheckBoxStatus] = useState(false)
+  const [serverErrors, setServerErrors] = useState({})
   const [isRegistering, setIsRegistering] = useState(false)
   const [otpInput, setOtpInput] = useState(false)
   const router = useRouter();
   // const [fromGoogle, setFromGoogle] = useState(false);
   const [prefilledValues, setPrefilledValues] = useState({
     firstName: "",
-    lastName:"",
+    lastName: "",
     email: "",
     phone: "",
     password: "",
@@ -56,7 +57,7 @@ const CreateAccModal = ({ planName }) => {
     userType: planName.toLowerCase(),
     fromGoogle: false,
     providerId: "",
-    checkbox:false
+    checkbox: false
   });
   useEffect(() => {
     try {
@@ -110,6 +111,27 @@ const CreateAccModal = ({ planName }) => {
       otherwise: (schema) => schema.notRequired(),
     }),
 
+//   password: YUP.string().when('fromGoogle', {
+//   is: false,
+//   then: (schema) =>
+//     schema
+//       .required('Password is required')
+//       .min(8, 'Password must be at least 8 characters')
+//       .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+//       .matches(/[0-9]/, 'Password must contain at least one number')
+//       .matches(/[^a-zA-Z0-9\s]/, 'Password must contain at least one special character (excluding space)')
+//       .test(
+//         'no-multiple-spaces',
+//         'Password can contain at most one space',
+//         (value) => {
+//           if (!value) return true; // skip empty (handled by required)
+//           const spaceCount = (value.match(/ /g) || []).length;
+//           return spaceCount <= 1;
+//         }
+//       ),
+//   otherwise: (schema) => schema.notRequired(),
+// }),
+
     confirmpassword: YUP.string().when('fromGoogle', {
       is: false,
       then: (schema) =>
@@ -120,16 +142,25 @@ const CreateAccModal = ({ planName }) => {
     }),
 
     fromGoogle: YUP.boolean().default(false),
-  checkbox: YUP.boolean()
-  .oneOf([true], 'You must agree to the terms and conditions')
+    checkbox: YUP.boolean()
+      .oneOf([true], 'You must agree to the terms and conditions')
   });
 
 
-  const { errors, values, handleBlur, touched, handleChange, handleSubmit, setFieldValue } = useFormik({
+  const { errors, values, handleBlur, setTouched, touched, handleChange, handleSubmit, setFieldValue } = useFormik({
     initialValues: prefilledValues,
     enableReinitialize: true,
     validationSchema: signupSchema,
     onSubmit: async (values) => {
+      setTouched({
+        firstName: true,
+        lastName: true,
+        email: true,
+        phone: true,
+        password: true,
+        confirmpassword: true,
+        checkbox: true
+      });
       console.log('formik submitted')
       setIsRegistering(true)
       console.log("values", values);
@@ -158,6 +189,18 @@ const CreateAccModal = ({ planName }) => {
       } catch (error) {
         setIsRegistering(false)
         const status = error.response?.status;
+        if (status === 409) {
+          const rawErrors = error.response?.data?.errors || [];
+
+          const parsedErrors = {};
+          rawErrors.forEach((err) => {
+            if (err.field && err.message) {
+              parsedErrors[err.field] = err.message;
+            }
+          });
+
+          setServerErrors(parsedErrors); // this will have { email: "...", phone: "..." }
+        }
 
         if (status === 422) {
           setServerErrors(error.response.data.errors);
@@ -273,7 +316,7 @@ const CreateAccModal = ({ planName }) => {
   //     }
   // }
 
-  
+
 
   return (
     <div className="size-full overflow-y-auto example modalAnim">
@@ -399,47 +442,45 @@ const CreateAccModal = ({ planName }) => {
               <form onSubmit={handleSubmit} className="floating-form relative mt-4">
                 {/* Name */}
                 <div className={`flex gap-4`}>
-                <div className="input-wrap mb-5 3xl:mb-10">
-                  <input
-                    type="text"
-                    name="firstName"
-                    id="firstName"
-                    autoComplete="name"
-                    placeholder=" "
-                    required
-                    value={values.firstName}
-                    onChange={(e) => {
-                      const cleaned = removeExtraSpace(e.target.value);
-                      setFieldValue(e.target.name, cleaned);
-                    }}
-                    onBlur={(e) => { handleBlur(e); Blur(e) }}
-                    disabled={values.fromGoogle}
-                  />
-                  <label className={`${values.firstName ? 'active_label' : ''}`} htmlFor="firstName">First Name*</label>
-                  {touched.firstName && errors.firstName && <p className="text-red-600 text-sm mt-1 absolute w-sm">{errors.firstName}</p>}
+                  <div className="input-wrap mb-5 3xl:mb-10">
+                    <input
+                      type="text"
+                      name="firstName"
+                      id="firstName"
+                      autoComplete="name"
+                      placeholder=" "
+                      value={values.firstName}
+                      onChange={(e) => {
+                        const cleaned = removeExtraSpace(e.target.value);
+                        setFieldValue(e.target.name, cleaned);
+                      }}
+                      onBlur={(e) => { handleBlur(e); Blur(e) }}
+                      disabled={values.fromGoogle}
+                    />
+                    <label className={`${values.firstName ? 'active_label' : ''}`} htmlFor="firstName">First Name*</label>
+                    {touched.firstName && errors.firstName && <p className="text-red-600 text-sm mt-1 absolute w-sm">{errors.firstName}</p>}
 
-                </div>
+                  </div>
 
-                <div className="input-wrap mb-5 3xl:mb-10">
-                  <input
-                    type="text"
-                    name="lastName"
-                    id="lastName"
-                    autoComplete="name"
-                    placeholder=" "
-                    required
-                    value={values.lastName}
-                    onChange={(e) => {
-                      const cleaned = removeExtraSpace(e.target.value);
-                      setFieldValue(e.target.name, cleaned);
-                    }}
-                    onBlur={(e) => { handleBlur(e); Blur(e) }}
-                    disabled={values.fromGoogle}
-                  />
-                  <label className={`${values.lastName ? 'active_label' : ''}`} htmlFor="lastName">Last Name*</label>
-                  {/* {touched.lastName && errors.lastName && <p className="text-red-600 text-sm mt-1 absolute w-sm">{errors.fullName}</p>} */}
+                  <div className="input-wrap mb-5 3xl:mb-10">
+                    <input
+                      type="text"
+                      name="lastName"
+                      id="lastName"
+                      autoComplete="name"
+                      placeholder=" "
+                      value={values.lastName}
+                      onChange={(e) => {
+                        const cleaned = removeExtraSpace(e.target.value);
+                        setFieldValue(e.target.name, cleaned);
+                      }}
+                      onBlur={(e) => { handleBlur(e); Blur(e) }}
+                      disabled={values.fromGoogle}
+                    />
+                    <label className={`${values.lastName ? 'active_label' : ''}`} htmlFor="lastName">Last Name*</label>
+                    {/* {touched.lastName && errors.lastName && <p className="text-red-600 text-sm mt-1 absolute w-sm">{errors.fullName}</p>} */}
 
-                </div>
+                  </div>
                 </div>
                 {/* Email & Phone Row */}
                 <div className={`${!prefilledValues.fromGoogle ? 'flex-row' : 'flex-col mb-3'} flex mb-1 3xl:mb-3 gap-5 2xl:gap-4`}>
@@ -450,7 +491,6 @@ const CreateAccModal = ({ planName }) => {
                       id="email"
                       autoComplete="email"
                       placeholder=" "
-                      required
                       value={values.email}
                       onChange={handleChange}
                       onBlur={(e) => { handleBlur(e); Blur(e) }}
@@ -471,7 +511,6 @@ const CreateAccModal = ({ planName }) => {
                       id="Phone"
                       autoComplete="tel"
                       placeholder=" "
-                      required
                       value={values.phone}
                       onChange={handleChange}
                       onBlur={(e) => { handleBlur(e); Blur(e) }}
@@ -479,6 +518,7 @@ const CreateAccModal = ({ planName }) => {
                     />
                     <label htmlFor="Phone">Phone*</label>
                     {touched.phone && errors.phone && <p className="text-red-600 mt-1 text-sm absolute w-sm">{errors.phone}</p>}
+                    {serverErrors.phone && <p className="text-red-500 mt-1 text-sm absolute">{serverErrors.phone}</p>}
 
                   </div>
                 </div>
@@ -486,6 +526,7 @@ const CreateAccModal = ({ planName }) => {
 
                 <div className={`${prefilledValues.fromGoogle ? 'mt-10' : ''} text-[#505050] font-normal flex items-center justify-between text-[14px]`}>
                   {touched.email && errors.email && <p className="text-red-600 text-sm absolute w-sm mb-6">{errors.email}</p>}
+                  {serverErrors.email && <p className="text-red-500 text-sm absolute mb-6">{serverErrors.email}</p>}
                   <p className="mt-4">An OTP will be sent to this <span>{prefilledValues.fromGoogle ? "phone" : "email"}</span></p>
 
 
@@ -506,10 +547,14 @@ const CreateAccModal = ({ planName }) => {
                         id="password"
                         autoComplete="current-password"
                         placeholder=" "
-                        required
                         value={values.password}
                         onChange={handleChange}
                         onBlur={(e) => { handleBlur(e); Blur(e) }}
+                        onKeyDown={(e) => {
+                          if (e.key === " ") {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                       <label htmlFor="password">Password*</label>
                       <button type="button"
@@ -536,7 +581,6 @@ const CreateAccModal = ({ planName }) => {
                           id="confirmpassword"
                           autoComplete="confirmpassword"
                           placeholder=" "
-                          required
                           value={values.confirmpassword}
                           onChange={handleChange}
                           onBlur={(e) => { handleBlur(e); Blur(e) }}
@@ -556,34 +600,35 @@ const CreateAccModal = ({ planName }) => {
                         </button>
                         {touched.confirmpassword && errors.confirmpassword && <p className="text-red-600 mt-1 text-sm absolute w-sm">{errors.confirmpassword}</p>}
                       </div>
-                      </div>
-                      </>
+                    </div>
+                  </>
                 }
-                      <div className="flex items-center mt-2 3xl:mt-7">
-                        <input
-                          type="checkbox"
-                          name="checkbox"
-                          id="checkbox"
-                          required
-                          onChange={handleChange}
-                          checked={values.checkbox}
-                          className="!size-[20px] mr-2"
-                        />
-                        <p className={`text-[#505050] font-normal text-[14px]`}>
-                          I agreed all the{" "}
-                          <Link href="#" className="text-[#EA0056] underline">
-                            Terms & Condition
-                          </Link>{" "}
-                          and{" "}
-                          <Link href="#" className="text-[#EA0056] underline">
-                            Privacy Policy*
-                          </Link>
-                        </p>
-                      </div>
-                    
-                  
+                <div className="flex items-center mt-2 3xl:mt-7">
+                  <input
+                    type="checkbox"
+                    name="checkbox"
+                    id="checkbox"
+                    onChange={handleChange}
+                    checked={values.checkbox}
+                    className="!size-[20px] mr-2"
+                  />
+                  <p className={`text-[#505050] font-normal text-[14px] mt-1`}>
+                    I agreed all the{" "}
+                    <Link href="#" className="text-[#EA0056] underline">
+                      Terms & Condition
+                    </Link>{" "}
+                    and{" "}
+                    <Link href="#" className="text-[#EA0056] underline">
+                      Privacy Policy*
+                    </Link>
+                  </p>
+                </div>
+                <div className="absolute mt-1">
+                  {touched.checkbox && errors.checkbox && <p className="text-red-600 mt-3 text-sm text-left">{errors.checkbox}</p>}
+                </div>
 
-                <button disabled={isRegistering || !values.checkbox} type="submit" className="font-semibold text-[16px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-7 3xl:mt-10 cursor-pointer w-full mb-3 3xl:mb-4">
+
+                <button disabled={isRegistering} type="submit" className="font-semibold text-[16px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-7 3xl:mt-10 cursor-pointer w-full mb-3 3xl:mb-4">
                   {prefilledValues?.fromGoogle
                     ? isRegistering ? "Continuing..." : "Continue"
                     : isRegistering ? "Registering..." : "Register"}
