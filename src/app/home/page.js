@@ -164,12 +164,12 @@ const fetchUserDetails = async (accessToken) => {
     // </div>
 
     <div className="bg-white">
-      <Header userName={fetchedUser.name} userType={fetchedUser.userType}/>
+      <Header userName={fetchedUser.firstName} userType={fetchedUser.userType}/>
       <div className="container">
         <div className="max-w-[952px] mx-auto">
           <div className="py-[120px] 2xl:py-[60px] 3xl:py-[120px]">
             <h3 className="text-center font-medium text-[27px] 2xl:text-[30px] text-[#151515]">
-              Welcome{" "}
+              Welcome {fetchedUser?.firstName}
               <span
                 className="text-black text-[44px] 3xl:text-[50px]"
                 style={{ fontFamily: "allura-font" }}

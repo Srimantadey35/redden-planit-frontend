@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as YUP from "yup"
 import axios from "axios";
-import toast from "react-hot-toast";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import GoogleSignupButton from "./GoogleSignUp";
 import _ from "lodash";
 

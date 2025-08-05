@@ -335,8 +335,9 @@ import Header from "@/components/Header";
 import Image from "next/image";
 import { useFormik } from "formik";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import {toast} from "react-toastify";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 const Page = () => {
   const [guestList, setGuestList] = useState([]);
@@ -447,25 +448,19 @@ const Page = () => {
 
   return (
     <div className="bg-white">
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: "#363636",
-            color: "#fff",
-            fontSize: "18px",     // optional: for better readability
-            borderRadius: "6px",  // optional: smooth look
-          },
-          success: {
-            icon: '✅',
-          },
-          error: {
-            icon: '❌',
-          },
-        }}
-        containerStyle={{ marginTop: '100px' }} // instead of containerClassName
-      />
+    <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            style={{ top: '1rem', right: '6rem' }} // adjust spacing here
+          />
 
       <Header />
       <div className="min-h-screen flex items-center">

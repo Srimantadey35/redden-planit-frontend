@@ -19,7 +19,7 @@ import { useFormik } from "formik";
 import { values } from "lodash";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
+import {toast} from "react-toastify";
 import { uploadToCloudinary } from "@/utils/cloudinary";
 import { State } from "country-state-city";
 import { useRouter } from "next/navigation";

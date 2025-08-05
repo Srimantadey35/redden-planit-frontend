@@ -2,6 +2,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import FirstWebSite from "@/components/create-website/FirstWebSite";
+import Link from 'next/link';
 
 export default function PublishedWeddingPage() {
   const params = useParams();
@@ -14,7 +15,8 @@ export default function PublishedWeddingPage() {
     const fetchWebsiteData = async () => {
       try {
         // Fetch actual website data from API
-        const response = await fetch(`/api/websites/${slug}`);
+        const response = await fetch(`/api/websites/${slug}`)
+        ;
         
         if (!response.ok) {
           if (response.status === 404) {
@@ -61,12 +63,12 @@ export default function PublishedWeddingPage() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">Website Not Found</h1>
           <p className="text-gray-600 mb-4">{error}</p>
-          <a 
+          <Link
             href="/" 
             className="bg-pink-600 text-white px-6 py-2 rounded hover:bg-pink-700 transition"
           >
             Go Home
-          </a>
+          </Link>
         </div>
       </div>
     );

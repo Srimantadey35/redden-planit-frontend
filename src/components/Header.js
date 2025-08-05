@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
-import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import {toast} from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 import { clearAccessToken, clearUser } from "@/store/authSlice";
 
 const Header = ({userName,userType}) => {
@@ -23,12 +23,37 @@ const Header = ({userName,userType}) => {
    const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const accessToken = useSelector((state) => state.auth.accessToken)
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [animateOut, setAnimateOut] = useState(false);
   const [animateSearchOut, setAnimateSearchOut] = useState(false);
   const pathName = usePathname();
   const profileRef = useRef(null);
   const profilePanelRef = useRef(null);
+  // const fetchedUser = useSelector((state)=>state.auth.user)
+  console.log('useAccess',accessToken)
+  const [fetchedUser,setFetchedUser] = useState({})
+ useEffect(() => {
+  if (accessToken) {
+    // setAccessToken(token);
+    fetchUserDetails(accessToken); // pass token directly
+  }
+}, [accessToken]);
+
+const fetchUserDetails = async (accessToken) => {
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/current-user`, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    console.log('user response', response);
+    setFetchedUser(response.data.data)
+  } catch (error) {
+    console.error('fetch error', error);
+  }
+};
 
   const navLinks = [
     { label: "Home", href: "/" },
@@ -194,7 +219,7 @@ const handleCloseSlide = () => {
                   <div className="hidden xl:block absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
                     <div className="flex items-center space-x-3 p-4 border-b">
                       <Image
-                        src="/images/userimg.png"
+                        src={fetchedUser?.image || "/images/userimg.png"}
                         width={32}
                         height={32}
                         alt="user"

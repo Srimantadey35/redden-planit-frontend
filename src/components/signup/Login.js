@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as YUP from 'yup'
-import toast from "react-hot-toast";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { setAccessToken } from "@/store/authSlice";
 import GoogleLoginButton from "./GoogleLogin";
@@ -102,7 +103,7 @@ const Login = ({ planName }) => {
           const message = error.response?.data?.message || error.message;
           console.log('error', error.response);
           if (status === 401) {
-            toast.error("Invalid credentials. Please check your email/phone and password.");
+            toast.error(message);
           }
           else if (status === 403) {
             toast.error("Local login is not availaible for this user ,Please Login with Google")
@@ -292,7 +293,6 @@ const Login = ({ planName }) => {
                     id="email"
                     autoComplete="email"
                     placeholder=" "
-                    required
                     value={values.email}
                     onChange={handleChange}
                     onBlur={(e) => { handleBlur(e); Blur(e) }}
@@ -315,7 +315,6 @@ const Login = ({ planName }) => {
                     id="password"
                     autoComplete="current-password"
                     placeholder=" "
-                    required
                     value={values.password}
                     onChange={handleChange}
                     onBlur={(e) => { handleBlur(e); Blur(e) }}

@@ -19,7 +19,7 @@ import { useFormik } from "formik";
 import { values } from "lodash";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { uploadToCloudinary } from "@/utils/cloudinary";
 import { State } from "country-state-city";
 import ProcessBarMyBusiness from "@/components/widgets/ProcessBarMyBusinsess";
@@ -138,28 +138,28 @@ const Page = () => {
       .required("Pin is required"),
     languages: Yup.string(),
     travelAvailability: Yup.string(),
-    description: Yup.string(),
-    availability: Yup.array(),
+    description: Yup.string().required("Description is required"),
+    availability: Yup.string().required("Availability is required"),
     images: Yup.array(),
-    deliveryTimeline: Yup.string(),
-    priceRange: Yup.string(),
-   portfolioFiles: Yup.array()
-  .min(1, "At least one file is required"),
+    deliveryTimeline: Yup.string().required("Delivery timeline is required"),
+    priceRange: Yup.string().required("Price range is required"),
+    portfolioFiles: Yup.array()
+      .min(1, "At least one file is required"),
 
     portfolioDescription: Yup.string().required('Portfolio description is required'),
     portfolioLocation: Yup.string().required("Location is required"),
     portfolioEventType: Yup.string().required("Please select event type"),
-portfolioTags: Yup.array()
-  .of(
-    Yup.string()
-      .trim()
-      .min(1, "Tags cannot be empty")
-  )
-  .min(1, "At least one tag is required"),
+    portfolioTags: Yup.array()
+      .of(
+        Yup.string()
+          .trim()
+          .min(1, "Tags cannot be empty")
+      )
+      .min(1, "At least one tag is required"),
     openingHours: Yup.array().of(openingHourSchema),
     alallGalleryFiles: Yup.array()
-  .min(1, "Please upload at least one gallery file")
-  .max(10, "You can upload up to 10 files only")
+      .min(1, "Please upload at least one gallery file")
+      .max(10, "You can upload up to 10 files only")
   });
 
   console.log("selectedCategory", selectedCategory);
@@ -175,7 +175,7 @@ portfolioTags: Yup.array()
       languages: "",
       travelAvailability: "",
       description: "",
-      availability: [],
+      availability: "",
       images: [],
       deliveryTimeline: "",
       priceRange: "",
@@ -666,7 +666,7 @@ portfolioTags: Yup.array()
   };
 
   // services
-  
+
 
   const [checkedItems, setCheckedItems] = useState([]);
 
@@ -900,15 +900,21 @@ portfolioTags: Yup.array()
     );
 
     if (isAnyEmpty) {
-      toast.error('Please fill out all required fields.');
+      toast.error('Please fill out all required fields.',{
+        toastId: 'add-business-form-error'
+      });
       return;
     }
-    if(businessData.name.length < 3){
-      toast.error('Business name must be at least 3 characters long.');
+    if (businessData.name.length < 3) {
+      toast.error('Business name must be at least 3 characters long.',{
+        toastId: 'add-business-name-error'
+      });
       return;
     }
     if (businessData.pincode.length !== 6) {
-      toast.error('Pin code must be exactly 6 digits.');
+      toast.error('Pin code must be exactly 6 digits.',{
+        toastId: 'add-business-pin-error'
+      });
       return;
     }
     console.log('businessData', businessData)
@@ -940,7 +946,9 @@ portfolioTags: Yup.array()
           error.response.data?.message ||
           error.response.data?.error ||
           "The server rejected the data. Please review your inputs.";
-        toast.error(message);
+        toast.error(message,{
+          toastId: 'add-business-backend-error'
+        });
       } else {
         const message =
           error.response?.data?.message ||
@@ -954,6 +962,19 @@ portfolioTags: Yup.array()
   const handleAddService = async (e) => {
     e.preventDefault()
     const { description, availability, deliveryTimeline, priceRange } = formik.values
+    formik.setTouched({
+      description: true,
+      availability: true,
+      deliveryTimeline: true,
+      priceRange: true,
+    });
+    const filterInfo = { description, availability, deliveryTimeline, priceRange }
+    if (Object.values(filterInfo).some(value => value === '' || value === null || value === undefined)) {
+      toast.error('Please fill out all required fields.',{
+        toastId: 'add-service-form-error'
+      });
+      return;
+    }
     const serviceInfo = {
       description, availability, deliveryTimeline, priceRange,
       images: uploadedImageUrls,
@@ -993,7 +1014,9 @@ portfolioTags: Yup.array()
         error.response.data?.message ||
         error.response.data?.error ||
         "The server rejected the data. Please review your inputs.";
-      toast.error(message);
+      toast.error(message,{
+        toastId: 'add-service-backend-error'
+      });
       setopenAccordion('add-business')
     }
   }
@@ -1065,14 +1088,16 @@ portfolioTags: Yup.array()
     );
 
     if (isAnyEmpty) {
-      toast.error('Please fill out all required fields.');
-      return; // stop further execution
+      toast.error('Please fill out all required fields.',{
+        toastId: 'add-portfolio-form-error'
+      });
+      return;
     }
 
 
     try {
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-portfolio`,
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/portfolios/new`,
         { portfolioInfo, category: selectedCategory },
         {
           withCredentials: true,
@@ -1091,7 +1116,9 @@ portfolioTags: Yup.array()
         error.response.data?.message ||
         error.response.data?.error ||
         "The server rejected the data. Please review your inputs.";
-      toast.error(message);
+      toast.error(message,{
+        toastId: 'add-portfolio-backend-error'
+      });
       setopenAccordion('add-business')
     }
   }
@@ -1110,7 +1137,9 @@ portfolioTags: Yup.array()
     });
 
     if (hasInvalidEntry) {
-      toast.error("Please fill all 'from' and 'to' times for the open days.");
+      toast.error("Please fill all 'from' and 'to' times for the open days.",{
+        toastId: 'add-opening-hours-form-error'
+      });
       return;
     }
     console.log("opening hours", openingHours)
@@ -1137,7 +1166,9 @@ portfolioTags: Yup.array()
         error.response.data?.message ||
         error.response.data?.error ||
         "The server rejected the data. Please review your inputs.";
-      toast.error(message);
+      toast.error(message,{
+        toastId: 'add-opening-hours-backend-error'
+      });
       setopenAccordion('add-business')
     }
   }
@@ -1148,7 +1179,9 @@ portfolioTags: Yup.array()
       allGalleryFiles: true,
     });
     if (formik.values.allGalleryFiles.length === 0) {
-      toast.error("Please upload at least one gallery image.");
+      toast.error("Please upload at least one gallery image.",{
+        toastId: 'add-gallery-form-error'
+      });
       return;
     }
     console.log('gallery images url', formik.values.allGalleryFiles)
@@ -1169,11 +1202,17 @@ portfolioTags: Yup.array()
       }
     } catch (error) {
       console.error("Error adding gallery:", error);
-      toast.error("Failed to add gallery. Please try again.");
+     const message =
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message,{
+        toastId: 'add-gallery-backend-error'
+      });
     }
   }
 
-   const handleGalleryFileChange = async (e) => {
+  const handleGalleryFileChange = async (e) => {
     const files = Array.from(e.target.files);
     const imageFiles = files.filter((file) => /\.(jpe?g|png)$/i.test(file.name));
 
@@ -1230,10 +1269,10 @@ portfolioTags: Yup.array()
 
 
 
-    const uploadGalleryImage = (file, index) => {
+  const uploadGalleryImage = (file, index) => {
   };
 
-   const removeGalleryImage = (index) => {
+  const removeGalleryImage = (index) => {
     // Remove preview image
     setGalleryFiles((prev) => {
       const updated = [...prev];
@@ -1389,7 +1428,10 @@ portfolioTags: Yup.array()
                         <textarea
                           placeholder="Choose your location"
                           value={formik.values.businessAddress}
-                          onChange={formik.handleChange}
+                          onChange={(e) => {
+                            const cleaned = removeExtraSpace(e.target.value);
+                            formik.setFieldValue(e.target.name, cleaned);
+                          }}
                           onBlur={formik.handleBlur}
                           name="businessAddress"
                           id="businessAddress"
@@ -1889,12 +1931,12 @@ portfolioTags: Yup.array()
                           <option value="audi">Audi</option>
                         </select>
                       </div> */}
-                        <div className="flex flex-col w-full">
+                        <div className="flex flex-col w-full mb-3">
                           <label
                             htmlFor="businesscategory"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Business Category
+                            Business Category<span className="text-red-500 text-bold">*</span>
                           </label>
                           {/* <select
                           value={selectedCategory}
@@ -1930,13 +1972,20 @@ portfolioTags: Yup.array()
                             name="businessCategory"
                             id="businessCategory"
                           />
+                          <div>
+                          {!selectedCategory && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1 ">
+                              Please select a business category
+                            </p>
+                          )}
+                          </div>
                         </div>
-                        <div className="flex flex-col w-full ml-2.5">
+                        <div className="flex flex-col w-full ml-2.5 mb-3">
                           <label
                             htmlFor="businessname"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Business Name
+                            Business Name<span className="text-red-500 text-bold">*</span>
                           </label>
                           <input
                             className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
@@ -1946,23 +1995,38 @@ portfolioTags: Yup.array()
                             name="businessname"
                             id="businessname"
                           />
+                          <div>
+                          {!formik.values.businessName && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              Please enter a business name first
+                            </p>
+                          )}
+                          </div>
                         </div>
                       </div>
                       {/* whats included */}
-                      <div className="flex flex-col w-full mr-2.5">
+                      <div className="flex flex-col w-full mr-2.5 mb-7">
                         <label
                           htmlFor="description"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          What&apos;s Included
+                          What&apos;s Included<span className="text-red-500 text-bold">*</span>
                         </label>
                         <textarea
                           value={formik.values.description}
                           onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                           name="description"
                           className="h-[110px] 3xl:h-[125px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black py-3.5"
                           placeholder="Add your description"
                         ></textarea>
+                        <div>
+                        {(formik.touched.description && formik.errors.description) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.description}
+                            </p>
+                          )}
+                          </div>
                       </div>
                       {/* availability */}
                       {/* <div className="flex items-center">
@@ -2000,7 +2064,7 @@ portfolioTags: Yup.array()
                   </div> */}
                       <div className="flex items-center">
                         <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mr-3">
-                          Availability:
+                          Availability:<span className="text-red-500 text-bold">*</span>
                         </p>
                         <div className="flex items-center space-x-5">
                           {included.map((item) => (
@@ -2012,6 +2076,7 @@ portfolioTags: Yup.array()
                                 id={`radio-${item.checkboxid}`}
                                 value={item.checkboxName}
                                 checked={formik.values.availability === item.checkboxName}
+                                onBlur={formik.handleBlur}
                                 onChange={() => formik.setFieldValue("availability", item.checkboxName)}
                               />
                               <label
@@ -2022,6 +2087,13 @@ portfolioTags: Yup.array()
                               </label>
                             </div>
                           ))}
+                          <div>
+                          {(formik.touched.availability && formik.errors.availability) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.availability}
+                            </p>
+                          )}
+                          </div>
                         </div>
                       </div>
 
@@ -2080,12 +2152,13 @@ portfolioTags: Yup.array()
                             htmlFor="deliveryTimeline"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Delivery timeline
+                            Delivery timeline<span className="text-red-500 text-bold">*</span>
                           </label>
                           <select
                             name="deliveryTimeline"
                             value={formik.values.deliveryTimeline}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             id="businesscategory"
                             className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                           >
@@ -2095,18 +2168,26 @@ portfolioTags: Yup.array()
                             <option value="4 weeks">Within 4 weeks</option>
                             <option value="5 weeks">Within 5 weeks</option>
                           </select>
+                          <div>
+                          {(formik.touched.deliveryTimeline && formik.errors.deliveryTimeline) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.deliveryTimeline}
+                            </p>
+                          )}
+                          </div>
                         </div>
                         <div className="flex flex-col w-full">
                           <label
                             htmlFor="priceRange"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Price Range
+                            Price Range<span className="text-red-500 text-bold">*</span>
                           </label>
                           <select
                             name="priceRange"
                             value={formik.values.priceRange}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             id="priceRange"
                             className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                           >
@@ -2116,6 +2197,13 @@ portfolioTags: Yup.array()
                             <option value="within 4 weeks">Within 4 weeks</option>
                             <option value="within 5 weeks">Within 5 weeks</option>
                           </select>
+                          <div>
+                          {(formik.touched.priceRange && formik.errors.priceRange) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.priceRange}
+                            </p>
+                          )}
+                          </div>
                         </div>
                       </div>
 
@@ -2320,7 +2408,10 @@ portfolioTags: Yup.array()
                               className="w-full outline-none bg-transparent text-[15px] 3xl:text-[16px] placeholder:text-[#b0b0b0] text-[#505050] py-2 px-4 border-2 border-[#E5E5E5] rounded-[6px] focus:border-[#EA0056]"
                               placeholder="Type & press Enter to add tags"
                               value={inputValue}
-                              onChange={(e) => setInputValue(e.target.value)}
+                              onChange={(e) => {
+                                const cleaned = removeExtraSpace(e.target.value)
+                                setInputValue(cleaned)
+                              }}
                               onBlur={formik.handleBlur}
                               onKeyDown={handleKeyDown}
                             />
@@ -2404,7 +2495,10 @@ portfolioTags: Yup.array()
                               type="text"
                               name="portfolioLocation"
                               value={formik.values.portfolioLocation}
-                              onChange={formik.handleChange}
+                              onChange={(e) => {
+                                const cleaned = removeExtraSpace(e.target.value);
+                                formik.setFieldValue(e.target.name, cleaned);
+                              }}
                               onBlur={formik.handleBlur}
                               id="portfolioLocation"
                             />
@@ -2437,7 +2531,10 @@ portfolioTags: Yup.array()
                         <textarea
                           name="portfolioDescription"
                           value={formik.values.portfolioDescription}
-                          onChange={formik.handleChange}
+                          onChange={(e) => {
+                            const cleaned = removeExtraSpace(e.target.value);
+                            formik.setFieldValue(e.target.name, cleaned);
+                          }}
                           className="h-[110px] 3xl:h-[125px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black py-3.5"
                           placeholder="Write your short description"
                         ></textarea>
@@ -2481,7 +2578,7 @@ portfolioTags: Yup.array()
                   alt="downarrow"
                 />
               </button>
-                {openAccordion === "upload-gallery" && (
+              {openAccordion === "upload-gallery" && (
                 <form onSubmit={handleAddGalleryFile}>
                   <div className="bg-[#F2F2F2] px-5 py-6 rounded-[10px] mb-[20px]">
                     <div
@@ -2520,15 +2617,15 @@ portfolioTags: Yup.array()
                           className="hidden"
                         />
                       </label>
-                     
+
                     </div>
-                     <div>
-                       {galleryFiles.length == 0 && (
+                    <div>
+                      {galleryFiles.length == 0 && (
                         <p className="text-red-400 text-[14px] ml-1">
                           No files uploaded yet.
                         </p>
                       )}
-                     </div>
+                    </div>
                     {/* Preview Thumbnails */}
                     <div className="flex flex-wrap gap-2 mt-3">
                       {galleryFiles.map((img, index) => {

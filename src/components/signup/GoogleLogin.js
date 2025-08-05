@@ -6,7 +6,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import {toast} from 'react-toastify'
 import { useDispatch } from 'react-redux';
 
 export default function GoogleLoginButton({ userTypes }) {

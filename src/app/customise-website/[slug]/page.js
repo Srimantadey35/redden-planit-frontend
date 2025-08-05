@@ -6,10 +6,15 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Page = () => {
-    const [isRounded, setIsRounded ] = useState(false);
+  const [isRounded, setIsRounded] = useState(false);
+  const accessToken = useSelector((state) => state.auth.accessToken);
+
   const [view, setView] = useState("desktop");
   const [openItem, setOpenItem] = useState(null);
   const [dragActive, setDragActive] = useState(false);
@@ -21,7 +26,7 @@ const Page = () => {
     gallery: false,
     publish: false
   });
-  
+
   const inputRef = useRef(null);
   const storyInputRef = useRef(null);
   const galleryInputRef = useRef(null);
@@ -29,7 +34,7 @@ const Page = () => {
   // Website data state
   const [websiteData, setWebsiteData] = useState({
     brideName: "Alex",
-    groomName: "Jamie", 
+    groomName: "Jamie",
     eventDate: "October 15, 2025",
     eventLocation: "Tuscany, Italy",
     coverImage: "https://live.staticflickr.com/65535/50344935577_1aa9d7bb4c_o.jpg",
@@ -37,7 +42,7 @@ const Page = () => {
     storyImage: null,
     galleryImages: [
       "/images/homepage-slider-images/event-now/card1.png",
-      "/images/homepage-slider-images/event-now/card2.png", 
+      "/images/homepage-slider-images/event-now/card2.png",
       "/images/homepage-slider-images/event-now/card3.png",
       "/images/homepage-slider-images/event-now/card4.png"
     ]
@@ -62,17 +67,17 @@ const Page = () => {
   const uploadToCloudinary = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
-    
+
     try {
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
-      
+
       if (!response.ok) {
         throw new Error('Upload failed');
       }
-      
+
       const data = await response.json();
       return data.url;
     } catch (error) {
@@ -88,29 +93,29 @@ const Page = () => {
   // Handle form submissions
   const handleHomeSubmit = async () => {
     setLoading(prev => ({ ...prev, home: true }));
-    
+
     try {
       let coverImageUrl = websiteData.coverImage;
-      
+
       // Upload cover image if new one is selected
       if (homeFormData.coverImage) {
         coverImageUrl = await uploadToCloudinary(homeFormData.coverImage);
       }
-      
+
       // Update website data
       setWebsiteData(prev => ({
         ...prev,
         brideName: homeFormData.brideName || prev.brideName,
         groomName: homeFormData.groomName || prev.groomName,
-        eventDate: homeFormData.eventDate ? homeFormData.eventDate.toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric' 
+        eventDate: homeFormData.eventDate ? homeFormData.eventDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
         }) : prev.eventDate,
         eventLocation: homeFormData.eventLocation || prev.eventLocation,
         coverImage: coverImageUrl
       }));
-      
+
       // Reset form
       setHomeFormData({
         brideName: "",
@@ -119,7 +124,7 @@ const Page = () => {
         eventLocation: "",
         coverImage: null
       });
-      
+
       toast.success('Home section updated successfully!');
     } catch (error) {
       console.error('Error updating home section:', error);
@@ -131,17 +136,17 @@ const Page = () => {
 
   const handleStorySubmit = async () => {
     setLoading(prev => ({ ...prev, story: true }));
-    
+
     try {
       // Update website data
       setWebsiteData(prev => ({
         ...prev,
         story: storyFormData.story || prev.story
       }));
-      
+
       // Reset form
       setStoryFormData({ story: "" });
-      
+
       toast.success('Story section updated successfully!');
     } catch (error) {
       console.error('Error updating story section:', error);
@@ -153,36 +158,36 @@ const Page = () => {
 
   const handleGallerySubmit = async () => {
     setLoading(prev => ({ ...prev, gallery: true }));
-    
+
     try {
       // Upload all gallery images
       const uploadPromises = galleryImages.map(file => uploadToCloudinary(file));
       const uploadedUrls = await Promise.all(uploadPromises);
-      
+
       // Check if current gallery has default images (local paths starting with "/images/")
-      const hasDefaultImages = websiteData.galleryImages.some(img => 
+      const hasDefaultImages = websiteData.galleryImages.some(img =>
         img && (img.startsWith('/images/') || img.startsWith('/uploads/'))
       );
-      
+
       // If this is the first upload (has default images), replace them completely
       // Otherwise, append to existing images
-      const newGalleryImages = hasDefaultImages 
+      const newGalleryImages = hasDefaultImages
         ? uploadedUrls  // Replace default images with new uploads
         : [...websiteData.galleryImages.filter(img => img), ...uploadedUrls]; // Append to existing
-      
+
       // Update website data
       setWebsiteData(prev => ({
         ...prev,
         galleryImages: newGalleryImages
       }));
-      
+
       // Reset form
       setGalleryImages([]);
-      
-      const successMessage = hasDefaultImages 
+
+      const successMessage = hasDefaultImages
         ? `Gallery updated successfully! Replaced default images with ${uploadedUrls.length} new images.`
         : `Gallery updated successfully! Added ${uploadedUrls.length} new images. Total: ${newGalleryImages.length} images.`;
-      
+
       toast.success(successMessage);
     } catch (error) {
       console.error('Error updating gallery:', error);
@@ -203,14 +208,12 @@ const Page = () => {
 
   // Handle website publishing
   const handlePublish = async () => {
-    
-
     setLoading(prev => ({ ...prev, publish: true }));
-    
-    try {
 
+    try {
       // Generate unique website slug/ID
       const websiteSlug = `wedding-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      
       // Prepare website data for backend
       const publishData = {
         slug: websiteSlug,
@@ -226,8 +229,8 @@ const Page = () => {
         isPublished: true
       };
 
-      // Send to local API first (can be switched to external backend later)
-      const response = await fetch('/api/websites/publish', {
+      // Send to local API first to save the JSON file
+      const localResponse = await fetch(`/api/websites/${websiteSlug}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -235,24 +238,42 @@ const Page = () => {
         body: JSON.stringify(publishData),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to publish website');
+      if (!localResponse.ok) {
+        const errorData = await localResponse.json();
+        throw new Error(errorData.error || 'Failed to publish website locally');
       }
 
-      const result = await response.json();
-      
+      // Optional: Send to external backend as well
+      try {
+        const backendResponse = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/planners/websites/create`, 
+          publishData,
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}` 
+            }
+          }
+        );
+        console.log('Backend sync successful:', backendResponse.data);
+      } catch (backendError) {
+        console.log('External backend sync failed:', backendError);
+        // Don't throw error as local publish succeeded
+      }
+
       // Generate public website URL
       const websiteUrl = `${window.location.origin}/wedding/${websiteSlug}`;
-      
+
       // Show success message with link
       toast.success(
         <div>
           <div>🎉 Website published successfully!</div>
           <div className="mt-1 text-sm">
-            <strong>Your website:</strong> 
-            <a 
-              href={websiteUrl} 
-              target="_blank" 
+            <strong>Your website:</strong>
+            <a
+              href={websiteUrl}
+              target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline ml-1"
             >
@@ -276,23 +297,9 @@ const Page = () => {
         console.log('Clipboard copy failed:', error);
       }
 
-      // Optional: Send to external backend as well
-      try {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/websites/publish`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(publishData),
-        });
-      } catch (backendError) {
-        console.log('External backend sync failed:', backendError);
-        // Don't show error to user as local publish succeeded
-      }
-
     } catch (error) {
       console.error('Error publishing website:', error);
-      toast.error('Failed to publish website. Please try again.');
+      toast.error(`Failed to publish website: ${error.message}. Please try again.`);
     } finally {
       setLoading(prev => ({ ...prev, publish: false }));
     }
@@ -304,9 +311,9 @@ const Page = () => {
       <div className="px-4 lg:px-10 4xl:px-0 4xl:max-w-[1760px] mx-auto my-10">
         <div className="flex flex-col lg:flex-row gap-5">
           <div className="w-full lg:w-[70%]">
-            <FirstWebSite 
-              view={view} 
-              setView={setView} 
+            <FirstWebSite
+              view={view}
+              setView={setView}
               websiteData={websiteData}
               onRemoveImage={handleRemoveImage}
             />
@@ -314,7 +321,7 @@ const Page = () => {
           <div className="w-full lg:w-[30%]">
             <div className="p-5 font-sans bg-white rounded-xl h-fit">
               {/* Top Section */}
-              <button 
+              <button
                 onClick={handlePublish}
                 disabled={loading.publish}
                 className="w-full lg:w-[170px] cursor-pointer font-semibold text-[15px] text-white hover:bg-[#EA0056] transition ease bg-[#EA0056] py-2 px-5 rounded-sm mb-8 ml-auto table disabled:opacity-50 disabled:cursor-not-allowed"
@@ -352,9 +359,8 @@ const Page = () => {
                               Cover photo:
                             </h2>
                             <div
-                              className={`w-full h-40 bg-gray-100 rounded-lg border border-dashed border-pink-400 flex items-center justify-center flex-col transition-colors duration-200 ${
-                                dragActive ? "bg-pink-50 border-pink-600" : ""
-                              }`}
+                              className={`w-full h-40 bg-gray-100 rounded-lg border border-dashed border-pink-400 flex items-center justify-center flex-col transition-colors duration-200 ${dragActive ? "bg-pink-50 border-pink-600" : ""
+                                }`}
                               onClick={() =>
                                 inputRef.current && inputRef.current.click()
                               }
@@ -397,8 +403,8 @@ const Page = () => {
                               />
                               {homeFormData.coverImage ? (
                                 <Image
-                                width={100}
-                                height={100}
+                                  width={100}
+                                  height={100}
                                   src={URL.createObjectURL(homeFormData.coverImage)}
                                   alt="Cover"
                                   className="h-full max-h-36 rounded size-full object-contain"
@@ -496,7 +502,7 @@ const Page = () => {
                           </div>
                           {/* Save Button */}
                           <div className="text-center">
-                            <button 
+                            <button
                               onClick={handleHomeSubmit}
                               disabled={loading.home}
                               className="w-full bg-pink-600 text-white text-sm font-semibold py-3 rounded hover:bg-pink-700 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -526,7 +532,7 @@ const Page = () => {
 
                           {/* Save Button */}
                           <div className="text-center">
-                            <button 
+                            <button
                               onClick={handleStorySubmit}
                               disabled={loading.story}
                               className="w-full bg-pink-600 text-white text-sm font-semibold py-3 rounded hover:bg-pink-700 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -545,7 +551,7 @@ const Page = () => {
                               </p>
                             </div>
                           )}
-                          
+
                           {/* Image Upload Label */}
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Add New Images: ({galleryImages.length}/10 per upload)
@@ -558,9 +564,8 @@ const Page = () => {
                           <div className="bg-gray-100 p-4 rounded-lg">
                             {/* Add Photo Box - Always at top */}
                             <div
-                              className={`w-full border-2 border-dashed border-pink-500 rounded-md flex items-center justify-center h-20 cursor-pointer hover:bg-pink-50 transition mb-4 ${
-                                galleryDragActive ? "bg-pink-50 border-pink-600" : ""
-                              } ${galleryImages.length >= 10 ? "opacity-50 cursor-not-allowed" : ""}`}
+                              className={`w-full border-2 border-dashed border-pink-500 rounded-md flex items-center justify-center h-20 cursor-pointer hover:bg-pink-50 transition mb-4 ${galleryDragActive ? "bg-pink-50 border-pink-600" : ""
+                                } ${galleryImages.length >= 10 ? "opacity-50 cursor-not-allowed" : ""}`}
                               onClick={() => {
                                 if (galleryImages.length < 10) {
                                   galleryInputRef.current && galleryInputRef.current.click();
@@ -611,8 +616,8 @@ const Page = () => {
                                 }}
                               />
                               <span className="text-pink-600 text-sm font-medium select-none text-center">
-                                {galleryImages.length >= 10 
-                                  ? "Maximum 10 images per upload reached" 
+                                {galleryImages.length >= 10
+                                  ? "Maximum 10 images per upload reached"
                                   : `+ Add photos (${10 - galleryImages.length} remaining this upload)`
                                 }
                               </span>
@@ -653,7 +658,7 @@ const Page = () => {
 
                           {/* Save Button */}
                           <div className="mt-6 text-center">
-                            <button 
+                            <button
                               onClick={handleGallerySubmit}
                               disabled={loading.gallery || galleryImages.length === 0}
                               className="w-full bg-pink-600 text-white text-sm font-semibold py-3 rounded hover:bg-pink-700 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -721,9 +726,9 @@ const Page = () => {
         </div>
       </div>
       <Footer />
-      
+
       {/* Toast Container at the very end */}
-      <Toaster
+      <ToastContainer
         position="top-right"
         autoClose={3000}
         hideProgressBar={false}

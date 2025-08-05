@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
+import {toast} from "react-toastify";
             
 const Page = () => {
   const [step, setStep] = useState(1);

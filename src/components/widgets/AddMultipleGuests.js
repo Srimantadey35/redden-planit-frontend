@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import * as XLSX from 'xlsx';
-import toast, { Toaster } from "react-hot-toast";
+import {toast} from "react-toastify";
 import Header from "@/components/Header";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 
 const AddMultipleGuests = ({setisModalOpen, onGuestsImported}) => {
@@ -274,29 +275,19 @@ const AddMultipleGuests = ({setisModalOpen, onGuestsImported}) => {
   };
   return (
     <>
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: "#363636",
-            color: "#fff",
-            fontSize: "18px",
-            borderRadius: "6px",
-            zIndex: 999999, // Higher than modal
-          },
-          success: {
-            icon: '✅',
-          },
-          error: {
-            icon: '❌',
-          },
-        }}
-        containerStyle={{ 
-          top: '20px',
-          zIndex: 999999 // Higher than modal
-        }}
-      />
+     <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            style={{ top: '1rem', right: '6rem' }} // adjust spacing here
+          />
       <div className="fixed top-0 left-0 bg-[#000000a5] z-[99999] size-full">
         <div className="flex items-center justify-center size-full p-4">
           <div className="bg-white rounded-[15px] relative max-w-full mx-4 sm:mx-0 my-4 sm:max-w-[600px] 3xl:max-w-[914px] w-full modalAnim max-h-[90vh] overflow-y-auto">

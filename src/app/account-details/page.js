@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from 'yup'
-import toast from "react-hot-toast";
+import {toast} from "react-toastify";
 import { uploadToCloudinary } from "@/utils/cloudinary";
 
 const Page = () => {
@@ -66,9 +66,9 @@ const Page = () => {
       currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
-      facebookUrl: "",
-      instagramUrl: "",
-      twitterUrl: ""
+      facebookUrl:  "",
+      instagramUrl:  "",
+      twitterUrl:  ""
     },
     validationSchema: changePasswordSchema,
     // onSubmit: async (values) => {
@@ -115,7 +115,7 @@ const Page = () => {
 
   const fetchUserDetails = async (token) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/current-user`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/fetch-VendorDetails`, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`
@@ -137,9 +137,17 @@ const Page = () => {
   // })
 
   useEffect(() => {
+    if (fetchedUser) {
     setFirstName(fetchedUser?.firstName || "");
     setLastName(fetchedUser?.lastName || "");
     setHasChanged(false);
+    formik.setValues({
+      ...formik.values,
+      facebookUrl: fetchedUser.socialLinks?.facebook || "",
+      instagramUrl: fetchedUser?.socialLinks?.instagram || "",
+      twitterUrl: fetchedUser?.socialLinks?.twitter || ""
+    });
+  }
   }, [fetchedUser]);
 
   const handleImageChange = async (e) => {

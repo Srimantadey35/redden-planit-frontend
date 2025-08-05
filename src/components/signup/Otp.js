@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import toast from "react-hot-toast";
+import {toast} from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setAccessToken } from "@/store/authSlice";
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
+import {toast} from "react-toastify";
 import axios from "axios";
 
 const ImportFromGmail = ({setisModalOpen}) => {

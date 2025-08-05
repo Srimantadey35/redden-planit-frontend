@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import toast from "react-hot-toast";
+import {toast} from "react-toastify";
 import { clearAccessToken, clearUser } from "@/store/authSlice";
 
 const Header = () => {

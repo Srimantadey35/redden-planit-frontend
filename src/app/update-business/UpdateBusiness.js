@@ -1554,7 +1554,7 @@ import { useFormik } from "formik";
 import { values } from "lodash";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { uploadToCloudinary } from "@/utils/cloudinary";
 import { State } from "country-state-city";
 import ProcessBarMyBusiness from "@/components/widgets/ProcessBarMyBusinsess";
@@ -1596,11 +1596,180 @@ const UpdateBusiness = () => {
   const [categoryFilledCounts, setCategoryFilledCounts] = useState({});
   const [categoryTotalCount, setCategoryTotalCount] = useState({})
   const [uploadingFiles, setUploadingFiles] = useState(false)
+  const [portfolios, setPortfolios] = useState([]) // Store all portfolios
+  const [currentPortfolioIndex, setCurrentPortfolioIndex] = useState(0) // Track current portfolio
   const router = useRouter()
 
   const removeExtraSpace = (s) => {
     var rSpase = s.replace(/\s{2,}/g, " ");
     return _.trimStart(rSpase);
+  };
+
+  // Portfolio navigation functions
+  const switchToPortfolio = (index) => {
+    if (index >= 0 && index < portfolios.length) {
+      // Save current portfolio changes first
+      saveCurrentPortfolioChanges();
+
+      const portfolio = portfolios[index];
+      setCurrentPortfolioIndex(index);
+
+      // Update form with selected portfolio data
+      formik.setValues({
+        ...formik.values,
+        portfolioDescription: portfolio?.portfolioDescription || "",
+        portfolioLocation: portfolio?.portfolioLocation || "",
+        portfolioEventType: portfolio?.portfolioEventType || "",
+        portfolioTags: portfolio?.portfolioTags || [],
+        portfolioFiles: portfolio?.portfolioFiles || [],
+      });
+
+      // Update selected files for preview
+      if (portfolio?.portfolioFiles?.length > 0) {
+        const existingFiles = portfolio.portfolioFiles.map((fileObj, index) => ({
+          id: `existing-${index}`,
+          isExisting: true,
+          url: fileObj.url,
+          cloudinaryUrl: fileObj.url,
+          name: fileObj.originalName || fileObj.url.split('/').pop() || `file-${index}`,
+          type: fileObj.fileType === 'image' ? 'image' : 'document',
+          file: null,
+          size: fileObj.size || 0
+        }));
+        setSelectedFiles(existingFiles);
+      } else {
+        setSelectedFiles([]);
+      }
+    }
+  };
+
+  const saveCurrentPortfolioChanges = () => {
+    if (portfolios.length > 0 && currentPortfolioIndex < portfolios.length) {
+      const updatedPortfolios = [...portfolios];
+      updatedPortfolios[currentPortfolioIndex] = {
+        ...updatedPortfolios[currentPortfolioIndex],
+        portfolioDescription: formik.values.portfolioDescription,
+        portfolioLocation: formik.values.portfolioLocation,
+        portfolioEventType: formik.values.portfolioEventType,
+        portfolioTags: formik.values.portfolioTags,
+        portfolioFiles: formik.values.portfolioFiles,
+      };
+      setPortfolios(updatedPortfolios);
+    }
+  };
+
+  const goToPreviousPortfolio = () => {
+    if (currentPortfolioIndex > 0) {
+      switchToPortfolio(currentPortfolioIndex - 1);
+    }
+  };
+
+  const goToNextPortfolio = () => {
+    if (currentPortfolioIndex < portfolios.length - 1) {
+      switchToPortfolio(currentPortfolioIndex + 1);
+    }
+  };
+
+  const addNewPortfolio = () => {
+    const newPortfolio = {
+      portfolioDescription: "",
+      portfolioLocation: "",
+      portfolioEventType: "",
+      portfolioTags: [],
+      portfolioFiles: [],
+    };
+
+    const updatedPortfolios = [...portfolios, newPortfolio];
+    setPortfolios(updatedPortfolios);
+
+    // Switch to the new portfolio
+    setCurrentPortfolioIndex(updatedPortfolios.length - 1);
+
+    // Clear form for new portfolio
+    formik.setValues({
+      ...formik.values,
+      portfolioDescription: "",
+      portfolioLocation: "",
+      portfolioEventType: "",
+      portfolioTags: [],
+      portfolioFiles: [],
+    });
+
+    // Clear selected files
+    setSelectedFiles([]);
+  };
+
+  const removeCurrentPortfolio = async () => {
+    if (portfolios.length <= 1) {
+      alert("You must have at least one portfolio.");
+      return;
+    }
+
+    const currentPortfolio = portfolios[currentPortfolioIndex];
+    const portfolioId = currentPortfolio?._id || currentPortfolio?.id;
+
+    // Only make API call if portfolio has an ID (exists in backend)
+    if (portfolioId) {
+      try {
+        const response = await axios.delete(
+          `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/portfolios/${portfolioId}`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          toast.success("Portfolio deleted successfully!");
+        }
+      } catch (error) {
+        console.error("Error deleting portfolio:", error);
+        toast.error("Failed to delete portfolio. Please try again.",{
+          toastId: 'delete-portfolio-error'
+        });
+        return; // Stop execution if API call fails
+      }
+    }
+
+    // Remove from local state
+    const updatedPortfolios = portfolios.filter((_, index) => index !== currentPortfolioIndex);
+    setPortfolios(updatedPortfolios);
+
+    // Adjust current index
+    const newIndex = currentPortfolioIndex > 0 ? currentPortfolioIndex - 1 : 0;
+    setCurrentPortfolioIndex(newIndex);
+
+    // Load the portfolio data
+    if (updatedPortfolios.length > 0) {
+      const portfolio = updatedPortfolios[newIndex];
+      formik.setValues({
+        ...formik.values,
+        portfolioDescription: portfolio?.portfolioDescription || "",
+        portfolioLocation: portfolio?.portfolioLocation || "",
+        portfolioEventType: portfolio?.portfolioEventType || "",
+        portfolioTags: portfolio?.portfolioTags || [],
+        portfolioFiles: portfolio?.portfolioFiles || [],
+      });
+
+      // Update selected files for preview
+      if (portfolio?.portfolioFiles?.length > 0) {
+        const existingFiles = portfolio.portfolioFiles.map((fileObj, index) => ({
+          id: `existing-${index}`,
+          isExisting: true,
+          url: fileObj.url || fileObj,
+          cloudinaryUrl: fileObj.url || fileObj,
+          name: fileObj.originalName || fileObj.url?.split('/').pop() || `file-${index}`,
+          type: fileObj.fileType === 'image' ? 'image' : 'document',
+          file: null,
+          size: fileObj.size || 0
+        }));
+        setSelectedFiles(existingFiles);
+      } else {
+        setSelectedFiles([]);
+      }
+    }
   };
 
   const handlePhoneKeyDown = (e) => {
@@ -1680,13 +1849,23 @@ const UpdateBusiness = () => {
     images: Yup.array(),
     deliveryTimeline: Yup.string(),
     priceRange: Yup.string(),
-    portfolioFiles: Yup.array().required('Portfolio files is required'),
+    portfolioFiles: Yup.array()
+      .min(1, "At least one file is required"),
+
     portfolioDescription: Yup.string().required('Portfolio description is required'),
     portfolioLocation: Yup.string().required("Location is required"),
     portfolioEventType: Yup.string().required("Please select event type"),
-    portfolioTags: Yup.string().required('Portfolio tags is required'),
+    portfolioTags: Yup.array()
+      .of(
+        Yup.string()
+          .trim()
+          .min(1, "Tags cannot be empty")
+      )
+      .min(1, "At least one tag is required"),
     openingHours: Yup.array().of(openingHourSchema),
-    allGalleryFiles: Yup.array()
+    alallGalleryFiles: Yup.array()
+      .min(1, "Please upload at least one gallery file")
+      .max(10, "You can upload up to 10 files only")
   });
 
   console.log("selectedCategory", selectedCategory);
@@ -1798,23 +1977,76 @@ const UpdateBusiness = () => {
             console.log('all business dataaaaaaa', data);
             // const galleryImageUrls = data?.business?.images || []
             setSelectedCategory(data?.business?.category)
-            const portFolioUrls = data?.service?.portfolioData?.portfolioFiles || []
-            console.log('portfolio urls', portFolioUrls);
 
-            if (Array.isArray(portFolioUrls) && portFolioUrls.length > 0) {
-              const existingFiles = portFolioUrls.map((fileObj, index) => ({
-                id: `existing-${index}`,
-                isExisting: true,
-                url: fileObj.url,
-                cloudinaryUrl: fileObj.url,
-                name: fileObj.originalName || fileObj.url.split('/').pop() || `file-${index}`,
-                type: fileObj.fileType === 'image' ? 'image' :
-                  fileObj.fileType === 'document' || fileObj.url.includes('.pdf') ? 'application/pdf' :
-                    /\.(doc|docx)$/i.test(fileObj.url) ? 'application/msword' : 'file',
-                file: null,
-                size: fileObj.size || 0
-              }))
-              setSelectedFiles(existingFiles)
+            // Handle portfolios array
+            const portfoliosData = data?.service?.portfolioData?.portfolios || [];
+            let mappedPortfolios = [];
+
+            if (portfoliosData.length > 0) {
+              // Map backend field names to frontend structure
+              mappedPortfolios = portfoliosData.map(portfolio => ({
+                _id: portfolio._id,
+                portfolioDescription: portfolio.description || portfolio.title || "",
+                portfolioLocation: portfolio.location || "",
+                portfolioEventType: portfolio.eventType || "",
+                portfolioTags: portfolio.tags || [],
+                portfolioFiles: portfolio.files || []
+              }));
+
+              setPortfolios(mappedPortfolios);
+              setCurrentPortfolioIndex(0);
+
+              // Set first portfolio data
+              const firstPortfolio = mappedPortfolios[0];
+              const portFolioUrls = firstPortfolio?.portfolioFiles || [];
+              console.log('portfolio urls', portFolioUrls);
+
+              if (Array.isArray(portFolioUrls) && portFolioUrls.length > 0) {
+                const existingFiles = portFolioUrls.map((fileObj, index) => ({
+                  id: `existing-${index}`,
+                  isExisting: true,
+                  url: fileObj.url,
+                  cloudinaryUrl: fileObj.url,
+                  name: fileObj.originalName || fileObj.url.split('/').pop() || `file-${index}`,
+                  type: fileObj.fileType === 'image' ? 'image' :
+                    fileObj.fileType === 'document' || fileObj.url.includes('.pdf') ? 'application/pdf' :
+                      /\.(doc|docx)$/i.test(fileObj.url) ? 'application/msword' : 'file',
+                  file: null,
+                  size: fileObj.size || 0
+                }))
+                setSelectedFiles(existingFiles)
+              }
+            } else {
+              // Fallback to old structure if no portfolios array
+              const portFolioUrls = data?.service?.portfolioData?.portfolioFiles || [];
+              console.log('portfolio urls', portFolioUrls);
+
+              const singlePortfolio = {
+                portfolioDescription: data?.service?.portfolioData?.portfolioDescription || "",
+                portfolioLocation: data?.service?.portfolioData?.portfolioLocation || "",
+                portfolioEventType: data?.service?.portfolioData?.portfolioEventType || "",
+                portfolioTags: data?.service?.portfolioData?.portfolioTags || [],
+                portfolioFiles: portFolioUrls
+              };
+              mappedPortfolios = [singlePortfolio];
+              setPortfolios(mappedPortfolios);
+              setCurrentPortfolioIndex(0);
+
+              if (Array.isArray(portFolioUrls) && portFolioUrls.length > 0) {
+                const existingFiles = portFolioUrls.map((fileObj, index) => ({
+                  id: `existing-${index}`,
+                  isExisting: true,
+                  url: fileObj.url,
+                  cloudinaryUrl: fileObj.url,
+                  name: fileObj.originalName || fileObj.url.split('/').pop() || `file-${index}`,
+                  type: fileObj.fileType === 'image' ? 'image' :
+                    fileObj.fileType === 'document' || fileObj.url.includes('.pdf') ? 'application/pdf' :
+                      /\.(doc|docx)$/i.test(fileObj.url) ? 'application/msword' : 'file',
+                  file: null,
+                  size: fileObj.size || 0
+                }))
+                setSelectedFiles(existingFiles)
+              }
             }
 
             const galleryImageUrls = data?.business?.images || [];
@@ -1833,6 +2065,11 @@ const UpdateBusiness = () => {
               setGalleryFiles(prev => prev.length === 0 ? existingGalleryFiles : prev);;
               setGalleryUploadProgress(galleryImageUrls.map(() => 100));
             }
+            console.log('portfolios', portfolios);
+
+            // Set formik values with current portfolio (first portfolio or single portfolio)
+            const currentPortfolio = mappedPortfolios?.[0] || {};
+
             formik.setValues({
               businessName: data?.business?.name || "",
               //   category: capitalizeFirstLetter(data?.business?.category || ""),
@@ -1847,11 +2084,11 @@ const UpdateBusiness = () => {
               images: data?.serviceInfo?.images || [],
               deliveryTimeline: data?.service?.serviceInfo?.deliveryTimeline || "",
               priceRange: data?.service?.serviceInfo?.priceRange || "",
-              portfolioDescription: data?.service?.portfolioData?.portfolioDescription || "",
-              portfolioLocation: data?.service?.portfolioData?.portfolioLocation || "",
-              portfolioEventType: data?.service?.portfolioData?.portfolioEventType || "",
-              portfolioTags: data?.service?.portfolioData?.portfolioTags || [],
-              portfolioFiles: data?.service?.portfolioData?.portfolioFiles || [],
+              portfolioDescription: currentPortfolio?.portfolioDescription || "",
+              portfolioLocation: currentPortfolio?.portfolioLocation || "",
+              portfolioEventType: currentPortfolio?.portfolioEventType || "",
+              portfolioTags: currentPortfolio?.portfolioTags || [],
+              portfolioFiles: currentPortfolio?.portfolioFiles || [],
               openingHours: Array.isArray(data?.business?.openingHours) && data.business.openingHours.length > 0
                 ? data.business.openingHours
                 : [{ day: "Monday", isOpen: true, from: "", to: "" }],
@@ -2684,7 +2921,21 @@ const UpdateBusiness = () => {
     );
 
     if (isAnyEmpty) {
-      toast.error('Please fill out all required fields.');
+      toast.error('Please fill out all required fields.',{
+        toastId: 'add-business-empty-fields-error'
+      });
+      return;
+    }
+    if (businessData.name.length < 3) {
+      toast.error('Business name must be at least 3 characters long.',{
+        toastId: 'add-business-name-error'
+      });
+      return;
+    }
+    if (businessData.pincode.length !== 6) {
+      toast.error('Pin code must be exactly 6 digits.',{
+        toastId: 'add-business-pin-code-error'
+      });
       return;
     }
 
@@ -2711,7 +2962,13 @@ const UpdateBusiness = () => {
       }
     } catch (error) {
       console.error("Error adding business:", error);
-      toast.error("Failed to add business. Please try again.");
+      const message =
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message, {
+        toastId: 'add-business-backend-error'
+      });;
     }
 
   }
@@ -2753,7 +3010,13 @@ const UpdateBusiness = () => {
       }
     } catch (error) {
       console.error("Error adding service info:", error);
-      toast.error("Failed to add service info. Please try again.");
+      const message =
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message, {
+        toastId: 'add-service-backend-error'
+      });
     }
   }
 
@@ -2806,6 +3069,10 @@ const UpdateBusiness = () => {
 
   const handleAddPortfolio = async (e) => {
     e.preventDefault()
+
+    // Save current portfolio changes before submitting
+    saveCurrentPortfolioChanges();
+
     const { portfolioTags, portfolioDescription, portfolioLocation, portfolioEventType, portfolioFiles } = formik.values
 
     const portfolioUrls = portfolioFiles.map(file => {
@@ -2814,12 +3081,27 @@ const UpdateBusiness = () => {
       }
       return file.url || file.cloudinaryUrl; // Extract URL from object
     });
-    const portfolioInfo = {
-      portfolioTags, portfolioDescription, portfolioLocation, portfolioEventType, portfolioFiles: portfolioUrls
+
+    // Get current portfolio data
+    const currentPortfolio = portfolios[currentPortfolioIndex];
+    const portfolioId = currentPortfolio?._id || currentPortfolio?.id;
+
+    // Prepare current portfolio data for update
+    const portfolioData = {
+      portfolioDescription,
+      portfolioLocation,
+      portfolioEventType,
+      portfolioTags: Array.isArray(portfolioTags) ? portfolioTags : [portfolioTags].filter(Boolean),
+      portfolioFiles: portfolioUrls
+    };
+
+    // Only include portfolioId if it exists (for existing portfolios)
+    if (portfolioId) {
+      portfolioData.portfolioId = portfolioId;
     }
 
     const filterInfo = { portfolioDescription, portfolioLocation, portfolioEventType }
-    console.log('handleAddPortfolio', portfolioInfo);
+    console.log('handleAddPortfolio - Current Portfolio Data:', portfolioData);
 
     formik.setTouched({
       portfolioTags: true,
@@ -2828,32 +3110,73 @@ const UpdateBusiness = () => {
       portfolioEventType: true,
       portfolioFiles: true
     });
-    const isAnyEmpty = Object.values(filterInfo).some(
+
+    const isAnyEmpty = Object.values(portfolioData).some(
       (value) => value === '' || value === null || value === undefined || (Array.isArray(value) && value.length === 0)
     );
 
     if (isAnyEmpty) {
-      toast.error('Please fill out all required fields.');
-      return; // stop further execution
+      toast.error('Please fill out all required fields.', {
+        toastId: 'add-portfolio-form-error'
+      });
+      return;
     }
+
     try {
-      const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-portfolio`,
-        { portfolioInfo, category: selectedCategory },
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+      let response;
+
+      if (portfolioId) {
+        // Update existing portfolio
+        response = await axios.put(
+          `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/portfolios/${portfolioId}`,
+          { portfolioData, category: selectedCategory },
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          toast.success("Portfolio updated successfully!");
         }
-      );
-      if (response.status === 200) {
-        toast.success("Portfolio  info updated successfully!")
-        // setopenAccordion('services')
+      } else {
+        // Create new portfolio (for portfolios without ID)
+        response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/portfolios/create`,
+          { portfolioData, category: selectedCategory },
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        // Update local state with new portfolio ID if returned
+        if (response.data?.portfolioId) {
+          const updatedPortfolios = [...portfolios];
+          updatedPortfolios[currentPortfolioIndex] = {
+            ...updatedPortfolios[currentPortfolioIndex],
+            _id: response.data.portfolioId
+          };
+          setPortfolios(updatedPortfolios);
+        }
+      }
+
+      if (response.status === 201) {
+        toast.success("Portfolio addeded successfully!");
+        // setopenAccordion('upload-gallery')
       }
     } catch (error) {
-      console.error("Error adding service info:", error);
-      toast.error("Failed to add service info. Please try again.");
+      console.error("Error updating portfolio:", error);
+      const message =
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message, {
+        toastId: 'add-portfolio-backend-error'
+      });
     }
   }
 
@@ -2872,7 +3195,9 @@ const UpdateBusiness = () => {
     });
 
     if (hasInvalidEntry) {
-      toast.error("Please fill all 'from' and 'to' times for the open days.");
+      toast.error("Please fill all 'from' and 'to' times for the open days.", {
+        toastId: 'add-opening-hours-form-error'
+      });
       return;
     }
     try {
@@ -2894,12 +3219,27 @@ const UpdateBusiness = () => {
       }
     } catch (error) {
       console.error("Error adding opening hours:", error);
-      toast.error("Failed to add opening hours. Please try again.");
+      const message =
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message, {
+        toastId: 'add-opening-hours-backend-error'
+      });
     }
   }
 
   const handleAddGalleryFile = async (e) => {
     e.preventDefault()
+    formik.setTouched({
+      allGalleryFiles: true,
+    });
+    if (formik.values.allGalleryFiles.length === 0) {
+      toast.error("Please upload at least one gallery image.", {
+        toastId: 'add-gallery-form-error'
+      });
+      return;
+    }
     console.log('gallery images url', formik.values.allGalleryFiles)
     try {
       const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/update-business-image`, {
@@ -2918,7 +3258,13 @@ const UpdateBusiness = () => {
       }
     } catch (error) {
       console.error("Error adding gallery:", error);
-      toast.error("Failed to add gallery. Please try again.");
+      const message =
+        error.response.data?.message ||
+        error.response.data?.error ||
+        "The server rejected the data. Please review your inputs.";
+      toast.error(message, {
+        toastId: 'add-gallery-backend-error'
+      });;
     }
   }
 
@@ -2959,7 +3305,7 @@ const UpdateBusiness = () => {
             return updated;
           });
         });
-           uploadedUrls.push(url); // collect
+        uploadedUrls.push(url); // collect
         // formik.setFieldValue("allGalleryFiles", [
         //   ...formik.values.allGalleryFiles,
         //   url,
@@ -3058,6 +3404,100 @@ const UpdateBusiness = () => {
     return filteredServiceInfo;
   }, [formValues?.service]);
 
+  // Portfolio Navigation Component
+  const PortfolioNavigationHeader = () => (
+    <div className="mb-6">
+      {/* Navigation Header */}
+      <div className="flex items-center justify-between mb-4 p-4 bg-gray-50 rounded-lg">
+        <div className="flex items-center gap-3">
+          <h3 className="text-lg font-semibold">Portfolio Section</h3>
+          <span className="text-sm text-gray-600 bg-white px-3 py-1 rounded-full">
+            {currentPortfolioIndex + 1} of {portfolios.length}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {/* Navigation Arrows */}
+          <button
+            type="button"
+            onClick={goToPreviousPortfolio}
+            disabled={currentPortfolioIndex === 0}
+            className={`p-2 rounded-full border transition-all ${currentPortfolioIndex === 0
+              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              : 'bg-white text-gray-700 hover:bg-gray-50 shadow-sm'
+              }`}
+            title="Previous Portfolio"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <polyline points="15,18 9,12 15,6"></polyline>
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            onClick={goToNextPortfolio}
+            disabled={currentPortfolioIndex === portfolios.length - 1}
+            className={`p-2 rounded-full border transition-all ${currentPortfolioIndex === portfolios.length - 1
+              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              : 'bg-white text-gray-700 hover:bg-gray-50 shadow-sm'
+              }`}
+            title="Next Portfolio"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <polyline points="9,18 15,12 9,6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex items-center justify-between mb-4">
+        <button
+          type="button"
+          onClick={addNewPortfolio}
+          className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors ml-2"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="16"></line>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+          </svg>
+          Add New Portfolio
+        </button>
+
+        {portfolios.length > 1 && (
+          <button
+            type="button"
+            onClick={removeCurrentPortfolio}
+            className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors mr-2 cursor-pointer"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="3,6 5,6 21,6"></polyline>
+              <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+              <line x1="10" y1="11" x2="10" y2="17"></line>
+              <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>
+            Remove Current Portfolio
+          </button>
+        )}
+      </div>
+    </div>
+  );
+
 
   return (
     <div>
@@ -3112,7 +3552,7 @@ const UpdateBusiness = () => {
                           htmlFor="businessName"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          Business name
+                          Business name<span className="text-red-500 text-bold">*</span>
                         </label>
                         <input
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
@@ -3140,7 +3580,7 @@ const UpdateBusiness = () => {
                           htmlFor="businesscategory"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          Business Category
+                          Business Category<span className="text-red-500 text-bold">*</span>
                         </label>
                         <select
                           value={selectedCategory}
@@ -3185,7 +3625,7 @@ const UpdateBusiness = () => {
                         htmlFor="businessAddress"
                         className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                       >
-                        Business Address
+                        Business Address<span className="text-red-500 text-bold">*</span>
                       </label>
 
                       <div className="relative">
@@ -3224,7 +3664,7 @@ const UpdateBusiness = () => {
                           htmlFor="city"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          City
+                          City<span className="text-red-500 text-bold">*</span>
                         </label>
                         <input
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
@@ -3252,7 +3692,7 @@ const UpdateBusiness = () => {
                           htmlFor="state"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          State
+                          State<span className="text-red-500 text-bold">*</span>
                         </label>
                         <select
                           name="state"
@@ -3281,7 +3721,7 @@ const UpdateBusiness = () => {
                           htmlFor="pin"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          Pin code
+                          Pin code<span className="text-red-500 text-bold">*</span>
                         </label>
                         <input
                           className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
@@ -3330,7 +3770,7 @@ const UpdateBusiness = () => {
                           htmlFor="languages"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          Languages Spoken
+                          Languages Spoken<span className="text-red-500 text-bold">*</span>
                         </label>
 
                         <div className="flex flex-row gap-2">
@@ -4000,6 +4440,7 @@ const UpdateBusiness = () => {
               {/* portfolio content  */}
               {openAccordion === "upload-portfolio" && (
                 <div ref={portFolioRef}>
+                  <PortfolioNavigationHeader />
                   <form onSubmit={handleAddPortfolio}>
                     <div className="space-y-[25px] bg-[#F2F2F2] px-[30px] py-6 rounded-[10px] mb-[20px]">
                       {/* file upload  */}
@@ -4027,17 +4468,17 @@ const UpdateBusiness = () => {
                           />
 
                           <p className="text-[#505050] font-medium text-[14px] text-center my-1.5">
-                            Drag & drop files here, or click to select files*
+                            Drag & drop files here, or click to select files<span className="text-red-500 text-bold">*</span>
                           </p>
                           <p className="text-[#787878] font-normal text-[12px] text-center">
                             Supported File Types: .jpg, .png
                           </p>
                           <div>
-                            {(!formik.values.portfolioFiles) && (
+                            {/* {(!formik.values.portfolioFiles) && (
                               <p className="text-red-500 absolute text-sm mt-1 ml-1">
                                 Portfolio files is required
                               </p>
-                            )}
+                            )} */}
                           </div>
                         </div>
                         {/* Preview Thumbnails */}
@@ -4088,35 +4529,27 @@ const UpdateBusiness = () => {
                               </div>
                             );
                           })}
-
+                          {formik.errors.portfolioFiles && formik.touched.portfolioFiles && (
+                            <p className="text-red-400 text-[14px] ml-1">{formik.errors.portfolioFiles}</p>
+                          )}
                         </div>
                       </div>
                       {/* tags  */}
                       <div>
                         <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2">
-                          Tags
+                          Tags<span className="text-red-500 text-bold">*</span>
                         </p>
                         <div className="rounded-[18px] bg-white py-4 px-4">
-                          <ul className="flex items-center flex-wrap gap-3">
-                            {/* {tags.map((tag, index) => (
-                              <li
-                                key={index}
-                                className="font-normal text-[15px] 3xl:text-[16px] text-[#505050] bg-[#F6F6F6] rounded-[36px] py-2 px-4 w-fit flex items-center space-x-[17px]"
-                              >
-                                <span className="text-blue-500">{tag}</span>
-                                <button
-                                  className="cursor-pointer grid place-items-center size-[21px] bg-[#E5E5E5] rounded-full"
-                                  onClick={() => removeTag(index)}
-                                >
-                                  <Image
-                                    width={7}
-                                    height={7}
-                                    src={"/images/services/crossIcon.svg"}
-                                    alt="crossIcon"
-                                  />
-                                </button>
-                              </li>
-                            ))} */}
+                          <div className="w-full mb-3">
+                            <input
+                              type="text"
+                              name="portfolioTags"
+                              onKeyDown={handleKeyDown}
+                              placeholder="Type & press Enter to add tags"
+                              className="w-full outline-none bg-transparent text-[15px] 3xl:text-[16px] placeholder:text-[#b0b0b0] text-[#505050] py-2 px-4 border-2 border-[#E5E5E5] rounded-[6px] focus:border-[#EA0056]"
+                            />
+                          </div>
+                          <div className="flex items-center flex-wrap gap-3">
                             {Array.isArray(formik.values.portfolioTags) && formik.values.portfolioTags.map((tag, index) => (
                               <li
                                 key={index}
@@ -4138,8 +4571,30 @@ const UpdateBusiness = () => {
 
                               </li>
                             ))}
-                            <li className="flex items-center">
-                              {/* <input
+                          </div>
+                          {/* <ul className="flex items-center flex-wrap gap-3"> */}
+                          {/* {tags.map((tag, index) => (
+                              <li
+                                key={index}
+                                className="font-normal text-[15px] 3xl:text-[16px] text-[#505050] bg-[#F6F6F6] rounded-[36px] py-2 px-4 w-fit flex items-center space-x-[17px]"
+                              >
+                                <span className="text-blue-500">{tag}</span>
+                                <button
+                                  className="cursor-pointer grid place-items-center size-[21px] bg-[#E5E5E5] rounded-full"
+                                  onClick={() => removeTag(index)}
+                                >
+                                  <Image
+                                    width={7}
+                                    height={7}
+                                    src={"/images/services/crossIcon.svg"}
+                                    alt="crossIcon"
+                                  />
+                                </button>
+                              </li>
+                            ))} */}
+
+                          {/* <li className="flex items-center"> */}
+                          {/* <input
                                 type="text"
                                 name="portfolioTags"
                                 className="outline-none bg-transparent text-[15px] 3xl:text-[16px] placeholder:text-[#b0b0b0] text-[#505050] py-2 px-4"
@@ -4148,16 +4603,18 @@ const UpdateBusiness = () => {
                                 onChange={(e) => { setInputValue(e.target.value), formik.handleChange(e) }}
                                 onKeyDown={handleKeyDown}
                               /> */}
-                              <input
+                          {/* <input
                                 type="text"
                                 name="portfolioTags"
                                 onKeyDown={handleKeyDown}
                                 placeholder="Add tags..."
                                 className="outline-none bg-transparent text-[15px] 3xl:text-[16px] placeholder:text-[#b0b0b0] text-[#505050] py-2 px-4"
                               />
-                            </li>
-                          </ul>
-
+                            </li> */}
+                          {/* </ul> */}
+                          {formik.errors.portfolioTags && formik.touched.portfolioTags && (
+                            <p className="text-red-400 text-[14px]  ml-1">{formik.errors.portfolioTags}</p>
+                          )}
                         </div>
                       </div>
 
@@ -4168,7 +4625,7 @@ const UpdateBusiness = () => {
                             htmlFor="portfolioEventType"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Event Type
+                            Event Type<span className="text-red-500 text-bold">*</span>
                           </label>
                           <select
                             name="portfolioEventType"
@@ -4198,7 +4655,7 @@ const UpdateBusiness = () => {
                             htmlFor="portfolioLocation"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Location
+                            Location<span className="text-red-500 text-bold">*</span>
                           </label>
                           <div className="relative">
                             <input
@@ -4234,7 +4691,7 @@ const UpdateBusiness = () => {
                           htmlFor="portfolioDescription"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          Description
+                          Description<span className="text-red-500 text-bold">*</span>
                         </label>
                         <textarea
                           name="portfolioDescription"
