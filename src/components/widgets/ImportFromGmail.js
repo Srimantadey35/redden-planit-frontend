@@ -7,6 +7,8 @@ import axios from "axios";
 
 const ImportFromGmail = ({setisModalOpen}) => {
   const [loading,setLoading] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [currentStep, setCurrentStep] = useState('')
   const token = useSelector((state) => state.auth.accessToken);
    const handleGoogleImport = useGoogleLogin({
     scope: "https://www.googleapis.com/auth/contacts.readonly",
@@ -17,6 +19,24 @@ const ImportFromGmail = ({setisModalOpen}) => {
 
       try {
         setLoading(true);
+        setProgress(15);
+        setCurrentStep('Authenticating with Google...');
+
+        // Simulate progress steps
+        setTimeout(() => {
+          setProgress(35);
+          setCurrentStep('Fetching your contacts...');
+        }, 500);
+
+        setTimeout(() => {
+          setProgress(60);
+          setCurrentStep('Processing contact data...');
+        }, 1000);
+
+        setTimeout(() => {
+          setProgress(85);
+          setCurrentStep('Saving contacts to your account...');
+        }, 1500);
 
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/planners/import-google-contacts`,
@@ -29,15 +49,27 @@ const ImportFromGmail = ({setisModalOpen}) => {
           }
         );
         console.log('google contacts import',res)
+        
+        setProgress(100);
+        setCurrentStep('Import completed!');
+        
         if(res.status === 200){
-        toast.success(`Contacts imported sucessfully`);
-        setisModalOpen(false);
+          setTimeout(() => {
+            toast.success(`Contacts imported successfully!`);
+            setisModalOpen(false);
+          }, 500);
         }
       } catch (err) {
+        setProgress(0);
+        setCurrentStep('');
         toast.error("Failed to import contacts");
         console.error("Google contact import error", err);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+          setProgress(0);
+          setCurrentStep('');
+        }, 1000);
       }
     },
     onError: (err) => {
@@ -92,8 +124,23 @@ const ImportFromGmail = ({setisModalOpen}) => {
             </div>
           </div>
           <div className="mt-[50px] 3xl:mt-[90px] px-[30px] 3xl:px-[50px] mb-9 3xl:mb-14">
+            {/* Progress Bar */}
+            {loading && (
+              <div className="mb-6">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">{currentStep}</span>
+                  <span className="text-sm font-medium text-gray-700">{progress}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                  <div 
+                    className="bg-[#EA0056] h-2.5 rounded-full transition-all duration-300 ease-out"
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
+              </div>
+            )}
             
-            <button  disabled={loading} onClick={handleClick} className="font-semibold text-[16px] 3xl:text-[20px] text-white bg-[#EA0056] hover:bg-[#c30048] rounded-lg px-[90px] 3xl:px-[115px] py-3 3xl:py-3.5 mx-auto table cursor-pointer">
+            <button  disabled={loading} onClick={handleClick} className="font-semibold text-[16px] 3xl:text-[20px] text-white bg-[#EA0056] hover:bg-[#c30048] rounded-lg px-[90px] 3xl:px-[115px] py-3 3xl:py-3.5 mx-auto table cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
              {loading ? "Importing..." : "Continue"}
             </button>
           </div>
