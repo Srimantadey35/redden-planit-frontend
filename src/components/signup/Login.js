@@ -83,7 +83,7 @@ const Login = ({ planName }) => {
             localStorage.removeItem('verification')
             toast.success("User Logged In successfully")
             if (userType.toLowerCase() == "planner") {
-              router.push('/home')
+              router.push('/final-home')
             }
             else if (userType.toLowerCase() == "vendor") {
               router.push('/dashboard')
@@ -364,6 +364,7 @@ const Login = ({ planName }) => {
                 <p className="text-[#505050] font-normal text-[14px] text-center">
                   Don&apos;t have an account?{" "}
                   <button
+                    type="button"
                     onClick={handlePushToRegisterPage}
                     className="text-[#EA0056] font-semibold cursor-pointer underline"
                   >

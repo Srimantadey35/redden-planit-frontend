@@ -335,16 +335,40 @@ import Header from "@/components/Header";
 import Image from "next/image";
 import { useFormik } from "formik";
 import axios from "axios";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from "yup";
+import _ from "lodash";
+
 
 const Page = () => {
+  const removeExtraSpace = (s) => {
+    var rSpase = s.replace(/\s{2,}/g, " ");
+    return _.trimStart(rSpase);
+  };
+  const handlePhoneKeyDown = (e) => {
+    const allowedKeys = [
+      "Backspace", "ArrowLeft", "ArrowRight", "Delete", "Tab"
+    ];
+    if (e.key === " ") {
+      e.preventDefault();
+    }
+    if (!/^[0-9+]$/.test(e.key) && !allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+    if (e.key === "+") {
+      if (e.target.value.includes("+") || e.target.selectionStart !== 0) {
+        e.preventDefault();
+      }
+    }
+  };
   const [guestList, setGuestList] = useState([]);
   const [checkedGuests, setCheckedGuests] = useState({});
   const [editIndex, setEditIndex] = useState(null);
   const [hasMounted, setHasMounted] = useState(false);
+  const [isSubmittingAll, setIsSubmittingAll] = useState(false);
   const token = useSelector((state) => state.auth.accessToken);
 
   useEffect(() => {
@@ -352,10 +376,10 @@ const Page = () => {
     setGuestList(storedGuests);
     setHasMounted(true);
   }, []);
-  const validationSchema = Yup.object({ 
+  const validationSchema = Yup.object({
     firstName: Yup.string().required("First name is required"),
-    lastName: Yup.string().required("Last name is required"), 
-    phone: Yup.string().required("Phone number is required").min(10,"Phone number must be at least 10 digits"),
+    lastName: Yup.string().required("Last name is required"),
+    phone: Yup.string().required("Phone number is required").min(10, "Phone number must be at least 10 digits"),
   })
   const formik = useFormik({
     initialValues: {
@@ -369,23 +393,29 @@ const Page = () => {
       notes: ""
     },
     validationSchema,
-    onSubmit: async () => {
-      const newGuest = { ...formik.values };
-      let updatedList;
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const newGuest = { ...formik.values };
+        let updatedList;
 
-      if (editIndex !== null) {
-        updatedList = [...guestList];
-        updatedList[editIndex] = newGuest;
-        setEditIndex(null);
-        toast.success('Guest updated successfully');
-      } else {
-        updatedList = [...guestList, newGuest];
-        toast.success('Guest added to list');
+        if (editIndex !== null) {
+          updatedList = [...guestList];
+          updatedList[editIndex] = newGuest;
+          setEditIndex(null);
+          toast.success('Guest updated successfully');
+        } else {
+          updatedList = [...guestList, newGuest];
+          toast.success('Guest added to list');
+        }
+        localStorage.setItem("guests", JSON.stringify(updatedList));
+        setGuestList(updatedList);
+        setCheckedGuests({});
+        formik.resetForm();
+      } catch (error) {
+        console.error('Error saving guest:', error);
+        toast.error('Failed to save guest');
       }
-      localStorage.setItem("guests", JSON.stringify(updatedList));
-      setGuestList(updatedList);
-      setCheckedGuests({});
-      formik.resetForm();
+      setSubmitting(false);
     },
   });
 
@@ -395,6 +425,25 @@ const Page = () => {
       [index]: !prev[index],
     }));
   };
+
+  const handleSelectAll = () => {
+    const allChecked = guestList.every((_, index) => checkedGuests[index]);
+    
+    if (allChecked) {
+      // Uncheck all
+      setCheckedGuests({});
+    } else {
+      // Check all
+      const newChecked = {};
+      guestList.forEach((_, index) => {
+        newChecked[index] = true;
+      });
+      setCheckedGuests(newChecked);
+    }
+  };
+
+  const isAllSelected = guestList.length > 0 && guestList.every((_, index) => checkedGuests[index]);
+  const isIndeterminate = guestList.some((_, index) => checkedGuests[index]) && !isAllSelected;
 
   const handleEdit = (index) => {
     const guestToEdit = guestList[index];
@@ -411,7 +460,7 @@ const Page = () => {
       delete newChecked[index];
       return newChecked;
     });
-    toast.success('Guest deleted successfully')
+    toast.success('Guest deleted successfully');
   };
 
   const handleSubmitAllBusiness = async (e) => {
@@ -422,10 +471,12 @@ const Page = () => {
       toast.error('Please select at least one guest to submit');
       return;
     }
+
+    setIsSubmittingAll(true);
     console.log("Sending guests:", selectedGuests);
 
     try {
-      toast.loading('Submitting guests...', { id: 'submit-loading' });
+      // toast.loading('Submitting guests...', { id: 'submit-loading' }); 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/planners/create-contacts`,
         { contacts: selectedGuests }, {
@@ -446,6 +497,10 @@ const Page = () => {
       console.log("API Response:", response.data);
     } catch (error) {
       console.error("Error sending guests:", error);
+      toast.dismiss('submit-loading');
+      toast.error('Failed to submit guests. Please try again.');
+    } finally {
+      setIsSubmittingAll(false);
     }
   }
 
@@ -453,22 +508,27 @@ const Page = () => {
 
 
   return (
-    <div className="bg-white">
-    {/* <ToastContainer
-            position="top-right"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={true}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-            style={{ top: '1rem', right: '6rem' }} // adjust spacing here
-          /> */}
 
+    <div className="bg-white">
+      
       <Header />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        style={{ 
+          top: '108px', // Position just below the header
+          right: '20px',
+          zIndex: 9999
+        }}
+      />
       <div className="min-h-screen flex items-center">
         <div className="container">
           <div className="py-[100px] 3xl:py-[120px] md:flex  items-stretch">
@@ -493,16 +553,19 @@ const Page = () => {
                       type="text"
                       value={formik.values.firstName}
                       name="firstName"
-                      onChange={formik.handleChange}
+                      onChange={(e) => {
+                        const cleaned = removeExtraSpace(e.target.value);
+                        formik.setFieldValue(e.target.name, cleaned);
+                      }}
                       onBlur={formik.handleBlur}
                       id="firstName"
                     />
                     <div>
-                    {formik.touched.firstName && formik.errors.firstName && (
-                      <p className="text-red-500 absolute text-sm mt-1 ml-1">
-                        {formik.errors.firstName}
-                      </p>
-                    )}
+                      {formik.touched.firstName && formik.errors.firstName && (
+                        <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                          {formik.errors.firstName}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-col w-full">
@@ -518,16 +581,19 @@ const Page = () => {
                       type="text"
                       value={formik.values.lastName}
                       name="lastName"
-                      onChange={formik.handleChange}
+                      onChange={(e) => {
+                        const cleaned = removeExtraSpace(e.target.value);
+                        formik.setFieldValue(e.target.name, cleaned);
+                      }}
                       onBlur={formik.handleBlur}
                       id="lastName"
                     />
                     <div>
-                    {formik.touched.lastName && formik.errors.lastName && (
-                      <p className="text-red-500 absolute text-sm mt-1 ml-1">
-                        {formik.errors.lastName}
-                      </p>
-                    )}
+                      {formik.touched.lastName && formik.errors.lastName && (
+                        <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                          {formik.errors.lastName}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -550,6 +616,11 @@ const Page = () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       id="email"
+                       onKeyDown={(e) => {
+                        if (e.key === " ") {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </div>
                   <div className="flex flex-col w-full">
@@ -568,13 +639,15 @@ const Page = () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       id="phone"
+                      onKeyDown={handlePhoneKeyDown}
+
                     />
                     <div>
-                    {formik.touched.phone && formik.errors.phone && (
-                      <p className="text-red-500 absolute text-sm mt-1 ml-1">
-                        {formik.errors.phone}
-                      </p>
-                    )}
+                      {formik.touched.phone && formik.errors.phone && (
+                        <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                          {formik.errors.phone}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -677,9 +750,15 @@ const Page = () => {
 
                 {/* Submit Button */}
                 <button
-                  className="cursor-pointer transition font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 bg-[#EA0056] hover:bg-[#c9004a] rounded-lg w-full max-w-[317px] mx-auto block"
+                  type="submit"
+                  disabled={formik.isSubmitting}
+                  className={`cursor-pointer transition font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 rounded-lg w-full max-w-[317px] mx-auto block ${
+                    formik.isSubmitting 
+                      ? 'bg-gray-400 cursor-not-allowed' 
+                      : 'bg-[#EA0056] hover:bg-[#c9004a]'
+                  }`}
                 >
-                  Add to list
+                  {formik.isSubmitting ? 'Adding...' : 'Add to list'}
                 </button>
               </form>
 
@@ -693,6 +772,29 @@ const Page = () => {
                 onSubmit={handleSubmitAllBusiness}
                 className="space-y-[30px] flex flex-col h-full"
               >
+                {guestList.length > 0 && (
+                  <div className="flex items-center justify-between pb-4 border-b border-gray-200">
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="select-all"
+                        className="size-[16px] 3xl:size-[20px] mr-3.5"
+                        checked={isAllSelected}
+                        ref={(input) => {
+                          if (input) input.indeterminate = isIndeterminate;
+                        }}
+                        onChange={handleSelectAll}
+                      />
+                      <label
+                        htmlFor="select-all"
+                        className="font-semibold text-[15px] 3xl:text-[18px] text-[#151515]"
+                      >
+                        Select All ({Object.keys(checkedGuests).filter(key => checkedGuests[key]).length}/{guestList.length})
+                      </label>
+                    </div>
+                  </div>
+                )}
+                
                 {guestList.map((item, index) => {
                   const guestName = `${item.firstName || ''} ${item.lastName || ''}`.trim() || 'Unnamed Guest';
                   const displayName = guestName.length > 25 ? `${guestName.slice(0, 25)}...` : guestName;
@@ -742,9 +844,14 @@ const Page = () => {
 
                 <button
                   type="submit"
-                  className="cursor-pointer mt-auto font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 3xl:px-3 bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg  mx-auto table text-center"
+                  disabled={isSubmittingAll}
+                  className={`cursor-pointer mt-auto font-semibold text-[15px] 2xl:text-[16px] 3xl:text-[20px] text-white py-3 3xl:py-3.5 3xl:px-3 transition rounded-lg mx-auto table text-center ${
+                    isSubmittingAll 
+                      ? 'bg-gray-400 cursor-not-allowed' 
+                      : 'bg-[#EA0056] hover:bg-[#c9004a]'
+                  }`}
                 >
-                  Submit all
+                  {isSubmittingAll ? 'Submitting...' : 'Submit all'}
                 </button>
               </form>
             </div>

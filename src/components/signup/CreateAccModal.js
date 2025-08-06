@@ -644,6 +644,7 @@ const CreateAccModal = ({ planName }) => {
                 <p className="text-[#505050] font-normal text-[14px] text-center">
                   Already have an account?{" "}
                   <button
+                    type="button"
                     onClick={handlePushToSignIn}
                     className="text-[#EA0056] font-semibold cursor-pointer"
                   >

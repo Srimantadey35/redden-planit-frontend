@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
-import {toast} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAccessToken, clearUser } from "@/store/authSlice";
 
@@ -440,7 +440,9 @@ const handleCloseSlide = () => {
             <span className={`${pathName === item.href ? "text-[#f70399]" : ""}`}>{item.label}</span>
           </Link>
         ))}
+        
       </div>
+       
     </>
   );
 };
