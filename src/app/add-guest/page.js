@@ -338,6 +338,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import * as Yup from "yup";
 
 const Page = () => {
   const [guestList, setGuestList] = useState([]);
@@ -351,7 +352,11 @@ const Page = () => {
     setGuestList(storedGuests);
     setHasMounted(true);
   }, []);
-
+  const validationSchema = Yup.object({ 
+    firstName: Yup.string().required("First name is required"),
+    lastName: Yup.string().required("Last name is required"), 
+    phone: Yup.string().required("Phone number is required").min(10,"Phone number must be at least 10 digits"),
+  })
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -363,6 +368,7 @@ const Page = () => {
       dietaryPreference: "",
       notes: ""
     },
+    validationSchema,
     onSubmit: async () => {
       const newGuest = { ...formik.values };
       let updatedList;
@@ -448,7 +454,7 @@ const Page = () => {
 
   return (
     <div className="bg-white">
-    <ToastContainer
+    {/* <ToastContainer
             position="top-right"
             autoClose={2000}
             hideProgressBar={false}
@@ -460,7 +466,7 @@ const Page = () => {
             pauseOnHover
             theme="light"
             style={{ top: '1rem', right: '6rem' }} // adjust spacing here
-          />
+          /> */}
 
       <Header />
       <div className="min-h-screen flex items-center">
@@ -491,6 +497,13 @@ const Page = () => {
                       onBlur={formik.handleBlur}
                       id="firstName"
                     />
+                    <div>
+                    {formik.touched.firstName && formik.errors.firstName && (
+                      <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                        {formik.errors.firstName}
+                      </p>
+                    )}
+                    </div>
                   </div>
                   <div className="flex flex-col w-full">
                     <label
@@ -509,6 +522,13 @@ const Page = () => {
                       onBlur={formik.handleBlur}
                       id="lastName"
                     />
+                    <div>
+                    {formik.touched.lastName && formik.errors.lastName && (
+                      <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                        {formik.errors.lastName}
+                      </p>
+                    )}
+                    </div>
                   </div>
                 </div>
 
@@ -549,6 +569,13 @@ const Page = () => {
                       onBlur={formik.handleBlur}
                       id="phone"
                     />
+                    <div>
+                    {formik.touched.phone && formik.errors.phone && (
+                      <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                        {formik.errors.phone}
+                      </p>
+                    )}
+                    </div>
                   </div>
                 </div>
 

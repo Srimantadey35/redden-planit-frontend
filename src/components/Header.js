@@ -56,12 +56,13 @@ const fetchUserDetails = async (accessToken) => {
 };
 
   const navLinks = [
-    { label: "Home", href: "/" },
-    { label: "E - Card", href: "/ecard" },
+    { label: "Home", href: "/final-home" },
+    { label: "E - Card", href: "/create-your-invitation-card" },
     { label: "Manage guest", href: "/manage-guest" },
     { label: "Create your website", href: "/create-website" },
     { label: "Book vendors", href: "/vendors" },
     { label: "PlanIt AI", href: "/planit-ai" },
+    { label: "Guest List", href: "/guest-list" }
   ];
 
 
@@ -230,12 +231,12 @@ const handleCloseSlide = () => {
                       </span>
                     </div>
                     <ul className="py-2 text-sm text-gray-700">
-                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      {/* <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         Profile
                       </li>
                       <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         Settings
-                      </li>
+                      </li> */}
                       <li onClick={logoutUser} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         Logout
                       </li>

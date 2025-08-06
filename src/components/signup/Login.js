@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as YUP from 'yup'
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { setAccessToken } from "@/store/authSlice";
@@ -14,7 +14,7 @@ import GoogleLoginButton from "./GoogleLogin";
 
 
 const Login = ({ planName }) => {
-  const [LoggedIn,setLoggedIn] = useState(false)
+  const [LoggedIn, setLoggedIn] = useState(false)
   const dispatch = useDispatch()
   const [rememberMe, setRememberMe] = useState(false)
   const router = useRouter();
@@ -51,10 +51,10 @@ const Login = ({ planName }) => {
     }
   }, []);
   const signInSchema = YUP.object({
-  email: YUP.string()
-  .required('Email is required')
-  .email('Must be a valid email'),
-    password: YUP.string() .min(8, 'Password must be at least 8 characters').required('Password is required'),
+    email: YUP.string()
+      .required('Email is required')
+      .email('Must be a valid email'),
+    password: YUP.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
   });
 
   const { errors, values, handleBlur, touched, handleChange, handleSubmit } = useFormik({
@@ -82,15 +82,15 @@ const Login = ({ planName }) => {
             }
             localStorage.removeItem('verification')
             toast.success("User Logged In successfully")
-            if(userType.toLowerCase()=="planner"){
-             router.push('/home')
+            if (userType.toLowerCase() == "planner") {
+              router.push('/home')
             }
-            else if(userType.toLowerCase()== "vendor"){
+            else if (userType.toLowerCase() == "vendor") {
               router.push('/dashboard')
             }
           }
           else {
-            const token =  response.headers.get("verificationtoken") || response.headers.verificationtoken || response.headers['verificationtoken'];
+            const token = response.headers.get("verificationtoken") || response.headers.verificationtoken || response.headers['verificationtoken'];
             localStorage.setItem('verification', token);
             toast.error('Please Verify your account with OTP');
             const planQuery = userType ? userType.toLowerCase() : 'default';
@@ -296,11 +296,11 @@ const Login = ({ planName }) => {
                     value={values.email}
                     onChange={handleChange}
                     onBlur={(e) => { handleBlur(e); Blur(e) }}
-                     onKeyDown={(e) => {
-                        if (e.key === " ") {
-                          e.preventDefault();
-                        }
-                      }}
+                    onKeyDown={(e) => {
+                      if (e.key === " ") {
+                        e.preventDefault();
+                      }
+                    }}
                   />
                   <label htmlFor="email">Email*</label>
                   {touched.email && errors.email && <p className="text-red-600 mt-1 text-sm absolute w-sm">{errors.email}</p>}
@@ -318,6 +318,8 @@ const Login = ({ planName }) => {
                     value={values.password}
                     onChange={handleChange}
                     onBlur={(e) => { handleBlur(e); Blur(e) }}
+                    style={{ fontFamily: 'Arial, sans-serif' }}
+                    className="text-4xl tracking-widest"
                   />
                   <label htmlFor="password">Password*</label>
                   <button type="button"
@@ -328,7 +330,7 @@ const Login = ({ planName }) => {
                     <Image
                       width={18}
                       height={18}
-                      src={`${isPassVisible ? '/images/eye-open.svg':'/images/eye-close.svg'}`}
+                      src={`${isPassVisible ? '/images/eye-open.svg' : '/images/eye-close.svg'}`}
                       alt="passvisible"
                     />
                   </button>
@@ -357,7 +359,7 @@ const Login = ({ planName }) => {
                 </div>
 
                 <button disabled={LoggedIn} type="submit" className="font-semibold text-[16px] text-white bg-[#EA0056] hover:bg-[#c9004a] transition rounded-lg py-3 mt-7 3xl:mt-10 cursor-pointer w-full mb-3 3xl:mb-4">
-                  {LoggedIn? "Signing in...":"Sign in"}
+                  {LoggedIn ? "Signing in..." : "Sign in"}
                 </button>
                 <p className="text-[#505050] font-normal text-[14px] text-center">
                   Don&apos;t have an account?{" "}

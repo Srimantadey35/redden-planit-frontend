@@ -1726,7 +1726,7 @@ const UpdateBusiness = () => {
         }
       } catch (error) {
         console.error("Error deleting portfolio:", error);
-        toast.error("Failed to delete portfolio. Please try again.",{
+        toast.error("Failed to delete portfolio. Please try again.", {
           toastId: 'delete-portfolio-error'
         });
         return; // Stop execution if API call fails
@@ -1844,11 +1844,11 @@ const UpdateBusiness = () => {
       .required("Pin is required"),
     languages: Yup.string(),
     travelAvailability: Yup.string(),
-    description: Yup.string(),
-    availability: Yup.array(),
+    description: Yup.string().required("Description is required"),
+    availability: Yup.string().required("Availability is required"),
     images: Yup.array(),
-    deliveryTimeline: Yup.string(),
-    priceRange: Yup.string(),
+    deliveryTimeline: Yup.string().required("Delivery timeline is required"),
+    priceRange: Yup.string().required("Price range is required"),
     portfolioFiles: Yup.array()
       .min(1, "At least one file is required"),
 
@@ -2921,19 +2921,19 @@ const UpdateBusiness = () => {
     );
 
     if (isAnyEmpty) {
-      toast.error('Please fill out all required fields.',{
+      toast.error('Please fill out all required fields.', {
         toastId: 'add-business-empty-fields-error'
       });
       return;
     }
     if (businessData.name.length < 3) {
-      toast.error('Business name must be at least 3 characters long.',{
+      toast.error('Business name must be at least 3 characters long.', {
         toastId: 'add-business-name-error'
       });
       return;
     }
     if (businessData.pincode.length !== 6) {
-      toast.error('Pin code must be exactly 6 digits.',{
+      toast.error('Pin code must be exactly 6 digits.', {
         toastId: 'add-business-pin-code-error'
       });
       return;
@@ -2975,6 +2975,13 @@ const UpdateBusiness = () => {
   const handleAddService = async (e) => {
     e.preventDefault()
     const { description, availability, deliveryTimeline, priceRange } = formik.values
+    const filterInfo = { description, availability, deliveryTimeline, priceRange }
+    if (Object.values(filterInfo).some(value => value === '' || value === null || value === undefined)) {
+      toast.error('Please fill out all required fields.', {
+        toastId: 'add-service-form-error'
+      });
+      return;
+    }
     const serviceInfo = {
       description, availability, deliveryTimeline, priceRange,
       images: uploadedImageUrls,
@@ -4137,7 +4144,7 @@ const UpdateBusiness = () => {
                             htmlFor="businesscategory"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Business Category
+                            Business Category<span className="text-red-500 text-bold">*</span>
                           </label>
                           {/* <select
                           value={selectedCategory}
@@ -4179,7 +4186,7 @@ const UpdateBusiness = () => {
                             htmlFor="businessname"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Business Name
+                            Business Name<span className="text-red-500 text-bold">*</span>
                           </label>
                           <input
                             className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black"
@@ -4189,23 +4196,38 @@ const UpdateBusiness = () => {
                             name="businessname"
                             id="businessname"
                           />
+                          <div>
+                            {!formik.values.businessName && (
+                              <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                Please enter a business name first
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
                       {/* whats included */}
-                      <div className="flex flex-col w-full mr-2.5">
+                      <div className="flex flex-col w-full mr-2.5 mb-7">
                         <label
                           htmlFor="description"
                           className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                         >
-                          What&apos;s Included
+                          What&apos;s Included<span className="text-red-500 text-bold">*</span>
                         </label>
                         <textarea
                           value={formik.values.description}
                           onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                           name="description"
                           className="h-[110px] 3xl:h-[125px] rounded-[8px] outline-none bg-white px-[22px] placeholder:text-[#525252] 3xl:placeholder:text-[16px] 3xl:text-[16px] placeholder:text-[14px] text-[14px] font-medium text-black py-3.5"
                           placeholder="Add your description"
                         ></textarea>
+                        <div>
+                          {(formik.touched.description && formik.errors.description) && (
+                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                              {formik.errors.description}
+                            </p>
+                          )}
+                        </div>
                       </div>
                       {/* availability */}
                       {/* <div className="flex items-center">
@@ -4243,7 +4265,7 @@ const UpdateBusiness = () => {
                   </div> */}
                       <div className="flex items-center">
                         <p className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mr-3">
-                          Availability:
+                          Availability:<span className="text-red-500 text-bold">*</span>
                         </p>
                         <div className="flex items-center space-x-5">
                           {included.map((item) => (
@@ -4256,6 +4278,7 @@ const UpdateBusiness = () => {
                                 value={item.checkboxName}
                                 checked={formik.values.availability === item.checkboxName}
                                 onChange={() => formik.setFieldValue("availability", item.checkboxName)}
+                                onBlur={formik.handleBlur}
                               />
                               <label
                                 htmlFor={`radio-${item.checkboxid}`}
@@ -4265,6 +4288,13 @@ const UpdateBusiness = () => {
                               </label>
                             </div>
                           ))}
+                          <div>
+                            {(formik.touched.availability && formik.errors.availability) && (
+                              <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                {formik.errors.availability}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
 
@@ -4323,12 +4353,13 @@ const UpdateBusiness = () => {
                             htmlFor="deliveryTimeline"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Delivery timeline
+                            Delivery timeline<span className="text-red-500 text-bold">*</span>
                           </label>
                           <select
                             name="deliveryTimeline"
                             value={formik.values.deliveryTimeline}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             id="businesscategory"
                             className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                           >
@@ -4338,18 +4369,26 @@ const UpdateBusiness = () => {
                             <option value="4 weeks">Within 4 weeks</option>
                             <option value="5 weeks">Within 5 weeks</option>
                           </select>
+                          <div>
+                            {(formik.touched.deliveryTimeline && formik.errors.deliveryTimeline) && (
+                              <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                {formik.errors.deliveryTimeline}
+                              </p>
+                            )}
+                          </div>
                         </div>
                         <div className="flex flex-col w-full">
                           <label
                             htmlFor="priceRange"
                             className="font-semibold text-[16px] 3xl:text-[18px] text-[#151515] mb-2"
                           >
-                            Price Range
+                            Price Range<span className="text-red-500 text-bold">*</span>
                           </label>
                           <select
                             name="priceRange"
                             value={formik.values.priceRange}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             id="priceRange"
                             className="h-[42px] 3xl:h-[53px] rounded-[8px] outline-none bg-white text-[#525252] px-[22px] placeholder:text-[#525252] 3xl:text-[16px] text-[14px] font-medium cursor-pointer"
                           >
@@ -4359,6 +4398,13 @@ const UpdateBusiness = () => {
                             <option value="within 4 weeks">Within 4 weeks</option>
                             <option value="within 5 weeks">Within 5 weeks</option>
                           </select>
+                          <div>
+                            {(formik.touched.priceRange && formik.errors.priceRange) && (
+                              <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                {formik.errors.priceRange}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
 

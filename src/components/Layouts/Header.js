@@ -184,12 +184,12 @@ const fetchUserDetails = async (accessToken) => {
                       </span>
                     </div>
                     <ul className="py-2 text-sm text-gray-700">
-                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      {/* <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         Profile
                       </li>
                       <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         Settings
-                      </li>
+                      </li> */}
                       <li onClick={logoutUser} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         Logout
                       </li>

@@ -3,15 +3,19 @@ import Header from "@/components/Header";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Page = () => {
+  const [allGuest,setAllGuest] = useState([]);
+  const accessToken = useSelector((state) => state.auth.accessToken);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("Guest type");
   const [selectedGuestTypes, setSelectedGuestTypes] = useState([]);
   const [selectedDietaryPrefs, setSelectedDietaryPrefs] = useState([]);
 
-  // Add refs for outside click detection
+  // Add refs for outside click detection 
   const searchRef = useRef(null);
   const filterRef = useRef(null);
   const mobileSearchRef = useRef(null); // Add this new ref
@@ -42,12 +46,31 @@ const Page = () => {
         setActiveFilter("Guest type");
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+   useEffect( () => {
+      const fetchAllGuests = async () => {
+        try {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/planners/get-all-contacts`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          });
+          console.log("All guests data:", response.data.data);
+          setAllGuest(response.data.data.contacts);
+        } catch (error) {
+          console.error("Error fetching guests:", error);
+        }
+      };
+
+      if (accessToken) {
+        fetchAllGuests();
+      }
+    }, [accessToken]);
 
   // Add useEffect to set search open by default on smaller screens
   useEffect(() => {
@@ -92,113 +115,122 @@ const Page = () => {
     setIsFilterOpen(false);
   };
 
-  const tableData = [
-    {
-      name: "Jaydon Curtis",
-      email: "jaydoncurtis@gmail.com",
-      phNumber: "+91 8952370146",
-      address:
-        "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
-      guestType: "Family",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Madelyn Levin",
-      email: "madelynlevin@gmail.com",
-      phNumber: null,
-      address:
-        "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-    {
-      name: "Tiana Philips",
-      email: "tianaphilips@gmail.com",
-      phNumber: "+91 8922378524",
-      address:
-        "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
-      guestType: "VIP",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Marcus Schleifer",
-      email: null,
-      phNumber: "+91 89785123146",
-      address: null,
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-    {
-      name: "Jaydon Curtis",
-      email: "jaydoncurtis@gmail.com",
-      phNumber: "+91 8952370146",
-      address:
-        "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
-      guestType: "Family",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Madelyn Levin",
-      email: "madelynlevin@gmail.com",
-      phNumber: null,
-      address:
-        "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-    {
-      name: "Tiana Philips",
-      email: "tianaphilips@gmail.com",
-      phNumber: "+91 8922378524",
-      address:
-        "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
-      guestType: "VIP",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Marcus Schleifer",
-      email: null,
-      phNumber: "+91 89785123146",
-      address: null,
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-    {
-      name: "Jaydon Curtis",
-      email: "jaydoncurtis@gmail.com",
-      phNumber: "+91 8952370146",
-      address:
-        "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
-      guestType: "Family",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Madelyn Levin",
-      email: "madelynlevin@gmail.com",
-      phNumber: null,
-      address:
-        "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-    {
-      name: "Tiana Philips",
-      email: "tianaphilipdsdsdsdsdss@gmail.com",
-      phNumber: "+91 8922378524",
-      address:
-        "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
-      guestType: "VIP",
-      dietaryPreference: "Vegan",
-    },
-    {
-      name: "Marcus Schleifer",
-      email: null,
-      phNumber: "+91 89785123146",
-      address: null,
-      guestType: "Friends",
-      dietaryPreference: "Jain",
-    },
-  ];
+  // const tableData = [
+  //   {
+  //     name: "Jaydon Curtis",
+  //     email: "jaydoncurtis@gmail.com",
+  //     phNumber: "+91 8952370146",
+  //     address:
+  //       "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
+  //     guestType: "Family",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Madelyn Levin",
+  //     email: "madelynlevin@gmail.com",
+  //     phNumber: null,
+  //     address:
+  //       "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  //   {
+  //     name: "Tiana Philips",
+  //     email: "tianaphilips@gmail.com",
+  //     phNumber: "+91 8922378524",
+  //     address:
+  //       "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
+  //     guestType: "VIP",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Marcus Schleifer",
+  //     email: null,
+  //     phNumber: "+91 89785123146",
+  //     address: null,
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  //   {
+  //     name: "Jaydon Curtis",
+  //     email: "jaydoncurtis@gmail.com",
+  //     phNumber: "+91 8952370146",
+  //     address:
+  //       "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
+  //     guestType: "Family",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Madelyn Levin",
+  //     email: "madelynlevin@gmail.com",
+  //     phNumber: null,
+  //     address:
+  //       "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  //   {
+  //     name: "Tiana Philips",
+  //     email: "tianaphilips@gmail.com",
+  //     phNumber: "+91 8922378524",
+  //     address:
+  //       "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
+  //     guestType: "VIP",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Marcus Schleifer",
+  //     email: null,
+  //     phNumber: "+91 89785123146",
+  //     address: null,
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  //   {
+  //     name: "Jaydon Curtis",
+  //     email: "jaydoncurtis@gmail.com",
+  //     phNumber: "+91 8952370146",
+  //     address:
+  //       "12/P Alipore Road, Alipore, Kolkata - 700027, West Bengal, India",
+  //     guestType: "Family",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Madelyn Levin",
+  //     email: "madelynlevin@gmail.com",
+  //     phNumber: null,
+  //     address:
+  //       "12/P Ballygunge Circular Road, Ballygunge, Kolkata - 700019, West Bengal, India",
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  //   {
+  //     name: "Tiana Philips",
+  //     email: "tianaphilipdsdsdsdsdss@gmail.com",
+  //     phNumber: "+91 8922378524",
+  //     address:
+  //       "12/P Jessore Road, Barasat, Kolkata - 700124, West Bengal, India",
+  //     guestType: "VIP",
+  //     dietaryPreference: "Vegan",
+  //   },
+  //   {
+  //     name: "Marcus Schleifer",
+  //     email: null,
+  //     phNumber: "+91 89785123146",
+  //     address: null,
+  //     guestType: "Friends",
+  //     dietaryPreference: "Jain",
+  //   },
+  // ];
+   const tableData = allGuest.map((guest) => ({
+    name: `${guest.fullName}`,
+    email: guest.email || "N/A",
+    phNumber: guest.phone || "N/A",
+    address: guest.address || "N/A",
+    guestType: guest.guestType || "N/A",
+    dietaryPreference: guest.dietaryPreference || "N/A",
+  }));
+
   const tHeadData = [
     { title: "Name", w: "w-[20%]" },
     { title: "Email", w: "w-[20%]" },
@@ -220,7 +252,7 @@ const Page = () => {
             <div className="grid-cols-1 grid sm:grid-cols-2 smd:grid-cols-4 w-full">
               <div className="pl-3 sm:pl-[60px] smd:px-4 lg:px-[28px] xl:px-[35px] 3xl:px-[60px] w-full py-4 xl:py-6 bg-[#FAF2F2] flex flex-col justify-start smd:justify-center">
                 <h2 className="font-semibold text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[45px] 3xl:text-[60px] text-[#EA0056] leading-[1] ">
-                  549
+                  {allGuest?.length}
                 </h2>
                 <h4 className="text-[#151515] font-normal text-[16px] xl:text-[20px]">
                   Total number of guest
@@ -238,7 +270,7 @@ const Page = () => {
 
                   <div className="flex flex-col items-start ml-3">
                     <p className="text-[#EA0056] font-semibold text-[20px] md:text-[24px] xl:text-[37px] text-center leading-[1] mt-auto">
-                      14
+                      {allGuest.filter(guest => !guest.email).length}
                     </p>
                     <h4 className="text-[#151515] font-normal text-[16px] text-center">
                       Missing email
@@ -258,7 +290,7 @@ const Page = () => {
 
                   <div className="flex flex-col items-start ml-3">
                     <p className="text-[#EA0056] font-semibold text-[20px] md:text-[24px] xl:text-[37px] text-center leading-[1] mt-auto">
-                      26
+                      {allGuest.filter(guest => !guest.address).length}
                     </p>
                     <h4 className="text-[#151515] font-normal text-[16px] text-center">
                       Missing address
@@ -278,7 +310,7 @@ const Page = () => {
 
                   <div className="flex flex-col items-start ml-3">
                     <p className="text-[#EA0056] font-semibold text-[20px] md:text-[24px] xl:text-[37px] text-center leading-[1] mt-auto">
-                      36
+                      {allGuest.filter(guest => !guest.phone).length}
                     </p>
                     <h4 className="text-[#151515] font-normal text-[16px] text-center">
                       Missing phone number
@@ -563,10 +595,7 @@ const Page = () => {
                         {items.phNumber || "---------------------------"}
                       </td>
                       <td className="text-[#5D5D5D] font-normal text-[15px] 3xl:text-[16px] text-left py-[20px]">
-                        {items.address
-                          ? items.address.length > 12 &&
-                            `${items.address.slice(0, 12)}...`
-                          : "--------------------"}
+                        {items.address}
                       </td>
                       <td
                         className={`${
@@ -589,13 +618,7 @@ const Page = () => {
                             src={"/images/edit.svg"}
                             alt="edit"
                           />
-                          <Image
-                            className="mr-4 cursor-pointer"
-                            width={20}
-                            height={20}
-                            src={"/images/edit.svg"}
-                            alt="edit"
-                          />
+                          
                         </button>
                         <button className="w-[18px] 3xl:w-[20px]">
                           <Image

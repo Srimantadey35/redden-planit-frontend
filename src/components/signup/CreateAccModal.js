@@ -556,11 +556,16 @@ const CreateAccModal = ({ planName }) => {
                             e.preventDefault();
                           }
                         }}
+                        style={{ fontFamily: 'Arial, sans-serif' }}
+                        className="text-4xl tracking-widest"
                       />
                       <label htmlFor="password">Password*</label>
                       <button type="button"
                         disabled={!values.password}
-                        onClick={() => togglePasswordVisibility("pass")}
+                        onClick={() => {
+                           if (!values.password) return;
+                           togglePasswordVisibility("pass");
+                        }}
                         className="absolute top-1/2 -translate-y-1/2 cursor-pointer h-full right-0 w-[53px] flex items-center justify-center z-[2]"
                       >
                         <Image
@@ -585,6 +590,8 @@ const CreateAccModal = ({ planName }) => {
                           value={values.confirmpassword}
                           onChange={handleChange}
                           onBlur={(e) => { handleBlur(e); Blur(e) }}
+                          style={{ fontFamily: 'Arial, sans-serif' }}
+                          className="text-4xl tracking-widest"
                         />
                         <label htmlFor="confirmpassword">Confirm Password*</label>
                         <button type="button"

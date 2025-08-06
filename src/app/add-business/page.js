@@ -61,6 +61,49 @@ const Page = () => {
   const [inputValue, setInputValue] = useState("");
   const router = useRouter()
 
+  const [existingCategories, setExistingCategories] = useState([]);
+
+  // Fetch existing business categories
+  useEffect(() => {
+    const fetchExistingCategories = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL_SYSTEM}/vendors/return-all-used-categories`, {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        // Extract categories from existing businesses
+        // const categories = response.data.data.map(business => business.category);
+        console.log('existing categories:', response.data.data);
+
+        setExistingCategories(response.data.data);
+      } catch (error) {
+        console.error('Error fetching existing categories:', error);
+      }
+    };
+
+    if (accessToken) {
+      fetchExistingCategories();
+    }
+  }, [accessToken]);
+
+  const categoryOptions = [
+    { value: "catering", label: "Catering Services" },
+    { value: "venues", label: "Venues" },
+    { value: "photography", label: "Photography" },
+    { value: "bridalmakeup", label: "Bridal Makeup" },
+    { value: "decorators", label: "Decorators" },
+    { value: "wedding-planners", label: "Wedding Planners" },
+    { value: "mehandi-artist", label: "Mehandi Artist" },
+    { value: "dj", label: "DJ's" },
+    { value: "pre-wedding-photographers", label: "Pre Wedding Photographers" },
+    { value: "wedding-pandit", label: "Wedding Pandit's" },
+    { value: "cake", label: "Cake" },
+    { value: "bartenders", label: "Bartenders" }
+  ];
+
   const removeExtraSpace = (s) => {
     var rSpase = s.replace(/\s{2,}/g, " ");
     return _.trimStart(rSpase);
@@ -136,7 +179,7 @@ const Page = () => {
     pin: Yup.string()
       .matches(/^\d{6}$/, "Pin must be exactly 6 digits")
       .required("Pin is required"),
-    languages: Yup.string(),
+    languages: Yup.string().required("Please select languages"),
     travelAvailability: Yup.string(),
     description: Yup.string().required("Description is required"),
     availability: Yup.string().required("Availability is required"),
@@ -900,19 +943,19 @@ const Page = () => {
     );
 
     if (isAnyEmpty) {
-      toast.error('Please fill out all required fields.',{
+      toast.error('Please fill out all required fields.', {
         toastId: 'add-business-form-error'
       });
       return;
     }
     if (businessData.name.length < 3) {
-      toast.error('Business name must be at least 3 characters long.',{
+      toast.error('Business name must be at least 3 characters long.', {
         toastId: 'add-business-name-error'
       });
       return;
     }
     if (businessData.pincode.length !== 6) {
-      toast.error('Pin code must be exactly 6 digits.',{
+      toast.error('Pin code must be exactly 6 digits.', {
         toastId: 'add-business-pin-error'
       });
       return;
@@ -946,7 +989,7 @@ const Page = () => {
           error.response.data?.message ||
           error.response.data?.error ||
           "The server rejected the data. Please review your inputs.";
-        toast.error(message,{
+        toast.error(message, {
           toastId: 'add-business-backend-error'
         });
       } else {
@@ -970,7 +1013,7 @@ const Page = () => {
     });
     const filterInfo = { description, availability, deliveryTimeline, priceRange }
     if (Object.values(filterInfo).some(value => value === '' || value === null || value === undefined)) {
-      toast.error('Please fill out all required fields.',{
+      toast.error('Please fill out all required fields.', {
         toastId: 'add-service-form-error'
       });
       return;
@@ -1014,7 +1057,7 @@ const Page = () => {
         error.response.data?.message ||
         error.response.data?.error ||
         "The server rejected the data. Please review your inputs.";
-      toast.error(message,{
+      toast.error(message, {
         toastId: 'add-service-backend-error'
       });
       setopenAccordion('add-business')
@@ -1088,7 +1131,7 @@ const Page = () => {
     );
 
     if (isAnyEmpty) {
-      toast.error('Please fill out all required fields.',{
+      toast.error('Please fill out all required fields.', {
         toastId: 'add-portfolio-form-error'
       });
       return;
@@ -1116,7 +1159,7 @@ const Page = () => {
         error.response.data?.message ||
         error.response.data?.error ||
         "The server rejected the data. Please review your inputs.";
-      toast.error(message,{
+      toast.error(message, {
         toastId: 'add-portfolio-backend-error'
       });
       setopenAccordion('add-business')
@@ -1137,7 +1180,7 @@ const Page = () => {
     });
 
     if (hasInvalidEntry) {
-      toast.error("Please fill all 'from' and 'to' times for the open days.",{
+      toast.error("Please fill all 'from' and 'to' times for the open days.", {
         toastId: 'add-opening-hours-form-error'
       });
       return;
@@ -1166,7 +1209,7 @@ const Page = () => {
         error.response.data?.message ||
         error.response.data?.error ||
         "The server rejected the data. Please review your inputs.";
-      toast.error(message,{
+      toast.error(message, {
         toastId: 'add-opening-hours-backend-error'
       });
       setopenAccordion('add-business')
@@ -1179,7 +1222,7 @@ const Page = () => {
       allGalleryFiles: true,
     });
     if (formik.values.allGalleryFiles.length === 0) {
-      toast.error("Please upload at least one gallery image.",{
+      toast.error("Please upload at least one gallery image.", {
         toastId: 'add-gallery-form-error'
       });
       return;
@@ -1202,11 +1245,11 @@ const Page = () => {
       }
     } catch (error) {
       console.error("Error adding gallery:", error);
-     const message =
+      const message =
         error.response.data?.message ||
         error.response.data?.error ||
         "The server rejected the data. Please review your inputs.";
-      toast.error(message,{
+      toast.error(message, {
         toastId: 'add-gallery-backend-error'
       });
     }
@@ -1390,7 +1433,7 @@ const Page = () => {
                           <option value="" disabled>
                             Select Category
                           </option>
-                          <option value="catering">Catering Services</option>
+                          {/* <option value="catering">Catering Services</option>
                           <option value="venues">Venues</option>
                           <option value="photography">Photography</option>
                           <option value="bridalmakeup">Bridal Makeup</option>
@@ -1405,7 +1448,24 @@ const Page = () => {
                           </option>
                           <option value="wedding-pandit">Wedding Pandit&#39;s</option>
                           <option value="cake">Cake</option>
-                          <option value="bartenders">Bartenders</option>
+                          <option value="bartenders">Bartenders</option> */}
+                          {categoryOptions.map(category => (
+                            <option
+                              key={category.value}
+                              value={category.value}
+                              disabled={existingCategories.includes(category.value)}
+                              className={`${existingCategories.includes(category.value)
+                                ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                                : 'bg-white text-black cursor-pointer'
+                                }`}
+                              title={existingCategories.includes(category.value)
+                                ? "This business category is already used"
+                                : ""
+                              }
+                            >
+                              {category.label}
+                            </option>
+                          ))}
                         </select>
                         <div>
                           {!selectedCategory && (
@@ -1973,11 +2033,11 @@ const Page = () => {
                             id="businessCategory"
                           />
                           <div>
-                          {!selectedCategory && (
-                            <p className="text-red-500 absolute text-sm mt-1 ml-1 ">
-                              Please select a business category
-                            </p>
-                          )}
+                            {!selectedCategory && (
+                              <p className="text-red-500 absolute text-sm mt-1 ml-1 ">
+                                Please select a business category
+                              </p>
+                            )}
                           </div>
                         </div>
                         <div className="flex flex-col w-full ml-2.5 mb-3">
@@ -1996,11 +2056,11 @@ const Page = () => {
                             id="businessname"
                           />
                           <div>
-                          {!formik.values.businessName && (
-                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
-                              Please enter a business name first
-                            </p>
-                          )}
+                            {!formik.values.businessName && (
+                              <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                Please enter a business name first
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -2021,12 +2081,12 @@ const Page = () => {
                           placeholder="Add your description"
                         ></textarea>
                         <div>
-                        {(formik.touched.description && formik.errors.description) && (
+                          {(formik.touched.description && formik.errors.description) && (
                             <p className="text-red-500 absolute text-sm mt-1 ml-1">
                               {formik.errors.description}
                             </p>
                           )}
-                          </div>
+                        </div>
                       </div>
                       {/* availability */}
                       {/* <div className="flex items-center">
@@ -2088,11 +2148,11 @@ const Page = () => {
                             </div>
                           ))}
                           <div>
-                          {(formik.touched.availability && formik.errors.availability) && (
-                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
-                              {formik.errors.availability}
-                            </p>
-                          )}
+                            {(formik.touched.availability && formik.errors.availability) && (
+                              <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                {formik.errors.availability}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -2169,11 +2229,11 @@ const Page = () => {
                             <option value="5 weeks">Within 5 weeks</option>
                           </select>
                           <div>
-                          {(formik.touched.deliveryTimeline && formik.errors.deliveryTimeline) && (
-                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
-                              {formik.errors.deliveryTimeline}
-                            </p>
-                          )}
+                            {(formik.touched.deliveryTimeline && formik.errors.deliveryTimeline) && (
+                              <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                {formik.errors.deliveryTimeline}
+                              </p>
+                            )}
                           </div>
                         </div>
                         <div className="flex flex-col w-full">
@@ -2198,11 +2258,11 @@ const Page = () => {
                             <option value="within 5 weeks">Within 5 weeks</option>
                           </select>
                           <div>
-                          {(formik.touched.priceRange && formik.errors.priceRange) && (
-                            <p className="text-red-500 absolute text-sm mt-1 ml-1">
-                              {formik.errors.priceRange}
-                            </p>
-                          )}
+                            {(formik.touched.priceRange && formik.errors.priceRange) && (
+                              <p className="text-red-500 absolute text-sm mt-1 ml-1">
+                                {formik.errors.priceRange}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
